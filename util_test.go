@@ -17,17 +17,21 @@ func assertJSONEquals(t *testing.T, m1 map[string]interface{}, m2 map[string]int
 		if !a.True(t, ok, "missing `"+k+"` key") {
 			return false
 		}
+		if !a.IsType(t, v, v2, "mismatched type for `"+k+"` key") {
+			return false
+		} // postcond: v.(type) == v2.(type)
 
 		if vmap, ok := v.(map[string]interface{}); ok {
-			if vmap2, ok2 := v2.(map[string]interface{}); !a.True(t, ok2, "mismatched type for `"+k+"` key") {
-				return false
-			} else if !assertJSONEquals(t, vmap, vmap2) {
+			vmap2 := v2.(map[string]interface{}) // IsType
+			if !assertJSONEquals(t, vmap, vmap2) {
 				return false
 			}
-		} // else not map
 
-		if !a.Equal(t, v, v2, "mismatched value for `"+k+"` key") {
-			return false
+		} else { // not map
+			// TODO: Check arrays as well?
+			if !a.Equal(t, v, v2, "mismatched value for `"+k+"` key") {
+				return false
+			}
 		}
 	}
 
