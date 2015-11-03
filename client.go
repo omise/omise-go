@@ -36,19 +36,21 @@ func (c *Client) Do(result interface{}, op internal.Operation) error {
 
 	// request
 	var body io.Reader
-	payload, e := op.Payload()
-	if e != nil {
-		return e
-	}
+	if payloadable, ok := op.(internal.PayloadOperation); ok {
+		payload, e := payloadable.Payload()
+		if e != nil {
+			return e
+		}
 
-	if payload != nil {
-		switch p := payload.(type) {
-		case io.Reader:
-			body = p
-		case url.Values:
-			body = ioutil.NopCloser(bytes.NewBuffer([]byte(p.Encode())))
-		default:
-			return ErrInternal("unsupported payload type.")
+		if payload != nil {
+			switch p := payload.(type) {
+			case io.Reader:
+				body = p
+			case url.Values:
+				body = ioutil.NopCloser(bytes.NewBuffer([]byte(p.Encode())))
+			default:
+				return ErrInternal("unsupported payload type.")
+			}
 		}
 	}
 
