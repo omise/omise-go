@@ -35,14 +35,14 @@ func TestCustomer(t *testing.T) {
 		return
 	}
 
-	if a.NotNil(t, jack) {
-		t.Log("created customer:", jack.ID)
-		a.Equal(t, create.Email, jack.Email)
-		a.Equal(t, create.Description, jack.Description)
-		a.Len(t, jack.Cards.Data, 1)
-	} else {
+	if !a.NotNil(t, jack) {
 		return
 	}
+
+	t.Log("created customer:", jack.ID)
+	a.Equal(t, create.Email, jack.Email)
+	a.Equal(t, create.Description, jack.Description)
+	a.Len(t, jack.Cards.Data, 1)
 
 	// update
 	update := &UpdateCustomer{
