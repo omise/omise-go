@@ -7,7 +7,7 @@ import (
 
 type ErrInternal string
 
-func (e ErrInternalInconsistency) Error() string {
+func (e ErrInternal) Error() string {
 	return "internal inconsistency: " + string(e)
 }
 
