@@ -34,7 +34,7 @@ func NewClient(pkey, skey string) (*Client, error) {
 func (c *Client) Do(result interface{}, op internal.Operation) error {
 	endpoint, method, path := op.Endpoint()
 
-	// build request
+	// request
 	var body io.Reader
 	payload, e := op.Payload()
 	if e != nil {
@@ -57,7 +57,6 @@ func (c *Client) Do(result interface{}, op internal.Operation) error {
 		return e
 	}
 
-	// authentication
 	switch endpoint {
 	case internal.API:
 		req.SetBasicAuth(c.SecretKey, "")
@@ -67,7 +66,7 @@ func (c *Client) Do(result interface{}, op internal.Operation) error {
 		return ErrInternal("unrecognized endpoint:" + endpoint)
 	}
 
-	// read response
+	// response
 	resp, e := c.Client.Do(req)
 	if resp != nil {
 		defer resp.Body.Close()
@@ -82,8 +81,7 @@ func (c *Client) Do(result interface{}, op internal.Operation) error {
 			return e // TODO: Wrap so body is never lost.
 		}
 		return err
-		// postcond: status == 200 && e == nil
-	}
+	} // status == 200 && e == nil
 
 	if result != nil {
 		if json.NewDecoder(resp.Body).Decode(result); e != nil {

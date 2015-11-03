@@ -16,7 +16,7 @@ information.
 To specify the keys, set the environment variables before running the tests as follows:
 
 ```go
-export OMISE_PUBLIC_KEY=your_public_key
+export OMISE_PUB_KEY=your_public_key
 export OMISE_SECRET_KEY=your_secret_key
 ```
 

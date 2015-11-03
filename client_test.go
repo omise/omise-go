@@ -64,7 +64,7 @@ func TestClient_InvalidCharge(t *testing.T) {
 
 	_, e = client.CreateCharge(&operations.CreateCharge{
 		Amount:   12345,
-		Currency: "oms", // OMISE DOLLAR, why not?
+		Currency: "omd", // OMISE DOLLAR, why not?
 		Customer: TestCustomer,
 		Card:     TestCard,
 	})
