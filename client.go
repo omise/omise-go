@@ -1,12 +1,10 @@
 package omise
 
 import (
-	"bytes"
 	"encoding/json"
 	"io"
 	"io/ioutil"
 	"net/http"
-	"net/url"
 	"strings"
 
 	"github.com/omise/omise-go/internal"
@@ -31,41 +29,36 @@ func NewClient(pkey, skey string) (*Client, error) {
 	return &Client{&http.Client{}, pkey, skey}, nil
 }
 
-func (c *Client) Do(result interface{}, op internal.Operation) error {
-	endpoint, method, path := op.Endpoint()
+func (c *Client) Do(result interface{}, operation internal.Operation) error {
+	op := operation.Op()
 
 	// request
-	var body io.Reader
-	if payloadable, ok := op.(internal.PayloadOperation); ok {
-		payload, e := payloadable.Payload()
-		if e != nil {
-			return e
-		}
-
-		if payload != nil {
-			switch p := payload.(type) {
-			case io.Reader:
-				body = p
-			case url.Values:
-				body = ioutil.NopCloser(bytes.NewBuffer([]byte(p.Encode())))
-			default:
-				return ErrInternal("unsupported payload type.")
+	query := internal.MapURLValues(operation)
+	if len(op.Values) > 0 {
+		for k, values := range op.Values {
+			if len(values) > 0 {
+				query.Set(k, values[0])
 			}
 		}
 	}
 
-	req, e := http.NewRequest(method, string(endpoint)+path, body)
+	body := io.Reader(nil)
+	if len(query) > 0 {
+		body = ioutil.NopCloser(strings.NewReader(query.Encode()))
+	}
+
+	req, e := http.NewRequest(op.Method, string(op.Endpoint)+op.Path, body)
 	if e != nil {
 		return e
 	}
 
-	switch endpoint {
+	switch op.Endpoint {
 	case internal.API:
 		req.SetBasicAuth(c.SecretKey, "")
 	case internal.Vault:
 		req.SetBasicAuth(c.PublicKey, "")
 	default:
-		return ErrInternal("unrecognized endpoint:" + endpoint)
+		return ErrInternal("unrecognized endpoint:" + op.Endpoint)
 	}
 
 	// response

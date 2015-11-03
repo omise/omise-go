@@ -1,10 +1,16 @@
 package internal
 
-type Operation interface {
-	Endpoint() (Endpoint, string, string)
+import (
+	"net/url"
+)
+
+type Op struct {
+	Endpoint Endpoint
+	Method   string
+	Path     string
+	Values   url.Values
 }
 
-type PayloadOperation interface {
-	Operation
-	Payload() (interface{}, error)
+type Operation interface {
+	Op() *Op
 }

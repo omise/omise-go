@@ -1,10 +1,8 @@
 package operations
 
 import (
-	"net/url"
-	"strconv"
-
 	"github.com/omise/omise-go/internal"
+	"net/url"
 )
 
 type CreateCharge struct {
@@ -13,35 +11,14 @@ type CreateCharge struct {
 	Amount      int64
 	Currency    string
 	Description string
-	DontCapture bool
-	ReturnURI   string
+	DontCapture bool   `query:"-"`
+	ReturnURI   string `query:"return_uri"`
 }
 
-func (*CreateCharge) Endpoint() (internal.Endpoint, string, string) {
-	return internal.API, "POST", "/charges"
-}
-
-func (c *CreateCharge) Payload() (interface{}, error) {
-	values := url.Values{}
-	if c.Customer != "" {
-		values.Set("customer", c.Customer)
+func (req *CreateCharge) Op() *internal.Op {
+	op := &internal.Op{internal.API, "POST", "/charges", url.Values{}}
+	if req.DontCapture {
+		op.Values.Set("capture", "false") // defaults to true
 	}
-	if c.Card != "" {
-		values.Set("card", c.Card)
-	}
-
-	values.Add("amount", strconv.FormatInt(c.Amount, 10))
-	values.Add("currency", c.Currency)
-
-	if c.Description != "" {
-		values.Add("description", c.Description)
-	}
-	if c.DontCapture {
-		values.Add("capture", "false")
-	}
-	if c.ReturnURI != "" {
-		values.Add("return_uri", c.ReturnURI)
-	}
-
-	return values, nil
+	return op
 }

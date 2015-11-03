@@ -6,6 +6,6 @@ import (
 
 type RetreiveBalance struct{}
 
-func (*RetreiveBalance) Endpoint() (internal.Endpoint, string, string) {
-	return internal.API, "GET", "/balance"
+func (req *RetreiveBalance) Op() *internal.Op {
+	return &internal.Op{internal.API, "GET", "/balance", nil}
 }
