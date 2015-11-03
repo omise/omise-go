@@ -5,11 +5,8 @@ import (
 )
 
 type Charge struct {
-	ID          string `json:"id"`
-	Live        bool   `json:"livemode"`
-	Location    string `json:"location"`
-	Transaction string `json:"transaction"`
-
+	Base
+	Transaction string  `json:"transaction"`
 	Amount      int64   `json:"amount"`
 	Currency    string  `json:"currency"`
 	Description *string `json:"description"`

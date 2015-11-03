@@ -10,6 +10,21 @@ import (
 	"testing"
 )
 
+var JSONRoundtripTests = []JSONRoundtripTest{
+	{"account_object.json", &Account{}},
+	{"balance_object.json", &Balance{}},
+	{"bank_account_object.json", &BankAccount{}},
+	{"card_object.json", &Card{}},
+	{"charge_object.json", &Charge{}},
+	{"customer_object.json", &Customer{}},
+	{"dispute_object.json", &Dispute{}},
+	{"recipient_object.json", &Recipient{}},
+	{"refund_object.json", &Refund{}},
+	{"token_object.json", &Token{}},
+	{"transaction_object.json", &Transaction{}},
+	{"transfer_object.json", &Transfer{}},
+}
+
 type JSONRoundtripTest struct {
 	srcFile string
 	value   interface{}
@@ -47,13 +62,7 @@ func (r JSONRoundtripTest) Test(t *testing.T) {
 }
 
 func TestJSONRoundtrip(t *testing.T) {
-	var testcases = []JSONRoundtripTest{
-		{"charge_object.json", &Charge{}},
-		{"card_object.json", &Card{}},
-		{"token_object.json", &Token{}},
-	}
-
-	for _, test := range testcases {
+	for _, test := range JSONRoundtripTests {
 		test.Test(t)
 	}
 }

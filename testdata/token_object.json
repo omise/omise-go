@@ -1,9 +1,11 @@
 {
+  "object": "token",
   "id": "tokn_test_5086xl7c9k5rnx35qba",
   "livemode": false,
   "location": "https://vault.omise.co/tokens/tokn_test_5086xl7c9k5rnx35qba",
   "used": false,
   "card": {
+    "object": "card",
     "id": "card_test_5086xl7amxfysl0ac5l",
     "livemode": false,
     "country": "us",
