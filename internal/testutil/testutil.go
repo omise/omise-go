@@ -1,7 +1,8 @@
-package omise_test
+package testutil
 
 import (
 	"flag"
+	"github.com/omise/omise-go"
 	a "github.com/stretchr/testify/assert"
 	"log"
 	"os"
@@ -9,9 +10,14 @@ import (
 	"testing"
 )
 
-func TestMain(m *testing.M) {
+func Keys() (string, string) {
+	return os.Getenv("OMISE_PUB_KEY"),
+		os.Getenv("OMISE_SECRET_KEY")
+}
+
+func Main(m *testing.M) {
 	// never test against live key.
-	pkey, skey := testKeys()
+	pkey, skey := Keys()
 	switch {
 	case pkey == "" || skey == "":
 		log.Fatalln("no test key specified, please set both $OMISE_PUB_KEY and " +
@@ -24,12 +30,11 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
-func testKeys() (string, string) {
-	return os.Getenv("OMISE_PUB_KEY"),
-		os.Getenv("OMISE_SECRET_KEY")
+func NewClient() (*omise.Client, error) {
+	return omise.NewClient(Keys())
 }
 
-func assertJSONEquals(t *testing.T, m1 map[string]interface{}, m2 map[string]interface{}) bool {
+func AssertJSONEquals(t *testing.T, m1 map[string]interface{}, m2 map[string]interface{}) bool {
 	for k, v := range m1 {
 		v2, ok := m2[k]
 		if !a.True(t, ok, "missing `"+k+"` key") {
@@ -41,7 +46,7 @@ func assertJSONEquals(t *testing.T, m1 map[string]interface{}, m2 map[string]int
 
 		if vmap, ok := v.(map[string]interface{}); ok {
 			vmap2 := v2.(map[string]interface{}) // IsType
-			if !assertJSONEquals(t, vmap, vmap2) {
+			if !AssertJSONEquals(t, vmap, vmap2) {
 				return false
 			}
 

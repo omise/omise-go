@@ -1,4 +1,4 @@
-package omise_test
+package operations_test
 
 import (
 	"github.com/omise/omise-go/internal/testutil"

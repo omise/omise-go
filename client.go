@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"github.com/omise/omise-go/internal"
-	"github.com/omise/omise-go/operations"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -90,32 +89,4 @@ func (c *Client) Do(result interface{}, op internal.Operation) error {
 	}
 
 	return nil
-}
-
-// TODO: Generate this from list of types in the ./operations package.
-func (c *Client) CreateCharge(op *operations.CreateCharge) (*Charge, error) {
-	result := &Charge{}
-	if e := c.Do(result, op); e != nil {
-		return nil, e
-	}
-
-	return result, nil
-}
-
-func (c *Client) CreateToken(op *operations.CreateToken) (*Token, error) {
-	result := &Token{}
-	if e := c.Do(result, op); e != nil {
-		return nil, e
-	}
-
-	return result, nil
-}
-
-func (c *Client) RetreiveToken(op *operations.RetreiveToken) (*Token, error) {
-	result := &Token{}
-	if e := c.Do(result, op); e != nil {
-		return nil, e
-	}
-
-	return result, nil
 }

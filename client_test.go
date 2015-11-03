@@ -2,6 +2,7 @@ package omise_test
 
 import (
 	. "github.com/omise/omise-go"
+	"github.com/omise/omise-go/internal/testutil"
 	"github.com/omise/omise-go/operations"
 	a "github.com/stretchr/testify/assert"
 	"testing"
@@ -18,7 +19,7 @@ var createTokenOp = &operations.CreateToken{
 }
 
 func TestNewClient(t *testing.T) {
-	pkey, skey := testKeys()
+	pkey, skey := testutil.Keys()
 
 	if _, e := NewClient(pkey, skey); !a.NoError(t, e) {
 		return
@@ -36,68 +37,4 @@ func TestNewClient(t *testing.T) {
 	if _, e := NewClient("123", "123"); a.Error(t, e) {
 		a.Equal(t, ErrInvalidKey, e)
 	}
-}
-
-func TestClient_Charge(t *testing.T) {
-	client, e := NewClient(testKeys())
-	if !a.NoError(t, e) {
-		return
-	}
-
-	token, e := client.CreateToken(createTokenOp)
-	if !a.NoError(t, e) {
-		return
-	}
-
-	op := &operations.CreateCharge{
-		Amount:   204842,
-		Currency: "thb",
-		Card:     token.ID,
-	}
-
-	charge, e := client.CreateCharge(op)
-	if !(a.NoError(t, e) && a.NotNil(t, charge)) {
-		return
-	}
-
-	a.Equal(t, op.Amount, charge.Amount)
-	a.Equal(t, op.Currency, charge.Currency)
-}
-
-func TestClient_InvalidCharge(t *testing.T) {
-	client, e := NewClient(testKeys())
-	if !a.NoError(t, e) {
-		return
-	}
-
-	token, e := client.CreateToken(createTokenOp)
-	if !a.NoError(t, e) {
-		return
-	}
-
-	_, e = client.CreateCharge(&operations.CreateCharge{
-		Amount:   12345,
-		Currency: "omd", // OMISE DOLLAR, why not?
-		Card:     token.ID,
-	})
-	a.EqualError(t, e, "(400/invalid_charge) currency is currently not supported")
-}
-
-func TestClient_RetrieveToken(t *testing.T) {
-	client, e := NewClient(testKeys())
-	if !a.NoError(t, e) {
-		return
-	}
-
-	token, e := client.CreateToken(createTokenOp)
-	if !a.NoError(t, e) {
-		return
-	}
-
-	token2, e := client.RetreiveToken(&operations.RetreiveToken{ID: token.ID})
-	if !a.NoError(t, e) {
-		return
-	}
-
-	a.Equal(t, *token, *token2)
 }
