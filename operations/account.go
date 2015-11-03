@@ -6,6 +6,6 @@ import (
 
 type RetreiveAccount struct{}
 
-func (*Retreiveaccount) Endpoint() (internal.Endpoint, string, string) {
+func (*RetreiveAccount) Endpoint() (internal.Endpoint, string, string) {
 	return internal.API, "GET", "/account"
 }
