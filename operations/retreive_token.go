@@ -11,7 +11,3 @@ type RetreiveToken struct {
 func (token *RetreiveToken) Endpoint() (internal.Endpoint, string, string) {
 	return internal.Vault, "GET", "/tokens/" + token.ID
 }
-
-func (*RetreiveToken) Payload() (interface{}, error) {
-	return nil, nil
-}

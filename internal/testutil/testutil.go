@@ -2,6 +2,7 @@ package testutil
 
 import (
 	"flag"
+	"fmt"
 	"log"
 	"os"
 	"strings"
@@ -33,6 +34,10 @@ func Main(m *testing.M) {
 
 func NewClient() (*omise.Client, error) {
 	return omise.NewClient(Keys())
+}
+
+func LogObj(t *testing.T, obj interface{}) {
+	t.Log(fmt.Sprintf("%#v", obj))
 }
 
 func AssertJSONEquals(t *testing.T, m1 map[string]interface{}, m2 map[string]interface{}) bool {
