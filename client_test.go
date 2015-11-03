@@ -7,11 +7,15 @@ import (
 	"testing"
 )
 
-// TODO: Include token retrieval and customer creation into the test flow.
-const (
-	TestCustomer = "cust_test_51w32b7kmr04n6bkcp8"
-	TestCard     = "card_test_51w32k09s2eu8azi12r"
-)
+var createTokenOp = &operations.CreateToken{
+	Name:            "Chakrit Wichian",
+	Number:          "4242424242424242",
+	ExpirationMonth: 2,
+	ExpirationYear:  2018,
+	SecurityCode:    "123",
+	City:            "Bangkok",
+	PostalCode:      "10210",
+}
 
 func TestNewClient(t *testing.T) {
 	pkey, skey := testKeys()
@@ -40,11 +44,15 @@ func TestClient_Charge(t *testing.T) {
 		return
 	}
 
+	token, e := client.CreateToken(createTokenOp)
+	if !a.NoError(t, e) {
+		return
+	}
+
 	op := &operations.CreateCharge{
 		Amount:   204842,
 		Currency: "thb",
-		Customer: TestCustomer,
-		Card:     TestCard,
+		Card:     token.ID,
 	}
 
 	charge, e := client.CreateCharge(op)
@@ -62,11 +70,15 @@ func TestClient_InvalidCharge(t *testing.T) {
 		return
 	}
 
+	token, e := client.CreateToken(createTokenOp)
+	if !a.NoError(t, e) {
+		return
+	}
+
 	_, e = client.CreateCharge(&operations.CreateCharge{
 		Amount:   12345,
 		Currency: "omd", // OMISE DOLLAR, why not?
-		Customer: TestCustomer,
-		Card:     TestCard,
+		Card:     token.ID,
 	})
 	a.EqualError(t, e, "(400/invalid_charge) currency is currently not supported")
 }
