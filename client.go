@@ -2,7 +2,7 @@ package omise
 
 import (
 	"encoding/json"
-	"io"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -10,10 +10,14 @@ import (
 	"github.com/omise/omise-go/internal"
 )
 
+var _ = fmt.Println
+
 type Client struct {
 	*http.Client
 	PublicKey string
 	SecretKey string
+
+	debug bool
 }
 
 func NewClient(pkey, skey string) (*Client, error) {
@@ -26,7 +30,7 @@ func NewClient(pkey, skey string) (*Client, error) {
 		return nil, ErrInvalidKey
 	}
 
-	return &Client{&http.Client{}, pkey, skey}, nil
+	return &Client{&http.Client{}, pkey, skey, false}, nil
 }
 
 func (c *Client) Do(result interface{}, operation internal.Operation) error {
@@ -42,16 +46,18 @@ func (c *Client) Do(result interface{}, operation internal.Operation) error {
 		}
 	}
 
-	body := io.Reader(nil)
-	if len(query) > 0 {
-		body = ioutil.NopCloser(strings.NewReader(query.Encode()))
+	body := strings.NewReader(query.Encode())
+	if c.debug {
+		fmt.Println(" req:", op.Method, string(op.Endpoint)+op.Path)
 	}
 
 	req, e := http.NewRequest(op.Method, string(op.Endpoint)+op.Path, body)
+	// req, e := http.NewRequest(op.Method, "http://0.0.0.0:9999"+op.Path, body)
 	if e != nil {
 		return e
 	}
 
+	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 	switch op.Endpoint {
 	case internal.API:
 		req.SetBasicAuth(c.SecretKey, "")
@@ -78,8 +84,17 @@ func (c *Client) Do(result interface{}, operation internal.Operation) error {
 		return err
 	} // status == 200 && e == nil
 
+	buffer, e := ioutil.ReadAll(resp.Body)
+	if e != nil {
+		return e
+	}
+
+	if c.debug {
+		fmt.Println("resp:", resp.StatusCode, string(buffer))
+	}
+
 	if result != nil {
-		if json.NewDecoder(resp.Body).Decode(result); e != nil {
+		if e := json.Unmarshal(buffer, result); e != nil {
 			return e
 		}
 	}
