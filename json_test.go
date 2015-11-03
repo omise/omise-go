@@ -2,12 +2,13 @@ package omise_test
 
 import (
 	"encoding/json"
-	. "github.com/omise/omise-go"
-	"github.com/omise/omise-go/internal/testutil"
-	a "github.com/stretchr/testify/assert"
 	"io/ioutil"
 	"reflect"
 	"testing"
+
+	. "github.com/omise/omise-go"
+	"github.com/omise/omise-go/internal/testutil"
+	a "github.com/stretchr/testify/assert"
 )
 
 var JSONRoundtripTests = []JSONRoundtripTest{

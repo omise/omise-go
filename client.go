@@ -3,12 +3,13 @@ package omise
 import (
 	"bytes"
 	"encoding/json"
-	"github.com/omise/omise-go/internal"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/url"
 	"strings"
+
+	"github.com/omise/omise-go/internal"
 )
 
 type Client struct {

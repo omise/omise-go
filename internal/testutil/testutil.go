@@ -2,12 +2,13 @@ package testutil
 
 import (
 	"flag"
-	"github.com/omise/omise-go"
-	a "github.com/stretchr/testify/assert"
 	"log"
 	"os"
 	"strings"
 	"testing"
+
+	"github.com/omise/omise-go"
+	a "github.com/stretchr/testify/assert"
 )
 
 func Keys() (string, string) {

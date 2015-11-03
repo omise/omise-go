@@ -1,9 +1,10 @@
 package operations
 
 import (
-	"github.com/omise/omise-go/internal"
 	"net/url"
 	"strconv"
+
+	"github.com/omise/omise-go/internal"
 )
 
 type CreateCharge struct {

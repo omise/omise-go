@@ -1,11 +1,12 @@
 package omise_test
 
 import (
+	"testing"
+
 	. "github.com/omise/omise-go"
 	"github.com/omise/omise-go/internal/testutil"
 	"github.com/omise/omise-go/operations"
 	a "github.com/stretchr/testify/assert"
-	"testing"
 )
 
 var createTokenOp = &operations.CreateToken{
