@@ -110,3 +110,12 @@ func (c *Client) CreateToken(op *operations.CreateToken) (*Token, error) {
 
 	return result, nil
 }
+
+func (c *Client) RetreiveToken(op *operations.RetreiveToken) (*Token, error) {
+	result := &Token{}
+	if e := c.Do(result, op); e != nil {
+		return nil, e
+	}
+
+	return result, nil
+}

@@ -82,3 +82,22 @@ func TestClient_InvalidCharge(t *testing.T) {
 	})
 	a.EqualError(t, e, "(400/invalid_charge) currency is currently not supported")
 }
+
+func TestClient_RetrieveToken(t *testing.T) {
+	client, e := NewClient(testKeys())
+	if !a.NoError(t, e) {
+		return
+	}
+
+	token, e := client.CreateToken(createTokenOp)
+	if !a.NoError(t, e) {
+		return
+	}
+
+	token2, e := client.RetreiveToken(&operations.RetreiveToken{ID: token.ID})
+	if !a.NoError(t, e) {
+		return
+	}
+
+	a.Equal(t, *token, *token2)
+}
