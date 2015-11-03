@@ -9,6 +9,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"strings"
 )
 
 type Client struct {
@@ -17,8 +18,17 @@ type Client struct {
 	SecretKey string
 }
 
-func NewClient(publicKey, secretKey string) *Client {
-	return &Client{&http.Client{}, publicKey, secretKey}
+func NewClient(pkey, skey string) (*Client, error) {
+	switch {
+	case pkey == "" && skey == "":
+		return nil, ErrInvalidKey
+	case pkey != "" && !strings.HasPrefix(pkey, "pkey_"):
+		return nil, ErrInvalidKey
+	case skey != "" && !strings.HasPrefix(skey, "skey_"):
+		return nil, ErrInvalidKey
+	}
+
+	return &Client{&http.Client{}, pkey, skey}, nil
 }
 
 func (c *Client) Do(result interface{}, op internal.Operation) error {

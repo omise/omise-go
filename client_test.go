@@ -13,8 +13,34 @@ const (
 	TestCard     = "card_test_51w32k09s2eu8azi12r"
 )
 
+func TestNewClient(t *testing.T) {
+	pkey, skey := testKeys()
+
+	if _, e := NewClient(pkey, skey); !a.NoError(t, e) {
+		return
+	}
+	if _, e := NewClient("", skey); !a.NoError(t, e) {
+		return
+	}
+	if _, e := NewClient(pkey, ""); !a.NoError(t, e) {
+		return
+	}
+
+	if _, e := NewClient("", ""); a.Error(t, e) {
+		a.Equal(t, ErrInvalidKey, e)
+	}
+	if _, e := NewClient("123", "123"); a.Error(t, e) {
+		a.Equal(t, ErrInvalidKey, e)
+	}
+}
+
 func TestClient_Charge(t *testing.T) {
-	client, op := NewClient(testKeys()), &operations.CreateCharge{
+	client, e := NewClient(testKeys())
+	if !a.NoError(t, e) {
+		return
+	}
+
+	op := &operations.CreateCharge{
 		Amount:   204842,
 		Currency: "thb",
 		Customer: TestCustomer,
@@ -31,9 +57,12 @@ func TestClient_Charge(t *testing.T) {
 }
 
 func TestClient_InvalidCharge(t *testing.T) {
-	client := NewClient(testKeys())
+	client, e := NewClient(testKeys())
+	if !a.NoError(t, e) {
+		return
+	}
 
-	_, e := client.CreateCharge(&operations.CreateCharge{
+	_, e = client.CreateCharge(&operations.CreateCharge{
 		Amount:   12345,
 		Currency: "oms", // OMISE DOLLAR, why not?
 		Customer: TestCustomer,

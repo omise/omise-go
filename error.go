@@ -5,6 +5,10 @@ import (
 	"strconv"
 )
 
+var (
+	ErrInvalidKey = errors.New("invalid public or secret key.")
+)
+
 type ErrInternal string
 
 func (e ErrInternal) Error() string {
