@@ -23,9 +23,10 @@ type Charge struct {
 	FailureCode    *string     `json:"failure_code"`
 	FailureMessage *string     `json:"failure_message"`
 
-	CustomerID   string    `json:"customer"`
-	IP           *string   `json:"ip"`
-	Dispute      *Dispute  `json:"dispute"`
+	CustomerID string   `json:"customer"`
+	IP         *string  `json:"ip"`
+	Dispute    *Dispute `json:"dispute"`
+
 	Created      time.Time `json:"created"`
 	ReturnURI    string    `json:"return_uri"`
 	AuthorizeURI string    `json:"authorize_uri"`

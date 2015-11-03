@@ -49,6 +49,7 @@ func TestJSONRoundtrip(t *testing.T) {
 	var testcases = []JSONRoundtripTest{
 		{"charge_object.json", &Charge{}},
 		{"card_object.json", &Card{}},
+		{"token_object.json", &Token{}},
 	}
 
 	for _, test := range testcases {
