@@ -2,6 +2,7 @@ package operations_test
 
 import (
 	"testing"
+	"time"
 
 	"github.com/omise/omise-go"
 	"github.com/omise/omise-go/internal/testutil"
@@ -15,22 +16,103 @@ func TestCharge(t *testing.T) {
 		return
 	}
 
-	charge, token := &omise.Charge{}, &omise.Token{}
+	token := &omise.Token{}
 	if e := client.Do(token, CreateTokenOp); !a.NoError(t, e) {
 		return
 	}
 
-	createCharge := &CreateCharge{
-		Amount:   204842,
-		Currency: "thb",
-		Card:     token.ID,
+	// create
+	charge, create := &omise.Charge{}, &CreateCharge{
+		Amount:      204842,
+		Currency:    "thb",
+		Description: "initial charge.",
+		Card:        token.ID,
 	}
-	if e := client.Do(charge, createCharge); !(a.NoError(t, e) && a.NotNil(t, charge)) {
+	if e := client.Do(charge, create); !(a.NoError(t, e) && a.NotNil(t, charge)) {
 		return
 	}
 
-	a.Equal(t, createCharge.Amount, charge.Amount)
-	a.Equal(t, createCharge.Currency, charge.Currency)
+	a.Equal(t, create.Amount, charge.Amount)
+	a.Equal(t, create.Currency, charge.Currency)
+
+	// retreive created charge
+	charge2 := &omise.Charge{}
+	if e := client.Do(charge2, &RetreiveCharge{ChargeID: charge.ID}); !a.NoError(t, e) {
+		return
+	}
+
+	a.Equal(t, charge.ID, charge2.ID)
+	a.Equal(t, charge.Amount, charge2.Amount)
+	a.Equal(t, charge.Description, charge2.Description)
+
+	// list created charges from the last hour
+	list := &ListCharges{
+		List{Limit: 100, From: time.Now().Add(-1 * time.Hour)},
+	}
+
+	charges := &omise.ChargeList{}
+	if e := client.Do(&charges, list); !a.NoError(t, e) {
+		return
+	}
+
+	a.True(t, len(charges.Data) > 0, "charges list empty!")
+	charge2 = charges.Find(charge.ID)
+	if !a.NotNil(t, charge2, "could not find recent charges in list.") {
+		return
+	}
+
+	a.Equal(t, charge.ID, charge2.ID, "charge not in returned list.")
+	a.Equal(t, charge.Amount, charge2.Amount, "listed charge has wrong amount.")
+
+	// update charge
+	charge2 = &omise.Charge{}
+	update := &UpdateCharge{
+		ChargeID:    charge.ID,
+		Description: "updated charge.",
+	}
+	if e := client.Do(charge2, update); !a.NoError(t, e) {
+		return
+	}
+
+	a.Equal(t, charge.ID, charge2.ID)
+	if a.NotNil(t, charge2.Description) {
+		a.Equal(t, update.Description, *charge2.Description)
+	}
+}
+
+func TestCharge_Uncaptured(t *testing.T) {
+	client, e := testutil.NewClient()
+	if !a.NoError(t, e) {
+		return
+	}
+
+	token := &omise.Token{}
+	if e := client.Do(token, CreateTokenOp); !a.NoError(t, e) {
+		return
+	}
+
+	// create uncaptured charge
+	charge, create := &omise.Charge{}, &CreateCharge{
+		Amount:      409669,
+		Currency:    "thb",
+		DontCapture: true,
+		Card:        token.ID,
+	}
+	if e := client.Do(charge, create); !a.NoError(t, e) {
+		return
+	}
+
+	a.Equal(t, create.Amount, charge.Amount)
+	a.False(t, charge.Captured, "charge unintentionally captured!")
+
+	// then capture it
+	charge2 := &omise.Charge{}
+	if e := client.Do(charge2, &CaptureCharge{ChargeID: charge.ID}); !a.NoError(t, e) {
+		return
+	}
+
+	a.Equal(t, charge.ID, charge2.ID)
+	a.True(t, charge2.Captured, "charge not captured!")
 }
 
 func TestCharge_Invalid(t *testing.T) {

@@ -5,7 +5,7 @@ import (
 )
 
 type ListCustomers struct {
-	ListParams
+	List
 }
 
 func (req *ListCustomers) Op() *internal.Op {

@@ -30,6 +30,16 @@ type Charge struct {
 }
 
 type ChargeList struct {
-	*List
+	List
 	Data []*Charge `json:"data"`
+}
+
+func (list *ChargeList) Find(id string) *Charge {
+	for _, charge := range list.Data {
+		if charge.ID == id {
+			return charge
+		}
+	}
+
+	return nil
 }

@@ -5,7 +5,7 @@ import (
 )
 
 // REF: https://www.omise.co/api-pagination
-type ListParams struct {
+type List struct {
 	Offset int
 	Limit  int
 	From   time.Time

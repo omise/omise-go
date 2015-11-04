@@ -7,7 +7,7 @@ import (
 )
 
 type ListCards struct {
-	ListParams
+	List
 	CustomerID string `query:"-"`
 }
 
