@@ -3,6 +3,7 @@ package operations_test
 import (
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/omise/omise-go"
 	"github.com/omise/omise-go/internal/testutil"
@@ -43,6 +44,20 @@ func TestCustomer(t *testing.T) {
 	a.Equal(t, create.Email, jack.Email)
 	a.Equal(t, create.Description, jack.Description)
 	a.Len(t, jack.Cards.Data, 1)
+
+	// list created customers
+	customers, list := &omise.CustomerList{}, &ListCustomers{
+		List{From: time.Now().Add(-1 * time.Hour), Limit: 100},
+	}
+	if e := client.Do(customers, list); !a.NoError(t, e) {
+		return
+	}
+
+	a.True(t, len(customers.Data) > 0, "no created customers in list!")
+
+	jane := customers.Find(jack.ID)
+	a.Equal(t, jack.ID, jane.ID)
+	a.Equal(t, jack.Email, jane.Email)
 
 	// update
 	update := &UpdateCustomer{
