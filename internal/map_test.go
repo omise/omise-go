@@ -9,29 +9,18 @@ import (
 	a "github.com/stretchr/testify/assert"
 )
 
-func TestMapURLValues(t *testing.T) {
+func TestMapURLValues_Basic(t *testing.T) {
 	s, b, n := "hello", true, 42
 
-	values := url.Values{}
-	check := func(struc interface{}) bool {
-		result, e := MapURLValues(struc)
-		if !(a.NoError(t, e) && a.True(t, reflect.DeepEqual(values, result))) {
-			t.Logf("expected: %#v\nactual: %#v\n", values, result)
-			return false
-		}
+	v := url.Values{}
+	v.Set("a", "42")
+	v.Set("b", "42")
+	v.Set("c", "true")
+	v.Set("d", "true")
+	v.Set("e", s)
+	v.Set("f", s)
 
-		return true
-	}
-
-	t.Log("Basic")
-	values.Set("a", "42")
-	values.Set("b", "42")
-	values.Set("c", "true")
-	values.Set("d", "true")
-	values.Set("e", s)
-	values.Set("f", s)
-
-	check(&struct {
+	check(t, v, &struct {
 		A int
 		B *int
 		C bool
@@ -39,44 +28,59 @@ func TestMapURLValues(t *testing.T) {
 		E string
 		F *string
 	}{n, &n, b, &b, s, &s})
+}
 
-	t.Log("Nil Coalescing")
-	values = url.Values{} // should be empty
+func TestMapURLValues_NilCoalese(t *testing.T) {
+	v := url.Values{} // should be empty
 
-	check(&struct {
+	check(t, v, &struct {
 		Nil      *string
 		NilAgain string
 	}{nil, ""})
+}
 
-	t.Log("Tagged Names")
-	values = url.Values{}
-	values.Set("zxcv", "hello")
-	values.Set("asdf", "world")
+func TestMapURLValues_TaggedNames(t *testing.T) {
+	v := url.Values{}
+	v.Set("zxcv", "hello")
+	v.Set("asdf", "world")
 
-	check(&struct {
+	check(t, v, &struct {
 		A string `query:"zxcv"`
 		B string `query:"asdf"`
 	}{"hello", "world"})
+}
 
-	t.Log("Alised Types")
-	values = url.Values{}
-	values.Set("str", "hello")
-	values.Set("time", "2")
+func TestMapURLValues_AlisedTypes(t *testing.T) {
+	v := url.Values{}
+	v.Set("str", "hello")
+	v.Set("time", "2")
 
 	type theString string
-	check(&struct {
+	check(t, v, &struct {
 		Str  theString
 		Time time.Month
 	}{"hello", 2})
+}
 
-	t.Log("Embedded Structs")
-	values = url.Values{}
-	values.Set("x", "hello")
-	values.Set("outside", "world")
+func TestMapURLValues_Structs(t *testing.T) {
+
+	v := url.Values{}
+	v.Set("x", "hello")
+	v.Set("outside", "world")
 
 	type Inside struct{ X string }
-	check(&struct {
+	check(t, v, &struct {
 		Inside
 		Outside string
 	}{Inside{"hello"}, "world"})
+}
+
+func check(t *testing.T, values url.Values, struc interface{}) bool {
+	result, e := MapURLValues(struc)
+	if !(a.NoError(t, e) && a.True(t, reflect.DeepEqual(values, result))) {
+		t.Logf("expected: %#v\nactual: %#v\n", values, result)
+		return false
+	}
+
+	return true
 }
