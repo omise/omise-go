@@ -37,11 +37,11 @@ to perform.  See documentation on [godoc.org][0] for the full API documentation.
 
 ### Handling `nil`s
 
-For **requests** to the Omise API: Where optional parameters are concerned, empty values
+For **REQUESTS**: Where optional parameters are concerned, empty values
 are considered as not sending the value. Except where doing so may have undesirable
 implications.
 
-For **responses** from the Omise API: Optional fields always use nillable types. For
+For **RESPONSES**: Optional fields always use nillable types. For
 example, an optional `string` field will have type `*string`.
 
 ### Test keys
