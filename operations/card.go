@@ -7,8 +7,8 @@ import (
 )
 
 type ListCards struct {
-	List
 	CustomerID string `query:"-"`
+	List
 }
 
 func (req *ListCards) Op() *internal.Op {

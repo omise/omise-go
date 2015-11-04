@@ -6,8 +6,8 @@ import (
 )
 
 type ListDisputes struct {
-	List
 	State omise.DisputeStatus
+	List
 }
 
 func (req *ListDisputes) Op() *internal.Op {
