@@ -50,6 +50,17 @@ func TestMapURLValues_TaggedNames(t *testing.T) {
 	}{"hello", "world"})
 }
 
+func TestMapURLValues_JSONNames(t *testing.T) {
+	v := url.Values{}
+	v.Set("zxcv", "hello")
+	v.Set("asdf", "world")
+
+	check(t, v, &struct {
+		A string `json:"zxcv"`
+		B string `json:"asdf"`
+	}{"hello", "world"})
+}
+
 func TestMapURLValues_AlisedTypes(t *testing.T) {
 	v := url.Values{}
 	v.Set("str", "hello")
@@ -67,22 +78,25 @@ func TestMapURLValues_Structs(t *testing.T) {
 
 	v := url.Values{}
 	v.Set("x", "hello")
-	v.Set("outside", "world")
+	v.Set("named[x]", "world")
+	v.Set("nested[inside][x]", "inside")
 	v.Set("t", now.Format(time.RFC3339Nano))
 
-	type Inside struct{ X string }
+	type Embed struct{ X string }
+	type Embed2 struct{ Inside Embed }
 	check(t, v, &struct {
-		Inside
-		Outside string
-		T       time.Time
-		TZero   time.Time
-	}{Inside{"hello"}, "world", now, time.Time{}})
+		Embed
+		Named  Embed
+		Nested Embed2
+		T      time.Time
+		TZero  time.Time
+	}{Embed{"hello"}, Embed{"world"}, Embed2{Embed{"inside"}}, now, time.Time{}})
 }
 
 func check(t *testing.T, values url.Values, struc interface{}) bool {
 	result, e := MapURLValues(struc)
 	if !(a.NoError(t, e) && a.True(t, reflect.DeepEqual(values, result))) {
-		t.Logf("expected: %#v\nactual: %#v\n", values, result)
+		t.Logf("\nexpected: %#v\n  actual: %#v\n", values, result)
 		return false
 	}
 

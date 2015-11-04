@@ -20,17 +20,17 @@ func (e *ErrMap) Error() string {
 }
 
 // Based on this gist
-// REF: https://gist.github.com/tonyhb/5819315
+// TODO: Document.
 func MapURLValues(i interface{}) (url.Values, error) {
 	result := url.Values{}
-	if e := mapURLValues(i, result); e != nil {
+	if e := mapURLValues(i, result, ""); e != nil {
 		return nil, e
 	}
 
 	return result, nil
 }
 
-func mapURLValues(i interface{}, target url.Values) error {
+func mapURLValues(i interface{}, target url.Values, parent string) error {
 	ival := reflect.ValueOf(i)
 	switch ival.Kind() {
 	case reflect.Interface, reflect.Ptr:
@@ -40,11 +40,21 @@ func mapURLValues(i interface{}, target url.Values) error {
 	ityp := ival.Type()
 	for i := 0; i < ival.NumField(); i++ {
 		fieldval, field := ival.Field(i), ityp.Field(i)
+
+		// compute tag names
+		// TODO: Should probably just use `json:""` for everything.
 		tag := field.Tag.Get("query")
 		if tag == "" {
-			tag = strings.ToLower(field.Name)
-		} else if tag == "-" {
+			tag = field.Tag.Get("json")
+			if tag == "" {
+				tag = strings.ToLower(field.Name)
+			}
+		}
+		if tag == "-" {
 			continue
+		}
+		if parent != "" {
+			tag = parent + "[" + tag + "]"
 		}
 
 		// ptr deref
@@ -73,20 +83,22 @@ func mapURLValues(i interface{}, target url.Values) error {
 			out = fieldval.String()
 
 		case reflect.Struct:
-			switch {
+			switch { // well-known types
 			case field.Type == timeType:
 				t := fieldval.Interface().(time.Time)
 				if !t.IsZero() {
 					out = fieldval.Interface().(time.Time).Format(time.RFC3339Nano)
 				}
 
-			case field.Anonymous:
-				if e := mapURLValues(fieldval.Interface(), target); e != nil {
+			case field.Anonymous: // embedded structs
+				if e := mapURLValues(fieldval.Interface(), target, ""); e != nil {
 					return e
 				}
 
 			default:
-				return &ErrMap{field, "only embedded structs are mapped."}
+				if e := mapURLValues(fieldval.Interface(), target, tag); e != nil {
+					return e
+				}
 			}
 
 		default:
