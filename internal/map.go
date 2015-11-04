@@ -95,7 +95,7 @@ func mapURLValues(i interface{}, target url.Values, parent string) error {
 					return e
 				}
 
-			default:
+			default: // named struct fields
 				if e := mapURLValues(fieldval.Interface(), target, tag); e != nil {
 					return e
 				}
