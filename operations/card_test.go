@@ -25,6 +25,7 @@ func TestCard(t *testing.T) {
 	if e := client.Do(customer, create); !a.NoError(t, e) {
 		return
 	}
+	defer client.Do(nil, &DestroyCustomer{customer.ID})
 
 	// list empty collection
 	list := &ListCards{CustomerID: customer.ID}
@@ -55,11 +56,29 @@ func TestCard(t *testing.T) {
 		return
 	}
 
-	// see added cards
-	if e := client.Do(cards, list); !a.NoError(t, e) {
+	// see added cards (using pagination API to call twice)
+	firstHalf := &omise.CardList{}
+	list.Offset = 0
+	list.Limit = 1
+	if e := client.Do(firstHalf, list); !a.NoError(t, e) {
 		return
 	}
 
+	a.Len(t, firstHalf.Data, 1)
+
+	secondHalf := &omise.CardList{}
+	list.Offset = 1
+	list.Limit = 1
+	if e := client.Do(secondHalf, list); !a.NoError(t, e) {
+		return
+	}
+
+	a.Len(t, secondHalf.Data, 1)
+
+	cards = &omise.CardList{
+		List: omise.List{Offset: 0, Limit: 0},
+		Data: append(firstHalf.Data, secondHalf.Data...),
+	}
 	a.Len(t, cards.Data, 2)
 
 	// retreive added cards
