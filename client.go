@@ -3,6 +3,7 @@ package omise
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -46,7 +47,11 @@ func (c *Client) Do(result interface{}, operation internal.Operation) error {
 		}
 	}
 
-	body := strings.NewReader(query.Encode())
+	body := io.Reader(nil)
+	if op.Method != "GET" && op.Method != "HEAD" {
+		body = strings.NewReader(query.Encode())
+	}
+
 	if c.debug {
 		fmt.Println(" req:", op.Method, string(op.Endpoint)+op.Path)
 	}
@@ -55,6 +60,10 @@ func (c *Client) Do(result interface{}, operation internal.Operation) error {
 	// req, e := http.NewRequest(op.Method, "http://0.0.0.0:9999"+op.Path, body)
 	if e != nil {
 		return e
+	}
+
+	if op.Method == "GET" || op.Method == "HEAD" {
+		req.URL.RawQuery = query.Encode()
 	}
 
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
