@@ -5,7 +5,10 @@ import (
 	"reflect"
 	"strconv"
 	"strings"
+	"time"
 )
+
+var timeType = reflect.TypeOf(time.Time{})
 
 type ErrMap struct {
 	field  reflect.StructField
@@ -70,11 +73,15 @@ func mapURLValues(i interface{}, target url.Values) error {
 			out = fieldval.String()
 
 		case reflect.Struct:
-			if field.Anonymous {
+			switch {
+			case field.Type == timeType:
+				out = fieldval.Interface().(time.Time).Format(time.RFC3339Nano)
+			case field.Anonymous:
 				if e := mapURLValues(fieldval.Interface(), target); e != nil {
 					return e
 				}
-			} else {
+
+			default:
 				return &ErrMap{field, "only embedded structs are mapped."}
 			}
 

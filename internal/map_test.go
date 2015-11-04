@@ -63,16 +63,19 @@ func TestMapURLValues_AlisedTypes(t *testing.T) {
 }
 
 func TestMapURLValues_Structs(t *testing.T) {
+	now := time.Now()
 
 	v := url.Values{}
 	v.Set("x", "hello")
 	v.Set("outside", "world")
+	v.Set("t", now.Format(time.RFC3339Nano))
 
 	type Inside struct{ X string }
 	check(t, v, &struct {
 		Inside
 		Outside string
-	}{Inside{"hello"}, "world"})
+		T       time.Time
+	}{Inside{"hello"}, "world", now})
 }
 
 func check(t *testing.T, values url.Values, struc interface{}) bool {
