@@ -46,11 +46,9 @@ func TestCharge(t *testing.T) {
 	a.Equal(t, charge.Description, charge2.Description)
 
 	// list created charges from the last hour
-	list := &ListCharges{
+	charges, list := &omise.ChargeList{}, &ListCharges{
 		List{Limit: 100, From: time.Now().Add(-1 * time.Hour)},
 	}
-
-	charges := &omise.ChargeList{}
 	if e := client.Do(&charges, list); !a.NoError(t, e) {
 		return
 	}
