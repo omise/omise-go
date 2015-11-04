@@ -75,7 +75,8 @@ func TestMapURLValues_Structs(t *testing.T) {
 		Inside
 		Outside string
 		T       time.Time
-	}{Inside{"hello"}, "world", now})
+		TZero   time.Time
+	}{Inside{"hello"}, "world", now, time.Time{}})
 }
 
 func check(t *testing.T, values url.Values, struc interface{}) bool {

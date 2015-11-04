@@ -75,7 +75,11 @@ func mapURLValues(i interface{}, target url.Values) error {
 		case reflect.Struct:
 			switch {
 			case field.Type == timeType:
-				out = fieldval.Interface().(time.Time).Format(time.RFC3339Nano)
+				t := fieldval.Interface().(time.Time)
+				if !t.IsZero() {
+					out = fieldval.Interface().(time.Time).Format(time.RFC3339Nano)
+				}
+
 			case field.Anonymous:
 				if e := mapURLValues(fieldval.Interface(), target); e != nil {
 					return e
