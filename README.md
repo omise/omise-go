@@ -14,16 +14,16 @@ Create a client with `omise.NewClient` and make operations object from the
 ```go
 client, e := omise.NewClient(OMISE_PUBKEY, OMISE_KEY)
 if e != nil {
-  return e
+  panic(e)
 }
 
-charge, op := &omise.Charge{}, &operations.CreateCharge{
+charge, create := &omise.Charge{}, &operations.CreateCharge{
   Amount: 100000, // ¥10,000
   Currency: "jpy",
   Card: "tok_1234",
 }
 
-if e := client.Do(charge, op); e != nil {
+if e := client.Do(charge, create); e != nil {
   panic(e)
 }
 
