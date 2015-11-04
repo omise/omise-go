@@ -8,11 +8,16 @@ go get github.com/omise/omise-go
 
 # USAGE
 
-Create a client with `omise.NewClient` and use operations object from the
+Create a client with `omise.NewClient` and make operations object from the
 `github.com/omise/omise-go/operations` package to perform API operations.
 
 ```go
-charge, op := &Charge{}, &operations.CreateCharge{
+client, e := omise.NewClient(OMISE_PUBKEY, OMISE_KEY)
+if e != nil {
+  return e
+}
+
+charge, op := &omise.Charge{}, &operations.CreateCharge{
   Amount: 100000, // ¥10,000
   Currency: "jpy",
   Card: "tok_1234",
@@ -25,7 +30,8 @@ if e := client.Do(charge, op); e != nil {
 fmt.Printf("%#v\n", charge)
 ```
 
-See documentation on [godoc.org][0] for the full API documentation.
+The `client.Do` method accepts a struct to unmarshal the response into and the operation
+to perform.  See documentation on [godoc.org][0] for the full API documentation.
 
 # FAQ
 
