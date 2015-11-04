@@ -46,9 +46,9 @@ example, an optional `string` field will have type `*string`.
 
 ### Test keys
 
-You will need to supply Omise API keys in order to run tests. Refer to the official
-documentation on [Authentication][1] for more
-information.
+You will need to supply Omise API keys in order to run network tests, which will cause
+changes to your Omise test account. Refer to the official documentation on
+[Authentication][1] for more information.
 
 To specify the keys, set the environment variables before running the tests as follows:
 
