@@ -38,7 +38,11 @@ func (c *Client) Do(result interface{}, operation internal.Operation) error {
 	op := operation.Op()
 
 	// request
-	query := internal.MapURLValues(operation)
+	query, e := internal.MapURLValues(operation)
+	if e != nil {
+		return e
+	}
+
 	if len(op.Values) > 0 {
 		for k, values := range op.Values {
 			if len(values) > 0 {
