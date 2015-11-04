@@ -12,3 +12,18 @@ type Recipient struct {
 	BankAccount *BankAccount  `json:"bank_account"`
 	FailureCode *string       `json:"failure_code"`
 }
+
+type RecipientList struct {
+	List
+	Data []*Recipient `json:"data"`
+}
+
+func (list *RecipientList) Find(id string) *Recipient {
+	for _, recipient := range list.Data {
+		if recipient.ID == id {
+			return recipient
+		}
+	}
+
+	return nil
+}
