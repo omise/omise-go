@@ -25,7 +25,7 @@ if e := client.Do(charge, op); e != nil {
 fmt.Printf("%#v\n", charge)
 ```
 
-See documentation on [godoc.org][0] f
+See documentation on [godoc.org][0] for the full API documentation.
 
 # FAQ
 
