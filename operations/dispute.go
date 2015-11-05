@@ -12,7 +12,7 @@ type ListDisputes struct {
 
 func (req *ListDisputes) Op() *internal.Op {
 	path := "/disputes"
-	if req.State != omise.Any {
+	if req.State != "" {
 		path += "/" + string(req.State)
 	}
 
