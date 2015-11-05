@@ -1,0 +1,25 @@
+{
+  "object": "token",
+  "id": "tokn_test_4yq8lbecl0q6dsjzxr5",
+  "livemode": false,
+  "location": "/tokens/tokn_test_4yq8lbecl0q6dsjzxr5",
+  "used": false,
+  "card": {
+    "object": "card",
+    "id": "card_test_4yq6tuucl9h4erukfl0",
+    "livemode": false,
+    "country": "",
+    "city": "Bangkok",
+    "postal_code": "10320",
+    "financing": "",
+    "last_digits": "4242",
+    "brand": "Visa",
+    "expiration_month": 1,
+    "expiration_year": 2017,
+    "fingerprint": "sRF/oMw2UQJJp/WbU+2/ZbVzwROjpMf1lyhOHhOqziw=",
+    "name": "JOHN DOE",
+    "security_code_check": true,
+    "created": "2015-01-15T04:03:40Z"
+  },
+  "created": "2015-01-15T07:03:56Z"
+}

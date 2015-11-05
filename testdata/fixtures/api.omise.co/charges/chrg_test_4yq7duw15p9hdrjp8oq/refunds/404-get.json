@@ -1,0 +1,6 @@
+{
+  "object": "error",
+  "location": "https://docs.omise.co/api/errors#not-found",
+  "code": "not_found",
+  "message": "refund 404 was not found"
+}

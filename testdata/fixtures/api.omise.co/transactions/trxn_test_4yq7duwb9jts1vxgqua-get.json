@@ -1,0 +1,8 @@
+{
+  "object": "transaction",
+  "id": "trxn_test_4yq7duwb9jts1vxgqua",
+  "type": "credit",
+  "amount": 96094,
+  "currency": "THB",
+  "created": "2015-01-15T05:00:29Z"
+}

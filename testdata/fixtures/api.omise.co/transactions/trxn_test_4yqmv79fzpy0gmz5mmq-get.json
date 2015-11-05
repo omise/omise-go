@@ -1,0 +1,8 @@
+{
+  "object": "transaction",
+  "id": "trxn_test_4yqmv79fzpy0gmz5mmq",
+  "type": "debit",
+  "amount": 10000,
+  "currency": "THB",
+  "created": "2015-01-16T07:23:45Z"
+}
