@@ -1,11 +1,13 @@
 #!/usr/bin/make
 
+GO := go
+
 gen:
-	go install ./internal/generator
-	$(GOPATH)/bin/generator
+	@$(GO) get -v ./internal/generator
+	@$(GOPATH)/bin/generator
 
 deps:
-	go get -v -u ./...
+	@$(GO) get -v -u ./...
 
 test:
-	go test -v ./...
+	@$(GO) test -v ./...

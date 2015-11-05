@@ -12,18 +12,3 @@ type Transfer struct {
 	FailureMessage *string      `json:"failure_message"`
 	Transaction    *string      `json:"transaction"`
 }
-
-type TransferList struct {
-	List
-	Data []*Transfer `json:"data"`
-}
-
-func (list *TransferList) Find(id string) *Transfer {
-	for _, transfer := range list.Data {
-		if transfer.ID == id {
-			return transfer
-		}
-	}
-
-	return nil
-}

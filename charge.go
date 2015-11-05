@@ -28,18 +28,3 @@ type Charge struct {
 	ReturnURI    string    `json:"return_uri"`
 	AuthorizeURI string    `json:"authorize_uri"`
 }
-
-type ChargeList struct {
-	List
-	Data []*Charge `json:"data"`
-}
-
-func (list *ChargeList) Find(id string) *Charge {
-	for _, charge := range list.Data {
-		if charge.ID == id {
-			return charge
-		}
-	}
-
-	return nil
-}

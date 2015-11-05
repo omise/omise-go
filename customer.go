@@ -7,18 +7,3 @@ type Customer struct {
 	Description string    `json:"description"`
 	Cards       *CardList `json:"cards"`
 }
-
-type CustomerList struct {
-	List
-	Data []*Customer `json:"data"`
-}
-
-func (list *CustomerList) Find(id string) *Customer {
-	for _, customer := range list.Data {
-		if customer.ID == id {
-			return customer
-		}
-	}
-
-	return nil
-}

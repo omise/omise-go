@@ -8,8 +8,3 @@ type Dispute struct {
 	Message  string        `json:"message"`
 	Charge   string        `json:"charge"`
 }
-
-type DisputeList struct {
-	List
-	Data []*Dispute `json:"data"`
-}

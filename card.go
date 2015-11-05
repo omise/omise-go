@@ -21,8 +21,3 @@ type Card struct {
 	Created           time.Time `json:"created"`
 	SecurityCodeCheck bool      `json:"security_code_check"`
 }
-
-type CardList struct {
-	List
-	Data []*Card `json:"data"`
-}

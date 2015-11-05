@@ -7,8 +7,3 @@ type Refund struct {
 	Charge      string `json:"charge"`
 	Transaction string `json:"transaction"`
 }
-
-type RefundList struct {
-	*List
-	Data []*Refund `json:"data"`
-}
