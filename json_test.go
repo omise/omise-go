@@ -34,7 +34,7 @@ type JSONRoundtripTest struct {
 func (r JSONRoundtripTest) Test(t *testing.T) {
 	t.Log(reflect.ValueOf(r.value).Elem().Type().Name())
 
-	inbytes, e := ioutil.ReadFile("testdata/" + r.srcFile)
+	inbytes, e := ioutil.ReadFile("testdata/objects/" + r.srcFile)
 	if !a.NoError(t, e) {
 		return
 	}
