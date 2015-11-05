@@ -16,6 +16,14 @@ gen:
 		-prefix internal/creds/ \
 		-ignore ".+\.go" \
 		internal/creds/
+	@$(MAKE) fmt
+
+fmt:
+	@echo go fmt:
+	@go fmt ./...
+	@echo goimports:
+	@goimports -l -w .
+
 
 deps:
 	@$(GO) get -v -u ./...

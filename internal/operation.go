@@ -5,10 +5,16 @@ import (
 )
 
 type Op struct {
-	Endpoint Endpoint
-	Method   string
-	Path     string
-	Values   url.Values
+	Endpoint Endpoint   `query:"-"`
+	Method   string     `query:"-"`
+	Path     string     `query:"-"`
+	Values   url.Values `query:"-"`
+}
+
+// Op implements Operation.Op and allows the struct itself be passed as an Operation
+// argument directly.
+func (op *Op) Op() *Op {
+	return op
 }
 
 type Operation interface {

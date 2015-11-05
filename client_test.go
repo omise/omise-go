@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	. "github.com/omise/omise-go"
+	"github.com/omise/omise-go/internal"
 	"github.com/omise/omise-go/internal/testutil"
 	"github.com/omise/omise-go/operations"
 	a "github.com/stretchr/testify/assert"
@@ -39,6 +40,30 @@ func TestNewClient(t *testing.T) {
 	}
 	if _, e := NewClient("123", "123"); a.Error(t, e) {
 		a.Equal(t, ErrInvalidKey, e)
+	}
+}
+
+func TestClient_Error(t *testing.T) {
+	client, e := testutil.NewClient()
+	if !a.NoError(t, e) {
+		return
+	}
+
+	e = client.Do(nil, &internal.Op{
+		internal.API, "GET", "/definitely_never_found", nil,
+	})
+	if a.NotNil(t, e) {
+		err, ok := e.(*Error)
+		if a.True(t, ok, "error returned is not *omise.Error.") {
+			a.Equal(t, err.Code, "not_found")
+		}
+	}
+
+	e = client.Do(nil, &internal.Op{
+		internal.Endpoint("virus_endpoint"), "GET", "/", nil,
+	})
+	if a.NotNil(t, e) {
+		a.IsType(t, ErrInternal(""), e)
 	}
 }
 
