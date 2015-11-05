@@ -73,6 +73,23 @@ func TestMapURLValues_AlisedTypes(t *testing.T) {
 	}{"hello", 2})
 }
 
+func TestMapURLValues_Zeroes(t *testing.T) {
+	v := url.Values{}
+	v.Set("n1", "0")
+	v.Set("f1", "0.0000")
+	v.Set("altf", "0.0000")
+
+	type theString string
+	check(t, v, &struct {
+		N1 int `query:",sendzero"`
+		N2 int
+		F1 float32 `query:",sendzero"`
+		F2 float32
+		F3 float64 `query:"altf,sendzero"`
+		F4 float64
+	}{0, 0, 0.0, 0.0, 0.0, 0.0})
+}
+
 func TestMapURLValues_Structs(t *testing.T) {
 	now := time.Now()
 

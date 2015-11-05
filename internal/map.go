@@ -19,7 +19,6 @@ func (e *ErrMap) Error() string {
 	return "cannot map field `" + e.field.Name + "`, " + e.reason
 }
 
-// Based on this gist
 // TODO: Document.
 func MapURLValues(i interface{}) (url.Values, error) {
 	result := url.Values{}
@@ -40,21 +39,34 @@ func mapURLValues(i interface{}, target url.Values, parent string) error {
 	ityp := ival.Type()
 	for i := 0; i < ival.NumField(); i++ {
 		fieldval, field := ival.Field(i), ityp.Field(i)
+		tag, sendZero := "", false
 
-		// compute tag names
-		// TODO: Should probably just use `json:""` for everything.
-		tag := field.Tag.Get("query")
-		if tag == "" {
-			tag = field.Tag.Get("json")
-			if tag == "" {
-				tag = strings.ToLower(field.Name)
-			}
+		// compute tag names and options
+		opt, opts := "", strings.Split(field.Tag.Get("query"), ",")
+		if len(opts) > 0 {
+			tag, opts = opts[0], opts[1:]
 		}
+		if tag == "" {
+			// TODO: Should probably just use `json:""` for everything.
+			tag = field.Tag.Get("json")
+		}
+		if tag == "" {
+			tag = strings.ToLower(field.Name)
+		}
+
 		if tag == "-" {
 			continue
 		}
 		if parent != "" {
 			tag = parent + "[" + tag + "]"
+		}
+
+		for len(opts) > 0 {
+			opt, opts = opts[0], opts[1:]
+			switch opt {
+			case "sendzero":
+				sendZero = true
+			}
 		}
 
 		// ptr deref
@@ -65,6 +77,12 @@ func mapURLValues(i interface{}, target url.Values, parent string) error {
 			}
 
 			fieldval = fieldval.Elem()
+		}
+
+		// zero check
+		isZero := fieldval.Interface() == reflect.Zero(fieldval.Type()).Interface()
+		if isZero && !sendZero {
+			continue
 		}
 
 		// convert
