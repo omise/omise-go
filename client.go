@@ -17,10 +17,10 @@ var _ = fmt.Println
 // should be used with operation structures from the operations subpackage.
 type Client struct {
 	*http.Client
-	PublicKey string
-	SecretKey string
-
 	debug bool
+
+	pkey string
+	skey string
 }
 
 // NewClient creates and returns a Client with the given public key and secret key.  Signs
@@ -36,7 +36,8 @@ func NewClient(pkey, skey string) (*Client, error) {
 		return nil, ErrInvalidKey
 	}
 
-	return &Client{&http.Client{}, pkey, skey, false}, nil
+	httpClient := &http.Client{Transport: transport}
+	return &Client{httpClient, false, pkey, skey}, nil
 }
 
 // Do performs the supplied operation against Omise's REST API and unmarshal the response
@@ -85,9 +86,9 @@ func (c *Client) Do(result interface{}, operation internal.Operation) error {
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 	switch op.Endpoint {
 	case internal.API:
-		req.SetBasicAuth(c.SecretKey, "")
+		req.SetBasicAuth(c.skey, "")
 	case internal.Vault:
-		req.SetBasicAuth(c.PublicKey, "")
+		req.SetBasicAuth(c.pkey, "")
 	default:
 		return ErrInternal("unrecognized endpoint:" + op.Endpoint)
 	}
