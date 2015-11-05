@@ -34,7 +34,7 @@ func TestTransaction(t *testing.T) {
 		return
 	}
 
-	// retreive a sample transaction
+	// retrieve a sample transaction
 	transaction, retrieve := &omise.Transaction{}, &RetrieveTransaction{
 		TransactionID: transactions.Data[0].ID,
 	}

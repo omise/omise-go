@@ -28,22 +28,22 @@ func (req *ListCards) Op() *internal.Op {
 
 // Example:
 //
-//	card, retreive := &omise.Card{}, &RetreiveCard{
+//	card, retrieve := &omise.Card{}, &RetrieveCard{
 //		CustomerID: "cust_888",
 //		CardID:     "card_999",
 //	}
-//	if e := client.Do(card, retreive); e != nil {
+//	if e := client.Do(card, retrieve); e != nil {
 //		panic(e)
 //	}
 //
 //	fmt.Printf("the card: %#v\n", card)
 //
-type RetreiveCard struct {
+type RetrieveCard struct {
 	CustomerID string `query:"-"`
 	CardID     string `query:"-"`
 }
 
-func (req *RetreiveCard) Op() *internal.Op {
+func (req *RetrieveCard) Op() *internal.Op {
 	return &internal.Op{internal.API, "GET", "/customers/" + req.CustomerID + "/cards/" + req.CardID, nil}
 }
 

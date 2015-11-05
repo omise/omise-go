@@ -16,7 +16,7 @@ func TestAccount(t *testing.T) {
 	}
 
 	account := &omise.Account{}
-	if e := client.Do(account, &RetreiveAccount{}); !a.NoError(t, e) {
+	if e := client.Do(account, &RetrieveAccount{}); !a.NoError(t, e) {
 		return
 	}
 

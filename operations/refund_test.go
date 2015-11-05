@@ -70,12 +70,12 @@ func TestRefund(t *testing.T) {
 		return
 	}
 
-	// retreive refund by id, which should match what we already have.
-	retreive := &RetreiveRefund{
+	// retrieve refund by id, which should match what we already have.
+	retrieve := &RetrieveRefund{
 		ChargeID: charge.ID,
 		RefundID: refund.ID,
 	}
-	if e := client.Do(refund, retreive); !a.NoError(t, e) {
+	if e := client.Do(refund, retrieve); !a.NoError(t, e) {
 		return
 	}
 

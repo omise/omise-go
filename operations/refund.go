@@ -45,21 +45,21 @@ func (req *CreateRefund) Op() *internal.Op {
 
 // Example:
 //
-//	refund, retreive := &omise.Refund{}, &RetreiveRefund{
+//	refund, retrieve := &omise.Refund{}, &RetrieveRefund{
 //		ChargeID: "chrg_123",
 //		RefundID: "rfnd_777",
 //	}
-//	if e := client.Do(refund, retreive); e != nil {
+//	if e := client.Do(refund, retrieve); e != nil {
 //		panic(e)
 //	}
 //
 //	fmt.Printf("refund #777: %#v\n", refund)
 //
-type RetreiveRefund struct {
+type RetrieveRefund struct {
 	ChargeID string `query:"-"`
 	RefundID string `query:"-"`
 }
 
-func (req *RetreiveRefund) Op() *internal.Op {
+func (req *RetrieveRefund) Op() *internal.Op {
 	return &internal.Op{internal.API, "GET", "/charges/" + req.ChargeID + "/refunds/" + req.RefundID, nil}
 }

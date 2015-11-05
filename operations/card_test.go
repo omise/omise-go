@@ -95,9 +95,9 @@ func TestCard(t *testing.T) {
 	a.Equal(t, card2.ID, card.ID)
 	a.Equal(t, card2.Name, update.Name)
 
-	// retreive added cards
-	card, retreive := &omise.Card{}, &RetreiveCard{CustomerID: customer.ID, CardID: cards.Data[0].ID}
-	if e := client.Do(card, retreive); !a.NoError(t, e) {
+	// retrieve added cards
+	card, retrieve := &omise.Card{}, &RetrieveCard{CustomerID: customer.ID, CardID: cards.Data[0].ID}
+	if e := client.Do(card, retrieve); !a.NoError(t, e) {
 		return
 	}
 

@@ -78,8 +78,8 @@ func TestRecipient(t *testing.T) {
 	}
 
 	// fetch
-	josh, retreive := &omise.Recipient{}, &RetreiveRecipient{jones.ID}
-	if e := client.Do(josh, retreive); !a.NoError(t, e) {
+	josh, retrieve := &omise.Recipient{}, &RetrieveRecipient{jones.ID}
+	if e := client.Do(josh, retrieve); !a.NoError(t, e) {
 		return
 	}
 

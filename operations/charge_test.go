@@ -35,9 +35,9 @@ func TestCharge(t *testing.T) {
 	a.Equal(t, create.Amount, charge.Amount)
 	a.Equal(t, create.Currency, charge.Currency)
 
-	// retreive created charge
+	// retrieve created charge
 	charge2 := &omise.Charge{}
-	if e := client.Do(charge2, &RetreiveCharge{ChargeID: charge.ID}); !a.NoError(t, e) {
+	if e := client.Do(charge2, &RetrieveCharge{ChargeID: charge.ID}); !a.NoError(t, e) {
 		return
 	}
 

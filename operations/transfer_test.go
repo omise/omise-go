@@ -28,10 +28,10 @@ func TestTransfer(t *testing.T) {
 	a.NotNil(t, transfer.BankAccount)
 
 	// gets created transfer
-	transfer2, retreive := &omise.Transfer{}, &RetreiveTransfer{
+	transfer2, retrieve := &omise.Transfer{}, &RetrieveTransfer{
 		TransferID: transfer.ID,
 	}
-	if e := client.Do(transfer2, retreive); !a.NoError(t, e) {
+	if e := client.Do(transfer2, retrieve); !a.NoError(t, e) {
 		return
 	}
 

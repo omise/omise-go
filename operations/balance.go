@@ -7,14 +7,14 @@ import (
 // Example:
 //
 //	balance := &omise.Balance{}
-//	if e := client.Do(balance, &RetreiveBalance{}); e != nil {
+//	if e := client.Do(balance, &RetrieveBalance{}); e != nil {
 //		panic(e)
 //	}
 //
 //	fmt.Println("we have $", balance.Available)
 //
-type RetreiveBalance struct{}
+type RetrieveBalance struct{}
 
-func (req *RetreiveBalance) Op() *internal.Op {
+func (req *RetrieveBalance) Op() *internal.Op {
 	return &internal.Op{internal.API, "GET", "/balance", nil}
 }

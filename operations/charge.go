@@ -87,17 +87,17 @@ func (req *UpdateCharge) Op() *internal.Op {
 // Example:
 //
 //	charge := &omise.Charge{ID: "chrg_323"}
-//	if e := client.Do(charge, &RetreiveCharge{charge.ID}); e != nil {
+//	if e := client.Do(charge, &RetrieveCharge{charge.ID}); e != nil {
 //		panic(e)
 //	}
 //
 //	fmt.Printf("charge #chrg_323: %#v\n", charge)
 //
-type RetreiveCharge struct {
+type RetrieveCharge struct {
 	ChargeID string `query:"-"`
 }
 
-func (req *RetreiveCharge) Op() *internal.Op {
+func (req *RetrieveCharge) Op() *internal.Op {
 	return &internal.Op{internal.API, "GET", "/charges/" + req.ChargeID, nil}
 }
 

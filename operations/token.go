@@ -41,17 +41,17 @@ func (req *CreateToken) Op() *internal.Op {
 
 // Example:
 //
-//	token, retreive := &omise.Token{}, &RetreiveToken{"tok_789"}
-//	if e := client.Do(token, retreive); e != nil {
+//	token, retrieve := &omise.Token{}, &RetrieveToken{"tok_789"}
+//	if e := client.Do(token, retrieve); e != nil {
 //		panic(e)
 //	}
 //
 //	fmt.Printf("token: %#v\n", token)
 //
-type RetreiveToken struct {
+type RetrieveToken struct {
 	ID string `query:"-"`
 }
 
-func (token *RetreiveToken) Op() *internal.Op {
+func (token *RetrieveToken) Op() *internal.Op {
 	return &internal.Op{internal.Vault, "GET", "/tokens/" + token.ID, nil}
 }

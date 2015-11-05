@@ -74,8 +74,8 @@ func TestCustomer(t *testing.T) {
 	a.Equal(t, update.Description, john.Description)
 
 	// fetch
-	jill, retreive := &omise.Customer{}, &RetreiveCustomer{john.ID}
-	if e := client.Do(jill, retreive); !a.NoError(t, e) {
+	jill, retrieve := &omise.Customer{}, &RetrieveCustomer{john.ID}
+	if e := client.Do(jill, retrieve); !a.NoError(t, e) {
 		return
 	}
 

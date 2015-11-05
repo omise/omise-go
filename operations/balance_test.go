@@ -16,7 +16,7 @@ func TestBalance(t *testing.T) {
 	}
 
 	balance := &omise.Balance{}
-	if e := client.Do(balance, &RetreiveBalance{}); !a.NoError(t, e) {
+	if e := client.Do(balance, &RetrieveBalance{}); !a.NoError(t, e) {
 		return
 	}
 

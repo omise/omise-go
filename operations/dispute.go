@@ -32,18 +32,18 @@ func (req *ListDisputes) Op() *internal.Op {
 
 // Example:
 //
-//	dispute, retreive := &omise.Dispute{}, &RetreiveDispute{"dspt_123"}
-//	if e := client.Do(dispute, retreive); e != nil {
+//	dispute, retrieve := &omise.Dispute{}, &RetrieveDispute{"dspt_123"}
+//	if e := client.Do(dispute, retrieve); e != nil {
 //		panic(e)
 //	}
 //
 //	fmt.Printf("dispute #123: %#v\n", dispute)
 //
-type RetreiveDispute struct {
+type RetrieveDispute struct {
 	DisputeID string `query:"-"`
 }
 
-func (req *RetreiveDispute) Op() *internal.Op {
+func (req *RetrieveDispute) Op() *internal.Op {
 	return &internal.Op{internal.API, "GET", "/disputes/" + req.DisputeID, nil}
 }
 

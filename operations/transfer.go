@@ -48,18 +48,18 @@ func (req *CreateTransfer) Op() *internal.Op {
 
 // Example:
 //
-//	transfer, retreive := &omise.Transfer{}, &RetreiveTransfer{"trsf_123"}
-//	if e := client.Do(transfer, retreive); e != nil {
+//	transfer, retrieve := &omise.Transfer{}, &RetrieveTransfer{"trsf_123"}
+//	if e := client.Do(transfer, retrieve); e != nil {
 //		panic(e)
 //	}
 //
 //	fmt.Printf("transfer #123: %#v\n", transfer)
 //
-type RetreiveTransfer struct {
+type RetrieveTransfer struct {
 	TransferID string
 }
 
-func (req *RetreiveTransfer) Op() *internal.Op {
+func (req *RetrieveTransfer) Op() *internal.Op {
 	return &internal.Op{internal.API, "GET", "/transfers/" + req.TransferID, nil}
 }
 

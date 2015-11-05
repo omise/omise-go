@@ -60,18 +60,18 @@ func (req *CreateRecipient) Op() *internal.Op {
 
 // Example:
 //
-//	recp, retreive := &omise.Recipient{}, &RetreiveRecipient{"recp_123"}
-//	if e := client.Do(recp, retreive); e != nil {
+//	recp, retrieve := &omise.Recipient{}, &RetrieveRecipient{"recp_123"}
+//	if e := client.Do(recp, retrieve); e != nil {
 //		panic(e)
 //	}
 //
 //	fmt.Printf("recipient #123: %#v\n", recp)
 //
-type RetreiveRecipient struct {
+type RetrieveRecipient struct {
 	RecipientID string `query:"-"`
 }
 
-func (req *RetreiveRecipient) Op() *internal.Op {
+func (req *RetrieveRecipient) Op() *internal.Op {
 	return &internal.Op{internal.API, "GET", "/recipients/" + req.RecipientID, nil}
 }
 

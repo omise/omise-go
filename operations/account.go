@@ -7,14 +7,14 @@ import (
 // Example:
 //
 //	account := &omise.Account{}
-//	if e := client.Do(account, &RetreiveAccount{}); e != nil {
+//	if e := client.Do(account, &RetrieveAccount{}); e != nil {
 //		panic(e)
 //	}
 //
 //	fmt.Printf("my account!: %#v\n", account)
 //
-type RetreiveAccount struct{}
+type RetrieveAccount struct{}
 
-func (req *RetreiveAccount) Op() *internal.Op {
+func (req *RetrieveAccount) Op() *internal.Op {
 	return &internal.Op{internal.API, "GET", "/account", nil}
 }

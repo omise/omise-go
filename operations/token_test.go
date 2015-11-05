@@ -31,7 +31,7 @@ func TestToken(t *testing.T) {
 	if e := client.Do(t1, CreateTokenOp); !a.NoError(t, e) {
 		return
 	}
-	if e := client.Do(t2, &RetreiveToken{ID: t1.ID}); !a.NoError(t, e) {
+	if e := client.Do(t2, &RetrieveToken{ID: t1.ID}); !a.NoError(t, e) {
 		return
 	}
 

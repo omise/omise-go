@@ -38,18 +38,18 @@ func (req *CreateCustomer) Op() *internal.Op {
 
 // Example:
 //
-//	cust, retreive := &omise.Customer{}, &RetreiveCustomer{"cust_123"}
-//	if e := client.Do(cust, retreive); e != nil {
+//	cust, retrieve := &omise.Customer{}, &RetrieveCustomer{"cust_123"}
+//	if e := client.Do(cust, retrieve); e != nil {
 //		panic(e)
 //	}
 //
 //	fmt.Printf("cust_123: %#v\n", cust)
 //
-type RetreiveCustomer struct {
+type RetrieveCustomer struct {
 	CustomerID string `query:"-"`
 }
 
-func (req *RetreiveCustomer) Op() *internal.Op {
+func (req *RetrieveCustomer) Op() *internal.Op {
 	return &internal.Op{internal.API, "GET", "/customers/" + req.CustomerID, nil}
 }
 
