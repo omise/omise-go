@@ -81,9 +81,22 @@ func TestCard(t *testing.T) {
 	}
 	a.Len(t, cards.Data, 2)
 
+	// update a card
+	card := cards.Data[0]
+	card2, update := &omise.Card{}, &UpdateCard{
+		CustomerID: customer.ID,
+		CardID:     card.ID,
+		Name:       "Changed my name",
+	}
+	if e := client.Do(card2, update); !a.NoError(t, e) {
+		return
+	}
+
+	a.Equal(t, card2.ID, card.ID)
+	a.Equal(t, card2.Name, update.Name)
+
 	// retreive added cards
-	card := &omise.Card{}
-	retreive := &RetreiveCard{CustomerID: customer.ID, CardID: cards.Data[0].ID}
+	card, retreive := &omise.Card{}, &RetreiveCard{CustomerID: customer.ID, CardID: cards.Data[0].ID}
 	if e := client.Do(card, retreive); !a.NoError(t, e) {
 		return
 	}

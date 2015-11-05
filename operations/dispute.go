@@ -5,6 +5,17 @@ import (
 	"github.com/omise/omise-go/internal"
 )
 
+// Example:
+//
+//	disputes, list := &omise.DisputeList{}, &ListDisputes{
+//		State: omise.Open,
+//	}
+//	if e := client.Do(disputes, list); e != nil {
+//		panic(e)
+//	}
+//
+//	fmt.Println("# of open disputes:", len(disputes.Data))
+//
 type ListDisputes struct {
 	State omise.DisputeStatus
 	List
@@ -19,6 +30,15 @@ func (req *ListDisputes) Op() *internal.Op {
 	return &internal.Op{internal.API, "GET", path, nil}
 }
 
+// Example:
+//
+//	dispute, retreive := &omise.Dispute{}, &RetreiveDispute{"dspt_123"}
+//	if e := client.Do(dispute, retreive); e != nil {
+//		panic(e)
+//	}
+//
+//	fmt.Printf("dispute #123: %#v\n", dispute)
+//
 type RetreiveDispute struct {
 	DisputeID string `query:"-"`
 }
@@ -27,6 +47,18 @@ func (req *RetreiveDispute) Op() *internal.Op {
 	return &internal.Op{internal.API, "GET", "/disputes/" + req.DisputeID, nil}
 }
 
+// Example:
+//
+//	dispute, update := &omise.Dispute{}, &UpdateDispute{
+//		DisputeID: "dspt_777",
+//		Message:   "update me!",
+//	}
+//	if e := client.Do(dispute, update); e != nil {
+//		panic(e)
+//	}
+//
+//	fmt.Printf("updated dispute: %#v\n", dispute)
+//
 type UpdateDispute struct {
 	DisputeID string `query:"-"`
 	Message   string
