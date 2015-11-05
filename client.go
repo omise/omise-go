@@ -13,6 +13,8 @@ import (
 
 var _ = fmt.Println
 
+// Client helps you configure and perform HTTP operations against Omise's REST API. It
+// should be used with operation structures from the operations subpackage.
 type Client struct {
 	*http.Client
 	PublicKey string
@@ -21,6 +23,9 @@ type Client struct {
 	debug bool
 }
 
+// NewClient creates and returns a Client with the given public key and secret key.  Signs
+// in to http://omise.co and visit https://dashboard.omise.co/test/dashboard to obtain
+// your test (or live) keys.
 func NewClient(pkey, skey string) (*Client, error) {
 	switch {
 	case pkey == "" && skey == "":
@@ -34,6 +39,13 @@ func NewClient(pkey, skey string) (*Client, error) {
 	return &Client{&http.Client{}, pkey, skey, false}, nil
 }
 
+// Do performs the supplied operation against Omise's REST API and unmarshal the response
+// into the given result parameter. Results are usually basic objects or a list that
+// corresponds to the operations being done.
+//
+// If the operation is successful, result should contains the response data. Otherwise a
+// non-nil error should be returned. Error maybe of the omise-go.Error struct type, in
+// which case you can further inspect the Code and Message field for more information.
 func (c *Client) Do(result interface{}, operation internal.Operation) error {
 	op := operation.Op()
 

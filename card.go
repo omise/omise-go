@@ -4,6 +4,8 @@ import (
 	"time"
 )
 
+// Card represents Omise's card object.
+// See https://www.omise.co/cards-api for more information.
 type Card struct {
 	Base
 	Country    string `json:"country"`

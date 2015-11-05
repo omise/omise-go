@@ -1,6 +1,8 @@
 package omise_test
 
 import (
+	"fmt"
+	"log"
 	"testing"
 
 	. "github.com/omise/omise-go"
@@ -38,4 +40,34 @@ func TestNewClient(t *testing.T) {
 	if _, e := NewClient("123", "123"); a.Error(t, e) {
 		a.Equal(t, ErrInvalidKey, e)
 	}
+}
+
+func ExampleClient_Do() {
+	// gets your API keys
+	pkey, skey := "pkey_test_4yq6tct0llin5nyyi5l", "skey_test_4yq6tct0lblmed2yp5t"
+
+	// creates a client
+	client, e := NewClient(pkey, skey)
+	if e != nil {
+		log.Fatal(e)
+	}
+
+	// creates a charge
+	charge, create := &Charge{}, &operations.CreateCharge{
+		Amount:   100000, // ¥10,000
+		Currency: "jpy",
+		Card:     "tok_1234",
+	}
+
+	// checks for error
+	if e := client.Do(charge, create); e != nil {
+		if omiseErr, ok := e.(*Error); ok {
+			log.Fatal(omiseErr.Code + " " + omiseErr.Message)
+		} else {
+			log.Fatal("transport error: " + e.Error())
+		}
+	}
+
+	// verify
+	fmt.Printf("authorized charge: %#v\n", charge)
 }

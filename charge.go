@@ -4,6 +4,8 @@ import (
 	"time"
 )
 
+// Charge represents Omise's charge object.
+// See https://www.omise.co/charges-api for more information.
 type Charge struct {
 	Base
 	Transaction string  `json:"transaction"`
@@ -16,7 +18,7 @@ type Charge struct {
 	Card        *Card   `json:"card"`
 
 	Refunded       int64       `json:"refunded"`
-	Refunds        *RefundList `json:"refunds"` // TODO: List of refunds object.
+	Refunds        *RefundList `json:"refunds"`
 	FailureCode    *string     `json:"failure_code"`
 	FailureMessage *string     `json:"failure_message"`
 

@@ -1,5 +1,8 @@
 package omise
 
+// List structure contains fields that are common to list objects returned by the Omise's
+// REST API. See the pagination and lists documentation at
+// https://www.omise.co/api-pagination for more information.
 type List struct {
 	Base
 	From string `json:"from"`

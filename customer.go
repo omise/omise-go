@@ -1,5 +1,7 @@
 package omise
 
+// Customer represents Omise's customer object.
+// See https://www.omise.co/customers-api for more information.
 type Customer struct {
 	Base
 	DefaultCard string    `json:"default_card"`

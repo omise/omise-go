@@ -2,6 +2,8 @@ package omise
 
 import "time"
 
+// Base structure contains fields that are common to objects returned by the Omise's REST
+// API.
 type Base struct {
 	Object   string    `json:"object"`
 	ID       string    `json:"id"`
@@ -10,9 +12,8 @@ type Base struct {
 	Created  time.Time `json:"created"`
 }
 
+// Deletion struct is used to receive deletion responses from delete operations.
 type Deletion struct {
-	Object  string `json:"object"`
-	ID      string `json:"id"`
-	Live    bool   `json:"livemode"`
-	Deleted bool   `json:"deleted"`
+	Base
+	Deleted bool `json:"deleted"`
 }

@@ -9,12 +9,17 @@ var (
 	ErrInvalidKey = errors.New("invalid public or secret key.")
 )
 
+// ErrInternal represents internal library error. If you encounter this, it is mostly
+// likely due to a bug in the omise-go library itself. Please report it by opening a new
+// GitHub issue or contacting support.
 type ErrInternal string
 
 func (e ErrInternal) Error() string {
 	return "internal inconsistency: " + string(e)
 }
 
+// Error struct represents errors that may be returned from Omise's REST API. You can use
+// the Code or the HTTP StatusCode field to test for error condition in your code.
 type Error struct {
 	Location   string `json:"location"`
 	StatusCode int    `json:"status"`

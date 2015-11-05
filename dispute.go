@@ -1,5 +1,7 @@
 package omise
 
+// Dispute represents Omise's dispute object.
+// See https://www.omise.co/disputes-api for more information.
 type Dispute struct {
 	Base
 	Amount   int64         `json:"amount"`

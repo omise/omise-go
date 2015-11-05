@@ -1,5 +1,7 @@
 package omise
 
+// Recipient represents Omise's recipient object.
+// See https://www.omise.co/recipients-api for more information.
 type Recipient struct {
 	Base
 	Verified    bool          `json:"verified"`

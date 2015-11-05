@@ -1,5 +1,7 @@
 package omise
 
+// Transfer represents Omise's transfer object.
+// See https://www.omise.co/transfers-api for more information.
 type Transfer struct {
 	Base
 	Recipient      string       `json:"recipient"`

@@ -1,5 +1,7 @@
 package omise
 
+// Refund represents Omise's refund object.
+// See https://www.omise.co/refunds-api for more information.
 type Refund struct {
 	Base
 	Amount      int64  `json:"amount"`

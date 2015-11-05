@@ -2,11 +2,15 @@
 {{with .Data}}
 package omise
 
+// {{.Name}}List represents the list structure returned by Omise's REST API that contains
+// {{.Name}} struct as member elements. See the pagination and lists documentation at
+// https://www.omise.co/api-pagination for more information.
 type {{.Name}}List struct {
 	List
   Data []*{{.Name}} `json:"data"`
 }
 
+// Find finds and returns {{.Name}} with the given id. Returns nil if not found.
 func (list *{{.Name}}List) Find(id string) *{{.Name}} {
 	for _, item := range list.Data {
 		if item.ID == id {
