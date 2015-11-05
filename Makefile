@@ -6,8 +6,16 @@ GO    := go
 GODOC := godoc
 
 gen:
-	@$(GO) get -v ./internal/generator
+	@$(GO) get -v \
+		./internal/generator \
+		github.com/jteeuwen/go-bindata/go-bindata
 	@$(GOPATH)/bin/generator
+	@$(GOPATH)/bin/go-bindata -nometadata \
+		-o internal/creds/bindata.go \
+		-pkg creds \
+		-prefix internal/creds/ \
+		-ignore ".+\.go" \
+		internal/creds/
 
 deps:
 	@$(GO) get -v -u ./...
