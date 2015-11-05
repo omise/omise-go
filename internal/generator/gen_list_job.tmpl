@@ -1,0 +1,19 @@
+{{.Header}}
+{{with .Data}}
+package omise
+
+type {{.Name}}List struct {
+	List
+  Data []*{{.Name}} `json:"data"`
+}
+
+func (list *{{.Name}}List) Find(id string) *{{.Name}} {
+	for _, item := range list.Data {
+		if item.ID == id {
+			return item
+		}
+	}
+
+	return nil
+}
+{{end}}

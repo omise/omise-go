@@ -15,18 +15,37 @@ func ExtractJobs(importpath string) ([]Job, error) {
 	scope, jobs := pkg.Scope(), []Job{}
 	for _, name := range scope.Names() {
 		obj := scope.Lookup(name)
-		typ := obj.Type().Underlying()
-
-		// skips
-		if strings.HasSuffix(name, "List") {
+		if !isModelStruct(obj.Type()) {
 			continue
 		}
 
 		// generates
-		if _, isStruct := typ.(*types.Struct); isStruct {
-			jobs = append(jobs, &GenListJob{name})
-		}
+		jobs = append(jobs, &GenListJob{name})
 	}
 
 	return jobs, nil
+}
+
+func isModelStruct(typ types.Type) (ok bool) {
+	var named *types.Named
+	if named, ok = typ.(*types.Named); !ok {
+		return false
+	}
+
+	var struc *types.Struct
+	if struc, ok = named.Underlying().(*types.Struct); !ok {
+		return false
+	}
+
+	if strings.HasSuffix(named.Obj().Name(), "List") {
+		return false
+	}
+
+	for i := 0; i < struc.NumFields(); i++ {
+		if f := struc.Field(i); f.Anonymous() && f.Name() == "Base" {
+			return true
+		}
+	}
+
+	return false
 }
