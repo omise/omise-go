@@ -18,35 +18,31 @@ func TestRecipient(t *testing.T) {
 
 	// create a recipient
 	// sample from: https://www.omise.co/bank-account-api
-	bankAccount := &omise.BankAccount{
+	jun, bankAccount := &omise.Recipient{}, &omise.BankAccount{
 		Brand:  "bbl",
 		Number: "1234567890",
 		Name:   "Somchai Prasert",
 	}
-
-	create := &CreateRecipient{
+	client.MustDo(jun, &CreateRecipient{
 		Name:        "Jun Hasegawa",
 		Email:       "jun@omise.co",
 		Description: "Owns Omise",
 		Type:        omise.Individual,
 		BankAccount: bankAccount,
-	}
-
-	jun := &omise.Recipient{}
-	client.MustDo(jun, create)
+	})
 
 	t.Log("created recipient:", jun.ID)
-	a.Equal(t, create.Email, jun.Email)
+	a.Equal(t, "jun@omise.co", jun.Email)
 	if a.NotNil(t, jun.Description) {
-		a.Equal(t, create.Description, *jun.Description)
+		a.Equal(t, "Owns Omise", *jun.Description)
 	}
 	a.Equal(t, jun.BankAccount.Name, bankAccount.Name)
 
 	// list created customers
-	recipients, list := &omise.RecipientList{}, &ListRecipients{
+	recipients := &omise.RecipientList{}
+	client.MustDo(recipients, &ListRecipients{
 		List{From: time.Now().Add(-1 * time.Hour), Limit: 100},
-	}
-	client.MustDo(recipients, list)
+	})
 
 	a.True(t, len(recipients.Data) > 0, "no created customers in list!")
 
@@ -55,30 +51,28 @@ func TestRecipient(t *testing.T) {
 	a.Equal(t, jun.Email, jim.Email)
 
 	// // update
-	update := &UpdateRecipient{
+	jones := &omise.Recipient{}
+	client.MustDo(jones, &UpdateRecipient{
 		RecipientID: jim.ID,
 		Description: "I'm JONES now.",
-	}
-
-	jones := &omise.Recipient{}
-	client.MustDo(jones, update)
+	})
 
 	a.Equal(t, jim.ID, jones.ID)
 	if a.NotNil(t, jones.Description) {
-		a.Equal(t, update.Description, *jones.Description)
+		a.Equal(t, "I'm JONES now.", *jones.Description)
 	}
 
 	// fetch
-	josh, retrieve := &omise.Recipient{}, &RetrieveRecipient{jones.ID}
-	client.MustDo(josh, retrieve)
+	josh := &omise.Recipient{}
+	client.MustDo(josh, &RetrieveRecipient{jones.ID})
 
 	a.Equal(t, jones.ID, josh.ID)
 	a.Equal(t, jones.Email, josh.Email)
 	a.Equal(t, jones.Description, josh.Description)
 
 	// delete
-	del, destroy := &omise.Deletion{}, &DestroyRecipient{jones.ID}
-	client.MustDo(del, destroy)
+	del := &omise.Deletion{}
+	client.MustDo(del, &DestroyRecipient{jones.ID})
 
 	a.Equal(t, jones.Object, del.Object)
 	a.Equal(t, jones.ID, del.ID)

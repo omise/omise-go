@@ -20,20 +20,20 @@ func TestTransaction(t *testing.T) {
 	client := testutil.NewTestClient(t)
 
 	// list transactions
-	transactions, list := &omise.TransactionList{}, &ListTransaction{
+	transactions := &omise.TransactionList{}
+	client.MustDo(transactions, &ListTransaction{
 		List{Limit: 100, From: time.Now().Add(-1 * time.Hour)},
-	}
-	client.MustDo(transactions, list)
+	})
 
 	if !a.True(t, len(transactions.Data) > 0, "no transactions was created!") {
 		return
 	}
 
 	// retrieve a sample transaction
-	transaction, retrieve := &omise.Transaction{}, &RetrieveTransaction{
+	transaction := &omise.Transaction{}
+	client.MustDo(transaction, &RetrieveTransaction{
 		TransactionID: transactions.Data[0].ID,
-	}
-	client.MustDo(transaction, retrieve)
+	})
 
 	a.Equal(t, transactions.Data[0].ID, transaction.ID)
 	a.Equal(t, transactions.Data[0].Amount, transaction.Amount)

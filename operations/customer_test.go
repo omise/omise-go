@@ -20,28 +20,29 @@ func TestCustomer(t *testing.T) {
 	client.MustDo(token, CreateTokenOp)
 
 	// create a customer
-	create := &CreateCustomer{
+	jack := &omise.Customer{}
+	client.MustDo(jack, &CreateCustomer{
 		Email:       "chakrit@omise.co",
 		Description: "I'm JACK",
 		Card:        token.ID,
-	}
-
-	jack := &omise.Customer{}
-	client.MustDo(jack, create)
+	})
 	if !a.NotNil(t, jack) {
 		return
 	}
 
 	t.Log("created customer:", jack.ID)
-	a.Equal(t, create.Email, jack.Email)
-	a.Equal(t, create.Description, jack.Description)
+	a.Equal(t, "chakrit@omise.co", jack.Email)
+	a.Equal(t, "I'm JACK", jack.Description)
 	a.Len(t, jack.Cards.Data, 1)
 
 	// list created customers
-	customers, list := &omise.CustomerList{}, &ListCustomers{
-		List{From: time.Now().Add(-1 * time.Hour), Limit: 100},
-	}
-	client.MustDo(customers, list)
+	customers := &omise.CustomerList{}
+	client.MustDo(customers, &ListCustomers{
+		List{
+			From:  time.Now().Add(-1 * time.Hour),
+			Limit: 100,
+		},
+	})
 
 	a.True(t, len(customers.Data) > 0, "no created customers in list!")
 
@@ -50,16 +51,14 @@ func TestCustomer(t *testing.T) {
 	a.Equal(t, jack.Email, jane.Email)
 
 	// update
-	update := &UpdateCustomer{
+	john := &omise.Customer{}
+	client.MustDo(john, &UpdateCustomer{
 		CustomerID:  jack.ID,
 		Description: "I'm JOHN now.",
-	}
-
-	john := &omise.Customer{}
-	client.MustDo(john, update)
+	})
 
 	a.Equal(t, jack.ID, john.ID)
-	a.Equal(t, update.Description, john.Description)
+	a.Equal(t, "I'm JOHN now.", john.Description)
 
 	// fetch
 	jill, retrieve := &omise.Customer{}, &RetrieveCustomer{john.ID}

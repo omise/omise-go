@@ -18,32 +18,34 @@ func TestRefund(t *testing.T) {
 	token := &omise.Token{}
 	client.MustDo(token, CreateTokenOp)
 
-	charge, createCharge := &omise.Charge{}, &CreateCharge{
+	charge := &omise.Charge{}
+	client.MustDo(charge, &CreateCharge{
 		Amount:      819229,
 		Currency:    "thb",
 		Description: "should be refunded soon.",
 		Card:        token.ID,
-	}
-	client.MustDo(charge, createCharge)
+	})
 
-	a.Equal(t, createCharge.Amount, charge.Amount)
-	a.Equal(t, createCharge.Currency, charge.Currency)
+	a.Equal(t, int64(819229), charge.Amount)
+	a.Equal(t, "thb", charge.Currency)
 
 	// list refunds on the charge
-	refunds, list := &omise.RefundList{}, &ListRefunds{
+	list := &ListRefunds{
 		charge.ID,
 		List{Limit: 100, From: time.Now().Add(-1 * time.Hour)},
 	}
+
+	refunds := &omise.RefundList{}
 	client.MustDo(refunds, list)
 
 	a.Len(t, refunds.Data, 0)
 
 	// create a half refund on the charge
-	refund, create := &omise.Refund{}, &CreateRefund{
+	refund := &omise.Refund{}
+	client.MustDo(refund, &CreateRefund{
 		ChargeID: charge.ID,
 		Amount:   charge.Amount >> 1,
-	}
-	client.MustDo(refund, create)
+	})
 
 	a.Equal(t, refund.Amount, charge.Amount>>1)
 	a.Equal(t, refund.Currency, charge.Currency)
@@ -58,11 +60,10 @@ func TestRefund(t *testing.T) {
 	}
 
 	// retrieve refund by id, which should match what we already have.
-	retrieve := &RetrieveRefund{
+	client.MustDo(refund, &RetrieveRefund{
 		ChargeID: charge.ID,
 		RefundID: refund.ID,
-	}
-	client.MustDo(refund, retrieve)
+	})
 
 	a.Equal(t, refunds.Data[0].ID, refund.ID)
 	a.Equal(t, refunds.Data[0].Amount, refund.Amount)
