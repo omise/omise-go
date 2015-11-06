@@ -1,6 +1,6 @@
 # OMISE-GO
 
-[![GoDoc](https://godoc.org/github.com/omise/omise-go?status.svg)](https://godoc.org/github.com/omise/omise-go)
+[![GoDoc](https://godoc.org/github.com/omise/omise-go?status.svg)][0]
 
 Install with:
 
@@ -36,3 +36,5 @@ fmt.Printf("%#v\n", charge)
 # LICENSE
 
 See LICENSE file.
+
+[0]: https://www.omise.co/api-authentication
