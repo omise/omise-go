@@ -9,7 +9,36 @@ import (
 	a "github.com/stretchr/testify/assert"
 )
 
+const (
+	CustomerID = "cust_test_4yq6txdpfadhbaqnwp3"
+	CardID     = "card_test_4yq6tuucl9h4erukfl0"
+)
+
 func TestCard(t *testing.T) {
+	client := testutil.NewFixedClient(t)
+	card := &omise.Card{}
+	client.MustDo(card, &RetrieveCard{CustomerID, CardID})
+	a.Equal(t, CardID, card.ID)
+
+	card = &omise.Card{}
+	e := client.Do(card, &RetrieveCard{CustomerID, "not_exist"})
+	if a.Error(t, e) {
+		a.EqualError(t, e, "(404/not_found) customer missing was not found")
+	}
+
+	client.MustDo(card, &UpdateCard{
+		CustomerID: CustomerID,
+		CardID:     CardID,
+		Name:       "JOHN W. DOE",
+	})
+	a.Equal(t, "JOHN W. DOE", card.Name)
+
+	del := &omise.Deletion{}
+	client.MustDo(del, &DestroyCard{CustomerID, CardID})
+	a.Equal(t, card.ID, del.ID)
+}
+
+func TestCard_Network(t *testing.T) {
 	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
 

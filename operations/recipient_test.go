@@ -14,6 +14,38 @@ import (
 var _ = fmt.Println
 
 func TestRecipient(t *testing.T) {
+	const (
+		RecipientID   = "recp_test_50894vc13y8z4v51iuc"
+		BankAccountID = ""
+	)
+
+	client := testutil.NewFixedClient(t)
+
+	recipient := &omise.Recipient{}
+	client.MustDo(recipient, &RetrieveRecipient{RecipientID})
+	a.Equal(t, RecipientID, recipient.ID)
+	if a.NotNil(t, recipient.BankAccount) {
+		a.Equal(t, "6789", recipient.BankAccount.LastDigits)
+	}
+
+	recipients := &omise.RecipientList{}
+	client.MustDo(recipients, &ListRecipients{})
+	if a.Len(t, recipients.Data, 1) {
+		a.Equal(t, RecipientID, recipients.Data[0].ID)
+	}
+
+	client.MustDo(recipient, &UpdateRecipient{
+		RecipientID: RecipientID,
+		Email:       "john@doe.com",
+	})
+	a.Equal(t, "john@doe.com", recipient.Email)
+
+	del := &omise.Deletion{}
+	client.MustDo(del, &DestroyRecipient{RecipientID})
+	a.Equal(t, recipient.ID, del.ID)
+}
+
+func TestRecipient_Network(t *testing.T) {
 	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
 
@@ -51,7 +83,7 @@ func TestRecipient(t *testing.T) {
 	a.Equal(t, jun.ID, jim.ID)
 	a.Equal(t, jun.Email, jim.Email)
 
-	// // update
+	// update
 	jones := &omise.Recipient{}
 	client.MustDo(jones, &UpdateRecipient{
 		RecipientID: jim.ID,

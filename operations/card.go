@@ -26,6 +26,17 @@ func (req *ListCards) Op() *internal.Op {
 	return &internal.Op{internal.API, "GET", "/customers/" + req.CustomerID + "/cards", nil}
 }
 
+// TODO: Cards can be created only by updating an existing customer and the result will be
+//   a Customer instance instead of a Card. So the API's a bit confusing here.
+// type CreateCard struct {
+// 	CustomerID string `query:"-"`
+// 	Card       string
+// }
+//
+// func (req *CreateCard) Op() *internal.Op {
+// 	return &internal.Op{internal.API, "PATCH", "/customers/" + req.CustomerID, nil}
+// }
+
 // Example:
 //
 //	card, retrieve := &omise.Card{}, &RetrieveCard{

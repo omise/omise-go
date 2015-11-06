@@ -17,14 +17,19 @@ import (
 //	fmt.Println("# of open disputes:", len(disputes.Data))
 //
 type ListDisputes struct {
-	State omise.DisputeStatus
+	State omise.DisputeStatus `query:"-"`
 	List
 }
 
 func (req *ListDisputes) Op() *internal.Op {
 	path := "/disputes"
-	if req.State != "" {
-		path += "/" + string(req.State)
+	switch req.State {
+	case omise.Open:
+		path += "/open"
+	case omise.Pending:
+		path += "/pending"
+	case omise.Won, omise.Lost, omise.Closed:
+		path += "/closed"
 	}
 
 	return &internal.Op{internal.API, "GET", path, nil}

@@ -11,6 +11,32 @@ import (
 )
 
 func TestRefund(t *testing.T) {
+	const (
+		ChargeID      = "chrg_test_4yq7duw15p9hdrjp8oq"
+		TransactionID = "trxn_test_4yqmv79fzpy0gmz5mmq"
+		RefundID      = "rfnd_test_4yqmv79ahghsiz23y3c"
+	)
+
+	client := testutil.NewFixedClient(t)
+
+	refund := &omise.Refund{}
+	client.MustDo(refund, &RetrieveRefund{ChargeID, RefundID})
+	a.Equal(t, RefundID, refund.ID)
+	a.Equal(t, ChargeID, refund.Charge)
+	a.Equal(t, TransactionID, refund.Transaction)
+
+	refund = &omise.Refund{}
+	client.MustDo(refund, &CreateRefund{ChargeID, 10000})
+	a.Equal(t, RefundID, refund.ID)
+	a.Equal(t, int64(10000), refund.Amount)
+
+	e := client.Do(nil, &RetrieveRefund{ChargeID, "not_exist"})
+	if a.Error(t, e) {
+		a.EqualError(t, e, "(404/not_found) refund 404 was not found")
+	}
+}
+
+func TestRefund_Network(t *testing.T) {
 	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
 

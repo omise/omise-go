@@ -18,11 +18,11 @@ import (
 //
 //	fmt.Println("# of transactions in the last hour:", len(transactions.Data))
 //
-type ListTransaction struct {
+type ListTransactions struct {
 	List
 }
 
-func (req *ListTransaction) Op() *internal.Op {
+func (req *ListTransactions) Op() *internal.Op {
 	return &internal.Op{internal.API, "GET", "/transactions", nil}
 }
 

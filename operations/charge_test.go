@@ -11,6 +11,49 @@ import (
 )
 
 func TestCharge(t *testing.T) {
+	const (
+		ChargeID      = "chrg_test_4yq7duw15p9hdrjp8oq"
+		TransactionID = "trxn_test_4yq7duwb9jts1vxgqua"
+		CardID        = "card_test_4yq6tuucl9h4erukfl0"
+		RefundID      = "rfnd_test_4yqmv79ahghsiz23y3c"
+	)
+
+	client := testutil.NewFixedClient(t)
+
+	charge := &omise.Charge{}
+	client.MustDo(charge, &CreateCharge{})
+	a.Equal(t, ChargeID, charge.ID)
+
+	charge = &omise.Charge{}
+	client.MustDo(charge, &RetrieveCharge{ChargeID})
+	a.Equal(t, ChargeID, charge.ID)
+	a.Equal(t, TransactionID, charge.Transaction)
+	a.Equal(t, CardID, charge.Card.ID)
+	if a.Len(t, charge.Refunds.Data, 1) {
+		a.Equal(t, RefundID, charge.Refunds.Data[0].ID)
+	}
+
+	charges := &omise.ChargeList{}
+	client.MustDo(charges, &ListCharges{})
+	if a.Len(t, charges.Data, 1) {
+		a.Equal(t, "chrg_test_4yq7duw15p9hdrjp8oq", charges.Data[0].ID)
+	}
+
+	client.MustDo(charge, &UpdateCharge{
+		ChargeID:    ChargeID,
+		Description: "Charge for order 3947 (XXL)",
+	})
+	if a.NotNil(t, charge.Description) {
+		a.Equal(t, "Charge for order 3947 (XXL)", *charge.Description)
+	}
+
+	e := client.Do(nil, &RetrieveCharge{"not_exist"})
+	if a.Error(t, e) {
+		a.EqualError(t, e, "(404/not_found) customer missing was not found")
+	}
+}
+
+func TestCharge_Network(t *testing.T) {
 	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
 
@@ -66,7 +109,7 @@ func TestCharge(t *testing.T) {
 	}
 }
 
-func TestCharge_Uncaptured(t *testing.T) {
+func TestCharge_Network_Uncaptured(t *testing.T) {
 	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
 
@@ -93,7 +136,7 @@ func TestCharge_Uncaptured(t *testing.T) {
 	a.True(t, charge2.Captured, "charge not captured!")
 }
 
-func TestCharge_Invalid(t *testing.T) {
+func TestCharge_Network_Invalid(t *testing.T) {
 	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
 

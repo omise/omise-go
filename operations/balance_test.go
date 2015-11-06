@@ -10,6 +10,14 @@ import (
 )
 
 func TestBalance(t *testing.T) {
+	client := testutil.NewFixedClient(t)
+	balance := &omise.Balance{}
+	client.MustDo(balance, &RetrieveBalance{})
+	a.Equal(t, int64(96094), balance.Total)
+	a.Equal(t, "thb", balance.Currency)
+}
+
+func TestBalance_Network(t *testing.T) {
 	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
 

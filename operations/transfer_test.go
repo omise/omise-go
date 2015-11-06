@@ -11,6 +11,41 @@ import (
 )
 
 func TestTransfer(t *testing.T) {
+	const (
+		RecipientID = "recp_test_50894vc13y8z4v51iuc"
+		TransferID  = "trsf_test_4yqacz8t3cbipcj766u"
+	)
+
+	client := testutil.NewFixedClient(t)
+
+	transfer := &omise.Transfer{}
+	client.MustDo(transfer, &CreateTransfer{Amount: 192188})
+	a.Equal(t, TransferID, transfer.ID)
+	a.Equal(t, int64(192188), transfer.Amount)
+
+	transfer = &omise.Transfer{}
+	client.MustDo(transfer, &RetrieveTransfer{TransferID})
+	a.Equal(t, TransferID, transfer.ID)
+	a.Equal(t, RecipientID, transfer.Recipient)
+	if a.NotNil(t, transfer.BankAccount) {
+		a.Equal(t, "6789", transfer.BankAccount.LastDigits)
+	}
+
+	transfer = &omise.Transfer{}
+	client.MustDo(transfer, &UpdateTransfer{
+		TransferID: TransferID,
+		Amount:     192189,
+	})
+	a.Equal(t, TransferID, transfer.ID)
+	a.Equal(t, int64(192189), transfer.Amount)
+
+	del := &omise.Deletion{}
+	client.MustDo(del, &DestroyTransfer{TransferID})
+	a.Equal(t, TransferID, del.ID)
+	a.True(t, del.Deleted)
+}
+
+func TestTransfer_Network(t *testing.T) {
 	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
 
