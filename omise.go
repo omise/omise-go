@@ -5,7 +5,7 @@ Full REST API documentation is available at https://www.omise.co/docs.
 Usage
 
 Create a client with omise.NewClient, supply your public and secret key. Then use the
-client.Do method with operation objects operations subpackage to perform API
+client.Do method with operation objects from the operations subpackage to perform API
 calls. The first parameter to client.Do lets you supply a struct to unmarshal the result
 into.
 
@@ -28,9 +28,7 @@ Example:
 
 	fmt.Printf("%#v\n", charge)
 
-FAQ
-
-Handling nil
+Handling nils
 
 For REQUESTS: Where optional parameters are concerned, empty values are considered as not
 sending the value except where doing so may have undesirable implications. This is to
