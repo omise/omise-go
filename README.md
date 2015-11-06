@@ -1,5 +1,7 @@
 # OMISE-GO
 
+[![GoDoc](https://godoc.org/github.com/omise/omise-go?status.svg)](https://godoc.org/github.com/omise/omise-go)
+
 Install with:
 
 ```go
