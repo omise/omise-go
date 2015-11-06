@@ -57,6 +57,12 @@ export OMISE_PUB_KEY=your_public_key
 export OMISE_SECRET_KEY=your_secret_key
 ```
 
+### Live tests
+
+Tests are run against fixtures by default, if you want to test this against Omise test
+servers you can do so by supplying valid test keys *an* setting `export NETWORK=1` before
+running `go test` or `make test`
+
 [0]: http://godoc.org/github.com/omise/omise-go
 [1]: https://www.omise.co/api-authentication
 
