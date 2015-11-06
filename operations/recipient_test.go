@@ -14,10 +14,7 @@ import (
 var _ = fmt.Println
 
 func TestRecipient(t *testing.T) {
-	client, e := testutil.NewClient()
-	if !a.NoError(t, e) {
-		return
-	}
+	client := testutil.NewTestClient(t)
 
 	// create a recipient
 	// sample from: https://www.omise.co/bank-account-api
@@ -36,9 +33,7 @@ func TestRecipient(t *testing.T) {
 	}
 
 	jun := &omise.Recipient{}
-	if e := client.Do(jun, create); !(a.NoError(t, e) && a.NotNil(t, jun)) {
-		return
-	}
+	client.MustDo(jun, create)
 
 	t.Log("created recipient:", jun.ID)
 	a.Equal(t, create.Email, jun.Email)
@@ -51,9 +46,7 @@ func TestRecipient(t *testing.T) {
 	recipients, list := &omise.RecipientList{}, &ListRecipients{
 		List{From: time.Now().Add(-1 * time.Hour), Limit: 100},
 	}
-	if e := client.Do(recipients, list); !a.NoError(t, e) {
-		return
-	}
+	client.MustDo(recipients, list)
 
 	a.True(t, len(recipients.Data) > 0, "no created customers in list!")
 
@@ -68,9 +61,7 @@ func TestRecipient(t *testing.T) {
 	}
 
 	jones := &omise.Recipient{}
-	if e := client.Do(jones, update); !a.NoError(t, e) {
-		return
-	}
+	client.MustDo(jones, update)
 
 	a.Equal(t, jim.ID, jones.ID)
 	if a.NotNil(t, jones.Description) {
@@ -79,9 +70,7 @@ func TestRecipient(t *testing.T) {
 
 	// fetch
 	josh, retrieve := &omise.Recipient{}, &RetrieveRecipient{jones.ID}
-	if e := client.Do(josh, retrieve); !a.NoError(t, e) {
-		return
-	}
+	client.MustDo(josh, retrieve)
 
 	a.Equal(t, jones.ID, josh.ID)
 	a.Equal(t, jones.Email, josh.Email)
@@ -89,9 +78,7 @@ func TestRecipient(t *testing.T) {
 
 	// delete
 	del, destroy := &omise.Deletion{}, &DestroyRecipient{jones.ID}
-	if e := client.Do(del, destroy); !a.NoError(t, e) {
-		return
-	}
+	client.MustDo(del, destroy)
 
 	a.Equal(t, jones.Object, del.Object)
 	a.Equal(t, jones.ID, del.ID)

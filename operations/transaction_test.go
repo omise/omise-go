@@ -17,18 +17,13 @@ func TestTransaction(t *testing.T) {
 	//   which will cause a `Transaction` object to be created.
 	t.Skip()
 
-	client, e := testutil.NewClient()
-	if !a.NoError(t, e) {
-		return
-	}
+	client := testutil.NewTestClient(t)
 
 	// list transactions
 	transactions, list := &omise.TransactionList{}, &ListTransaction{
 		List{Limit: 100, From: time.Now().Add(-1 * time.Hour)},
 	}
-	if e := client.Do(transactions, list); !a.NoError(t, e) {
-		return
-	}
+	client.MustDo(transactions, list)
 
 	if !a.True(t, len(transactions.Data) > 0, "no transactions was created!") {
 		return
@@ -38,9 +33,7 @@ func TestTransaction(t *testing.T) {
 	transaction, retrieve := &omise.Transaction{}, &RetrieveTransaction{
 		TransactionID: transactions.Data[0].ID,
 	}
-	if e := client.Do(transaction, retrieve); !a.NoError(t, e) {
-		return
-	}
+	client.MustDo(transaction, retrieve)
 
 	a.Equal(t, transactions.Data[0].ID, transaction.ID)
 	a.Equal(t, transactions.Data[0].Amount, transaction.Amount)

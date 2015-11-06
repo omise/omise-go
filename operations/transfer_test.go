@@ -11,18 +11,13 @@ import (
 )
 
 func TestTransfer(t *testing.T) {
-	client, e := testutil.NewClient()
-	if !a.NoError(t, e) {
-		return
-	}
+	client := testutil.NewTestClient(t)
 
 	// make a transfer to default recipient. (empty RecipientID)
 	transfer, create := &omise.Transfer{}, &CreateTransfer{
 		Amount: 32100,
 	}
-	if e := client.Do(transfer, create); !a.NoError(t, e) {
-		return
-	}
+	client.MustDo(transfer, create)
 
 	a.Equal(t, create.Amount, transfer.Amount)
 	a.NotNil(t, transfer.BankAccount)
@@ -31,17 +26,13 @@ func TestTransfer(t *testing.T) {
 	transfer2, retrieve := &omise.Transfer{}, &RetrieveTransfer{
 		TransferID: transfer.ID,
 	}
-	if e := client.Do(transfer2, retrieve); !a.NoError(t, e) {
-		return
-	}
+	client.MustDo(transfer2, retrieve)
 
 	// list transfers
 	transfers, list := &omise.TransferList{}, &ListTransfers{
 		List{Limit: 100, From: time.Now().Add(-1 * time.Hour)},
 	}
-	if e := client.Do(transfers, list); !a.NoError(t, e) {
-		return
-	}
+	client.MustDo(transfers, list)
 
 	a.True(t, len(transfers.Data) > 0, "no transfer was created.")
 
@@ -54,18 +45,14 @@ func TestTransfer(t *testing.T) {
 		TransferID: transfer.ID,
 		Amount:     12300,
 	}
-	if e := client.Do(transfer2, update); !a.NoError(t, e) {
-		return
-	}
+	client.MustDo(transfer2, update)
 
 	a.Equal(t, transfer.ID, transfer2.ID)
 	a.Equal(t, update.Amount, transfer2.Amount)
 
 	// destroy transfer
 	del, destroy := &omise.Deletion{}, &DestroyTransfer{TransferID: transfer.ID}
-	if e := client.Do(del, destroy); !a.NoError(t, e) {
-		return
-	}
+	client.MustDo(del, destroy)
 
 	a.Equal(t, transfer.Object, del.Object)
 	a.Equal(t, transfer.ID, del.ID)

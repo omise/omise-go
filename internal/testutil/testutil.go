@@ -8,14 +8,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/omise/omise-go"
 	a "github.com/stretchr/testify/assert"
 )
-
-func Keys() (string, string) {
-	return os.Getenv("OMISE_PUB_KEY"),
-		os.Getenv("OMISE_SECRET_KEY")
-}
 
 func Main(m *testing.M) {
 	// never test against live key.
@@ -30,10 +24,6 @@ func Main(m *testing.M) {
 
 	flag.Parse()
 	os.Exit(m.Run())
-}
-
-func NewClient() (*omise.Client, error) {
-	return omise.NewClient(Keys())
 }
 
 func LogObj(t *testing.T, obj interface{}) {

@@ -10,10 +10,7 @@ import (
 )
 
 func TestCard(t *testing.T) {
-	client, e := testutil.NewClient()
-	if !a.NoError(t, e) {
-		return
-	}
+	client := testutil.NewTestClient(t)
 
 	create := &CreateCustomer{
 		Email:       "chakrit@omise.co",
@@ -22,10 +19,8 @@ func TestCard(t *testing.T) {
 	}
 
 	customer := &omise.Customer{}
-	if e := client.Do(customer, create); !a.NoError(t, e) {
-		return
-	}
-	defer client.Do(nil, &DestroyCustomer{customer.ID})
+	client.MustDo(customer, create)
+	defer client.MustDo(nil, &DestroyCustomer{customer.ID})
 
 	// list empty collection
 	list := &ListCards{CustomerID: customer.ID}

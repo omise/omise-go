@@ -14,15 +14,10 @@ import (
 var _ = fmt.Println
 
 func TestCustomer(t *testing.T) {
-	client, e := testutil.NewClient()
-	if !a.NoError(t, e) {
-		return
-	}
+	client := testutil.NewTestClient(t)
 
 	token := &omise.Token{}
-	if e := client.Do(token, CreateTokenOp); !a.NoError(t, e) {
-		return
-	}
+	client.MustDo(token, CreateTokenOp)
 
 	// create a customer
 	create := &CreateCustomer{
@@ -32,10 +27,7 @@ func TestCustomer(t *testing.T) {
 	}
 
 	jack := &omise.Customer{}
-	if e := client.Do(jack, create); !a.NoError(t, e) {
-		return
-	}
-
+	client.MustDo(jack, create)
 	if !a.NotNil(t, jack) {
 		return
 	}
@@ -49,9 +41,7 @@ func TestCustomer(t *testing.T) {
 	customers, list := &omise.CustomerList{}, &ListCustomers{
 		List{From: time.Now().Add(-1 * time.Hour), Limit: 100},
 	}
-	if e := client.Do(customers, list); !a.NoError(t, e) {
-		return
-	}
+	client.MustDo(customers, list)
 
 	a.True(t, len(customers.Data) > 0, "no created customers in list!")
 
@@ -66,18 +56,14 @@ func TestCustomer(t *testing.T) {
 	}
 
 	john := &omise.Customer{}
-	if e := client.Do(john, update); !a.NoError(t, e) {
-		return
-	}
+	client.MustDo(john, update)
 
 	a.Equal(t, jack.ID, john.ID)
 	a.Equal(t, update.Description, john.Description)
 
 	// fetch
 	jill, retrieve := &omise.Customer{}, &RetrieveCustomer{john.ID}
-	if e := client.Do(jill, retrieve); !a.NoError(t, e) {
-		return
-	}
+	client.MustDo(jill, retrieve)
 
 	a.Equal(t, john.ID, jill.ID)
 	a.Equal(t, john.Email, jill.Email)
@@ -85,9 +71,7 @@ func TestCustomer(t *testing.T) {
 
 	// delete
 	del, destroy := &omise.Deletion{}, &DestroyCustomer{CustomerID: jill.ID}
-	if e := client.Do(del, destroy); !a.NoError(t, e) {
-		return
-	}
+	client.MustDo(del, destroy)
 
 	a.Equal(t, jill.Object, del.Object)
 	a.Equal(t, jill.ID, del.ID)

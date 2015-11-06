@@ -22,18 +22,11 @@ var CreateTokenOp = &CreateToken{
 }
 
 func TestToken(t *testing.T) {
-	client, e := testutil.NewClient()
-	if !a.NoError(t, e) {
-		return
-	}
+	client := testutil.NewTestClient(t)
 
 	t1, t2 := &omise.Token{}, &omise.Token{}
-	if e := client.Do(t1, CreateTokenOp); !a.NoError(t, e) {
-		return
-	}
-	if e := client.Do(t2, &RetrieveToken{ID: t1.ID}); !a.NoError(t, e) {
-		return
-	}
+	client.MustDo(t1, CreateTokenOp)
+	client.MustDo(t2, &RetrieveToken{ID: t1.ID})
 
 	a.Equal(t, *t1, *t2)
 }

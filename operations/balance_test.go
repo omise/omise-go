@@ -10,15 +10,10 @@ import (
 )
 
 func TestBalance(t *testing.T) {
-	client, e := testutil.NewClient()
-	if !a.NoError(t, e) {
-		return
-	}
+	client := testutil.NewTestClient(t)
 
 	balance := &omise.Balance{}
-	if e := client.Do(balance, &RetrieveBalance{}); !a.NoError(t, e) {
-		return
-	}
+	client.MustDo(balance, &RetrieveBalance{})
 
 	a.Equal(t, balance.Object, "balance")
 	testutil.LogObj(t, balance)

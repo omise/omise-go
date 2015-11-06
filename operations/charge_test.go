@@ -11,15 +11,10 @@ import (
 )
 
 func TestCharge(t *testing.T) {
-	client, e := testutil.NewClient()
-	if !a.NoError(t, e) {
-		return
-	}
+	client := testutil.NewTestClient(t)
 
 	token := &omise.Token{}
-	if e := client.Do(token, CreateTokenOp); !a.NoError(t, e) {
-		return
-	}
+	client.MustDo(token, CreateTokenOp)
 
 	// create
 	charge, create := &omise.Charge{}, &CreateCharge{
@@ -28,18 +23,14 @@ func TestCharge(t *testing.T) {
 		Description: "initial charge.",
 		Card:        token.ID,
 	}
-	if e := client.Do(charge, create); !(a.NoError(t, e) && a.NotNil(t, charge)) {
-		return
-	}
+	client.MustDo(charge, create)
 
 	a.Equal(t, create.Amount, charge.Amount)
 	a.Equal(t, create.Currency, charge.Currency)
 
 	// retrieve created charge
 	charge2 := &omise.Charge{}
-	if e := client.Do(charge2, &RetrieveCharge{ChargeID: charge.ID}); !a.NoError(t, e) {
-		return
-	}
+	client.MustDo(charge2, &RetrieveCharge{ChargeID: charge.ID})
 
 	a.Equal(t, charge.ID, charge2.ID)
 	a.Equal(t, charge.Amount, charge2.Amount)
@@ -49,9 +40,7 @@ func TestCharge(t *testing.T) {
 	charges, list := &omise.ChargeList{}, &ListCharges{
 		List{Limit: 100, From: time.Now().Add(-1 * time.Hour)},
 	}
-	if e := client.Do(&charges, list); !a.NoError(t, e) {
-		return
-	}
+	client.MustDo(&charges, list)
 
 	a.True(t, len(charges.Data) > 0, "charges list empty!")
 	charge2 = charges.Find(charge.ID)
@@ -68,9 +57,7 @@ func TestCharge(t *testing.T) {
 		ChargeID:    charge.ID,
 		Description: "updated charge.",
 	}
-	if e := client.Do(charge2, update); !a.NoError(t, e) {
-		return
-	}
+	client.MustDo(charge2, update)
 
 	a.Equal(t, charge.ID, charge2.ID)
 	if a.NotNil(t, charge2.Description) {
@@ -79,15 +66,10 @@ func TestCharge(t *testing.T) {
 }
 
 func TestCharge_Uncaptured(t *testing.T) {
-	client, e := testutil.NewClient()
-	if !a.NoError(t, e) {
-		return
-	}
+	client := testutil.NewTestClient(t)
 
 	token := &omise.Token{}
-	if e := client.Do(token, CreateTokenOp); !a.NoError(t, e) {
-		return
-	}
+	client.MustDo(token, CreateTokenOp)
 
 	// create uncaptured charge
 	charge, create := &omise.Charge{}, &CreateCharge{
@@ -96,35 +78,26 @@ func TestCharge_Uncaptured(t *testing.T) {
 		DontCapture: true,
 		Card:        token.ID,
 	}
-	if e := client.Do(charge, create); !a.NoError(t, e) {
-		return
-	}
+	client.MustDo(charge, create)
 
 	a.Equal(t, create.Amount, charge.Amount)
 	a.False(t, charge.Captured, "charge unintentionally captured!")
 
 	// then capture it
 	charge2 := &omise.Charge{}
-	if e := client.Do(charge2, &CaptureCharge{ChargeID: charge.ID}); !a.NoError(t, e) {
-		return
-	}
+	client.MustDo(charge2, &CaptureCharge{ChargeID: charge.ID})
 
 	a.Equal(t, charge.ID, charge2.ID)
 	a.True(t, charge2.Captured, "charge not captured!")
 }
 
 func TestCharge_Invalid(t *testing.T) {
-	client, e := testutil.NewClient()
-	if !a.NoError(t, e) {
-		return
-	}
+	client := testutil.NewTestClient(t)
 
 	token := &omise.Token{}
-	if e := client.Do(token, CreateTokenOp); !a.NoError(t, e) {
-		return
-	}
+	client.MustDo(token, CreateTokenOp)
 
-	e = client.Do(nil, &CreateCharge{
+	e := client.Do(nil, &CreateCharge{
 		Amount:   12345,
 		Currency: "omd", // OMISE DOLLAR, why not?
 		Card:     token.ID,

@@ -12,16 +12,11 @@ import (
 // TODO: No way to programmatically generates Dispute against the API yet.
 //   so not sure how we can test this thoroughly.
 func TestDispute(t *testing.T) {
-	client, e := testutil.NewClient()
-	if !a.NoError(t, e) {
-		return
-	}
+	client := testutil.NewTestClient(t)
 
 	// only test JSON bindings for now.
 	disputes, list := &omise.DisputeList{}, &ListDisputes{}
-	if e := client.Do(disputes, list); !a.NoError(t, e) {
-		return
-	}
+	client.MustDo(disputes, list)
 
 	a.Len(t, disputes.Data, 0)
 }

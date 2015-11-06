@@ -9,17 +9,12 @@ import (
 	a "github.com/stretchr/testify/assert"
 )
 
-func TestAccount(t *testing.T) {
-	client, e := testutil.NewClient()
-	if !a.NoError(t, e) {
-		return
-	}
+func TestAccount_Network(t *testing.T) {
+	client := testutil.NewTestClient(t)
 
 	account := &omise.Account{}
-	if e := client.Do(account, &RetrieveAccount{}); !a.NoError(t, e) {
-		return
-	}
-
+	client.MustDo(account, &RetrieveAccount{})
 	a.Equal(t, account.Object, "account")
+
 	testutil.LogObj(t, account)
 }

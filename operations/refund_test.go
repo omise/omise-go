@@ -11,17 +11,12 @@ import (
 )
 
 func TestRefund(t *testing.T) {
-	client, e := testutil.NewClient()
-	if !a.NoError(t, e) {
-		return
-	}
+	client := testutil.NewTestClient(t)
 
 	// create a charge so we can refund
 	// TODO: DRY with TestCharge
 	token := &omise.Token{}
-	if e := client.Do(token, CreateTokenOp); !a.NoError(t, e) {
-		return
-	}
+	client.MustDo(token, CreateTokenOp)
 
 	charge, createCharge := &omise.Charge{}, &CreateCharge{
 		Amount:      819229,
@@ -29,9 +24,7 @@ func TestRefund(t *testing.T) {
 		Description: "should be refunded soon.",
 		Card:        token.ID,
 	}
-	if e := client.Do(charge, createCharge); !(a.NoError(t, e) && a.NotNil(t, charge)) {
-		return
-	}
+	client.MustDo(charge, createCharge)
 
 	a.Equal(t, createCharge.Amount, charge.Amount)
 	a.Equal(t, createCharge.Currency, charge.Currency)
@@ -41,9 +34,7 @@ func TestRefund(t *testing.T) {
 		charge.ID,
 		List{Limit: 100, From: time.Now().Add(-1 * time.Hour)},
 	}
-	if e := client.Do(refunds, list); !a.NoError(t, e) {
-		return
-	}
+	client.MustDo(refunds, list)
 
 	a.Len(t, refunds.Data, 0)
 
@@ -52,17 +43,13 @@ func TestRefund(t *testing.T) {
 		ChargeID: charge.ID,
 		Amount:   charge.Amount >> 1,
 	}
-	if e := client.Do(refund, create); !a.NoError(t, e) {
-		return
-	}
+	client.MustDo(refund, create)
 
 	a.Equal(t, refund.Amount, charge.Amount>>1)
 	a.Equal(t, refund.Currency, charge.Currency)
 
 	// list refunds again which now contains the created refunds
-	if e := client.Do(refunds, list); !a.NoError(t, e) {
-		return
-	}
+	client.MustDo(refunds, list)
 
 	if a.Len(t, refunds.Data, 1) {
 		a.Equal(t, refunds.Data[0].ID, refund.ID)
@@ -75,9 +62,7 @@ func TestRefund(t *testing.T) {
 		ChargeID: charge.ID,
 		RefundID: refund.ID,
 	}
-	if e := client.Do(refund, retrieve); !a.NoError(t, e) {
-		return
-	}
+	client.MustDo(refund, retrieve)
 
 	a.Equal(t, refunds.Data[0].ID, refund.ID)
 	a.Equal(t, refunds.Data[0].Amount, refund.Amount)
