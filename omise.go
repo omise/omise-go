@@ -17,9 +17,9 @@ Example:
 	}
 
 	charge, create := &omise.Charge{}, &operations.CreateCharge{
-		Amount: 100000, // ¥10,000
+		Amount:   100000, // ¥10,000
 		Currency: "jpy",
-		Card: "tok_1234",
+		Card:     "tok_1234",
 	}
 
 	if e := client.Do(charge, create); e != nil {
