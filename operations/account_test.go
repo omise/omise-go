@@ -10,6 +10,8 @@ import (
 )
 
 func TestAccount_Network(t *testing.T) {
+	testutil.Require(t, "network")
+
 	client := testutil.NewTestClient(t)
 
 	account := &omise.Account{}

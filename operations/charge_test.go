@@ -11,6 +11,7 @@ import (
 )
 
 func TestCharge(t *testing.T) {
+	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
 
 	token := &omise.Token{}
@@ -66,6 +67,7 @@ func TestCharge(t *testing.T) {
 }
 
 func TestCharge_Uncaptured(t *testing.T) {
+	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
 
 	token := &omise.Token{}
@@ -92,6 +94,7 @@ func TestCharge_Uncaptured(t *testing.T) {
 }
 
 func TestCharge_Invalid(t *testing.T) {
+	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
 
 	token := &omise.Token{}

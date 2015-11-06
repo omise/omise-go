@@ -10,6 +10,7 @@ import (
 )
 
 func TestCard(t *testing.T) {
+	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
 
 	customer := &omise.Customer{}

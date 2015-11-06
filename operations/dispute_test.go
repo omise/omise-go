@@ -12,6 +12,7 @@ import (
 // TODO: No way to programmatically generates Dispute against the API yet.
 //   so not sure how we can test this thoroughly.
 func TestDispute(t *testing.T) {
+	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
 
 	// only test JSON bindings for now.

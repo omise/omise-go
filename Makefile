@@ -30,6 +30,8 @@ deps:
 
 test:
 	@$(GO) test -v ./...
+network-test:
+	NETWORK=1 @$(GO) test -v ./...
 
 doc:
 	@echo starting godoc on port 9090

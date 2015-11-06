@@ -22,6 +22,7 @@ var CreateTokenOp = &CreateToken{
 }
 
 func TestToken(t *testing.T) {
+	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
 
 	t1, t2 := &omise.Token{}, &omise.Token{}

@@ -30,6 +30,16 @@ func LogObj(t *testing.T, obj interface{}) {
 	t.Log(fmt.Sprintf("%#v", obj))
 }
 
+func Require(t *testing.T, env string) {
+	env = strings.ToUpper(env)
+	val := strings.ToLower(os.Getenv(env))
+
+	switch val {
+	case "", "0", "false", "no":
+		t.Skip("requires " + env + "=1")
+	}
+}
+
 func AssertJSONEquals(t *testing.T, m1 map[string]interface{}, m2 map[string]interface{}) bool {
 	for k, v := range m1 {
 		v2, ok := m2[k]

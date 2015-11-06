@@ -11,6 +11,7 @@ import (
 )
 
 func TestTransfer(t *testing.T) {
+	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
 
 	// make a transfer to default recipient. (empty RecipientID)

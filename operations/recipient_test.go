@@ -14,6 +14,7 @@ import (
 var _ = fmt.Println
 
 func TestRecipient(t *testing.T) {
+	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
 
 	// create a recipient

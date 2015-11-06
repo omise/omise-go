@@ -10,6 +10,7 @@ import (
 )
 
 func TestBalance(t *testing.T) {
+	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
 
 	balance := &omise.Balance{}

@@ -17,6 +17,7 @@ func TestTransaction(t *testing.T) {
 	//   which will cause a `Transaction` object to be created.
 	t.Skip()
 
+	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
 
 	// list transactions

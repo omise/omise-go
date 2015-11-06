@@ -14,6 +14,7 @@ import (
 var _ = fmt.Println
 
 func TestCustomer(t *testing.T) {
+	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
 
 	token := &omise.Token{}

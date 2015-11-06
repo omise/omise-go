@@ -11,6 +11,7 @@ import (
 )
 
 func TestRefund(t *testing.T) {
+	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
 
 	// create a charge so we can refund
