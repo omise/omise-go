@@ -3,6 +3,7 @@ package testutil
 import (
 	"errors"
 	"fmt"
+	"go/build"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -17,6 +18,14 @@ type FixturesTransport struct {
 }
 
 func NewFixturesTransport(dir string) (*FixturesTransport, error) {
+	if dir == "" {
+		dir = filepath.Join(
+			build.Default.GOPATH, "src",
+			"github.com/omise/omise-go",
+			"testdata/fixtures",
+		)
+	}
+
 	if fi, e := os.Lstat(dir); e != nil {
 		return nil, e
 	} else if !fi.IsDir() {

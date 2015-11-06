@@ -31,7 +31,7 @@ func (test *fixturesHTTPTest) Test(t *testing.T) {
 		return
 	}
 
-	baseDir := filepath.Join(wd, FixturesDir)
+	baseDir := filepath.Join(wd, "../../testdata/fixtures")
 	fixtures, e := NewFixturesTransport(baseDir)
 	if !a.NoError(t, e) {
 		return
@@ -60,7 +60,7 @@ func (test *fixturesHTTPTest) Test(t *testing.T) {
 		return
 	}
 
-	fileBytes, e := ioutil.ReadFile(filepath.Join(wd, FixturesDir, test.filename))
+	fileBytes, e := ioutil.ReadFile(filepath.Join(baseDir, test.filename))
 	if !a.NoError(t, e) {
 		return
 	}

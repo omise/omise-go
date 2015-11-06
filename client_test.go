@@ -44,7 +44,7 @@ func TestNewClient(t *testing.T) {
 }
 
 func TestClient_Error(t *testing.T) {
-	client, e := testutil.NewClient()
+	client, e := NewClient(testutil.Keys())
 	if !a.NoError(t, e) {
 		return
 	}

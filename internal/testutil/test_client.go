@@ -9,10 +9,6 @@ import (
 	r "github.com/stretchr/testify/require"
 )
 
-const (
-	FixturesDir = "../../testdata/fixtures"
-)
-
 type TestClient struct {
 	*testing.T
 	*omise.Client
@@ -36,7 +32,7 @@ func newTestClient(t *testing.T, fixed bool) *TestClient {
 	r.NoError(t, e)
 
 	if fixed {
-		fixtures, e := NewFixturesTransport(FixturesDir)
+		fixtures, e := NewFixturesTransport("")
 		r.NoError(t, e)
 		client.Transport = fixtures // override std TLS transport
 	}
