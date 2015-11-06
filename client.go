@@ -3,6 +3,7 @@ package omise
 import (
 	"encoding/json"
 	"fmt"
+	"go/build"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -18,9 +19,12 @@ var _ = fmt.Println
 type Client struct {
 	*http.Client
 	debug bool
+	pkey  string
+	skey  string
 
-	pkey string
-	skey string
+	// configuration
+	APIVersion string
+	GoVersion  string
 }
 
 // NewClient creates and returns a Client with the given public key and secret key.  Signs
@@ -36,24 +40,28 @@ func NewClient(pkey, skey string) (*Client, error) {
 		return nil, ErrInvalidKey
 	}
 
-	httpClient := &http.Client{Transport: transport}
-	return &Client{httpClient, false, pkey, skey}, nil
+	client := &Client{
+		Client: &http.Client{Transport: transport},
+		debug:  false,
+		pkey:   pkey,
+		skey:   skey,
+	}
+
+	if len(build.Default.ReleaseTags) > 0 {
+		client.GoVersion = build.Default.ReleaseTags[len(build.Default.ReleaseTags)-1]
+	}
+
+	return client, nil
 }
 
-// Do performs the supplied operation against Omise's REST API and unmarshal the response
-// into the given result parameter. Results are usually basic objects or a list that
-// corresponds to the operations being done.
-//
-// If the operation is successful, result should contains the response data. Otherwise a
-// non-nil error should be returned. Error maybe of the omise-go.Error struct type, in
-// which case you can further inspect the Code and Message field for more information.
-func (c *Client) Do(result interface{}, operation internal.Operation) error {
+// Request creates a new *http.Request that should performs the supplied Operation. Most
+// people should use the Do method instead.
+func (c *Client) Request(operation internal.Operation) (*http.Request, error) {
 	op := operation.Op()
 
-	// request
 	query, e := internal.MapURLValues(operation)
 	if e != nil {
-		return e
+		return nil, e
 	}
 
 	if len(op.Values) > 0 {
@@ -76,21 +84,48 @@ func (c *Client) Do(result interface{}, operation internal.Operation) error {
 	req, e := http.NewRequest(op.Method, string(op.Endpoint)+op.Path, body)
 	// req, e := http.NewRequest(op.Method, "http://0.0.0.0:9999"+op.Path, body)
 	if e != nil {
-		return e
+		return nil, e
 	}
 
 	if op.Method == "GET" || op.Method == "HEAD" {
 		req.URL.RawQuery = query.Encode()
 	}
 
+	// headers
+	ua := "OmiseGo/2015-11-06"
+	if c.GoVersion != "" {
+		ua += " Go/" + c.GoVersion
+	}
+
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Add("User-Agent", ua)
+	if c.APIVersion != "" {
+		req.Header.Add("Omise-Version", c.APIVersion)
+	}
+
 	switch op.Endpoint {
 	case internal.API:
 		req.SetBasicAuth(c.skey, "")
 	case internal.Vault:
 		req.SetBasicAuth(c.pkey, "")
 	default:
-		return ErrInternal("unrecognized endpoint:" + op.Endpoint)
+		return nil, ErrInternal("unrecognized endpoint:" + op.Endpoint)
+	}
+
+	return req, nil
+}
+
+// Do performs the supplied operation against Omise's REST API and unmarshal the response
+// into the given result parameter. Results are usually basic objects or a list that
+// corresponds to the operations being done.
+//
+// If the operation is successful, result should contains the response data. Otherwise a
+// non-nil error should be returned. Error maybe of the omise-go.Error struct type, in
+// which case you can further inspect the Code and Message field for more information.
+func (c *Client) Do(result interface{}, operation internal.Operation) error {
+	req, e := c.Request(operation)
+	if e != nil {
+		return e
 	}
 
 	// response

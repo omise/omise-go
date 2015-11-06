@@ -43,6 +43,48 @@ func TestNewClient(t *testing.T) {
 	}
 }
 
+func TestClient_Request(t *testing.T) {
+	pkey, skey := testutil.Keys()
+	client, e := NewClient(pkey, skey)
+	if !a.NoError(t, e) {
+		return
+	}
+
+	// use skey for api.omise.co endpoint
+	req, e := client.Request(&operations.RetrieveAccount{})
+	if a.NoError(t, e) {
+		user, _, ok := req.BasicAuth()
+		a.True(t, ok)
+		a.Equal(t, user, skey)
+	}
+
+	// use pkey for vault.omise.co endopint
+	req, e = client.Request(&operations.CreateToken{})
+	if a.NoError(t, e) {
+		user, _, ok := req.BasicAuth()
+		a.True(t, ok)
+		a.Equal(t, user, pkey)
+	}
+
+	// general request tests
+	op := &operations.RetrieveAccount{}
+
+	req, e = client.Request(op)
+	if a.NoError(t, e) {
+		a.Contains(t, req.Header.Get("User-Agent"), "OmiseGo/")
+		a.Contains(t, req.Header.Get("User-Agent"), "Go/go")
+		a.Empty(t, req.Header.Get("Omise-Version"), "Omise-Version header sent when APIVersion is not specified.")
+	}
+
+	client.GoVersion = "RANDOMXXXVERSION"
+	client.APIVersion = "yadda"
+	req, e = client.Request(op)
+	if a.NoError(t, e) {
+		a.Contains(t, req.Header.Get("User-Agent"), "Go/RANDOMXXXVERSION")
+		a.Equal(t, req.Header.Get("Omise-Version"), "yadda")
+	}
+}
+
 func TestClient_Error(t *testing.T) {
 	client, e := NewClient(testutil.Keys())
 	if !a.NoError(t, e) {
