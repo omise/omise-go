@@ -6,5 +6,5 @@ type RecipientType string
 
 const (
 	Individual  RecipientType = "individual"
-	Corporation               = "corporation"
+	Corporation RecipientType = "corporation"
 )

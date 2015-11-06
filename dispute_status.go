@@ -6,6 +6,8 @@ type DisputeStatus string
 
 const (
 	Open    DisputeStatus = "open"
-	Pending               = "pending"
-	Closed                = "closed"
+	Pending DisputeStatus = "pending"
+	Won     DisputeStatus = "won"
+	Lost    DisputeStatus = "lost"
+	Closed  DisputeStatus = "closed" // meta-status only for querying, does not actually appear.
 )
