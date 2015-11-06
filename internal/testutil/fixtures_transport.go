@@ -2,11 +2,14 @@ package testutil
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 	"os"
 	"path/filepath"
 	"strings"
 )
+
+var _ = fmt.Println
 
 type FixturesTransport struct {
 	backing http.RoundTripper
@@ -28,18 +31,23 @@ func (transport *FixturesTransport) RoundTrip(req *http.Request) (*http.Response
 	is404, fixreq, fixurl := false, *req, *req.URL
 	fixreq.URL = &fixurl
 
-	// construct the fixtures file path from the request
-	filename := filepath.Join(transport.dir, req.URL.Path[1:])
-	if _, e := os.Lstat(filename); e != nil && os.IsNotExist(e) {
-		fixreq.URL.Path = filepath.Join(filepath.Dir(filename), "404")
-		is404 = true
+	urlpath := req.URL.Host + "/" +
+		req.URL.Path[1:] + "-" + strings.ToLower(req.Method) + ".json"
 
-	} else {
-		return nil, e
+	// construct the fixtures file path from the request
+	filename := filepath.Join(transport.dir, urlpath)
+	if _, e := os.Lstat(filename); e != nil {
+		if !os.IsNotExist(e) {
+			return nil, e
+		}
+
+		is404, urlpath = true, filepath.Join(
+			filepath.Dir(urlpath),
+			"404-"+strings.ToLower(req.Method)+".json",
+		)
 	}
 
-	fixreq.URL.Path = "/" + filepath.Join(req.URL.Host, fixreq.URL.Path[1:]) +
-		"-" + strings.ToLower(req.Method) + ".json"
+	fixreq.URL.Path = urlpath
 
 	// fetch the file
 	resp, e := transport.backing.RoundTrip(&fixreq)
