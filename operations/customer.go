@@ -26,6 +26,19 @@ func (req *ListCustomers) Op() *internal.Op {
 	return &internal.Op{internal.API, "GET", "/customers", nil}
 }
 
+// Example:
+//
+//	customer, create := &omise.Customer{}, &CreateCustomer{
+//		Email:       "kokyaku@omise.co",
+//		Description: "I'm a customer",
+//		Card:        token.ID,
+//	})
+//	if e := client.Do(customer, create); e != nil {
+//		panic(e)
+//	}
+//
+//	fmt.Printf("created customer: %#v\n", customer)
+//
 type CreateCustomer struct {
 	Email       string
 	Description string

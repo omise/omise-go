@@ -5,9 +5,7 @@ import (
 	"strconv"
 )
 
-var (
-	ErrInvalidKey = errors.New("invalid public or secret key.")
-)
+var ErrInvalidKey = errors.New("invalid public or secret key.")
 
 // ErrInternal represents internal library error. If you encounter this, it is mostly
 // likely due to a bug in the omise-go library itself. Please report it by opening a new

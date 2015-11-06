@@ -28,7 +28,7 @@ func (req *ListCharges) Op() *internal.Op {
 	return &internal.Op{internal.API, "GET", "/charges", nil}
 }
 
-// Note that because bool defaults to false in GO, we use DontCapture insteads of Capture
+// Note that because bool defaults to false in GO, we use DontCapture instead of Capture
 // here so it matches with Omise's REST API default capture=true.
 //
 // Example:
