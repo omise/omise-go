@@ -37,4 +37,4 @@ fmt.Printf("%#v\n", charge)
 
 See LICENSE file.
 
-[0]: https://www.omise.co/api-authentication
+[0]: https://godoc.org/github.com/omise/omise-go
