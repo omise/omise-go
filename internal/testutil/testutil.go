@@ -16,8 +16,7 @@ func Main(m *testing.M) {
 	pkey, skey := Keys()
 	switch {
 	case pkey == "" || skey == "":
-		log.Fatalln("no test key specified, please set both $OMISE_PUB_KEY and " +
-			"$OMISE_SECRET_KEY")
+		log.Fatalln("no test key specified, please set both $OMISE_PUBKEY and $OMISE_KEY")
 	case !strings.HasPrefix(pkey, "pkey_test_") || !strings.HasPrefix(skey, "skey_test_"):
 		log.Fatalln("specified key is invalid or is not a test key!!! You might lose money!!!")
 	}

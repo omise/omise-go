@@ -45,8 +45,8 @@ more information.
 
 To specify the keys, set the environment variables before running the tests as follows:
 
-	export OMISE_PUB_KEY=pkey_test_yourpublickey
-	export OMISE_SECRET_KEY=skey_test_yoursecretkey
+	export OMISE_PUBKEY=pkey_test_yourpublickey
+	export OMISE_KEY=skey_test_yoursecretkey
 
 Live tests
 
