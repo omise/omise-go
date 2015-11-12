@@ -2,9 +2,10 @@ package main
 
 import (
 	"encoding/json"
-	"github.com/spf13/cobra"
 	"log"
 	"os"
+
+	"github.com/spf13/cobra"
 )
 
 var OmiseCmd = &cobra.Command{
@@ -33,8 +34,7 @@ func main() {
 }
 
 func preRunOmise(cmd *cobra.Command, args []string) error {
-	envOverride()
-	return nil
+	return bindViper(cmd)
 }
 
 func runOmise(cmd *cobra.Command, args []string) error {
