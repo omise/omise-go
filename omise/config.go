@@ -10,6 +10,8 @@ import (
 )
 
 var config = &struct {
+	viper *viper.Viper
+
 	PKey string `mapstructure:"pkey"`
 	SKey string `mapstructure:"skey"`
 
@@ -44,13 +46,18 @@ func bindViper(cmd *cobra.Command) error {
 	if configFile, e := os.Open(configPath); e == nil {
 		defer configFile.Close()
 
-		v.SetConfigType("yaml")
+		v.SetConfigType("json")
 		if e := v.ReadConfig(configFile); e != nil {
 			return e
 		}
 	}
 
-	return v.Unmarshal(config)
+	if e := v.Unmarshal(config); e != nil {
+		return e
+	}
+
+	config.viper = v
+	return nil
 }
 
 func collectFlags(v *viper.Viper, cmd *cobra.Command) {

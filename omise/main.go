@@ -46,12 +46,21 @@ func postRunOmise(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
+func checkArgs(args []string, argnames ...string) error {
+	if len(args) == len(argnames) {
+		return nil
+	}
+
+	return ErrMissingArg(argnames[len(args)])
+}
+
 func output(obj interface{}) error {
 	bytes, e := json.MarshalIndent(obj, "", "  ")
 	if e != nil {
 		return e
 	}
 
+	bytes = append(bytes, []byte("\n")...)
 	_, e = os.Stdout.Write(bytes)
 	return e
 }

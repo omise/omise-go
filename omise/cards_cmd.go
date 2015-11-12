@@ -25,9 +25,8 @@ var RetrieveCardCmd = &cobra.Command{
 }
 
 func runCards(cmd *cobra.Command, args []string) error {
-	switch len(args) {
-	case 0:
-		return ErrMissingArg("customer-id")
+	if e := checkArgs(args, "customer-id"); e != nil {
+		return e
 	}
 
 	return do(
@@ -39,12 +38,8 @@ func runCards(cmd *cobra.Command, args []string) error {
 }
 
 func runRetrieveCard(cmd *cobra.Command, args []string) error {
-	// TODO: Ability to set customer-id in config.
-	switch len(args) {
-	case 0:
-		return ErrMissingArg("customer-id")
-	case 1:
-		return ErrMissingArg("card-id")
+	if e := checkArgs(args, "customer-id", "card-id"); e != nil {
+		return e
 	}
 
 	return do(
