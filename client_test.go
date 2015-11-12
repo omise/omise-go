@@ -66,7 +66,21 @@ func TestClient_Request(t *testing.T) {
 		a.Equal(t, user, pkey)
 	}
 
-	// general request tests
+	// use overridden endopint, if specified
+	client.Endpoints[internal.API] = "http://api.omise.dev:3000"
+	client.Endpoints[internal.Vault] = "http://vault.omise.dev:4500"
+
+	req, e = client.Request(&operations.RetrieveAccount{})
+	if a.NoError(t, e) {
+		a.Equal(t, "http://api.omise.dev:3000/account", req.URL.String())
+	}
+
+	req, e = client.Request(&operations.CreateToken{})
+	if a.NoError(t, e) {
+		a.Equal(t, "http://vault.omise.dev:4500/account", req.URL.String())
+	}
+
+	// general request properties
 	op := &operations.RetrieveAccount{}
 
 	req, e = client.Request(op)

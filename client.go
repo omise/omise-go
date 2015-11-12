@@ -22,6 +22,9 @@ type Client struct {
 	pkey  string
 	skey  string
 
+	// Overrides
+	Endpoints map[internal.Endpoint]string
+
 	// configuration
 	APIVersion string
 	GoVersion  string
@@ -45,6 +48,8 @@ func NewClient(pkey, skey string) (*Client, error) {
 		debug:  false,
 		pkey:   pkey,
 		skey:   skey,
+
+		Endpoints: map[internal.Endpoint]string{},
 	}
 
 	if len(build.Default.ReleaseTags) > 0 {
@@ -77,11 +82,16 @@ func (c *Client) Request(operation internal.Operation) (*http.Request, error) {
 		body = strings.NewReader(query.Encode())
 	}
 
-	if c.debug {
-		fmt.Println(" req:", op.Method, string(op.Endpoint)+op.Path)
+	endpoint := string(op.Endpoint)
+	if ep, ok := c.Endpoints[op.Endpoint]; ok {
+		endpoint = ep
 	}
 
-	req, e := http.NewRequest(op.Method, string(op.Endpoint)+op.Path, body)
+	if c.debug {
+		fmt.Println(" req:", op.Method, endpoint+op.Path)
+	}
+
+	req, e := http.NewRequest(op.Method, endpoint+op.Path, body)
 	// req, e := http.NewRequest(op.Method, "http://0.0.0.0:9999"+op.Path, body)
 	if e != nil {
 		return nil, e
