@@ -3,14 +3,15 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/spf13/cobra"
 	"io/ioutil"
 	"os"
+
+	"github.com/spf13/cobra"
 )
 
 var ConfigCmd = &cobra.Command{
 	Use:   "config",
-	Short: "Prints configuration variables.",
+	Short: "Manage customer's cards.",
 	RunE:  runConfig,
 }
 

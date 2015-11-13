@@ -10,11 +10,17 @@ var CardsCmd = &cobra.Command{
 	Use:       "cards",
 	Short:     "List customer's cards",
 	ValidArgs: []string{"customer-id"},
-	RunE:      runCards,
+	RunE:      runListCards,
 }
 
 func init() {
-	CardsCmd.AddCommand(RetrieveCardCmd)
+	CardsCmd.AddCommand(ListCardsCmd, RetrieveCardCmd)
+}
+
+var ListCardsCmd = &cobra.Command{
+	Use:   "list",
+	Short: "List customer's cards",
+	RunE:  runListCards,
 }
 
 var RetrieveCardCmd = &cobra.Command{
@@ -24,7 +30,7 @@ var RetrieveCardCmd = &cobra.Command{
 	RunE:      runRetrieveCard,
 }
 
-func runCards(cmd *cobra.Command, args []string) error {
+func runListCards(cmd *cobra.Command, args []string) error {
 	if e := checkArgs(args, "customer-id"); e != nil {
 		return e
 	}

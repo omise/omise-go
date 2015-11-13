@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"os"
 
@@ -23,6 +24,7 @@ func init() {
 		AccountCmd,
 		BalanceCmd,
 		CardsCmd,
+		CustomersCmd,
 	)
 }
 
@@ -55,6 +57,17 @@ func checkArgs(args []string, argnames ...string) error {
 }
 
 func output(obj interface{}) error {
+	// try stingers first
+	if stringer, ok := obj.(ColorStringer); ok {
+		_, e := os.Stdout.Write([]byte(stringer.ColorString() + "\n"))
+		return e
+	}
+	if stringer, ok := obj.(fmt.Stringer); ok {
+		_, e := os.Stdout.Write([]byte(stringer.String() + "\n"))
+		return e
+	}
+
+	// fallback indented json
 	bytes, e := json.MarshalIndent(obj, "", "  ")
 	if e != nil {
 		return e
