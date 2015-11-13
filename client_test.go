@@ -77,7 +77,7 @@ func TestClient_Request(t *testing.T) {
 
 	req, e = client.Request(&operations.CreateToken{})
 	if a.NoError(t, e) {
-		a.Equal(t, "http://vault.omise.dev:4500/account", req.URL.String())
+		a.Equal(t, "http://vault.omise.dev:4500/tokens", req.URL.String())
 	}
 
 	// general request properties
