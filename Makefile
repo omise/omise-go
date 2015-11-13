@@ -30,10 +30,12 @@ fmt:
 
 deps:
 	@$(GO) get -v -u ./...
+test-deps:
+	@$(GO) get -t -v -u ./...
 
-test:
+test: test-deps
 	@$(GO) test -v ./...
-network-test:
+network-test: test-deps
 	NETWORK=1 @$(GO) test -v ./...
 
 doc:
