@@ -5,6 +5,9 @@ PKG := github.com/omise/omise-go
 GO    := go
 GODOC := godoc
 
+default: test
+.PHONY: %
+
 gen:
 	@$(GO) get -v \
 		./internal/generator \
