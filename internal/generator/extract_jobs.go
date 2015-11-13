@@ -3,7 +3,6 @@ package main
 import (
 	"go/importer"
 	"go/types"
-	"strings"
 )
 
 func ExtractJobs(importpath string) ([]Job, error) {
@@ -15,37 +14,41 @@ func ExtractJobs(importpath string) ([]Job, error) {
 	scope, jobs := pkg.Scope(), []Job{}
 	for _, name := range scope.Names() {
 		obj := scope.Lookup(name)
-		if !isModelStruct(obj.Type()) {
-			continue
-		}
+		typ := obj.Type()
 
-		// generates
-		jobs = append(jobs, &GenListJob{name})
+		switch findClass(typ) {
+		case ModelStruct:
+			struc := typ.Underlying().(*types.Struct)
+			jobs = append(jobs, NewGenListJob(name, struc))
+			jobs = append(jobs, NewGenStringJob(name, struc))
+		}
 	}
 
 	return jobs, nil
 }
 
-func isModelStruct(typ types.Type) (ok bool) {
-	var named *types.Named
-	if named, ok = typ.(*types.Named); !ok {
-		return false
+func findClass(typ types.Type) (class Class) {
+	named, ok := typ.(*types.Named)
+	if !ok {
+		return Uninterested
 	}
 
 	var struc *types.Struct
 	if struc, ok = named.Underlying().(*types.Struct); !ok {
-		return false
-	}
-
-	if strings.HasSuffix(named.Obj().Name(), "List") {
-		return false
+		return Uninterested
 	}
 
 	for i := 0; i < struc.NumFields(); i++ {
-		if f := struc.Field(i); f.Anonymous() && f.Name() == "Base" {
-			return true
+		f := struc.Field(i)
+		switch {
+		case !f.Anonymous():
+			continue
+		case f.Name() == "Base":
+			return ModelStruct
+		case f.Name() == "List":
+			return ListStruct
 		}
 	}
 
-	return false
+	return Uninterested
 }

@@ -1,0 +1,26 @@
+package omise
+{{.Header}}
+
+import (
+	"fmt"
+
+	"github.com/fatih/color"
+)
+{{with .Data}}
+
+func (m *{{.Name}}) String() string {
+	s := "" + {{range $field, $underscore_field := .Fields}}
+		"{{$underscore_field}}=" + fmt.Sprint(m.{{$field}}) + " " +{{end}}
+		""
+  return s
+}
+
+func (m *{{.Name}}) ColorString() string {
+	cyan := color.New(color.FgCyan).SprintFunc()
+	_ = cyan
+	s := "" + {{range $field, $underscore_field := .Fields}}
+		cyan("{{$underscore_field}}=") + fmt.Sprint(m.{{$field}}) + " " +{{end}}
+		""
+  return s
+}
+{{end}}
