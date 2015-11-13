@@ -1,19 +1,9 @@
 package main
 
-import (
-	"go/types"
-
-	"bitbucket.org/pkg/inflect"
-)
-
 type GenListJob struct {
-	Name string
-}
-
-func NewGenListJob(name string, struc *types.Struct) *GenListJob {
-	return &GenListJob{name}
+	Names []string
 }
 
 func (job *GenListJob) Filenames() (string, string) {
-	return "gen_list_job.tmpl", inflect.Underscore(job.Name) + "_list.go"
+	return "gen_list_job.tmpl", "gen_list.go"
 }

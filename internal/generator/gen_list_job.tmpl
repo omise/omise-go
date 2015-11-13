@@ -1,16 +1,16 @@
 package omise
-{{.Header}}{{with .Data}}
+{{.Header}}{{with .Data}}{{range .Names}}
 
-// {{.Name}}List represents the list structure returned by Omise's REST API that contains
-// {{.Name}} struct as member elements. See the pagination and lists documentation at
+// {{.}}List represents the list structure returned by Omise's REST API that contains
+// {{.}} struct as member elements. See the pagination and lists documentation at
 // https://www.omise.co/api-pagination for more information.
-type {{.Name}}List struct {
+type {{.}}List struct {
 	List
-	Data []*{{.Name}} `json:"data"`
+	Data []*{{.}} `json:"data"`
 }
 
-// Find finds and returns {{.Name}} with the given id. Returns nil if not found.
-func (list *{{.Name}}List) Find(id string) *{{.Name}} {
+// Find finds and returns {{.}} with the given id. Returns nil if not found.
+func (list *{{.}}List) Find(id string) *{{.}} {
 	for _, item := range list.Data {
 		if item.ID == id {
 			return item
@@ -19,3 +19,5 @@ func (list *{{.Name}}List) Find(id string) *{{.Name}} {
 
 	return nil
 }{{end}}
+
+{{end}}

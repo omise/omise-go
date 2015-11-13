@@ -11,20 +11,19 @@ func ExtractJobs(importpath string) ([]Job, error) {
 		return nil, e
 	}
 
-	scope, jobs := pkg.Scope(), []Job{}
+	scope := pkg.Scope()
+	listJob := &GenListJob{}
 	for _, name := range scope.Names() {
 		obj := scope.Lookup(name)
 		typ := obj.Type()
 
 		switch findClass(typ) {
 		case ModelStruct:
-			struc := typ.Underlying().(*types.Struct)
-			jobs = append(jobs, NewGenListJob(name, struc))
-			jobs = append(jobs, NewGenStringJob(name, struc))
+			listJob.Names = append(listJob.Names, name)
 		}
 	}
 
-	return jobs, nil
+	return []Job{listJob}, nil
 }
 
 func findClass(typ types.Type) (class Class) {
