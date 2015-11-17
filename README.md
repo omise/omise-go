@@ -16,7 +16,12 @@ See [godoc.org][0] for usage instruction.
 Example:
 
 ```go
-client, e := omise.NewClient(OMISE_PUBKEY, OMISE_KEY)
+const (
+  OMISE_PUBLIC_KEY = "pkey_test_1234"
+  OMISE_SECRET_KEY = "skey_test_1234"
+)
+
+client, e := omise.NewClient(OMISE_PUBLIC_KEY, OMISE_SECRET_KEY)
 if e != nil {
   panic(e)
 }
