@@ -2,4 +2,3 @@ language: go
 go:
 - "tip"
 - "1.5"
-- "1.4"
