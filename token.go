@@ -10,6 +10,6 @@ package omise
 // See https://www.omise.co/tokens-api for more information.
 type Token struct {
 	Base
-	Used bool  `json:"used"`
-	Card *Card `json:"card"`
+	Used bool  `json:"used" pretty:""`
+	Card *Card `json:"card" pretty:""`
 }

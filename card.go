@@ -12,14 +12,14 @@ type Card struct {
 	City       string `json:"city"`
 	PostalCode string `json:"postal_code"`
 	Financing  string `json:"financing"`
-	LastDigits string `json:"last_digits"`
-	Brand      string `json:"brand"`
+	LastDigits string `json:"last_digits" pretty:""`
+	Brand      string `json:"brand" pretty:""`
 
-	ExpirationMonth time.Month `json:"expiration_month"`
-	ExpirationYear  int        `json:"expiration_year"`
+	ExpirationMonth time.Month `json:"expiration_month" pretty:""`
+	ExpirationYear  int        `json:"expiration_year" pretty:""`
 
 	Fingerprint       string    `json:"fingerprint"`
-	Name              string    `json:"name"`
+	Name              string    `json:"name" pretty:""`
 	Created           time.Time `json:"created"`
 	SecurityCodeCheck bool      `json:"security_code_check"`
 }

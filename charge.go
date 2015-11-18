@@ -9,12 +9,12 @@ import (
 type Charge struct {
 	Base
 	Transaction string  `json:"transaction"`
-	Amount      int64   `json:"amount"`
-	Currency    string  `json:"currency"`
+	Amount      int64   `json:"amount" pretty:""`
+	Currency    string  `json:"currency" pretty:""`
 	Description *string `json:"description"`
-	Capture     bool    `json:"capture"`
-	Authorized  bool    `json:"authorized"`
-	Captured    bool    `json:"captured"`
+	Capture     bool    `json:"capture" pretty:""`
+	Authorized  bool    `json:"authorized" pretty:""`
+	Captured    bool    `json:"captured" pretty:""`
 	Card        *Card   `json:"card"`
 
 	Refunded       int64       `json:"refunded"`

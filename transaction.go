@@ -4,7 +4,7 @@ package omise
 // See https://www.omise.co/transactions-api for more information.
 type Transaction struct {
 	Base
-	Amount   int64           `json:"amount"`
-	Currency string          `json:"currency"`
-	Type     TransactionType `json:"type"`
+	Amount   int64           `json:"amount" pretty:""`
+	Currency string          `json:"currency" pretty:""`
+	Type     TransactionType `json:"type" pretty:""`
 }
