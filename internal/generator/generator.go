@@ -4,10 +4,13 @@ import (
 	"log"
 )
 
-const TargetImport = "github.com/omise/omise-go"
+const (
+	MainImportPath       = "github.com/omise/omise-go"
+	OperationsImportPath = "github.com/omise/omise-go/operations"
+)
 
 func main() {
-	jobs, e := ExtractJobs(TargetImport)
+	jobs, e := ExtractJobs()
 	noError(e)
 
 	log.Println(len(jobs), "job(s):")

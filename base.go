@@ -6,8 +6,8 @@ import "time"
 // API.
 type Base struct {
 	Object   string    `json:"object"`
-	ID       string    `json:"id"`
-	Live     bool      `json:"livemode"`
+	ID       string    `json:"id" pretty:""`
+	Live     bool      `json:"livemode" pretty:""`
 	Location *string   `json:"location"`
 	Created  time.Time `json:"created"`
 }

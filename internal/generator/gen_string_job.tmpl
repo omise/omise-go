@@ -1,4 +1,5 @@
 package omise
+
 {{.Header}}
 
 import (
@@ -6,21 +7,17 @@ import (
 
 	"github.com/fatih/color"
 )
-{{with .Data}}
+{{with .Data}}{{ range $name, $fields := .Fields }}
 
-func (m *{{.Name}}) String() string {
-	s := "" + {{range $field, $underscore_field := .Fields}}
-		"{{$underscore_field}}=" + fmt.Sprint(m.{{$field}}) + " " +{{end}}
-		""
-  return s
+func (m *{{$name}}) String() string {
+	return "" + {{range $fields}}
+		"{{.}}=" + fmt.Sprint(m.{{.}}) + " " +{{end}} ""
 }
 
-func (m *{{.Name}}) ColorString() string {
+func (m *{{$name}}) ColorString() string {
 	cyan := color.New(color.FgCyan).SprintFunc()
 	_ = cyan
-	s := "" + {{range $field, $underscore_field := .Fields}}
-		cyan("{{$underscore_field}}=") + fmt.Sprint(m.{{$field}}) + " " +{{end}}
-		""
-  return s
+  return "" + {{range $fields}}
+		cyan("{{.}}=") + fmt.Sprint(m.{{.}}) + " " +{{end}} ""
 }
-{{end}}
+{{end}}{{end}}
