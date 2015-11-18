@@ -7,8 +7,8 @@ import (
 	"strings"
 )
 
-func ExtractJobs(importpath string) ([]Job, error) {
-	pkg, e := importer.Default().Import(importpath)
+func ExtractJobs() ([]Job, error) {
+	pkg, e := importer.Default().Import(MainImportPath)
 	if e != nil {
 		return nil, e
 	}
