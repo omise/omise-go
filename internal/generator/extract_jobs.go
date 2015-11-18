@@ -13,8 +13,13 @@ func ExtractJobs() ([]Job, error) {
 		return nil, e
 	}
 
-	scope := pkg.Scope()
-	listJob, stringJob := &GenListJob{}, &GenStringJob{map[string][]string{}}
+	var (
+		scope      = pkg.Scope()
+		listJob    = &GenListJob{}
+		stringJob  = &GenStringJob{map[string][]string{}}
+		apiTreeJob = &GenAPITreeJob{nil, map[string][]string{}}
+	)
+
 	for _, name := range scope.Names() {
 		obj := scope.Lookup(name)
 		typ := obj.Type()
@@ -28,8 +33,7 @@ func ExtractJobs() ([]Job, error) {
 		}
 	}
 
-	fmt.Printf("%#v", stringJob)
-	return []Job{listJob, stringJob}, nil
+	return []Job{listJob, stringJob, apiTreeJob}, nil
 }
 
 func findClass(typ types.Type) (class Class) {

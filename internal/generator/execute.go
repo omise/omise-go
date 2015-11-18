@@ -6,10 +6,6 @@ import (
 	"text/template"
 )
 
-type Job interface {
-	Filenames() (tmplname, outname string)
-}
-
 func Execute(j Job) error {
 	tmplname, outname := j.Filenames()
 
