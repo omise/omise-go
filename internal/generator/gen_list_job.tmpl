@@ -1,5 +1,11 @@
 package omise
-{{.Header}}{{with .Data}}{{range .Names}}
+
+{{.Header}}
+
+import (
+	"bytes"
+)
+{{with .Data}}{{range .Names}}
 
 // {{.}}List represents the list structure returned by Omise's REST API that contains
 // {{.}} struct as member elements. See the pagination and lists documentation at
@@ -18,6 +24,20 @@ func (list *{{.}}List) Find(id string) *{{.}} {
 	}
 
 	return nil
-}{{end}}
+}
 
-{{end}}
+func (list *{{.}}List) String() string {
+	buf := &bytes.Buffer{}
+	for _, item := range list.Data {
+		buf.WriteString(item.String() + "\n")
+	}
+	return buf.String()
+}
+
+func (list *{{.}}List) ColorString() string {
+	buf := &bytes.Buffer{}
+	for _, item := range list.Data {
+		buf.WriteString(item.ColorString() + "\n")
+	}
+	return buf.String()
+}{{end}}{{end}}
