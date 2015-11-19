@@ -2,9 +2,35 @@ package omise
 
 {{.Header}}
 
-// import (
-// 	"bytes"
-// )
-{{with .Data}}{{range .Names}}
+import (
+  "github.com/omise/omise-go"
+  "github.com/omise/omise-go/operations"
+)
 
-{{end}}{{end}}
+{{with $data := .Data}}
+type API struct {
+  {{range $name := .Names}}
+    {{.}} struct {
+      {{range $op := index $data.Operations .}}
+        {{$op}} func {{$data.OpSignature $name $op}}{{end}}
+    }
+  {{end}}
+}
+
+func With(client *omise.Client) *API {
+  api := &API{}
+  {{range $name := .Names}}
+    // _________________________________
+    // {{.}} API
+    {{.}}API := api.{{.}}
+    {{range $op := index $data.Operations .}}
+      {{$name}}API.{{$op}} = func {{$data.OpSignature $name $op}} {
+        {{$data.OpInvocation $name $op}}
+      }
+    {{end}}
+  {{end}}
+
+  return api
+}
+
+{{end}}

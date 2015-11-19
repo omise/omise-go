@@ -9,11 +9,13 @@ import (
 func Execute(j Job) error {
 	tmplname, outname := j.Filenames()
 
+	// prepare template
 	tmpl, e := template.ParseFiles(filepath.Join("internal/generator", tmplname))
 	if e != nil {
 		return e
 	}
 
+	// open output file
 	file, e := os.Create(outname)
 	if e != nil {
 		return e
@@ -25,6 +27,8 @@ func Execute(j Job) error {
 	}
 
 	defer file.Close()
+
+	// writeout
 	if e := tmpl.Execute(file, ctx); e != nil {
 		return e
 	}

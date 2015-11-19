@@ -6,4 +6,5 @@ const (
 	Uninterested Class = iota
 	ModelStruct
 	ListStruct
+	OperationStruct
 )

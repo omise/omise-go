@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"go/importer"
 	"go/types"
+	"sort"
 	"strings"
+	"unicode"
 )
 
 func ExtractJobs() ([]Job, error) {
@@ -13,6 +15,7 @@ func ExtractJobs() ([]Job, error) {
 		return nil, e
 	}
 
+	// main package types
 	var (
 		scope      = pkg.Scope()
 		listJob    = &GenListJob{}
@@ -26,13 +29,45 @@ func ExtractJobs() ([]Job, error) {
 
 		switch findClass(typ) {
 		case ModelStruct:
-			fmt.Println("MODEL: ", name)
+			fmt.Println("MODEL:", name)
 			struc := typ.(*types.Named).Underlying().(*types.Struct)
 			listJob.Names = append(listJob.Names, name)
 			stringJob.Fields[name] = collectFields(struc)
 		}
 	}
 
+	// operations package types
+	pkg, e = importer.Default().Import(OperationsImportPath)
+	if e != nil {
+		return nil, e
+	}
+
+	scope = pkg.Scope()
+	for _, name := range scope.Names() {
+		obj := scope.Lookup(name)
+		typ := obj.Type()
+
+		switch findClass(typ) {
+		case OperationStruct:
+			fmt.Println("OP:", name)
+
+			modelName, opName := splitOpName(name)
+			if strings.HasSuffix(modelName, "s") {
+				modelName = modelName[:len(modelName)-1]
+			}
+
+			if ops, ok := apiTreeJob.Operations[modelName]; ok {
+				apiTreeJob.Operations[modelName] = append(ops, opName)
+
+			} else {
+				apiTreeJob.Names = append(apiTreeJob.Names, modelName)
+				apiTreeJob.Operations[modelName] = []string{opName}
+			}
+		}
+	}
+
+	sort.Strings(listJob.Names)
+	sort.Strings(apiTreeJob.Names)
 	return []Job{listJob, stringJob, apiTreeJob}, nil
 }
 
@@ -46,6 +81,13 @@ func findClass(typ types.Type) (class Class) {
 	switch name {
 	case "List", "Base":
 		return Uninterested
+	}
+
+	for i := 0; i < named.NumMethods(); i++ {
+		m := named.Method(i)
+		if m.Name() == "Op" {
+			return OperationStruct
+		}
 	}
 
 	var struc *types.Struct
@@ -73,7 +115,6 @@ func collectFields(struc *types.Struct) []string {
 
 	for i := 0; i < struc.NumFields(); i++ {
 		f, tag := struc.Field(i), struc.Tag(i)
-		fmt.Println(f.Name(), tag)
 
 		switch {
 		case f.Anonymous():
@@ -89,4 +130,14 @@ func collectFields(struc *types.Struct) []string {
 	}
 
 	return result
+}
+
+func splitOpName(name string) (string, string) {
+	for i, r := range name {
+		if i != 0 && unicode.IsUpper(r) {
+			return name[i:], name[:i]
+		}
+	}
+
+	return name, ""
 }
