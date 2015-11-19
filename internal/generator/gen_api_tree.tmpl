@@ -1,4 +1,4 @@
-package omise
+package api
 
 {{.Header}}
 
@@ -22,9 +22,8 @@ func With(client *omise.Client) *API {
   {{range $name := .Names}}
     // _________________________________
     // {{.}} API
-    {{.}}API := api.{{.}}
     {{range $op := index $data.Operations .}}
-      {{$name}}API.{{$op}} = func {{$data.OpSignature $name $op}} {
+      api.{{$name}}.{{$op}} = func {{$data.OpSignature $name $op}} {
         {{$data.OpInvocation $name $op}}
       }
     {{end}}
