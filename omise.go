@@ -17,8 +17,8 @@ Example:
 	}
 
 	charge, create := &omise.Charge{}, &operations.CreateCharge{
-		Amount:   100000, // ¥10,000
-		Currency: "jpy",
+		Amount:   100000, // ฿10,000
+		Currency: "thb",
 		Card:     "tok_1234",
 	}
 
