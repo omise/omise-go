@@ -10,6 +10,7 @@ type Card struct {
 	Base
 	Country    string `json:"country"`
 	City       string `json:"city"`
+	Bank       string `json:"bank"`
 	PostalCode string `json:"postal_code"`
 	Financing  string `json:"financing"`
 	LastDigits string `json:"last_digits" pretty:""`
@@ -18,8 +19,7 @@ type Card struct {
 	ExpirationMonth time.Month `json:"expiration_month" pretty:""`
 	ExpirationYear  int        `json:"expiration_year" pretty:""`
 
-	Fingerprint       string    `json:"fingerprint"`
-	Name              string    `json:"name" pretty:""`
-	Created           time.Time `json:"created"`
-	SecurityCodeCheck bool      `json:"security_code_check"`
+	Fingerprint       string `json:"fingerprint"`
+	Name              string `json:"name" pretty:""`
+	SecurityCodeCheck bool   `json:"security_code_check"`
 }
