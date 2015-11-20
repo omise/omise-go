@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"reflect"
+	"strconv"
 	"strings"
 	"testing"
 
@@ -40,24 +42,42 @@ func Require(t *testing.T, env string) {
 }
 
 func AssertJSONEquals(t *testing.T, m1 map[string]interface{}, m2 map[string]interface{}) bool {
+	return assertJSONEquals(t, "", m1, m2)
+}
+
+func assertJSONEquals(t *testing.T, prefix string, m1 map[string]interface{}, m2 map[string]interface{}) bool {
 	for k, v := range m1 {
 		v2, ok := m2[k]
-		if !a.True(t, ok, "missing `"+k+"` key") {
+		if !a.True(t, ok, "missing `"+prefix+k+"` key") {
 			return false
 		}
-		if !a.IsType(t, v, v2, "mismatched type for `"+k+"` key") {
+		if !a.IsType(t, v, v2, "mismatched type for `"+prefix+k+"` key") {
 			return false
 		} // postcond: v.(type) == v2.(type)
 
-		if vmap, ok := v.(map[string]interface{}); ok {
-			vmap2 := v2.(map[string]interface{}) // IsType
-			if !AssertJSONEquals(t, vmap, vmap2) {
+		rv1, rv2 := reflect.ValueOf(v), reflect.ValueOf(v2)
+		switch rv1.Kind() {
+		case reflect.Array, reflect.Slice:
+			// Only support slice of maps, for now.
+			if !a.Equal(t, rv1.Len(), rv2.Len(), "key `"+prefix+k+"` has different length") {
+				return false
+			}
+			for i := 0; i < rv1.Len(); i++ {
+				if !assertJSONEquals(t, prefix+"["+strconv.Itoa(i)+"]",
+					rv1.Index(i).Interface().(map[string]interface{}),
+					rv2.Index(i).Interface().(map[string]interface{})) {
+					return false
+				}
+			}
+
+		case reflect.Map:
+			vmap, vmap2 := v.(map[string]interface{}), v2.(map[string]interface{})
+			if !assertJSONEquals(t, prefix+k+".", vmap, vmap2) {
 				return false
 			}
 
-		} else { // not map
-			// TODO: Check arrays as well?
-			if !a.Equal(t, v, v2, "mismatched value for `"+k+"` key") {
+		default:
+			if !a.Equal(t, v, v2, "mismatched value for`"+prefix+k+"` key") {
 				return false
 			}
 		}
