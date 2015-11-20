@@ -2,6 +2,8 @@ package operations
 
 import (
 	"time"
+
+	"github.com/omise/omise-go"
 )
 
 // List contains fields that represent parameters common to most list operations. List
@@ -16,5 +18,5 @@ type List struct {
 	Limit  int
 	From   time.Time
 	To     time.Time
-	Order  string
+	Order  omise.Ordering
 }
