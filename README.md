@@ -1,7 +1,8 @@
 # OMISE-GO
 
 [![GoDoc](https://godoc.org/github.com/omise/omise-go?status.svg)][0] 
-[![Build Status](https://travis-ci.org/omise/omise-go.svg)](https://travis-ci.org/omise/omise-go)
+[![Build Status](https://travis-ci.org/omise/omise-go.svg)](https://travis-ci.org/omise/omise-go) 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/omise/omise-go?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 Install with:
 
