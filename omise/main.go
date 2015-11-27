@@ -22,21 +22,26 @@ func checkArgs(args []string, argnames ...string) error {
 	return ErrMissingArg(argnames[len(args)])
 }
 
-func output(obj interface{}) error {
-	// try stingers first
-	if stringer, ok := obj.(ColorStringer); ok {
-		_, e := os.Stdout.Write([]byte(stringer.ColorString() + "\n"))
-		return e
-	}
-	if stringer, ok := obj.(fmt.Stringer); ok {
-		_, e := os.Stdout.Write([]byte(stringer.String() + "\n"))
-		return e
-	}
+func output(obj interface{}) (e error) {
+	bytes := []byte{}
 
-	// fallback indented json
-	bytes, e := json.MarshalIndent(obj, "", "  ")
-	if e != nil {
-		return e
+	switch {
+	case !config.JSON && !config.IndentedJSON:
+		// try stingers first
+		if stringer, ok := obj.(ColorStringer); ok {
+			bytes = []byte(stringer.ColorString())
+			break
+		} else if stringer, ok := obj.(fmt.Stringer); ok {
+			bytes = []byte(stringer.String())
+			break
+		}
+
+		fallthrough
+
+	case config.IndentedJSON:
+		bytes, e = json.MarshalIndent(obj, "", "  ")
+	default: // config.JSON:
+		bytes, e = json.Marshal(obj)
 	}
 
 	bytes = append(bytes, []byte("\n")...)

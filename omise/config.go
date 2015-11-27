@@ -17,6 +17,9 @@ var config = &struct {
 
 	APIEndpoint   string `mapstructure:"api-endpoint"`
 	VaultEndpoint string `mapstructure:"vault-endpoint"`
+
+	JSON         bool `mapstructure:"json"`
+	IndentedJSON bool `mapstructure:"indented-json"`
 }{}
 
 var envMap = map[string]string{
@@ -29,6 +32,8 @@ func configure(flags *flag.FlagSet) {
 	flags.String("skey", "", "Omise API secret key, defaults to $OMISE_KEY.")
 	flags.String("api-endpoint", "", "Omise API endpoint, defaults to api.omise.co or $OMISE_API_ENDPOINT")
 	flags.String("vault-endpoint", "", "Omise Vault endpoint, defaults to vault.omise.co or $OMISE_VAULT_ENDPOINT")
+	flags.Bool("json", false, "Output result as JSON.")
+	flags.Bool("indented-json", false, "Output result as indented JSON.")
 }
 
 func bindViper(cmd *cobra.Command) error {
