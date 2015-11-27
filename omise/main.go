@@ -5,47 +5,13 @@ import (
 	"fmt"
 	"log"
 	"os"
-
-	"github.com/spf13/cobra"
 )
-
-var OmiseCmd = &cobra.Command{
-	Use:   "omise",
-	Short: "omise cli command lets you perform omise API calls from the command line interactively.",
-	RunE:  runOmise,
-
-	PersistentPreRunE:  preRunOmise,
-	PersistentPostRunE: postRunOmise,
-}
-
-func init() {
-	OmiseCmd.AddCommand(
-		ConfigCmd,
-		AccountCmd,
-		BalanceCmd,
-		CardsCmd,
-		CustomersCmd,
-	)
-}
 
 func main() {
 	configure(OmiseCmd.PersistentFlags())
 	if e := OmiseCmd.Execute(); e != nil {
 		log.Fatalln(e)
 	}
-}
-
-func preRunOmise(cmd *cobra.Command, args []string) error {
-	return bindViper(cmd)
-}
-
-func runOmise(cmd *cobra.Command, args []string) error {
-	return cmd.Help()
-}
-
-func postRunOmise(cmd *cobra.Command, args []string) error {
-	log.Println("done.")
-	return nil
 }
 
 func checkArgs(args []string, argnames ...string) error {
