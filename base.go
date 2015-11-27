@@ -15,5 +15,5 @@ type Base struct {
 // Deletion struct is used to receive deletion responses from delete operations.
 type Deletion struct {
 	Base
-	Deleted bool `json:"deleted"`
+	Deleted bool `json:"deleted" pretty:""`
 }
