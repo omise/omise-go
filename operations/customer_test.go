@@ -58,9 +58,7 @@ func TestCustomer(t *testing.T) {
 func TestCustomer_Network(t *testing.T) {
 	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
-
-	token := &omise.Token{}
-	client.MustDo(token, CreateTokenOp)
+	token := createTestToken(client)
 
 	// create a customer
 	jack := &omise.Customer{}

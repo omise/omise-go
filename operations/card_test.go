@@ -61,13 +61,7 @@ func TestCard_Network(t *testing.T) {
 	a.Len(t, cards.Data, 0)
 
 	// add some cards
-	tok1, tok2 := &omise.Token{}, &omise.Token{}
-	if e := client.Do(tok1, CreateTokenOp); !a.NoError(t, e) {
-		return
-	} else if e := client.Do(tok2, CreateTokenOp); !a.NoError(t, e) {
-		return
-	}
-
+	tok1, tok2 := createTestToken(client), createTestToken(client)
 	client.MustDo(customer, &UpdateCustomer{CustomerID: customer.ID, Card: tok1.ID})
 	client.MustDo(customer, &UpdateCustomer{CustomerID: customer.ID, Card: tok2.ID})
 

@@ -41,20 +41,8 @@ func TestRefund_Network(t *testing.T) {
 	client := testutil.NewTestClient(t)
 
 	// create a charge so we can refund
-	// TODO: DRY with TestCharge
-	token := &omise.Token{}
-	client.MustDo(token, CreateTokenOp)
-
-	charge := &omise.Charge{}
-	client.MustDo(charge, &CreateCharge{
-		Amount:      819229,
-		Currency:    "thb",
-		Description: "should be refunded soon.",
-		Card:        token.ID,
-	})
-
-	a.Equal(t, int64(819229), charge.Amount)
-	a.Equal(t, "thb", charge.Currency)
+	token := createTestToken(client)
+	charge := createTestCharge(client, token)
 
 	// list refunds on the charge
 	list := &ListRefunds{

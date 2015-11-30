@@ -56,9 +56,7 @@ func TestCharge(t *testing.T) {
 func TestCharge_Network(t *testing.T) {
 	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
-
-	token := &omise.Token{}
-	client.MustDo(token, CreateTokenOp)
+	token := createTestToken(client)
 
 	// create
 	charge, create := &omise.Charge{}, &CreateCharge{
@@ -112,9 +110,7 @@ func TestCharge_Network(t *testing.T) {
 func TestCharge_Network_Uncaptured(t *testing.T) {
 	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
-
-	token := &omise.Token{}
-	client.MustDo(token, CreateTokenOp)
+	token := createTestToken(client)
 
 	// create uncaptured charge
 	charge, create := &omise.Charge{}, &CreateCharge{
@@ -139,9 +135,7 @@ func TestCharge_Network_Uncaptured(t *testing.T) {
 func TestCharge_Network_Invalid(t *testing.T) {
 	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
-
-	token := &omise.Token{}
-	client.MustDo(token, CreateTokenOp)
+	token := createTestToken(client)
 
 	e := client.Do(nil, &CreateCharge{
 		Amount:   12345,
@@ -152,7 +146,7 @@ func TestCharge_Network_Invalid(t *testing.T) {
 
 	e = client.Do(nil, &CreateCharge{
 		Amount:   12345,
-		Currency: "thb", // OMISE DOLLAR, why not?
+		Currency: "thb",
 		Card:     "tok_asdf",
 	})
 	a.EqualError(t, e, "(404/not_found) token tok_asdf was not found")
