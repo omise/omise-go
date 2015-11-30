@@ -80,7 +80,8 @@ func main() {
 
 # LICENSE
 
-See LICENSE file.
+See [LICENSE][2] file.
 
 [0]: https://godoc.org/github.com/omise/omise-go
 [1]: https://www.omise.co/docs
+[2]: https://raw.githubusercontent.com/omise/omise-go/master/LICENSE
