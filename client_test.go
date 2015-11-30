@@ -1,6 +1,7 @@
 package omise_test
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"testing"
@@ -120,6 +121,23 @@ func TestClient_Error(t *testing.T) {
 	})
 	if a.NotNil(t, e) {
 		a.IsType(t, ErrInternal(""), e)
+	}
+
+}
+
+func TestClient_TransportError(t *testing.T) {
+	client := testutil.NewFixedClient(t)
+
+	e := client.Do(&struct{}{}, &internal.Op{
+		internal.API, "GET", "/malformed", nil,
+	})
+	if a.NotNil(t, e) {
+		err, ok := e.(*ErrTransport)
+		if a.True(t, ok, "error returned in not *omise.ErrTransport: ") {
+			_, ok := err.Err.(*json.SyntaxError)
+			a.True(t, ok, "error does not wrap *json.SyntaxError")
+			a.Contains(t, string(err.Buffer), "not a valid JSON")
+		}
 	}
 }
 

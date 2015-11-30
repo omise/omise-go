@@ -16,8 +16,19 @@ func (e ErrInternal) Error() string {
 	return "internal inconsistency: " + string(e)
 }
 
+type ErrTransport struct {
+	Err    error
+	Buffer []byte
+}
+
+func (e ErrTransport) Error() string {
+	return "transport error: " + e.Err.Error() +
+		"\n with response body: " + string(e.Buffer)
+}
+
 // Error struct represents errors that may be returned from Omise's REST API. You can use
-// the Code or the HTTP StatusCode field to test for error condition in your code.
+// the Code or the HTTP StatusCode field to test for the exact error condition in your
+// code.
 type Error struct {
 	Location   string `json:"location"`
 	StatusCode int    `json:"status"`

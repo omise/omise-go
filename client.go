@@ -144,21 +144,21 @@ func (c *Client) Do(result interface{}, operation internal.Operation) error {
 		defer resp.Body.Close()
 	}
 
+	buffer, e := ioutil.ReadAll(resp.Body)
+	if e != nil {
+		return &ErrTransport{e, buffer}
+	}
+
 	switch {
 	case e != nil:
 		return e
 	case resp.StatusCode != 200:
 		err := &Error{StatusCode: resp.StatusCode}
-		if e := json.NewDecoder(resp.Body).Decode(err); e != nil {
-			return e // TODO: Wrap so body is never lost.
+		if e := json.Unmarshal(buffer, err); e != nil {
+			return &ErrTransport{e, buffer}
 		}
 		return err
 	} // status == 200 && e == nil
-
-	buffer, e := ioutil.ReadAll(resp.Body)
-	if e != nil {
-		return e
-	}
 
 	if c.debug {
 		fmt.Println("resp:", resp.StatusCode, string(buffer))
@@ -166,7 +166,7 @@ func (c *Client) Do(result interface{}, operation internal.Operation) error {
 
 	if result != nil {
 		if e := json.Unmarshal(buffer, result); e != nil {
-			return e
+			return &ErrTransport{e, buffer}
 		}
 	}
 
