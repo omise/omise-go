@@ -19,7 +19,8 @@ func (e *ErrMap) Error() string {
 	return "cannot map field `" + e.field.Name + "`, " + e.reason
 }
 
-// TODO: Document.
+// MapURLValues maps a user-defined struct to url.Values. Nested structs, arrays, and maps
+// are mapped to field name with "[]" suffix with the current index as map key.
 func MapURLValues(i interface{}) (url.Values, error) {
 	result := url.Values{}
 	if e := mapURLValues(i, result, ""); e != nil {
@@ -47,7 +48,6 @@ func mapURLValues(i interface{}, target url.Values, parent string) error {
 			tag, opts = opts[0], opts[1:]
 		}
 		if tag == "" {
-			// TODO: Should probably just use `json:""` for everything.
 			tag = field.Tag.Get("json")
 		}
 		if tag == "" {
