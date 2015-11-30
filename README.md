@@ -4,11 +4,26 @@
 [![Build Status](https://travis-ci.org/omise/omise-go.svg)](https://travis-ci.org/omise/omise-go) 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/omise/omise-go?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
+Omise is a payment service provider currently operating in Thailand. Omise provides a set
+of clean APIs that helps merchants of any size accept credit cards online.
+
+This library offers GO integration in toas;doifja;sodijfa;soijf
+
 Install with:
 
 ```go
 go get github.com/omise/omise-go
 ```
+
+# COMPLIANCE WARNING
+
+Card data should never transit through your server. This library provides means to create
+tokens on the server side but should only be used for testing or **only if you currently
+have a valid PCI-DSS Attestation of Compliance (AoC) delivered by a certified QSA
+Auditor.**
+
+Instead we recommend that you follow our guide on how to safely
+[collect credit information](https://www.omise.co/collecting-card-information).
 
 # USAGE
 
