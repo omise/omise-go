@@ -9,7 +9,7 @@ default: test
 .PHONY: %
 
 gen:
-	@$(GO) build -v . ./operations
+	@$(GO) install -v . ./operations
 	@$(GO) get -v \
 		./internal/generator \
 		github.com/jteeuwen/go-bindata/go-bindata
