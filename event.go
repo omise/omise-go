@@ -31,7 +31,7 @@ func (ev *Event) UnmarshalJSON(buffer []byte) error {
 	proxy := Event_(*ev)
 
 	if shim.Data.Deleted {
-		// nothing since *Deletion is already the correct type.
+		proxy.Data = shim.Data // already *Deletion
 
 	} else { // Pre-init the right structure to match the returned type. TODO: Generate this?
 		switch shim.Data.Object {
