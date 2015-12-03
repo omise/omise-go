@@ -13,7 +13,7 @@ type EventHandler interface {
 // EventHandlerFunc lets you use a plain function as an EventHandler type.
 type EventHandlerFunc func(http.ResponseWriter, *http.Request, *Event)
 
-func (f *EventHandlerFunc) HandleEvent(resp http.ResponseWriter, req *http.Request, event *Event) {
+func (f EventHandlerFunc) HandleEvent(resp http.ResponseWriter, req *http.Request, event *Event) {
 	f(resp, req, event)
 }
 
@@ -22,13 +22,13 @@ type webhookHTTPHandler struct {
 }
 
 func (h *webhookHTTPHandler) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
-	event := &omise.Event{}
+	event := &Event{}
 	if e := json.NewDecoder(req.Body).Decode(event); e != nil {
 		http.Error(resp, e.Error(), http.StatusBadRequest)
 		return
 	}
 
-	h.eventHandler.HandleEvent(req, resp, event)
+	h.eventHandler.HandleEvent(resp, req, event)
 }
 
 // WebhookHTTPHandler creates an http.Handler that you can use to receive Omise's webhook
