@@ -122,14 +122,14 @@ func TestCharge_Network_Uncaptured(t *testing.T) {
 	client.MustDo(charge, create)
 
 	a.Equal(t, create.Amount, charge.Amount)
-	a.False(t, charge.Captured, "charge unintentionally captured!")
+	a.False(t, charge.Paid, "charge unintentionally captured!")
 
 	// then capture it
 	charge2 := &omise.Charge{}
 	client.MustDo(charge2, &CaptureCharge{ChargeID: charge.ID})
 
 	a.Equal(t, charge.ID, charge2.ID)
-	a.True(t, charge2.Captured, "charge not captured!")
+	a.True(t, charge2.Paid, "charge not captured!")
 }
 
 func TestCharge_Network_Invalid(t *testing.T) {
