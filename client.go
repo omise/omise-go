@@ -143,6 +143,9 @@ func (c *Client) Do(result interface{}, operation internal.Operation) error {
 	if resp != nil {
 		defer resp.Body.Close()
 	}
+	if e != nil {
+		return e
+	}
 
 	buffer, e := ioutil.ReadAll(resp.Body)
 	if e != nil {
@@ -150,13 +153,12 @@ func (c *Client) Do(result interface{}, operation internal.Operation) error {
 	}
 
 	switch {
-	case e != nil:
-		return e
 	case resp.StatusCode != 200:
 		err := &Error{StatusCode: resp.StatusCode}
 		if e := json.Unmarshal(buffer, err); e != nil {
 			return &ErrTransport{e, buffer}
 		}
+
 		return err
 	} // status == 200 && e == nil
 
