@@ -10,7 +10,6 @@ type Charge struct {
 	Description *string      `json:"description"`
 
 	Capture    bool `json:"capture" pretty:""`
-	Captured   bool `json:"captured" pretty:""`
 	Authorized bool `json:"authorized" pretty:""`
 	Paid       bool `json:"paid" pretty:""`
 

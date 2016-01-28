@@ -9,6 +9,7 @@ type Transfer struct {
 
 	Sent     bool   `json:"sent" pretty:""`
 	Paid     bool   `json:"paid" pretty:""`
+	Fee      int64  `json:"fee" pretty:""`
 	Amount   int64  `json:"amount" pretty:""`
 	Currency string `json:"currency" pretty:""`
 

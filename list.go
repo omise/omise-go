@@ -11,4 +11,6 @@ type List struct {
 	Offset int `json:"offset"`
 	Limit  int `json:"limit"`
 	Total  int `json:"total"`
+
+	Order Ordering `json:"order"`
 }

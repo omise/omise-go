@@ -8,7 +8,7 @@
   "description": null,
   "capture": true,
   "authorized": true,
-  "captured": true,
+  "paid": true,
   "transaction": "trxn_test_5086xltqqbv4qpmu0ri",
   "refunded": 0,
   "refunds": {
