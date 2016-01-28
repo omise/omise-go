@@ -20,21 +20,26 @@ func Keys() (string, string) {
 }
 
 func NewTestClient(t *testing.T) *TestClient {
-	return newTestClient(t, false)
+	return newTestClient(t, true, false)
 }
 
 func NewFixedClient(t *testing.T) *TestClient {
-	return newTestClient(t, true)
+	return newTestClient(t, false, true)
 }
 
-func newTestClient(t *testing.T, fixed bool) *TestClient {
+func newTestClient(t *testing.T, record, fixed bool) *TestClient {
 	client, e := omise.NewClient(Keys())
 	r.NoError(t, e)
 
-	if fixed {
+	switch {
+	case fixed:
 		fixtures, e := NewFixturesTransport()
 		r.NoError(t, e)
 		client.Transport = fixtures // override std TLS transport
+	case record:
+		recorder, e := NewRecorderTransport()
+		r.NoError(t, e)
+		client.Transport = recorder
 	}
 
 	return &TestClient{t, client}
