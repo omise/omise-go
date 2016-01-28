@@ -32,7 +32,7 @@ func newTestClient(t *testing.T, fixed bool) *TestClient {
 	r.NoError(t, e)
 
 	if fixed {
-		fixtures, e := NewFixturesTransport("")
+		fixtures, e := NewFixturesTransport()
 		r.NoError(t, e)
 		client.Transport = fixtures // override std TLS transport
 	}

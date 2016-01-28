@@ -3,7 +3,6 @@ package testutil
 import (
 	"io/ioutil"
 	"net/http"
-	"os"
 	"path/filepath"
 	"testing"
 
@@ -26,13 +25,7 @@ var fixtureTests = []*fixturesHTTPTest{
 }
 
 func (test *fixturesHTTPTest) Test(t *testing.T) {
-	wd, e := os.Getwd()
-	if !a.NoError(t, e) {
-		return
-	}
-
-	baseDir := filepath.Join(wd, "../../testdata/fixtures")
-	fixtures, e := NewFixturesTransport(baseDir)
+	fixtures, e := NewFixturesTransport()
 	if !a.NoError(t, e) {
 		return
 	}
@@ -60,12 +53,12 @@ func (test *fixturesHTTPTest) Test(t *testing.T) {
 		return
 	}
 
-	fileBytes, e := ioutil.ReadFile(filepath.Join(baseDir, test.filename))
+	fixBytes, e := ioutil.ReadFile(filepath.Join(FixtureBasePath, test.filename))
 	if !a.NoError(t, e) {
 		return
 	}
 
-	a.Equal(t, string(fileBytes), string(respBytes))
+	a.Equal(t, string(fixBytes), string(respBytes))
 }
 
 func TestFixturesTransport(t *testing.T) {
