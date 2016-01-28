@@ -5,6 +5,8 @@
   "offset": 0,
   "limit": 20,
   "total": 1,
+  "order": "chronological",
+  "location": "/customers",
   "data": [
     {
       "object": "customer",
@@ -22,6 +24,8 @@
         "offset": 0,
         "limit": 20,
         "total": 1,
+        "order": null,
+        "location": "/customers/cust_test_52u3ik77brmdygicm8z/cards",
         "data": [
           {
             "object": "card",
@@ -32,6 +36,7 @@
             "city": "Bangkok",
             "postal_code": "10320",
             "financing": "",
+            "bank": "",
             "last_digits": "4242",
             "brand": "Visa",
             "expiration_month": 1,
@@ -41,8 +46,7 @@
             "security_code_check": true,
             "created": "2015-01-15T04:03:40Z"
           }
-        ],
-        "location": "/customers/cust_test_4yq6txdpfadhbaqnwp3/cards"
+        ]
       }
     }
   ]

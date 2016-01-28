@@ -14,9 +14,28 @@
     "offset": 0,
     "limit": 20,
     "total": 1,
+    "order": null,
+    "location": "/customers/cust_test_52u3ik77brmdygicm8z/cards",
     "data": [
-
-    ],
-    "location": "/customers/cust_test_4yq6txdpfadhbaqnwp3/cards"
+      {
+        "object": "card",
+        "id": "card_test_52u3ik6d7qyffpwv5w7",
+        "livemode": false,
+        "location": "/customers/cust_test_52u3ik77brmdygicm8z/cards/card_test_52u3ik6d7qyffpwv5w7",
+        "country": "us",
+        "city": "Bangkok",
+        "postal_code": "10240",
+        "financing": "",
+        "bank": "",
+        "last_digits": "4242",
+        "brand": "Visa",
+        "expiration_month": 2,
+        "expiration_year": 2017,
+        "fingerprint": "mJnCcSbRLzwfV62Do9MAmjpXlzDBVJ/hvu8go4JYyqU=",
+        "name": "Chakrit Wichian",
+        "security_code_check": true,
+        "created": "2016-01-28T07:44:35Z"
+      }
+    ]
   }
 }

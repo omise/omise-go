@@ -5,6 +5,7 @@
   "offset": 0,
   "limit": 20,
   "total": 301,
+  "order": "chronological",
   "data": [
     {
       "object": "event",
@@ -29,6 +30,7 @@
           "offset": 0,
           "limit": 20,
           "total": 0,
+          "order": null,
           "data": [
 
           ],
@@ -59,6 +61,7 @@
           "offset": 0,
           "limit": 20,
           "total": 1,
+          "order": null,
           "data": [
             {
               "object": "card",
@@ -107,6 +110,7 @@
           "offset": 0,
           "limit": 20,
           "total": 2,
+          "order": null,
           "data": [
             {
               "object": "card",
@@ -215,6 +219,7 @@
           "offset": 0,
           "limit": 20,
           "total": 1,
+          "order": null,
           "data": [
             {
               "object": "card",
@@ -277,6 +282,7 @@
           "offset": 0,
           "limit": 20,
           "total": 0,
+          "order": null,
           "data": [
 
           ],
@@ -316,8 +322,8 @@
         "status": "successful",
         "capture": true,
         "authorized": true,
-        "captured": true,
         "transaction": "trxn_test_5232t6i17qfpaa0099m",
+        "paid": true,
         "refunded": 0,
         "refunds": {
           "object": "list",
@@ -326,6 +332,7 @@
           "offset": 0,
           "limit": 20,
           "total": 0,
+          "order": null,
           "data": [
 
           ],
@@ -375,8 +382,8 @@
         "status": "successful",
         "capture": true,
         "authorized": true,
-        "captured": true,
         "transaction": "trxn_test_5232t6i17qfpaa0099m",
+        "paid": true,
         "refunded": 0,
         "refunds": {
           "object": "list",
@@ -385,6 +392,7 @@
           "offset": 0,
           "limit": 20,
           "total": 0,
+          "order": null,
           "data": [
 
           ],
@@ -434,7 +442,7 @@
         "status": "pending",
         "capture": false,
         "authorized": true,
-        "captured": false,
+        "paid": false,
         "transaction": null,
         "refunded": 0,
         "refunds": {
@@ -444,6 +452,7 @@
           "offset": 0,
           "limit": 20,
           "total": 0,
+          "order": null,
           "data": [
 
           ],
@@ -493,8 +502,8 @@
         "status": "successful",
         "capture": false,
         "authorized": true,
-        "captured": true,
         "transaction": "trxn_test_5232t6v2dow26g8ua2s",
+        "paid": true,
         "refunded": 0,
         "refunds": {
           "object": "list",
@@ -503,6 +512,7 @@
           "offset": 0,
           "limit": 20,
           "total": 0,
+          "order": null,
           "data": [
 
           ],
@@ -557,6 +567,7 @@
           "offset": 0,
           "limit": 20,
           "total": 1,
+          "order": null,
           "data": [
             {
               "object": "card",
@@ -605,6 +616,7 @@
           "offset": 0,
           "limit": 20,
           "total": 1,
+          "order": null,
           "data": [
             {
               "object": "card",
@@ -736,8 +748,8 @@
         "status": "successful",
         "capture": true,
         "authorized": true,
-        "captured": true,
         "transaction": "trxn_test_5232t7h3e1700tpnr6i",
+        "paid": true,
         "refunded": 0,
         "refunds": {
           "object": "list",

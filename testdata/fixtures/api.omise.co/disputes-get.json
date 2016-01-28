@@ -5,6 +5,8 @@
   "offset": 0,
   "limit": 20,
   "total": 1,
+  "order": "chronological",
+  "location": "/disputes",
   "data": [
     {
       "object": "dispute",

@@ -16,8 +16,8 @@
       "description": "Charge for order 3947",
       "capture": true,
       "authorized": true,
-      "captured": true,
       "transaction": "trxn_test_4yq7duwb9jts1vxgqua",
+      "paid": true,
       "refunded": 0,
       "refunds": {
         "object": "list",
@@ -26,10 +26,11 @@
         "offset": 0,
         "limit": 20,
         "total": 0,
+        "order": null,
+        "location": "/charges/chrg_test_52u2zk9qtf0y1pwe1zw/refunds",
         "data": [
 
-        ],
-        "location": "/charges/chrg_test_4yq7duw15p9hdrjp8oq/refunds"
+        ]
       },
       "failure_code": null,
       "failure_message": null,
@@ -42,6 +43,7 @@
         "city": "Bangkok",
         "postal_code": "10320",
         "financing": "",
+        "bank": "",
         "last_digits": "4242",
         "brand": "Visa",
         "expiration_month": 1,
@@ -53,7 +55,8 @@
       },
       "customer": "cust_test_4yq6txdpfadhbaqnwp3",
       "ip": null,
-      "created": "2015-01-15T05:00:29Z"
+      "created": "2015-01-15T05:00:29Z",
+      "dispute": null
     }
   ]
 }

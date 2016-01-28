@@ -5,6 +5,8 @@
   "offset": 0,
   "limit": 20,
   "total": 1,
+  "order": "chronological",
+  "location": "/recipients",
   "data": [
     {
       "object": "recipient",
@@ -17,7 +19,7 @@
       "email": "john.doe@example.com",
       "description": "Default recipient",
       "type": "individual",
-      "tax_id": "",
+      "tax_id": null,
       "bank_account": {
         "object": "bank_account",
         "brand": "test",
@@ -28,6 +30,5 @@
       "failure_code": null,
       "created": "2015-06-02T09:26:59Z"
     }
-  ],
-  "location": "/recipients"
+  ]
 }

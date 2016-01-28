@@ -9,7 +9,7 @@
   "email": "john.doe@example.com",
   "description": "Default recipient",
   "type": "individual",
-  "tax_id": "",
+  "tax_id": null,
   "bank_account": {
     "object": "bank_account",
     "brand": "test",

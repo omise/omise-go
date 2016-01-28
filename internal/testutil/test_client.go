@@ -20,7 +20,7 @@ func Keys() (string, string) {
 }
 
 func NewTestClient(t *testing.T) *TestClient {
-	return newTestClient(t, true, false)
+	return newTestClient(t, false, false)
 }
 
 func NewFixedClient(t *testing.T) *TestClient {
@@ -37,6 +37,7 @@ func newTestClient(t *testing.T, record, fixed bool) *TestClient {
 		r.NoError(t, e)
 		client.Transport = fixtures // override std TLS transport
 	case record:
+		// WARN: Handle with care!
 		recorder, e := NewRecorderTransport()
 		r.NoError(t, e)
 		client.Transport = recorder
