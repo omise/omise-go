@@ -5,10 +5,12 @@ import (
 )
 
 type Op struct {
-	Endpoint Endpoint   `query:"-"`
-	Method   string     `query:"-"`
-	Path     string     `query:"-"`
-	Values   url.Values `query:"-"`
+	Endpoint Endpoint `query:"-"`
+	Method   string   `query:"-"`
+	Path     string   `query:"-"`
+
+	Values    url.Values `query:"-"`
+	Multipart bool       `query:"-"`
 }
 
 // Op implements Operation.Op and allows the struct itself be passed as an Operation
