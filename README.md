@@ -7,7 +7,7 @@
 Omise is a payment service provider currently operating in Thailand. Omise provides a set
 of clean APIs that helps merchants of any size accept credit cards online.
 
-This library offers GO integration in toas;doifja;sodijfa;soijf
+This library offers GO integration to the Omise API.
 
 Install with:
 
