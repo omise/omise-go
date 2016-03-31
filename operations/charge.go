@@ -25,7 +25,11 @@ type ListCharges struct {
 }
 
 func (req *ListCharges) Op() *internal.Op {
-	return &internal.Op{internal.API, "GET", "/charges", nil}
+	return &internal.Op{
+		Endpoint: internal.API,
+		Method:   "GET",
+		Path:     "/charges",
+	}
 }
 
 // Note that because bool defaults to false in GO, we use DontCapture instead of Capture
@@ -56,7 +60,13 @@ type CreateCharge struct {
 }
 
 func (req *CreateCharge) Op() *internal.Op {
-	op := &internal.Op{internal.API, "POST", "/charges", url.Values{}}
+	op := &internal.Op{
+		Endpoint: internal.API,
+		Method:   "POST",
+		Path:     "/charges",
+		Values:   url.Values{},
+	}
+
 	if req.DontCapture {
 		op.Values.Set("capture", "false")
 	}
@@ -81,7 +91,11 @@ type UpdateCharge struct {
 }
 
 func (req *UpdateCharge) Op() *internal.Op {
-	return &internal.Op{internal.API, "PATCH", "/charges/" + req.ChargeID, nil}
+	return &internal.Op{
+		Endpoint: internal.API,
+		Method:   "PATCH",
+		Path:     "/charges/" + req.ChargeID,
+	}
 }
 
 // Example:
@@ -98,7 +112,11 @@ type RetrieveCharge struct {
 }
 
 func (req *RetrieveCharge) Op() *internal.Op {
-	return &internal.Op{internal.API, "GET", "/charges/" + req.ChargeID, nil}
+	return &internal.Op{
+		Endpoint: internal.API,
+		Method:   "GET",
+		Path:     "/charges/" + req.ChargeID,
+	}
 }
 
 // If you have created a charge and passed capture=false you'll have an authorized only
@@ -119,5 +137,9 @@ type CaptureCharge struct {
 }
 
 func (req *CaptureCharge) Op() *internal.Op {
-	return &internal.Op{internal.API, "POST", "/charges/" + req.ChargeID + "/capture", nil}
+	return &internal.Op{
+		Endpoint: internal.API,
+		Method:   "POST",
+		Path:     "/charges/" + req.ChargeID + "/capture",
+	}
 }

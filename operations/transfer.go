@@ -23,7 +23,11 @@ type ListTransfers struct {
 }
 
 func (req *ListTransfers) Op() *internal.Op {
-	return &internal.Op{internal.API, "GET", "/transfers", nil}
+	return &internal.Op{
+		Endpoint: internal.API,
+		Method:   "GET",
+		Path:     "/transfers",
+	}
 }
 
 // Example:
@@ -43,7 +47,11 @@ type CreateTransfer struct {
 }
 
 func (req *CreateTransfer) Op() *internal.Op {
-	return &internal.Op{internal.API, "POST", "/transfers", nil}
+	return &internal.Op{
+		Endpoint: internal.API,
+		Method:   "POST",
+		Path:     "/transfers",
+	}
 }
 
 // Example:
@@ -60,7 +68,11 @@ type RetrieveTransfer struct {
 }
 
 func (req *RetrieveTransfer) Op() *internal.Op {
-	return &internal.Op{internal.API, "GET", "/transfers/" + req.TransferID, nil}
+	return &internal.Op{
+		Endpoint: internal.API,
+		Method:   "GET",
+		Path:     "/transfers/" + req.TransferID,
+	}
 }
 
 // Example:
@@ -81,7 +93,11 @@ type UpdateTransfer struct {
 }
 
 func (req *UpdateTransfer) Op() *internal.Op {
-	return &internal.Op{internal.API, "PATCH", "/transfers/" + req.TransferID, nil}
+	return &internal.Op{
+		Endpoint: internal.API,
+		Method:   "PATCH",
+		Path:     "/transfers/" + req.TransferID,
+	}
 }
 
 // Example:
@@ -98,5 +114,9 @@ type DestroyTransfer struct {
 }
 
 func (req *DestroyTransfer) Op() *internal.Op {
-	return &internal.Op{internal.API, "DELETE", "/transfers/" + req.TransferID, nil}
+	return &internal.Op{
+		Endpoint: internal.API,
+		Method:   "DELETE",
+		Path:     "/transfers/" + req.TransferID,
+	}
 }

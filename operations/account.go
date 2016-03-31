@@ -16,5 +16,9 @@ import (
 type RetrieveAccount struct{}
 
 func (req *RetrieveAccount) Op() *internal.Op {
-	return &internal.Op{internal.API, "GET", "/account", nil}
+	return &internal.Op{
+		Endpoint: internal.API,
+		Method:   "GET",
+		Path:     "/account",
+	}
 }

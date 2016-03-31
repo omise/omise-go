@@ -18,7 +18,11 @@ type ListEvents struct {
 }
 
 func (req *ListEvents) Op() *internal.Op {
-	return &internal.Op{internal.API, "GET", "/events", nil}
+	return &internal.Op{
+		Endpoint: internal.API,
+		Method:   "GET",
+		Path:     "/events",
+	}
 }
 
 // Example:
@@ -35,5 +39,9 @@ type RetrieveEvent struct {
 }
 
 func (req *RetrieveEvent) Op() *internal.Op {
-	return &internal.Op{internal.API, "GET", "/events/" + req.EventID, nil}
+	return &internal.Op{
+		Endpoint: internal.API,
+		Method:   "GET",
+		Path:     "/events/" + req.EventID,
+	}
 }

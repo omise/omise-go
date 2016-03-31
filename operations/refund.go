@@ -19,7 +19,11 @@ type ListRefunds struct {
 }
 
 func (req *ListRefunds) Op() *internal.Op {
-	return &internal.Op{internal.API, "GET", "/charges/" + req.ChargeID + "/refunds", nil}
+	return &internal.Op{
+		Endpoint: internal.API,
+		Method:   "GET",
+		Path:     "/charges/" + req.ChargeID + "/refunds",
+	}
 }
 
 // Example:
@@ -40,7 +44,11 @@ type CreateRefund struct {
 }
 
 func (req *CreateRefund) Op() *internal.Op {
-	return &internal.Op{internal.API, "POST", "/charges/" + req.ChargeID + "/refunds", nil}
+	return &internal.Op{
+		Endpoint: internal.API,
+		Method:   "POST",
+		Path:     "/charges/" + req.ChargeID + "/refunds",
+	}
 }
 
 // Example:
@@ -61,5 +69,9 @@ type RetrieveRefund struct {
 }
 
 func (req *RetrieveRefund) Op() *internal.Op {
-	return &internal.Op{internal.API, "GET", "/charges/" + req.ChargeID + "/refunds/" + req.RefundID, nil}
+	return &internal.Op{
+		Endpoint: internal.API,
+		Method:   "GET",
+		Path:     "/charges/" + req.ChargeID + "/refunds/" + req.RefundID,
+	}
 }

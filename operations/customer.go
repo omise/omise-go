@@ -23,7 +23,11 @@ type ListCustomers struct {
 }
 
 func (req *ListCustomers) Op() *internal.Op {
-	return &internal.Op{internal.API, "GET", "/customers", nil}
+	return &internal.Op{
+		Endpoint: internal.API,
+		Method:   "GET",
+		Path:     "/customers",
+	}
 }
 
 // Example:
@@ -46,7 +50,11 @@ type CreateCustomer struct {
 }
 
 func (req *CreateCustomer) Op() *internal.Op {
-	return &internal.Op{internal.API, "POST", "/customers", nil}
+	return &internal.Op{
+		Endpoint: internal.API,
+		Method:   "POST",
+		Path:     "/customers",
+	}
 }
 
 // Example:
@@ -63,7 +71,11 @@ type RetrieveCustomer struct {
 }
 
 func (req *RetrieveCustomer) Op() *internal.Op {
-	return &internal.Op{internal.API, "GET", "/customers/" + req.CustomerID, nil}
+	return &internal.Op{
+		Endpoint: internal.API,
+		Method:   "GET",
+		Path:     "/customers/" + req.CustomerID,
+	}
 }
 
 // Example:
@@ -86,7 +98,11 @@ type UpdateCustomer struct {
 }
 
 func (req *UpdateCustomer) Op() *internal.Op {
-	return &internal.Op{internal.API, "PATCH", "/customers/" + req.CustomerID, nil}
+	return &internal.Op{
+		Endpoint: internal.API,
+		Method:   "PATCH",
+		Path:     "/customers/" + req.CustomerID,
+	}
 }
 
 // Example:
@@ -105,5 +121,9 @@ type DestroyCustomer struct {
 }
 
 func (req *DestroyCustomer) Op() *internal.Op {
-	return &internal.Op{internal.API, "DELETE", "/customers/" + req.CustomerID, nil}
+	return &internal.Op{
+		Endpoint: internal.API,
+		Method:   "DELETE",
+		Path:     "/customers/" + req.CustomerID,
+	}
 }

@@ -32,7 +32,11 @@ func (req *ListDisputes) Op() *internal.Op {
 		path += "/closed"
 	}
 
-	return &internal.Op{internal.API, "GET", path, nil}
+	return &internal.Op{
+		Endpoint: internal.API,
+		Method:   "GET",
+		Path:     path,
+	}
 }
 
 // Example:
@@ -49,7 +53,11 @@ type RetrieveDispute struct {
 }
 
 func (req *RetrieveDispute) Op() *internal.Op {
-	return &internal.Op{internal.API, "GET", "/disputes/" + req.DisputeID, nil}
+	return &internal.Op{
+		Endpoint: internal.API,
+		Method:   "GET",
+		Path:     "/disputes/" + req.DisputeID,
+	}
 }
 
 // Example:
@@ -70,5 +78,9 @@ type UpdateDispute struct {
 }
 
 func (req *UpdateDispute) Op() *internal.Op {
-	return &internal.Op{internal.API, "PATCH", "/disputes/" + req.DisputeID, nil}
+	return &internal.Op{
+		Endpoint: internal.API,
+		Method:   "PATCH",
+		Path:     "/disputes/" + req.DisputeID,
+	}
 }

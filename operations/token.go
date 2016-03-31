@@ -36,7 +36,11 @@ type CreateToken struct {
 }
 
 func (req *CreateToken) Op() *internal.Op {
-	return &internal.Op{internal.Vault, "POST", "/tokens", nil}
+	return &internal.Op{
+		Endpoint: internal.Vault,
+		Method:   "POST",
+		Path:     "/tokens",
+	}
 }
 
 // Example:
@@ -53,5 +57,9 @@ type RetrieveToken struct {
 }
 
 func (token *RetrieveToken) Op() *internal.Op {
-	return &internal.Op{internal.Vault, "GET", "/tokens/" + token.ID, nil}
+	return &internal.Op{
+		Endpoint: internal.Vault,
+		Method:   "GET",
+		Path:     "/tokens/" + token.ID,
+	}
 }

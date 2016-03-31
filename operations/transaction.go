@@ -23,7 +23,11 @@ type ListTransactions struct {
 }
 
 func (req *ListTransactions) Op() *internal.Op {
-	return &internal.Op{internal.API, "GET", "/transactions", nil}
+	return &internal.Op{
+		Endpoint: internal.API,
+		Method:   "GET",
+		Path:     "/transactions",
+	}
 }
 
 // Example:
@@ -42,5 +46,9 @@ type RetrieveTransaction struct {
 }
 
 func (req *RetrieveTransaction) Op() *internal.Op {
-	return &internal.Op{internal.API, "GET", "/transactions/" + req.TransactionID, nil}
+	return &internal.Op{
+		Endpoint: internal.API,
+		Method:   "GET",
+		Path:     "/transactions/" + req.TransactionID,
+	}
 }

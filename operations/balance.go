@@ -16,5 +16,9 @@ import (
 type RetrieveBalance struct{}
 
 func (req *RetrieveBalance) Op() *internal.Op {
-	return &internal.Op{internal.API, "GET", "/balance", nil}
+	return &internal.Op{
+		Endpoint: internal.API,
+		Method:   "GET",
+		Path:     "/balance",
+	}
 }

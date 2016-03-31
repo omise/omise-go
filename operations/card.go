@@ -23,7 +23,11 @@ type ListCards struct {
 }
 
 func (req *ListCards) Op() *internal.Op {
-	return &internal.Op{internal.API, "GET", "/customers/" + req.CustomerID + "/cards", nil}
+	return &internal.Op{
+		Endpoint: internal.API,
+		Method:   "GET",
+		Path:     "/customers/" + req.CustomerID + "/cards",
+	}
 }
 
 // TODO: Cards can be created only by updating an existing customer and the result will be
@@ -55,7 +59,11 @@ type RetrieveCard struct {
 }
 
 func (req *RetrieveCard) Op() *internal.Op {
-	return &internal.Op{internal.API, "GET", "/customers/" + req.CustomerID + "/cards/" + req.CardID, nil}
+	return &internal.Op{
+		Endpoint: internal.API,
+		Method:   "GET",
+		Path:     "/customers/" + req.CustomerID + "/cards/" + req.CardID,
+	}
 }
 
 // Example:
@@ -84,7 +92,11 @@ type UpdateCard struct {
 }
 
 func (req *UpdateCard) Op() *internal.Op {
-	return &internal.Op{internal.API, "PATCH", "/customers/" + req.CustomerID + "/cards/" + req.CardID, nil}
+	return &internal.Op{
+		Endpoint: internal.API,
+		Method:   "PATCH",
+		Path:     "/customers/" + req.CustomerID + "/cards/" + req.CardID,
+	}
 }
 
 // Example:
@@ -105,5 +117,9 @@ type DestroyCard struct {
 }
 
 func (req *DestroyCard) Op() *internal.Op {
-	return &internal.Op{internal.API, "DELETE", "/customers/" + req.CustomerID + "/cards/" + req.CardID, nil}
+	return &internal.Op{
+		Endpoint: internal.API,
+		Method:   "DELETE",
+		Path:     "/customers/" + req.CustomerID + "/cards/" + req.CardID,
+	}
 }

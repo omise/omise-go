@@ -21,7 +21,11 @@ type ListRecipients struct {
 }
 
 func (req *ListRecipients) Op() *internal.Op {
-	return &internal.Op{internal.API, "GET", "/recipients", nil}
+	return &internal.Op{
+		Endpoint: internal.API,
+		Method:   "GET",
+		Path:     "/recipients",
+	}
 }
 
 // Example:
@@ -55,7 +59,11 @@ type CreateRecipient struct {
 }
 
 func (req *CreateRecipient) Op() *internal.Op {
-	return &internal.Op{internal.API, "POST", "/recipients", nil}
+	return &internal.Op{
+		Endpoint: internal.API,
+		Method:   "POST",
+		Path:     "/recipients",
+	}
 }
 
 // Example:
@@ -72,7 +80,11 @@ type RetrieveRecipient struct {
 }
 
 func (req *RetrieveRecipient) Op() *internal.Op {
-	return &internal.Op{internal.API, "GET", "/recipients/" + req.RecipientID, nil}
+	return &internal.Op{
+		Endpoint: internal.API,
+		Method:   "GET",
+		Path:     "/recipients/" + req.RecipientID,
+	}
 }
 
 // Example:
@@ -98,7 +110,11 @@ type UpdateRecipient struct {
 }
 
 func (req *UpdateRecipient) Op() *internal.Op {
-	return &internal.Op{internal.API, "PATCH", "/recipients/" + req.RecipientID, nil}
+	return &internal.Op{
+		Endpoint: internal.API,
+		Method:   "PATCH",
+		Path:     "/recipients/" + req.RecipientID,
+	}
 }
 
 // Example:
@@ -115,5 +131,9 @@ type DestroyRecipient struct {
 }
 
 func (req *DestroyRecipient) Op() *internal.Op {
-	return &internal.Op{internal.API, "DELETE", "/recipients/" + req.RecipientID, nil}
+	return &internal.Op{
+		Endpoint: internal.API,
+		Method:   "DELETE",
+		Path:     "/recipients/" + req.RecipientID,
+	}
 }
