@@ -107,7 +107,9 @@ func TestClient_Error(t *testing.T) {
 	}
 
 	e = client.Do(nil, &internal.Op{
-		internal.API, "GET", "/definitely_never_found", nil,
+		Endpoint: internal.API,
+		Method:   "GET",
+		Path:     "/definitely_never_found",
 	})
 	if a.NotNil(t, e) {
 		err, ok := e.(*Error)
@@ -117,7 +119,9 @@ func TestClient_Error(t *testing.T) {
 	}
 
 	e = client.Do(nil, &internal.Op{
-		internal.Endpoint("virus_endpoint"), "GET", "/", nil,
+		Endpoint: internal.Endpoint("virus_endpoint"),
+		Method:   "GET",
+		Path:     "/",
 	})
 	if a.NotNil(t, e) {
 		a.IsType(t, ErrInternal(""), e)
@@ -129,7 +133,9 @@ func TestClient_TransportError(t *testing.T) {
 	client := testutil.NewFixedClient(t)
 
 	e := client.Do(&struct{}{}, &internal.Op{
-		internal.API, "GET", "/malformed", nil,
+		Endpoint: internal.API,
+		Method:   "GET",
+		Path:     "/malformed",
 	})
 	if a.NotNil(t, e) {
 		err, ok := e.(*ErrTransport)
