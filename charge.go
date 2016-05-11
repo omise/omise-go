@@ -11,6 +11,7 @@ type Charge struct {
 
 	Capture    bool `json:"capture" pretty:""`
 	Authorized bool `json:"authorized" pretty:""`
+	Reversed   bool `json:"reversed" pretty:""`
 	Paid       bool `json:"paid" pretty:""`
 
 	Transaction string `json:"transaction"`
