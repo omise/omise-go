@@ -143,3 +143,18 @@ func (req *CaptureCharge) Op() *internal.Op {
 		Path:     "/charges/" + req.ChargeID + "/capture",
 	}
 }
+
+// If you have created a charge and passed capture=false you'll have an authorized only
+// charge that can be reversed, releasing held money, at a later time without incurring a
+// refund fee.
+type ReverseCharge struct {
+	ChargeID string
+}
+
+func (req *ReverseCharge) Op() *internal.Op {
+	return &internal.Op{
+		Endpoint: internal.API,
+		Method:   "POST",
+		Path:     "/charges/" + req.ChargeID + "/reverse",
+	}
+}
