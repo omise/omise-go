@@ -41,6 +41,7 @@ func (req *ListRefunds) Op() *internal.Op {
 type CreateRefund struct {
 	ChargeID string `query:"-"`
 	Amount   int64
+	Void     bool
 }
 
 func (req *CreateRefund) Op() *internal.Op {
