@@ -8,4 +8,5 @@ const (
 	ChargeFailed     ChargeStatus = "failed"
 	ChargePending    ChargeStatus = "pending"
 	ChargeSuccessful ChargeStatus = "successful"
+	ChargeReversed   ChargeStatus = "reversed"
 )
