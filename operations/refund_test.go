@@ -26,7 +26,7 @@ func TestRefund(t *testing.T) {
 	a.Equal(t, TransactionID, refund.Transaction)
 
 	refund = &omise.Refund{}
-	client.MustDo(refund, &CreateRefund{ChargeID, 10000})
+	client.MustDo(refund, &CreateRefund{ChargeID, 10000, false})
 	a.Equal(t, RefundID, refund.ID)
 	a.Equal(t, int64(10000), refund.Amount)
 
