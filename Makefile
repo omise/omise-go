@@ -28,11 +28,15 @@ fmt:
 	@echo goimports:
 	@goimports -l -w .
 
-
 deps:
 	@$(GO) get -v ./...
 test-deps:
 	@$(GO) get -t -v ./...
+deps-list:
+	@$(GO) list -f '{{join .Deps "\n"}}' \
+		| sort \
+		| uniq \
+		| grep -v "omise-go"
 
 test: test-deps
 	@$(GO) test -v ./...
