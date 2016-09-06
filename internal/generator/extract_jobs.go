@@ -19,6 +19,7 @@ func ExtractJobs() ([]Job, error) {
 	var (
 		scope      = pkg.Scope()
 		listJob    = &GenListJob{}
+		searchJob  = &GenSearchJob{}
 		stringJob  = &GenStringJob{map[string][]string{}}
 		apiTreeJob = &GenAPITreeJob{nil, map[string][]string{}}
 	)
@@ -66,9 +67,18 @@ func ExtractJobs() ([]Job, error) {
 		}
 	}
 
+	// search results are fixed, for now.
+	searchJob.Names = []string{
+		"Charge",
+		"Customer",
+		"Dispute",
+		"Recipient",
+	}
+
 	sort.Strings(listJob.Names)
+	sort.Strings(searchJob.Names)
 	sort.Strings(apiTreeJob.Names)
-	return []Job{listJob, stringJob, apiTreeJob}, nil
+	return []Job{listJob, searchJob, stringJob, apiTreeJob}, nil
 }
 
 func findClass(typ types.Type) (class Class) {

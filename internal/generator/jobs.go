@@ -16,6 +16,14 @@ func (job *GenListJob) Filenames() (string, string) {
 	return "gen_list_job.tmpl", "gen_list.go"
 }
 
+type GenSearchJob struct {
+	Names []string
+}
+
+func (job *GenSearchJob) Filenames() (string, string) {
+	return "gen_search_job.tmpl", "gen_search.go"
+}
+
 type GenStringJob struct {
 	Fields map[string][]string
 }

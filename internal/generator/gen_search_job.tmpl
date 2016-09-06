@@ -1,0 +1,32 @@
+package omise
+
+{{.Header}}
+
+import (
+	"bytes"
+)
+{{with .Data}}{{range .Names}}
+const {{.}}Scope SearchScope = "{{toLower .}}"
+
+// {{.}}SearchResult represents search result structure returned by Omise's Search API
+// that contains {{.}} struct as result elements.
+type {{.}}SearchResult struct {
+	SearchResult
+	Data []*{{.}} `json:"data"`
+}
+
+func (list *{{.}}SearchResult) String() string {
+	buf := &bytes.Buffer{}
+	for _, item := range list.Data {
+		buf.WriteString(item.String() + "\n")
+	}
+	return buf.String()
+}
+
+func (list *{{.}}SearchResult) ColorString() string {
+	buf := &bytes.Buffer{}
+	for _, item := range list.Data {
+		buf.WriteString(item.ColorString() + "\n")
+	}
+	return buf.String()
+}{{end}}{{end}}
