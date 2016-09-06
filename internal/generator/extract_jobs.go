@@ -52,6 +52,11 @@ func ExtractJobs() ([]Job, error) {
 		case OperationStruct:
 			fmt.Println("OP:", name)
 
+			// TODO: adjust this for search api convention.
+			if name == "Search" {
+				continue
+			}
+
 			modelName, opName := splitOpName(name)
 			if strings.HasSuffix(modelName, "s") {
 				modelName = modelName[:len(modelName)-1]
