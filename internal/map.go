@@ -9,6 +9,7 @@ import (
 )
 
 var timeType = reflect.TypeOf(time.Time{})
+var stringMapType = reflect.TypeOf(map[string]string{})
 
 type ErrMap struct {
 	field  reflect.StructField
@@ -80,7 +81,13 @@ func mapURLValues(i interface{}, target url.Values, parent string) error {
 		}
 
 		// zero check
-		isZero := fieldval.Interface() == reflect.Zero(fieldval.Type()).Interface()
+		isZero := false
+		if fieldval.Kind() == reflect.Map { // can't compare maps
+			isZero = fieldval.Len() == 0
+		} else {
+			isZero = fieldval.Interface() == reflect.Zero(fieldval.Type()).Interface()
+		}
+
 		if isZero && !sendZero {
 			continue
 		}
@@ -99,6 +106,16 @@ func mapURLValues(i interface{}, target url.Values, parent string) error {
 			out = strconv.FormatFloat(fieldval.Float(), 'f', 4, 64)
 		case reflect.String:
 			out = fieldval.String()
+
+		case reflect.Map:
+			if field.Type.Key().Kind() != reflect.String || field.Type.Elem().Kind() != reflect.String {
+				return &ErrMap{field, "unsupported type. (only map[string]string supported for maps)"}
+			}
+
+			maps := fieldval.Interface().(map[string]string)
+			for key, value := range maps {
+				target.Set(tag+"["+key+"]", value)
+			}
 
 		case reflect.Struct:
 			switch { // well-known types

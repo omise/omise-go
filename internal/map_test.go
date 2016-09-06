@@ -90,6 +90,18 @@ func TestMapURLValues_Zeroes(t *testing.T) {
 	}{0, 0, 0.0, 0.0, 0.0, 0.0})
 }
 
+func TestMapURLValues_StringMaps(t *testing.T) {
+	v := url.Values{}
+	v.Set("filter[a]", "hello")
+	v.Set("filter[b]", "world")
+
+	check(t, v, &struct {
+		Filter map[string]string
+	}{
+		map[string]string{"a": "hello", "b": "world"},
+	})
+}
+
 func TestMapURLValues_Structs(t *testing.T) {
 	now := time.Now()
 
