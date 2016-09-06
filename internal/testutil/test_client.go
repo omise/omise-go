@@ -15,8 +15,8 @@ type TestClient struct {
 }
 
 func Keys() (string, string) {
-	return os.Getenv("OMISE_PUBKEY"),
-		os.Getenv("OMISE_KEY")
+	return os.Getenv("OMISE_PKEY"),
+		os.Getenv("OMISE_SKEY")
 }
 
 func NewTestClient(t *testing.T) *TestClient {
