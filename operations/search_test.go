@@ -51,7 +51,6 @@ func TestSearch_Network(t *testing.T) {
 	result = &omise.ChargeSearchResult{}
 	client.MustDo(result, &Search{
 		Scope: omise.ChargeScope,
-		// Filters: map[string]string{"id": ChargeID},
 		Query: "id:" + ChargeID,
 	})
 
