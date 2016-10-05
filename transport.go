@@ -22,6 +22,9 @@ func init() {
 	}
 
 	transport = &http.Transport{
-		TLSClientConfig: &tls.Config{RootCAs: pool},
+		TLSClientConfig: &tls.Config{
+			RootCAs:    pool,
+			MinVersion: tls.VersionTLS12,
+		},
 	}
 }
