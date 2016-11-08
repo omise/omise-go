@@ -32,12 +32,4 @@ func (list *{{.}}List) String() string {
 		buf.WriteString(item.String() + "\n")
 	}
 	return buf.String()
-}
-
-func (list *{{.}}List) ColorString() string {
-	buf := &bytes.Buffer{}
-	for _, item := range list.Data {
-		buf.WriteString(item.ColorString() + "\n")
-	}
-	return buf.String()
 }{{end}}{{end}}

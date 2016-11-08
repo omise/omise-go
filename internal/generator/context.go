@@ -22,7 +22,15 @@ func NewContext(job Job) (*Context, error) {
 	}
 
 	tmplname, _ := job.Filenames()
-	return &Context{job, job, tmplname, usr.Username, time.Now()}, nil
+	context := &Context{
+		Data: job,
+		Job:  job,
+		Src:  tmplname,
+		User: usr.Username,
+		Time: time.Now(),
+	}
+
+	return context, nil
 }
 
 func (ctx *Context) Header() string {

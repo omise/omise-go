@@ -4,10 +4,7 @@ import (
 	"log"
 )
 
-const (
-	MainImportPath       = "github.com/omise/omise-go"
-	OperationsImportPath = "github.com/omise/omise-go/operations"
-)
+const MainImportPath = "github.com/omise/omise-go"
 
 func main() {
 	jobs, e := ExtractJobs()
@@ -16,7 +13,7 @@ func main() {
 	log.Println(len(jobs), "job(s):")
 	for _, job := range jobs {
 		_, outname := job.Filenames()
-		log.Printf("* %#v -> %s", job, outname)
+		log.Printf("* %s\n\033[90m%#v\033[0m", outname, job)
 
 		noError(Execute(job))
 	}
