@@ -21,12 +21,4 @@ func (list *{{.}}SearchResult) String() string {
 		buf.WriteString(item.String() + "\n")
 	}
 	return buf.String()
-}
-
-func (list *{{.}}SearchResult) ColorString() string {
-	buf := &bytes.Buffer{}
-	for _, item := range list.Data {
-		buf.WriteString(item.ColorString() + "\n")
-	}
-	return buf.String()
 }{{end}}{{end}}

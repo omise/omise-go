@@ -12,12 +12,4 @@ import (
 func (m *{{$name}}) String() string {
 	return "" + {{range $fields}}
 		"{{.}}=" + fmt.Sprint(m.{{.}}) + " " +{{end}} ""
-}
-
-func (m *{{$name}}) ColorString() string {
-	cyan := color.New(color.FgCyan).SprintFunc()
-	_ = cyan
-  return "" + {{range $fields}}
-		cyan("{{.}}=") + fmt.Sprint(m.{{.}}) + " " +{{end}} ""
-}
-{{end}}{{end}}
+}{{end}}{{end}}
