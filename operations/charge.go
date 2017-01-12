@@ -54,6 +54,7 @@ type CreateCharge struct {
 	Card        string
 	Amount      int64
 	Currency    string
+	Offsite     OffsiteTypes
 	Description string
 	DontCapture bool   `query:"-"` // inverse, since `capture` defaults to true
 	ReturnURI   string `query:"return_uri"`

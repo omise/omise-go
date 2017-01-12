@@ -28,4 +28,7 @@ type Charge struct {
 
 	ReturnURI    string `json:"return_uri"`
 	AuthorizeURI string `json:"authorize_uri"`
+
+	SourceOfFund SourceOfFunds `json:"source_of_fund"`
+	Offsite      OffsiteTypes  `json:"offsite"`
 }
