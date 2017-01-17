@@ -3,6 +3,7 @@ package operations
 import (
 	"net/url"
 
+	"github.com/omise/omise-go"
 	"github.com/omise/omise-go/internal"
 )
 
@@ -54,7 +55,7 @@ type CreateCharge struct {
 	Card        string
 	Amount      int64
 	Currency    string
-	Offsite     OffsiteTypes
+	Offsite     omise.OffsiteTypes
 	Description string
 	DontCapture bool   `query:"-"` // inverse, since `capture` defaults to true
 	ReturnURI   string `query:"return_uri"`
