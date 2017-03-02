@@ -1,5 +1,8 @@
 language: go
-script: ./build.sh
+script: 
+  - go get github.com/alecthomas/gometalinter
+  - go get github.com/jteeuwen/go-bindata
+  - ./build.sh
 go:
 - "tip"
 - "1.6"
