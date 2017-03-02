@@ -1,5 +1,7 @@
 language: go
-script: 
+env:
+  - PATH=$GOPATH/bin:$PATH
+script:
   - go get github.com/alecthomas/gometalinter
   - go get github.com/jteeuwen/go-bindata
   - ./build.sh
