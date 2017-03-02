@@ -7,7 +7,7 @@ import (
 	"github.com/omise/omise-go"
 	"github.com/omise/omise-go/internal/testutil"
 	. "github.com/omise/omise-go/operations"
-	a "github.com/stretchr/testify/assert"
+	r "github.com/stretchr/testify/require"
 )
 
 func TestRefund(t *testing.T) {
@@ -21,19 +21,18 @@ func TestRefund(t *testing.T) {
 
 	refund := &omise.Refund{}
 	client.MustDo(refund, &RetrieveRefund{ChargeID, RefundID})
-	a.Equal(t, RefundID, refund.ID)
-	a.Equal(t, ChargeID, refund.Charge)
-	a.Equal(t, TransactionID, refund.Transaction)
+	r.Equal(t, RefundID, refund.ID)
+	r.Equal(t, ChargeID, refund.Charge)
+	r.Equal(t, TransactionID, refund.Transaction)
 
 	refund = &omise.Refund{}
 	client.MustDo(refund, &CreateRefund{ChargeID, 10000, false})
-	a.Equal(t, RefundID, refund.ID)
-	a.Equal(t, int64(10000), refund.Amount)
+	r.Equal(t, RefundID, refund.ID)
+	r.Equal(t, int64(10000), refund.Amount)
 
 	e := client.Do(nil, &RetrieveRefund{ChargeID, "not_exist"})
-	if a.Error(t, e) {
-		a.EqualError(t, e, "(404/not_found) refund 404 was not found")
-	}
+	r.Error(t, e)
+	r.EqualError(t, e, "(404/not_found) refund 404 was not found")
 }
 
 func TestRefund_Network(t *testing.T) {
@@ -53,7 +52,7 @@ func TestRefund_Network(t *testing.T) {
 	refunds := &omise.RefundList{}
 	client.MustDo(refunds, list)
 
-	a.Len(t, refunds.Data, 0)
+	r.Len(t, refunds.Data, 0)
 
 	// create a half refund on the charge
 	refund := &omise.Refund{}
@@ -62,17 +61,14 @@ func TestRefund_Network(t *testing.T) {
 		Amount:   charge.Amount >> 1,
 	})
 
-	a.Equal(t, refund.Amount, charge.Amount>>1)
-	a.Equal(t, refund.Currency, charge.Currency)
+	r.Equal(t, refund.Amount, charge.Amount>>1)
+	r.Equal(t, refund.Currency, charge.Currency)
 
 	// list refunds again which now contains the created refunds
 	client.MustDo(refunds, list)
 
-	if a.Len(t, refunds.Data, 1) {
-		a.Equal(t, refunds.Data[0].ID, refund.ID)
-	} else {
-		return
-	}
+	r.Len(t, refunds.Data, 1)
+	r.Equal(t, refunds.Data[0].ID, refund.ID)
 
 	// retrieve refund by id, which should match what we already have.
 	client.MustDo(refund, &RetrieveRefund{
@@ -80,6 +76,6 @@ func TestRefund_Network(t *testing.T) {
 		RefundID: refund.ID,
 	})
 
-	a.Equal(t, refunds.Data[0].ID, refund.ID)
-	a.Equal(t, refunds.Data[0].Amount, refund.Amount)
+	r.Equal(t, refunds.Data[0].ID, refund.ID)
+	r.Equal(t, refunds.Data[0].Amount, refund.Amount)
 }

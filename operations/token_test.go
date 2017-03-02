@@ -6,7 +6,7 @@ import (
 	"github.com/omise/omise-go"
 	"github.com/omise/omise-go/internal/testutil"
 	. "github.com/omise/omise-go/operations"
-	a "github.com/stretchr/testify/assert"
+	r "github.com/stretchr/testify/require"
 )
 
 func TestToken(t *testing.T) {
@@ -21,11 +21,11 @@ func TestToken(t *testing.T) {
 		ExpirationYear:  2017,
 		SecurityCode:    "123",
 	})
-	a.Equal(t, TokenID, token.ID)
+	r.Equal(t, TokenID, token.ID)
 
 	token = &omise.Token{}
 	client.MustDo(token, &RetrieveToken{TokenID})
-	a.Equal(t, TokenID, token.ID)
+	r.Equal(t, TokenID, token.ID)
 }
 
 func TestToken_Network(t *testing.T) {
@@ -35,5 +35,5 @@ func TestToken_Network(t *testing.T) {
 	tok1, tok2 := createTestToken(client), &omise.Token{}
 	client.MustDo(tok2, &RetrieveToken{ID: tok1.ID})
 
-	a.Equal(t, *tok1, *tok2)
+	r.Equal(t, *tok1, *tok2)
 }

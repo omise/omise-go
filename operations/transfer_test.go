@@ -7,7 +7,7 @@ import (
 	"github.com/omise/omise-go"
 	"github.com/omise/omise-go/internal/testutil"
 	. "github.com/omise/omise-go/operations"
-	a "github.com/stretchr/testify/assert"
+	r "github.com/stretchr/testify/require"
 )
 
 func TestTransfer(t *testing.T) {
@@ -20,29 +20,28 @@ func TestTransfer(t *testing.T) {
 
 	transfer := &omise.Transfer{}
 	client.MustDo(transfer, &CreateTransfer{Amount: 192188})
-	a.Equal(t, TransferID, transfer.ID)
-	a.Equal(t, int64(192188), transfer.Amount)
+	r.Equal(t, TransferID, transfer.ID)
+	r.Equal(t, int64(192188), transfer.Amount)
 
 	transfer = &omise.Transfer{}
 	client.MustDo(transfer, &RetrieveTransfer{TransferID})
-	a.Equal(t, TransferID, transfer.ID)
-	a.Equal(t, RecipientID, transfer.Recipient)
-	if a.NotNil(t, transfer.BankAccount) {
-		a.Equal(t, "6789", transfer.BankAccount.LastDigits)
-	}
+	r.Equal(t, TransferID, transfer.ID)
+	r.Equal(t, RecipientID, transfer.Recipient)
+	r.NotNil(t, transfer.BankAccount)
+	r.Equal(t, "6789", transfer.BankAccount.LastDigits)
 
 	transfer = &omise.Transfer{}
 	client.MustDo(transfer, &UpdateTransfer{
 		TransferID: TransferID,
 		Amount:     192189,
 	})
-	a.Equal(t, TransferID, transfer.ID)
-	a.Equal(t, int64(192189), transfer.Amount)
+	r.Equal(t, TransferID, transfer.ID)
+	r.Equal(t, int64(192189), transfer.Amount)
 
 	del := &omise.Deletion{}
 	client.MustDo(del, &DestroyTransfer{TransferID})
-	a.Equal(t, TransferID, del.ID)
-	a.True(t, del.Deleted)
+	r.Equal(t, TransferID, del.ID)
+	r.True(t, del.Deleted)
 }
 
 func TestTransfer_Network(t *testing.T) {
@@ -53,8 +52,8 @@ func TestTransfer_Network(t *testing.T) {
 	transfer := &omise.Transfer{}
 	client.MustDo(transfer, &CreateTransfer{Amount: 32100})
 
-	a.Equal(t, int64(32100), transfer.Amount)
-	a.NotNil(t, transfer.BankAccount)
+	r.Equal(t, int64(32100), transfer.Amount)
+	r.NotNil(t, transfer.BankAccount)
 
 	// gets created transfer
 	transfer2 := &omise.Transfer{}
@@ -68,11 +67,11 @@ func TestTransfer_Network(t *testing.T) {
 		List{Limit: 100, From: time.Now().Add(-1 * time.Hour)},
 	})
 
-	a.True(t, len(transfers.Data) > 0, "no transfer was created.")
+	r.True(t, len(transfers.Data) > 0, "no transfer was created.")
 
 	transfer2 = transfers.Find(transfer.ID)
-	a.Equal(t, transfer.ID, transfer2.ID)
-	a.Equal(t, transfer.Amount, transfer2.Amount)
+	r.Equal(t, transfer.ID, transfer2.ID)
+	r.Equal(t, transfer.Amount, transfer2.Amount)
 
 	// update transfer
 	transfer2 = &omise.Transfer{}
@@ -81,15 +80,15 @@ func TestTransfer_Network(t *testing.T) {
 		Amount:     12300,
 	})
 
-	a.Equal(t, transfer.ID, transfer2.ID)
-	a.Equal(t, int64(12300), transfer2.Amount)
+	r.Equal(t, transfer.ID, transfer2.ID)
+	r.Equal(t, int64(12300), transfer2.Amount)
 
 	// destroy transfer
 	del, destroy := &omise.Deletion{}, &DestroyTransfer{TransferID: transfer.ID}
 	client.MustDo(del, destroy)
 
-	a.Equal(t, transfer.Object, del.Object)
-	a.Equal(t, transfer.ID, del.ID)
-	a.Equal(t, transfer.Live, del.Live)
-	a.True(t, del.Deleted)
+	r.Equal(t, transfer.Object, del.Object)
+	r.Equal(t, transfer.ID, del.ID)
+	r.Equal(t, transfer.Live, del.Live)
+	r.True(t, del.Deleted)
 }

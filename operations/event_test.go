@@ -7,7 +7,7 @@ import (
 	"github.com/omise/omise-go"
 	"github.com/omise/omise-go/internal/testutil"
 	. "github.com/omise/omise-go/operations"
-	a "github.com/stretchr/testify/assert"
+	r "github.com/stretchr/testify/assert"
 )
 
 func TestEvent(t *testing.T) {
@@ -21,17 +21,17 @@ func TestEvent(t *testing.T) {
 
 	event := &omise.Event{}
 	client.MustDo(event, &RetrieveEvent{EventID})
-	a.Equal(t, EventID, event.ID)
-	a.Equal(t, "transfer.destroy", event.Key)
-	a.Equal(t, TransferID, event.Data.(*omise.Deletion).ID)
+	r.Equal(t, EventID, event.ID)
+	r.Equal(t, "transfer.destroy", event.Key)
+	r.Equal(t, TransferID, event.Data.(*omise.Deletion).ID)
 
 	events := &omise.EventList{}
 	client.MustDo(events, &ListEvents{})
-	a.Len(t, events.Data, 20)
+	r.Len(t, events.Data, 20)
 
 	event = events.Data[0]
-	a.Equal(t, EventID2, event.ID)
-	a.Equal(t, "customer.create", event.Key)
+	r.Equal(t, EventID2, event.ID)
+	r.Equal(t, "customer.create", event.Key)
 }
 
 func TestEvent_Network(t *testing.T) {
@@ -40,10 +40,10 @@ func TestEvent_Network(t *testing.T) {
 
 	events := &omise.EventList{}
 	client.MustDo(events, &ListEvents{})
-	a.True(t, len(events.Data) > 1)
+	r.True(t, len(events.Data) > 1)
 
 	event, retrieve := &omise.Event{}, &RetrieveEvent{events.Data[0].ID}
 	client.MustDo(event, retrieve)
-	a.True(t, strings.HasPrefix(event.ID, "evnt_test_"))
-	a.Equal(t, events.Data[0].ID, event.ID)
+	r.True(t, strings.HasPrefix(event.ID, "evnt_test_"))
+	r.Equal(t, events.Data[0].ID, event.ID)
 }

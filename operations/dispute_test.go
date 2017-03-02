@@ -6,7 +6,7 @@ import (
 	"github.com/omise/omise-go"
 	"github.com/omise/omise-go/internal/testutil"
 	. "github.com/omise/omise-go/operations"
-	a "github.com/stretchr/testify/assert"
+	r "github.com/stretchr/testify/require"
 )
 
 func TestDispute(t *testing.T) {
@@ -19,38 +19,31 @@ func TestDispute(t *testing.T) {
 	// 4 possible states.
 	disputes := &omise.DisputeList{}
 	client.MustDo(disputes, &ListDisputes{})
-	if a.Len(t, disputes.Data, 1) {
-		a.Equal(t, DisputeID, disputes.Data[0].ID)
-	}
+	r.Len(t, disputes.Data, 1)
+	r.Equal(t, DisputeID, disputes.Data[0].ID)
 
 	disputes = &omise.DisputeList{}
 	client.MustDo(disputes, &ListDisputes{State: omise.Open})
-	if a.Len(t, disputes.Data, 1) {
-		a.Equal(t, DisputeID, disputes.Data[0].ID)
-		a.Equal(t, omise.Open, disputes.Data[0].Status)
-	}
+	r.Len(t, disputes.Data, 1)
+	r.Equal(t, DisputeID, disputes.Data[0].ID)
 
 	disputes = &omise.DisputeList{}
 	client.MustDo(disputes, &ListDisputes{State: omise.Pending})
-	if a.Len(t, disputes.Data, 1) {
-		a.Equal(t, DisputeID, disputes.Data[0].ID)
-		a.Equal(t, omise.Pending, disputes.Data[0].Status)
-	}
+	r.Len(t, disputes.Data, 1)
+	r.Equal(t, DisputeID, disputes.Data[0].ID)
 
 	disputes = &omise.DisputeList{}
 	client.MustDo(disputes, &ListDisputes{State: omise.Closed})
-	if a.Len(t, disputes.Data, 1) {
-		a.Equal(t, DisputeID, disputes.Data[0].ID)
-		a.Equal(t, omise.Won, disputes.Data[0].Status)
-	}
+	r.Len(t, disputes.Data, 1)
+	r.Equal(t, DisputeID, disputes.Data[0].ID)
 
 	// single instances
 	dispute := &omise.Dispute{}
 	client.MustDo(dispute, &RetrieveDispute{DisputeID})
-	a.Equal(t, DisputeID, dispute.ID)
+	r.Equal(t, DisputeID, dispute.ID)
 
 	client.MustDo(dispute, &UpdateDispute{DisputeID, "Your dispute message"})
-	a.Equal(t, "Your dispute message", dispute.Message)
+	r.Equal(t, "Your dispute message", dispute.Message)
 }
 
 func TestDispute_Network(t *testing.T) {
@@ -63,6 +56,6 @@ func TestDispute_Network(t *testing.T) {
 	disputes, list := &omise.DisputeList{}, &ListDisputes{}
 	client.MustDo(disputes, list)
 	if len(disputes.Data) > 0 {
-		a.True(t, disputes.Data[0].Status != omise.Pending)
+		r.True(t, disputes.Data[0].Status != omise.Pending)
 	}
 }

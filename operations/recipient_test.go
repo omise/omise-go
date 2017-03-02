@@ -8,7 +8,7 @@ import (
 	"github.com/omise/omise-go"
 	"github.com/omise/omise-go/internal/testutil"
 	. "github.com/omise/omise-go/operations"
-	a "github.com/stretchr/testify/assert"
+	r "github.com/stretchr/testify/require"
 )
 
 var _ = fmt.Println
@@ -23,26 +23,24 @@ func TestRecipient(t *testing.T) {
 
 	recipient := &omise.Recipient{}
 	client.MustDo(recipient, &RetrieveRecipient{RecipientID})
-	a.Equal(t, RecipientID, recipient.ID)
-	if a.NotNil(t, recipient.BankAccount) {
-		a.Equal(t, "6789", recipient.BankAccount.LastDigits)
-	}
+	r.Equal(t, RecipientID, recipient.ID)
+	r.NotNil(t, recipient.BankAccount)
+	r.Equal(t, "6789", recipient.BankAccount.LastDigits)
 
 	recipients := &omise.RecipientList{}
 	client.MustDo(recipients, &ListRecipients{})
-	if a.Len(t, recipients.Data, 1) {
-		a.Equal(t, RecipientID, recipients.Data[0].ID)
-	}
+	r.Len(t, recipients.Data, 1)
+	r.Equal(t, RecipientID, recipients.Data[0].ID)
 
 	client.MustDo(recipient, &UpdateRecipient{
 		RecipientID: RecipientID,
 		Email:       "john@doe.com",
 	})
-	a.Equal(t, "john@doe.com", recipient.Email)
+	r.Equal(t, "john@doe.com", recipient.Email)
 
 	del := &omise.Deletion{}
 	client.MustDo(del, &DestroyRecipient{RecipientID})
-	a.Equal(t, recipient.ID, del.ID)
+	r.Equal(t, recipient.ID, del.ID)
 }
 
 func TestRecipient_Network(t *testing.T) {
@@ -65,11 +63,10 @@ func TestRecipient_Network(t *testing.T) {
 	})
 
 	t.Log("created recipient:", jun.ID)
-	a.Equal(t, "jun@omise.co", jun.Email)
-	if a.NotNil(t, jun.Description) {
-		a.Equal(t, "Owns Omise", *jun.Description)
-	}
-	a.Equal(t, jun.BankAccount.Name, bankAccount.Name)
+	r.Equal(t, "jun@omise.co", jun.Email)
+	r.NotNil(t, jun.Description)
+	r.Equal(t, "Owns Omise", *jun.Description)
+	r.Equal(t, jun.BankAccount.Name, bankAccount.Name)
 
 	// list created customers
 	recipients := &omise.RecipientList{}
@@ -77,11 +74,11 @@ func TestRecipient_Network(t *testing.T) {
 		List{From: time.Now().Add(-1 * time.Hour), Limit: 100},
 	})
 
-	a.True(t, len(recipients.Data) > 0, "no created customers in list!")
+	r.True(t, len(recipients.Data) > 0, "no created customers in list!")
 
 	jim := recipients.Find(jun.ID)
-	a.Equal(t, jun.ID, jim.ID)
-	a.Equal(t, jun.Email, jim.Email)
+	r.Equal(t, jun.ID, jim.ID)
+	r.Equal(t, jun.Email, jim.Email)
 
 	// update
 	jones := &omise.Recipient{}
@@ -90,25 +87,24 @@ func TestRecipient_Network(t *testing.T) {
 		Description: "I'm JONES now.",
 	})
 
-	a.Equal(t, jim.ID, jones.ID)
-	if a.NotNil(t, jones.Description) {
-		a.Equal(t, "I'm JONES now.", *jones.Description)
-	}
+	r.Equal(t, jim.ID, jones.ID)
+	r.NotNil(t, jones.Description)
+	r.Equal(t, "I'm JONES now.", *jones.Description)
 
 	// fetch
 	josh := &omise.Recipient{}
 	client.MustDo(josh, &RetrieveRecipient{jones.ID})
 
-	a.Equal(t, jones.ID, josh.ID)
-	a.Equal(t, jones.Email, josh.Email)
-	a.Equal(t, jones.Description, josh.Description)
+	r.Equal(t, jones.ID, josh.ID)
+	r.Equal(t, jones.Email, josh.Email)
+	r.Equal(t, jones.Description, josh.Description)
 
 	// delete
 	del := &omise.Deletion{}
 	client.MustDo(del, &DestroyRecipient{jones.ID})
 
-	a.Equal(t, jones.Object, del.Object)
-	a.Equal(t, jones.ID, del.ID)
-	a.Equal(t, jones.Live, del.Live)
-	a.True(t, del.Deleted)
+	r.Equal(t, jones.Object, del.Object)
+	r.Equal(t, jones.ID, del.ID)
+	r.Equal(t, jones.Live, del.Live)
+	r.True(t, del.Deleted)
 }

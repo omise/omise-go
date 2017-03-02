@@ -10,7 +10,7 @@ import (
 	"github.com/omise/omise-go/internal"
 	"github.com/omise/omise-go/internal/testutil"
 	"github.com/omise/omise-go/operations"
-	a "github.com/stretchr/testify/assert"
+	r "github.com/stretchr/testify/require"
 )
 
 var createTokenOp = &operations.CreateToken{
@@ -26,107 +26,93 @@ var createTokenOp = &operations.CreateToken{
 func TestNewClient(t *testing.T) {
 	pkey, skey := testutil.Keys()
 
-	if _, e := NewClient(pkey, skey); !a.NoError(t, e) {
-		return
-	}
-	if _, e := NewClient("", skey); !a.NoError(t, e) {
-		return
-	}
-	if _, e := NewClient(pkey, ""); !a.NoError(t, e) {
-		return
-	}
+	_, e := NewClient(pkey, skey)
+	r.NoError(t, e)
+	_, e = NewClient("", skey)
+	r.NoError(t, e)
+	_, e = NewClient(pkey, "")
+	r.NoError(t, e)
 
-	if _, e := NewClient("", ""); a.Error(t, e) {
-		a.Equal(t, ErrInvalidKey, e)
-	}
-	if _, e := NewClient("123", "123"); a.Error(t, e) {
-		a.Equal(t, ErrInvalidKey, e)
-	}
+	_, e = NewClient("", "")
+	r.Error(t, e)
+	r.Equal(t, ErrInvalidKey, e)
+	_, e = NewClient("123", "123")
+	r.Error(t, e)
+	r.Equal(t, ErrInvalidKey, e)
 }
 
 func TestClient_Request(t *testing.T) {
 	pkey, skey := testutil.Keys()
 	client, e := NewClient(pkey, skey)
-	if !a.NoError(t, e) {
-		return
-	}
+	r.NoError(t, e)
 
 	// use skey for api.omise.co endpoint
 	req, e := client.Request(&operations.RetrieveAccount{})
-	if a.NoError(t, e) {
-		user, _, ok := req.BasicAuth()
-		a.True(t, ok)
-		a.Equal(t, user, skey)
-	}
+	r.NoError(t, e)
+
+	user, _, ok := req.BasicAuth()
+	r.True(t, ok)
+	r.Equal(t, user, skey)
 
 	// use pkey for vault.omise.co endopint
 	req, e = client.Request(&operations.CreateToken{})
-	if a.NoError(t, e) {
-		user, _, ok := req.BasicAuth()
-		a.True(t, ok)
-		a.Equal(t, user, pkey)
-	}
+	r.NoError(t, e)
+
+	user, _, ok = req.BasicAuth()
+	r.True(t, ok)
+	r.Equal(t, user, pkey)
 
 	// use overridden endopint, if specified
 	client.Endpoints[internal.API] = "http://api.omise.dev:3000"
 	client.Endpoints[internal.Vault] = "http://vault.omise.dev:4500"
 
 	req, e = client.Request(&operations.RetrieveAccount{})
-	if a.NoError(t, e) {
-		a.Equal(t, "http://api.omise.dev:3000/account", req.URL.String())
-	}
+	r.NoError(t, e)
+	r.Equal(t, "http://api.omise.dev:3000/account", req.URL.String())
 
 	req, e = client.Request(&operations.CreateToken{})
-	if a.NoError(t, e) {
-		a.Equal(t, "http://vault.omise.dev:4500/tokens", req.URL.String())
-	}
+	r.NoError(t, e)
+	r.Equal(t, "http://vault.omise.dev:4500/tokens", req.URL.String())
 
 	// general request properties
 	op := &operations.RetrieveAccount{}
 
 	req, e = client.Request(op)
-	if a.NoError(t, e) {
-		a.Contains(t, req.Header.Get("User-Agent"), "OmiseGo/")
-		a.Contains(t, req.Header.Get("User-Agent"), "Go/go")
-		a.Empty(t, req.Header.Get("Omise-Version"), "Omise-Version header sent when APIVersion is not specified.")
-	}
+	r.NoError(t, e)
+	r.Contains(t, req.Header.Get("User-Agent"), "OmiseGo/")
+	r.Contains(t, req.Header.Get("User-Agent"), "Go/go")
+	r.Empty(t, req.Header.Get("Omise-Version"), "Omise-Version header sent when APIVersion is not specified.")
 
 	client.GoVersion = "RANDOMXXXVERSION"
 	client.APIVersion = "yadda"
 	req, e = client.Request(op)
-	if a.NoError(t, e) {
-		a.Contains(t, req.Header.Get("User-Agent"), "Go/RANDOMXXXVERSION")
-		a.Equal(t, req.Header.Get("Omise-Version"), "yadda")
-	}
+	r.NoError(t, e)
+	r.Contains(t, req.Header.Get("User-Agent"), "Go/RANDOMXXXVERSION")
+	r.Equal(t, req.Header.Get("Omise-Version"), "yadda")
 }
 
 func TestClient_Error(t *testing.T) {
 	client, e := NewClient(testutil.Keys())
-	if !a.NoError(t, e) {
-		return
-	}
+	r.NoError(t, e)
 
 	e = client.Do(nil, &internal.Op{
 		Endpoint: internal.API,
 		Method:   "GET",
 		Path:     "/definitely_never_found",
 	})
-	if a.NotNil(t, e) {
-		err, ok := e.(*Error)
-		if a.True(t, ok, "error returned is not *omise.Error.") {
-			a.Equal(t, err.Code, "not_found")
-		}
-	}
+	r.NotNil(t, e)
+
+	err, ok := e.(*Error)
+	r.True(t, ok, "error returned is not *omise.Error.")
+	r.Equal(t, err.Code, "not_found")
 
 	e = client.Do(nil, &internal.Op{
 		Endpoint: internal.Endpoint("virus_endpoint"),
 		Method:   "GET",
 		Path:     "/",
 	})
-	if a.NotNil(t, e) {
-		a.IsType(t, ErrInternal(""), e)
-	}
-
+	r.NotNil(t, e)
+	r.IsType(t, ErrInternal(""), e)
 }
 
 func TestClient_TransportError(t *testing.T) {
@@ -137,14 +123,14 @@ func TestClient_TransportError(t *testing.T) {
 		Method:   "GET",
 		Path:     "/malformed",
 	})
-	if a.NotNil(t, e) {
-		err, ok := e.(*ErrTransport)
-		if a.True(t, ok, "error returned in not *omise.ErrTransport: ") {
-			_, ok := err.Err.(*json.SyntaxError)
-			a.True(t, ok, "error does not wrap *json.SyntaxError")
-			a.Contains(t, string(err.Buffer), "not a valid JSON")
-		}
-	}
+	r.NotNil(t, e)
+
+	err, ok := e.(*ErrTransport)
+	r.True(t, ok, "error returned in not *omise.ErrTransport: ")
+
+	_, ok = err.Err.(*json.SyntaxError)
+	r.True(t, ok, "error does not wrap *json.SyntaxError")
+	r.Contains(t, string(err.Buffer), "not a valid JSON")
 }
 
 func ExampleClient_Do() {

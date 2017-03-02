@@ -6,7 +6,7 @@ import (
 	"github.com/omise/omise-go"
 	"github.com/omise/omise-go/internal/testutil"
 	. "github.com/omise/omise-go/operations"
-	a "github.com/stretchr/testify/assert"
+	r "github.com/stretchr/testify/require"
 )
 
 const (
@@ -18,24 +18,23 @@ func TestCard(t *testing.T) {
 	client := testutil.NewFixedClient(t)
 	card := &omise.Card{}
 	client.MustDo(card, &RetrieveCard{CustomerID, CardID})
-	a.Equal(t, CardID, card.ID)
+	r.Equal(t, CardID, card.ID)
 
 	card = &omise.Card{}
 	e := client.Do(card, &RetrieveCard{CustomerID, "not_exist"})
-	if a.Error(t, e) {
-		a.EqualError(t, e, "(404/not_found) customer missing was not found")
-	}
+	r.Error(t, e)
+	r.EqualError(t, e, "(404/not_found) customer missing was not found")
 
 	client.MustDo(card, &UpdateCard{
 		CustomerID: CustomerID,
 		CardID:     CardID,
 		Name:       "JOHN W. DOE",
 	})
-	a.Equal(t, "JOHN W. DOE", card.Name)
+	r.Equal(t, "JOHN W. DOE", card.Name)
 
 	del := &omise.Deletion{}
 	client.MustDo(del, &DestroyCard{CustomerID, CardID})
-	a.Equal(t, card.ID, del.ID)
+	r.Equal(t, card.ID, del.ID)
 }
 
 func TestCard_Network(t *testing.T) {
@@ -54,11 +53,8 @@ func TestCard_Network(t *testing.T) {
 	// list empty collection
 	cards := &omise.CardList{}
 	client.MustDo(cards, &ListCards{CustomerID: customer.ID})
-	if !a.NotNil(t, cards) {
-		return
-	}
-
-	a.Len(t, cards.Data, 0)
+	r.NotNil(t, cards)
+	r.Len(t, cards.Data, 0)
 
 	// add some cards
 	tok1, tok2 := createTestToken(client), createTestToken(client)
@@ -69,18 +65,15 @@ func TestCard_Network(t *testing.T) {
 	firstHalf, secondHalf := &omise.CardList{}, &omise.CardList{}
 	client.MustDo(firstHalf, &ListCards{customer.ID, List{Offset: 0, Limit: 1}})
 	client.MustDo(secondHalf, &ListCards{customer.ID, List{Offset: 1, Limit: 1}})
-
-	if !(a.Len(t, firstHalf.Data, 1) && a.Len(t, secondHalf.Data, 1)) {
-		return
-	} else if !a.NotEqual(t, firstHalf.Data[0].ID, secondHalf.Data[0].ID) {
-		return
-	}
+	r.Len(t, firstHalf.Data, 1)
+	r.Len(t, secondHalf.Data, 1)
+	r.NotEqual(t, firstHalf.Data[0].ID, secondHalf.Data[0].ID)
 
 	cards = &omise.CardList{
 		List: omise.List{Offset: 0, Limit: 0},
 		Data: append(firstHalf.Data, secondHalf.Data...),
 	}
-	a.Len(t, cards.Data, 2)
+	r.Len(t, cards.Data, 2)
 
 	// update a card
 	card, card2 := cards.Data[0], &omise.Card{}
@@ -90,27 +83,27 @@ func TestCard_Network(t *testing.T) {
 		Name:       "Changed my name",
 	})
 
-	a.Equal(t, card.ID, card2.ID)
-	a.Equal(t, "Changed my name", card2.Name)
+	r.Equal(t, card.ID, card2.ID)
+	r.Equal(t, "Changed my name", card2.Name)
 
 	// retrieve added cards
 	card = &omise.Card{}
 	client.MustDo(card, &RetrieveCard{CustomerID: customer.ID, CardID: cards.Data[0].ID})
 
-	a.Equal(t, cards.Data[0].ID, card.ID)
-	a.Equal(t, cards.Data[0].LastDigits, card.LastDigits)
+	r.Equal(t, cards.Data[0].ID, card.ID)
+	r.Equal(t, cards.Data[0].LastDigits, card.LastDigits)
 
 	// remove cards
 	del1, del2 := &omise.Deletion{}, &omise.Deletion{}
 	client.MustDo(del1, &DestroyCard{CustomerID: customer.ID, CardID: cards.Data[0].ID})
 	client.MustDo(del2, &DestroyCard{CustomerID: customer.ID, CardID: cards.Data[1].ID})
 
-	a.Equal(t, cards.Data[0].ID, del1.ID)
-	a.Equal(t, cards.Data[1].ID, del2.ID)
-	a.True(t, del1.Deleted)
-	a.True(t, del2.Deleted)
+	r.Equal(t, cards.Data[0].ID, del1.ID)
+	r.Equal(t, cards.Data[1].ID, del2.ID)
+	r.True(t, del1.Deleted)
+	r.True(t, del2.Deleted)
 
 	// list should be empty again
 	client.MustDo(cards, &ListCards{CustomerID: customer.ID})
-	a.Len(t, cards.Data, 0)
+	r.Len(t, cards.Data, 0)
 }

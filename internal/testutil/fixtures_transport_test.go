@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	a "github.com/stretchr/testify/assert"
+	r "github.com/stretchr/testify/require"
 )
 
 type fixturesHTTPTest struct {
@@ -26,39 +26,25 @@ var fixtureTests = []*fixturesHTTPTest{
 
 func (test *fixturesHTTPTest) Test(t *testing.T) {
 	fixtures, e := NewFixturesTransport()
-	if !a.NoError(t, e) {
-		return
-	}
+	r.NoError(t, e)
 
 	t.Log(test.method, test.url)
 	req, e := http.NewRequest(test.method, test.url, nil)
-	if !a.NoError(t, e) {
-		return
-	}
+	r.NoError(t, e)
 
 	client := &http.Client{Transport: fixtures}
-	if client == nil {
-		panic("client nil")
-	}
 	resp, e := client.Do(req)
-	if !(a.NoError(t, e) && a.NotNil(t, resp)) {
-		return
-	}
-
-	a.Equal(t, test.statusCode, resp.StatusCode)
+	r.NoError(t, e)
+	r.NotNil(t, resp)
+	r.Equal(t, test.statusCode, resp.StatusCode)
 
 	defer resp.Body.Close()
 	respBytes, e := ioutil.ReadAll(resp.Body)
-	if !a.NoError(t, e) {
-		return
-	}
+	r.NoError(t, e)
 
 	fixBytes, e := ioutil.ReadFile(filepath.Join(FixtureBasePath, test.filename))
-	if !a.NoError(t, e) {
-		return
-	}
-
-	a.Equal(t, string(fixBytes), string(respBytes))
+	r.NoError(t, e)
+	r.Equal(t, string(fixBytes), string(respBytes))
 }
 
 func TestFixturesTransport(t *testing.T) {

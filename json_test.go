@@ -8,7 +8,7 @@ import (
 
 	. "github.com/omise/omise-go"
 	"github.com/omise/omise-go/internal/testutil"
-	a "github.com/stretchr/testify/assert"
+	r "github.com/stretchr/testify/require"
 )
 
 var JSONRoundtripTests = []JSONRoundtripTest{
@@ -33,35 +33,27 @@ type JSONRoundtripTest struct {
 	value   interface{}
 }
 
-func (r JSONRoundtripTest) Test(t *testing.T) {
-	t.Log(reflect.ValueOf(r.value).Elem().Type().Name())
+func (test JSONRoundtripTest) Test(t *testing.T) {
+	t.Log(reflect.ValueOf(test.value).Elem().Type().Name())
 
-	inbytes, e := ioutil.ReadFile("testdata/objects/" + r.srcFile)
-	if !a.NoError(t, e) {
-		return
-	}
-	if e := json.Unmarshal(inbytes, r.value); !a.NoError(t, e) {
-		return
-	}
+	inbytes, e := ioutil.ReadFile("testdata/objects/" + test.srcFile)
+	r.NoError(t, e)
 
-	var outbytes []byte
-	if outbytes, e = json.Marshal(r.value); !a.NoError(t, e) {
-		return
-	}
-	if e := json.Unmarshal(outbytes, r.value); !a.NoError(t, e) {
-		return
-	}
+	e = json.Unmarshal(inbytes, test.value)
+	r.NoError(t, e)
+
+	outbytes, e := json.Marshal(test.value)
+	r.NoError(t, e)
+	e = json.Unmarshal(outbytes, test.value)
+	r.NoError(t, e)
 
 	m1, m2 := map[string]interface{}{}, map[string]interface{}{}
-	if e := json.Unmarshal(inbytes, &m1); !a.NoError(t, e) {
-		return
-	} else if e := json.Unmarshal(outbytes, &m2); !a.NoError(t, e) {
-		return
-	}
+	e = json.Unmarshal(inbytes, &m1)
+	r.NoError(t, e)
+	e = json.Unmarshal(outbytes, &m2)
+	r.NoError(t, e)
 
-	if !testutil.AssertJSONEquals(t, m1, m2) {
-		return
-	}
+	testutil.AssertJSONEquals(t, m1, m2)
 }
 
 func TestJSONRoundtrip(t *testing.T) {

@@ -6,14 +6,14 @@ import (
 	"github.com/omise/omise-go"
 	"github.com/omise/omise-go/internal/testutil"
 	. "github.com/omise/omise-go/operations"
-	a "github.com/stretchr/testify/assert"
+	r "github.com/stretchr/testify/assert"
 )
 
 func TestAccount(t *testing.T) {
 	client := testutil.NewFixedClient(t)
 	account := &omise.Account{}
 	client.MustDo(account, &RetrieveAccount{})
-	a.Equal(t, account.ID, "acct_4yq6tcsyoged5c0ocxd")
+	r.Equal(t, account.ID, "acct_4yq6tcsyoged5c0ocxd")
 }
 
 func TestAccount_Network(t *testing.T) {
@@ -22,7 +22,7 @@ func TestAccount_Network(t *testing.T) {
 
 	account := &omise.Account{}
 	client.MustDo(account, &RetrieveAccount{})
-	a.Equal(t, account.Object, "account")
+	r.Equal(t, account.Object, "account")
 
 	testutil.LogObj(t, account)
 }

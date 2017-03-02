@@ -6,7 +6,7 @@ import (
 	"github.com/omise/omise-go"
 	"github.com/omise/omise-go/internal/testutil"
 	. "github.com/omise/omise-go/operations"
-	a "github.com/stretchr/testify/assert"
+	r "github.com/stretchr/testify/require"
 )
 
 func TestSearch(t *testing.T) {
@@ -19,12 +19,12 @@ func TestSearch(t *testing.T) {
 		Query: Query,
 	})
 
-	a.Equal(t, Query, result.Query)
-	a.Equal(t, 1, result.Page)
-	a.Equal(t, 3, result.TotalPages)
+	r.Equal(t, Query, result.Query)
+	r.Equal(t, 1, result.Page)
+	r.Equal(t, 3, result.TotalPages)
 
 	charge := result.Data[0]
-	a.Equal(t, "chrg_test_54i01932u4ts67cop81", charge.ID)
+	r.Equal(t, "chrg_test_54i01932u4ts67cop81", charge.ID)
 }
 
 func TestSearch_Network(t *testing.T) {
@@ -40,12 +40,12 @@ func TestSearch_Network(t *testing.T) {
 		Query: ChargeID,
 	})
 
-	a.Equal(t, 1, result.Total)
-	a.Equal(t, 1, result.TotalPages)
+	r.Equal(t, 1, result.Total)
+	r.Equal(t, 1, result.TotalPages)
 
 	charge := result.Data[0]
-	a.Equal(t, ChargeID, charge.ID)
-	a.Equal(t, int64(100000), charge.Amount)
+	r.Equal(t, ChargeID, charge.ID)
+	r.Equal(t, int64(100000), charge.Amount)
 
 	// using filters
 	result = &omise.ChargeSearchResult{}
@@ -54,10 +54,10 @@ func TestSearch_Network(t *testing.T) {
 		Query: "id:" + ChargeID,
 	})
 
-	a.Equal(t, 1, result.Total)
-	a.Equal(t, 1, result.TotalPages)
+	r.Equal(t, 1, result.Total)
+	r.Equal(t, 1, result.TotalPages)
 
 	charge = result.Data[0]
-	a.Equal(t, ChargeID, charge.ID)
-	a.Equal(t, int64(100000), charge.Amount)
+	r.Equal(t, ChargeID, charge.ID)
+	r.Equal(t, int64(100000), charge.Amount)
 }

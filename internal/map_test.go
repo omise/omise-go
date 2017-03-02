@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	a "github.com/stretchr/testify/assert"
+	r "github.com/stretchr/testify/require"
 )
 
 func TestMapURLValues_Basic(t *testing.T) {
@@ -122,12 +122,8 @@ func TestMapURLValues_Structs(t *testing.T) {
 	}{Embed{"hello"}, Embed{"world"}, Embed2{Embed{"inside"}}, now, time.Time{}})
 }
 
-func check(t *testing.T, values url.Values, struc interface{}) bool {
+func check(t *testing.T, values url.Values, struc interface{}) {
 	result, e := MapURLValues(struc)
-	if !(a.NoError(t, e) && a.True(t, reflect.DeepEqual(values, result))) {
-		t.Logf("\nexpected: %#v\n  actual: %#v\n", values, result)
-		return false
-	}
-
-	return true
+	r.NoError(t, e)
+	r.True(t, reflect.DeepEqual(values, result), "\nexpected: %#v\n  actual: %#v\n", values, result)
 }

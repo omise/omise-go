@@ -8,7 +8,7 @@ import (
 	"github.com/omise/omise-go"
 	"github.com/omise/omise-go/internal/testutil"
 	. "github.com/omise/omise-go/operations"
-	a "github.com/stretchr/testify/assert"
+	r "github.com/stretchr/testify/require"
 )
 
 var _ = fmt.Println
@@ -23,36 +23,33 @@ func TestCustomer(t *testing.T) {
 
 	customer := &omise.Customer{}
 	client.MustDo(customer, &CreateCustomer{})
-	a.Equal(t, CustomerID, customer.ID)
+	r.Equal(t, CustomerID, customer.ID)
 
 	customer = &omise.Customer{}
 	client.MustDo(customer, &RetrieveCustomer{CustomerID})
-	a.Equal(t, CustomerID, customer.ID)
-	a.Equal(t, CardID, customer.DefaultCard)
-	if a.Len(t, customer.Cards.Data, 1) {
-		a.Equal(t, CardID, customer.Cards.Data[0].ID)
-	}
+	r.Equal(t, CustomerID, customer.ID)
+	r.Equal(t, CardID, customer.DefaultCard)
+	r.Len(t, customer.Cards.Data, 1)
+	r.Equal(t, CardID, customer.Cards.Data[0].ID)
 
 	customers := &omise.CustomerList{}
 	client.MustDo(customers, &ListCustomers{})
-	if a.Len(t, customers.Data, 1) {
-		a.Equal(t, CustomerID, customers.Data[0].ID)
-	}
+	r.Len(t, customers.Data, 1)
+	r.Equal(t, CustomerID, customers.Data[0].ID)
 
 	client.MustDo(customer, &UpdateCustomer{
 		CustomerID: customer.ID,
 		Email:      "john.doe.the.second@example.com",
 	})
-	a.Equal(t, "john.doe.the.second@example.com", customer.Email)
+	r.Equal(t, "john.doe.the.second@example.com", customer.Email)
 
 	del := &omise.Deletion{}
 	client.MustDo(del, &DestroyCustomer{CustomerID})
-	a.Equal(t, CustomerID, del.ID)
+	r.Equal(t, CustomerID, del.ID)
 
 	e := client.Do(nil, &RetrieveCustomer{"not_exist"})
-	if a.Error(t, e) {
-		a.EqualError(t, e, "(404/not_found) customer missing was not found")
-	}
+	r.Error(t, e)
+	r.EqualError(t, e, "(404/not_found) customer missing was not found")
 }
 
 func TestCustomer_Network(t *testing.T) {
@@ -67,14 +64,12 @@ func TestCustomer_Network(t *testing.T) {
 		Description: "I'm JACK",
 		Card:        token.ID,
 	})
-	if !a.NotNil(t, jack) {
-		return
-	}
+	r.NotNil(t, jack)
 
 	t.Log("created customer:", jack.ID)
-	a.Equal(t, "chakrit@omise.co", jack.Email)
-	a.Equal(t, "I'm JACK", jack.Description)
-	a.Len(t, jack.Cards.Data, 1)
+	r.Equal(t, "chakrit@omise.co", jack.Email)
+	r.Equal(t, "I'm JACK", jack.Description)
+	r.Len(t, jack.Cards.Data, 1)
 
 	// list created customers
 	customers := &omise.CustomerList{}
@@ -85,11 +80,11 @@ func TestCustomer_Network(t *testing.T) {
 		},
 	})
 
-	a.True(t, len(customers.Data) > 0, "no created customers in list!")
+	r.True(t, len(customers.Data) > 0, "no created customers in list!")
 
 	jane := customers.Find(jack.ID)
-	a.Equal(t, jack.ID, jane.ID)
-	a.Equal(t, jack.Email, jane.Email)
+	r.Equal(t, jack.ID, jane.ID)
+	r.Equal(t, jack.Email, jane.Email)
 
 	// update
 	john := &omise.Customer{}
@@ -98,23 +93,23 @@ func TestCustomer_Network(t *testing.T) {
 		Description: "I'm JOHN now.",
 	})
 
-	a.Equal(t, jack.ID, john.ID)
-	a.Equal(t, "I'm JOHN now.", john.Description)
+	r.Equal(t, jack.ID, john.ID)
+	r.Equal(t, "I'm JOHN now.", john.Description)
 
 	// fetch
 	jill, retrieve := &omise.Customer{}, &RetrieveCustomer{john.ID}
 	client.MustDo(jill, retrieve)
 
-	a.Equal(t, john.ID, jill.ID)
-	a.Equal(t, john.Email, jill.Email)
-	a.Equal(t, john.Description, jill.Description)
+	r.Equal(t, john.ID, jill.ID)
+	r.Equal(t, john.Email, jill.Email)
+	r.Equal(t, john.Description, jill.Description)
 
 	// delete
 	del, destroy := &omise.Deletion{}, &DestroyCustomer{CustomerID: jill.ID}
 	client.MustDo(del, destroy)
 
-	a.Equal(t, jill.Object, del.Object)
-	a.Equal(t, jill.ID, del.ID)
-	a.Equal(t, jill.Live, del.Live)
-	a.True(t, del.Deleted)
+	r.Equal(t, jill.Object, del.Object)
+	r.Equal(t, jill.ID, del.ID)
+	r.Equal(t, jill.Live, del.Live)
+	r.True(t, del.Deleted)
 }

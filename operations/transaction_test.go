@@ -7,7 +7,7 @@ import (
 	"github.com/omise/omise-go"
 	"github.com/omise/omise-go/internal/testutil"
 	. "github.com/omise/omise-go/operations"
-	a "github.com/stretchr/testify/assert"
+	r "github.com/stretchr/testify/require"
 )
 
 func TestTransaction(t *testing.T) {
@@ -20,14 +20,13 @@ func TestTransaction(t *testing.T) {
 
 	tx := &omise.Transaction{}
 	client.MustDo(tx, &RetrieveTransaction{TransactionID})
-	a.Equal(t, TransactionID, tx.ID)
+	r.Equal(t, TransactionID, tx.ID)
 
 	transactions := &omise.TransactionList{}
 	client.MustDo(transactions, &ListTransactions{})
-	if a.Len(t, transactions.Data, 2) {
-		a.Equal(t, TransactionID, transactions.Data[0].ID)
-		a.Equal(t, TransactionID2, transactions.Data[1].ID)
-	}
+	r.Len(t, transactions.Data, 2)
+	r.Equal(t, TransactionID, transactions.Data[0].ID)
+	r.Equal(t, TransactionID2, transactions.Data[1].ID)
 }
 
 func TestTransaction_Network(t *testing.T) {
@@ -46,9 +45,7 @@ func TestTransaction_Network(t *testing.T) {
 		List{Limit: 100, From: time.Now().Add(-1 * time.Hour)},
 	})
 
-	if !a.True(t, len(transactions.Data) > 0, "no transactions was created!") {
-		return
-	}
+	r.True(t, len(transactions.Data) > 0, "no transactions was created!")
 
 	// retrieve a sample transaction
 	transaction := &omise.Transaction{}
@@ -56,6 +53,6 @@ func TestTransaction_Network(t *testing.T) {
 		TransactionID: transactions.Data[0].ID,
 	})
 
-	a.Equal(t, transactions.Data[0].ID, transaction.ID)
-	a.Equal(t, transactions.Data[0].Amount, transaction.Amount)
+	r.Equal(t, transactions.Data[0].ID, transaction.ID)
+	r.Equal(t, transactions.Data[0].Amount, transaction.Amount)
 }
