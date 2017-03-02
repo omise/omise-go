@@ -13,7 +13,7 @@ type Event struct {
 
 type eventShim struct {
 	Base
-	key  string    `json:"key"`
+	Key  string    `json:"key"`
 	Data *Deletion `json:"data"`
 }
 
@@ -27,29 +27,15 @@ func (ev *Event) UnmarshalJSON(buffer []byte) error {
 	}
 
 	// go through a proxy type to undefine UnmarshalJSON (stack overflow, otherwise)
-	type Event_ Event
-	proxy := Event_(*ev)
+	type EventProxy Event
+	proxy := EventProxy(*ev)
+	proxy.Key = shim.Key
 
+	// Pre-init the right structure to match the returned type.
 	if shim.Data.Deleted {
 		proxy.Data = shim.Data // already *Deletion
-
-	} else { // Pre-init the right structure to match the returned type. TODO: Generate this?
-		switch shim.Data.Object {
-		case "charge":
-			proxy.Data = &Charge{}
-		case "customer":
-			proxy.Data = &Customer{}
-		case "card":
-			proxy.Data = &Card{}
-		case "dispute":
-			proxy.Data = &Dispute{}
-		case "recipient":
-			proxy.Data = &Recipient{}
-		case "refund":
-			proxy.Data = &Refund{}
-		case "transfer":
-			proxy.Data = &Transfer{}
-		}
+	} else {
+		proxy.Data = ev.dataInstanceFromType(shim.Data.Object)
 	}
 
 	if e := json.Unmarshal(buffer, &proxy); e != nil {
@@ -57,5 +43,27 @@ func (ev *Event) UnmarshalJSON(buffer []byte) error {
 	}
 
 	*ev = Event(proxy)
+	return nil
+}
+
+func (ev *Event) dataInstanceFromType(typ string) interface{} {
+	// TODO: Generate this.
+	switch typ {
+	case "charge":
+		return &Charge{}
+	case "customer":
+		return &Customer{}
+	case "card":
+		return &Card{}
+	case "dispute":
+		return &Dispute{}
+	case "recipient":
+		return &Recipient{}
+	case "refund":
+		return &Refund{}
+	case "transfer":
+		return &Transfer{}
+	}
+
 	return nil
 }
