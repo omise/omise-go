@@ -5,9 +5,17 @@ package omise
 import (
 	"bytes"
 )
-{{with .Data}}{{range .Names}}
-const {{.}}Scope SearchScope = "{{toLower .}}"
 
+{{with .Data}}
+// SearchScope can be one of the following constants:
+const (
+  UnspecifiedScope SearchScope = ""
+  {{range .Names}}
+  {{.}}Scope SearchScope = "{{toLower .}}"{{end}}
+)
+{{end}}
+
+{{with .Data}}{{range .Names}}
 // {{.}}SearchResult represents search result structure returned by Omise's Search API
 // that contains {{.}} struct as result elements.
 type {{.}}SearchResult struct {
