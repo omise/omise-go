@@ -24,7 +24,7 @@ function perform() {
   printf "running $1 ... "
   shift
 
-  $@ > $TMPFILE
+  $@ 2>&1 > $TMPFILE
   if [ ! $? -eq 0 ]
   then
     echo "not ok."
@@ -39,8 +39,9 @@ function perform() {
 
 check go           "needs go from http://golang.org"
 check gometalinter "needs gometalinter from https://github.com/alecthomas/gometalinter"
+check go-bindata   "needs go-bindata from https://github.com/jteeuwen/go-bindata"
 
-perform linters    gometalinter --fast
+perform linters    gometalinter --fast -e "credentials,HIGH,LOW"
 perform generators go generate ./...
 perform tests      go test ./...
 perform builds     go install ./...
