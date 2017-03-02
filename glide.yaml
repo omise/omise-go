@@ -1,0 +1,5 @@
+package: github.com/omise/omise-go
+import:
+- package: github.com/stretchr/testify
+  subpackages:
+  - ...
