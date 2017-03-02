@@ -7,7 +7,7 @@ echo "using TMPFILE=$TMPFILE"
 echo "using GOPATH=$GOPATH"
 
 check() {
-  printf "checking for $1 ... "
+  printf "checking for `basename $1` ... "
   command -v $1 2>&1 >/dev/null
   if [ ! $? -eq 0 ]
   then
@@ -37,9 +37,9 @@ perform() {
 }
 
 
-check go           "needs go from http://golang.org"
-check gometalinter "needs gometalinter from https://github.com/alecthomas/gometalinter"
-check go-bindata   "needs go-bindata from https://github.com/jteeuwen/go-bindata"
+check go                       "needs go from http://golang.org"
+check $GOPATH/bin/gometalinter "needs gometalinter from https://github.com/alecthomas/gometalinter"
+check $GOPATH/bin/go-bindata   "needs go-bindata from https://github.com/jteeuwen/go-bindata"
 
 perform linters    gometalinter --fast -e "credentials,HIGH,LOW"
 perform generators go generate . ./operations
