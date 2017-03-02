@@ -42,8 +42,8 @@ check gometalinter "needs gometalinter from https://github.com/alecthomas/gometa
 check go-bindata   "needs go-bindata from https://github.com/jteeuwen/go-bindata"
 
 perform linters    gometalinter --fast -e "credentials,HIGH,LOW"
-perform generators go generate ./...
-perform builds     go install ./...
+perform generators go generate . ./operations
+perform builds     go install . ./operations
 perform tests      go test ./...
 
 echo "\x1B[38;5;2msuccess.\x1B[0m"
