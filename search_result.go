@@ -1,5 +1,8 @@
 package omise
 
+//go:generate go run internal/generator/main.go search_result_types
+//go:generate go fmt list_types.go
+
 // SearchResult structure contains fields that are common to search result objects
 // returned by Omise's REST API.
 type SearchResult struct {

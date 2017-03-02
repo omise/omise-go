@@ -5,30 +5,28 @@
 
 package omise
 
-//go:generate go run search_result_types_generator.go
-//go:generate go fmt search_result_types.go
-
 // SearchScope can be one of the following constants:
 const (
-	UnspecifiedScope SearchScope = ""
-
-	AccountScope     SearchScope = "account"
-	BalanceScope     SearchScope = "balance"
-	BankAccountScope SearchScope = "bankaccount"
-	CardScope        SearchScope = "card"
-	ChargeScope      SearchScope = "charge"
-	CustomerScope    SearchScope = "customer"
-	DeletionScope    SearchScope = "deletion"
-	DisputeScope     SearchScope = "dispute"
-	DocumentScope    SearchScope = "document"
-	EventScope       SearchScope = "event"
-	LinkScope        SearchScope = "link"
-	RecipientScope   SearchScope = "recipient"
-	RefundScope      SearchScope = "refund"
-	TokenScope       SearchScope = "token"
-	TransactionScope SearchScope = "transaction"
-	TransferScope    SearchScope = "transfer"
+  UnspecifiedScope SearchScope = ""
+  
+  AccountScope SearchScope = "account"
+  BalanceScope SearchScope = "balance"
+  BankAccountScope SearchScope = "bankaccount"
+  CardScope SearchScope = "card"
+  ChargeScope SearchScope = "charge"
+  CustomerScope SearchScope = "customer"
+  DeletionScope SearchScope = "deletion"
+  DisputeScope SearchScope = "dispute"
+  DocumentScope SearchScope = "document"
+  EventScope SearchScope = "event"
+  LinkScope SearchScope = "link"
+  RecipientScope SearchScope = "recipient"
+  RefundScope SearchScope = "refund"
+  TokenScope SearchScope = "token"
+  TransactionScope SearchScope = "transaction"
+  TransferScope SearchScope = "transfer"
 )
+
 
 // AccountSearchResult represents search result structure returned by Omise's Search API
 // that contains Account struct as result elements.
@@ -37,12 +35,14 @@ type AccountSearchResult struct {
 	Data []*Account `json:"data"`
 }
 
+
 // BalanceSearchResult represents search result structure returned by Omise's Search API
 // that contains Balance struct as result elements.
 type BalanceSearchResult struct {
 	SearchResult
 	Data []*Balance `json:"data"`
 }
+
 
 // BankAccountSearchResult represents search result structure returned by Omise's Search API
 // that contains BankAccount struct as result elements.
@@ -51,12 +51,14 @@ type BankAccountSearchResult struct {
 	Data []*BankAccount `json:"data"`
 }
 
+
 // CardSearchResult represents search result structure returned by Omise's Search API
 // that contains Card struct as result elements.
 type CardSearchResult struct {
 	SearchResult
 	Data []*Card `json:"data"`
 }
+
 
 // ChargeSearchResult represents search result structure returned by Omise's Search API
 // that contains Charge struct as result elements.
@@ -65,12 +67,14 @@ type ChargeSearchResult struct {
 	Data []*Charge `json:"data"`
 }
 
+
 // CustomerSearchResult represents search result structure returned by Omise's Search API
 // that contains Customer struct as result elements.
 type CustomerSearchResult struct {
 	SearchResult
 	Data []*Customer `json:"data"`
 }
+
 
 // DeletionSearchResult represents search result structure returned by Omise's Search API
 // that contains Deletion struct as result elements.
@@ -79,12 +83,14 @@ type DeletionSearchResult struct {
 	Data []*Deletion `json:"data"`
 }
 
+
 // DisputeSearchResult represents search result structure returned by Omise's Search API
 // that contains Dispute struct as result elements.
 type DisputeSearchResult struct {
 	SearchResult
 	Data []*Dispute `json:"data"`
 }
+
 
 // DocumentSearchResult represents search result structure returned by Omise's Search API
 // that contains Document struct as result elements.
@@ -93,12 +99,14 @@ type DocumentSearchResult struct {
 	Data []*Document `json:"data"`
 }
 
+
 // EventSearchResult represents search result structure returned by Omise's Search API
 // that contains Event struct as result elements.
 type EventSearchResult struct {
 	SearchResult
 	Data []*Event `json:"data"`
 }
+
 
 // LinkSearchResult represents search result structure returned by Omise's Search API
 // that contains Link struct as result elements.
@@ -107,12 +115,14 @@ type LinkSearchResult struct {
 	Data []*Link `json:"data"`
 }
 
+
 // RecipientSearchResult represents search result structure returned by Omise's Search API
 // that contains Recipient struct as result elements.
 type RecipientSearchResult struct {
 	SearchResult
 	Data []*Recipient `json:"data"`
 }
+
 
 // RefundSearchResult represents search result structure returned by Omise's Search API
 // that contains Refund struct as result elements.
@@ -121,12 +131,14 @@ type RefundSearchResult struct {
 	Data []*Refund `json:"data"`
 }
 
+
 // TokenSearchResult represents search result structure returned by Omise's Search API
 // that contains Token struct as result elements.
 type TokenSearchResult struct {
 	SearchResult
 	Data []*Token `json:"data"`
 }
+
 
 // TransactionSearchResult represents search result structure returned by Omise's Search API
 // that contains Transaction struct as result elements.
@@ -135,9 +147,12 @@ type TransactionSearchResult struct {
 	Data []*Transaction `json:"data"`
 }
 
+
 // TransferSearchResult represents search result structure returned by Omise's Search API
 // that contains Transfer struct as result elements.
 type TransferSearchResult struct {
 	SearchResult
 	Data []*Transfer `json:"data"`
 }
+
+

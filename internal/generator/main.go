@@ -1,4 +1,4 @@
-package generator
+package main
 
 import (
 	"log"
@@ -30,18 +30,20 @@ var AllModels = []string{
 	"Transfer",
 }
 
-func Main(name string) {
+func main() {
+	name := strings.TrimSpace(os.Args[1])
+	if name == "" {
+		log.Fatalln("template name must be given as first argument")
+	}
+
 	var (
 		templateFile = name + ".tmpl"
 		outputFile   = name + ".go"
 	)
 
-	tmpl := template.New("root").
-		Funcs(map[string]interface{}{
-			"toLower": strings.ToLower,
-		})
-
-	tmpl = template.Must(tmpl.ParseFiles(templateFile))
+	tmpl := template.Must(template.New("root").
+		Funcs(map[string]interface{}{"toLower": strings.ToLower}).
+		ParseFiles(templateFile))
 
 	outfile, e := os.Create(outputFile)
 	if e != nil {
