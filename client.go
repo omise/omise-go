@@ -7,6 +7,7 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"strings"
 
 	"github.com/omise/omise-go/internal"
@@ -64,17 +65,9 @@ func NewClient(pkey, skey string) (*Client, error) {
 func (c *Client) Request(operation internal.Operation) (*http.Request, error) {
 	op := operation.Op()
 
-	query, e := internal.MapURLValues(operation)
+	query, e := c.buildQuery(op)
 	if e != nil {
 		return nil, e
-	}
-
-	if len(op.Values) > 0 {
-		for k, values := range op.Values {
-			if len(values) > 0 {
-				query.Set(k, values[0])
-			}
-		}
 	}
 
 	body := io.Reader(nil)
@@ -87,12 +80,7 @@ func (c *Client) Request(operation internal.Operation) (*http.Request, error) {
 		endpoint = ep
 	}
 
-	if c.debug {
-		fmt.Println(" req:", op.Method, endpoint+op.Path)
-	}
-
 	req, e := http.NewRequest(op.Method, endpoint+op.Path, body)
-	// req, e := http.NewRequest(op.Method, "http://0.0.0.0:9999"+op.Path, body)
 	if e != nil {
 		return nil, e
 	}
@@ -101,7 +89,29 @@ func (c *Client) Request(operation internal.Operation) (*http.Request, error) {
 		req.URL.RawQuery = query.Encode()
 	}
 
-	// headers
+	if e := c.setRequestHeaders(req, op); e != nil {
+		return nil, e
+	}
+
+	return req, nil
+}
+
+func (c *Client) buildQuery(op *internal.Op) (url.Values, error) {
+	query, e := internal.MapURLValues(operation)
+	if e != nil {
+		return nil, e
+	}
+
+	if len(op.Values) > 0 {
+		for k, values := range op.Values {
+			if len(values) > 0 {
+				query.Set(k, values[0])
+			}
+		}
+	}
+}
+
+func (c *Client) setRequestHeaders(req *http.Request, op *internal.Op) error {
 	ua := "OmiseGo/2015-11-06"
 	if c.GoVersion != "" {
 		ua += " Go/" + c.GoVersion
@@ -119,10 +129,10 @@ func (c *Client) Request(operation internal.Operation) (*http.Request, error) {
 	case internal.Vault:
 		req.SetBasicAuth(c.pkey, "")
 	default:
-		return nil, ErrInternal("unrecognized endpoint:" + op.Endpoint)
+		return ErrInternal("unrecognized endpoint:" + op.Endpoint)
 	}
 
-	return req, nil
+	return nil
 }
 
 // Do performs the supplied operation against Omise's REST API and unmarshal the response
