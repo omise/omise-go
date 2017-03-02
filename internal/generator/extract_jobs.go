@@ -18,7 +18,6 @@ func ExtractJobs() ([]Job, error) {
 	// main package types
 	var (
 		scope     = pkg.Scope()
-		listJob   = &GenListJob{}
 		searchJob = &GenSearchJob{}
 		stringJob = &GenStringJob{map[string][]string{}}
 	)
@@ -35,7 +34,6 @@ func ExtractJobs() ([]Job, error) {
 			}
 
 			struc := typ.(*types.Named).Underlying().(*types.Struct)
-			listJob.Names = append(listJob.Names, name)
 			stringJob.Fields[name] = collectFields(struc)
 		}
 	}
@@ -48,9 +46,8 @@ func ExtractJobs() ([]Job, error) {
 		"Recipient",
 	}
 
-	sort.Strings(listJob.Names)
 	sort.Strings(searchJob.Names)
-	return []Job{listJob, searchJob, stringJob}, nil
+	return []Job{searchJob, stringJob}, nil
 }
 
 func findClass(typ types.Type) (class Class) {
