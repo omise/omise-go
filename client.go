@@ -96,7 +96,9 @@ func (c *Client) Request(operation internal.Operation) (*http.Request, error) {
 	return req, nil
 }
 
-func (c *Client) buildQuery(op *internal.Op) (url.Values, error) {
+func (c *Client) buildQuery(operation internal.Operation) (url.Values, error) {
+	op := operation.Op()
+
 	query, e := internal.MapURLValues(operation)
 	if e != nil {
 		return nil, e
@@ -109,6 +111,8 @@ func (c *Client) buildQuery(op *internal.Op) (url.Values, error) {
 			}
 		}
 	}
+
+	return query, nil
 }
 
 func (c *Client) setRequestHeaders(req *http.Request, op *internal.Op) error {
