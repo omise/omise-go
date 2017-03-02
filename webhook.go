@@ -13,6 +13,7 @@ type EventHandler interface {
 // EventHandlerFunc lets you use a plain function as an EventHandler type.
 type EventHandlerFunc func(http.ResponseWriter, *http.Request, *Event)
 
+// HandleEvent implements the EventHandler interface by calling the underlying funciton.
 func (f EventHandlerFunc) HandleEvent(resp http.ResponseWriter, req *http.Request, event *Event) {
 	f(resp, req, event)
 }

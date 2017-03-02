@@ -44,7 +44,7 @@ func (r JSONRoundtripTest) Test(t *testing.T) {
 		return
 	}
 
-	outbytes := []byte{}
+	var outbytes []byte
 	if outbytes, e = json.Marshal(r.value); !a.NoError(t, e) {
 		return
 	}

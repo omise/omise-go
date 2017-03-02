@@ -5,7 +5,8 @@ import (
 	"strconv"
 )
 
-var ErrInvalidKey = errors.New("invalid public or secret key.")
+// ErrInvalidKey represents missing or bad API key errors.
+var ErrInvalidKey = errors.New("invalid public or secret key")
 
 // ErrInternal represents internal library error. If you encounter this, it is mostly
 // likely due to a bug in the omise-go library itself. Please report it by opening a new
@@ -16,6 +17,7 @@ func (e ErrInternal) Error() string {
 	return "internal inconsistency: " + string(e)
 }
 
+// ErrTransport wraps error returned by omise-go internal HTTP transport implementation.
 type ErrTransport struct {
 	Err    error
 	Buffer []byte
@@ -37,11 +39,11 @@ type Error struct {
 }
 
 func (e *Error) String() string {
-	if e.StatusCode != 0 {
-		return "(" + strconv.Itoa(e.StatusCode) + "/" + e.Code + ") " + e.Message
-	} else {
+	if e.StatusCode == 0 {
 		return "(" + e.Code + ") " + e.Message
 	}
+
+	return "(" + strconv.Itoa(e.StatusCode) + "/" + e.Code + ") " + e.Message
 }
 
 func (e *Error) Error() string {

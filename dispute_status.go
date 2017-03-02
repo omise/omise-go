@@ -1,9 +1,9 @@
 package omise
 
-// DisputeStatus represents an enumeration of possible status of a Dispute object, which
-// can be one of the following list of constants:
+// DisputeStatus represents an enumeration of possible status of a Dispute object.
 type DisputeStatus string
 
+// DisputeStatus can be one of the following list of constants:
 const (
 	Open    DisputeStatus = "open"
 	Pending DisputeStatus = "pending"
