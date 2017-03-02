@@ -6,7 +6,7 @@ GOPATH=`go env GOPATH 2>/dev/null`
 echo "using TMPFILE=$TMPFILE"
 echo "using GOPATH=$GOPATH"
 
-function check() {
+function check {
   printf "checking for $1 ... "
   command -v $1 2>&1 >/dev/null
   if [ ! $? -eq 0 ]
@@ -20,7 +20,7 @@ function check() {
   echo "ok."
 }
 
-function perform() {
+function perform {
   printf "running $1 ... "
   shift
 
