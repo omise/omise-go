@@ -65,7 +65,7 @@ func NewClient(pkey, skey string) (*Client, error) {
 func (c *Client) Request(operation internal.Operation) (*http.Request, error) {
 	op := operation.Op()
 
-	query, e := c.buildQuery(op)
+	query, e := c.buildQuery(operation)
 	if e != nil {
 		return nil, e
 	}
