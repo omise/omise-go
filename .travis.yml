@@ -3,7 +3,8 @@ env:
   - PATH=$GOPATH/bin:$PATH
 script:
   - go get github.com/alecthomas/gometalinter
-  - go get github.com/jteeuwen/go-bindata
+  - go get github.com/jteeuwen/go-bindata/go-bindata
+  - gometalinter --install
   - ./build.sh
 go:
 - "tip"
