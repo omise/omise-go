@@ -19,59 +19,11 @@ const (
 )
 
 
-// AccountSearchResult represents search result structure returned by Omise's Search API
-// that contains Account struct as result elements.
-type AccountSearchResult struct {
-	SearchResult
-	Data []*Account `json:"data"`
-}
-
-
-// BalanceSearchResult represents search result structure returned by Omise's Search API
-// that contains Balance struct as result elements.
-type BalanceSearchResult struct {
-	SearchResult
-	Data []*Balance `json:"data"`
-}
-
-
-// BankAccountSearchResult represents search result structure returned by Omise's Search API
-// that contains BankAccount struct as result elements.
-type BankAccountSearchResult struct {
-	SearchResult
-	Data []*BankAccount `json:"data"`
-}
-
-
-// CardSearchResult represents search result structure returned by Omise's Search API
-// that contains Card struct as result elements.
-type CardSearchResult struct {
-	SearchResult
-	Data []*Card `json:"data"`
-}
-
-
 // ChargeSearchResult represents search result structure returned by Omise's Search API
 // that contains Charge struct as result elements.
 type ChargeSearchResult struct {
 	SearchResult
 	Data []*Charge `json:"data"`
-}
-
-
-// CustomerSearchResult represents search result structure returned by Omise's Search API
-// that contains Customer struct as result elements.
-type CustomerSearchResult struct {
-	SearchResult
-	Data []*Customer `json:"data"`
-}
-
-
-// DeletionSearchResult represents search result structure returned by Omise's Search API
-// that contains Deletion struct as result elements.
-type DeletionSearchResult struct {
-	SearchResult
-	Data []*Deletion `json:"data"`
 }
 
 
@@ -83,35 +35,19 @@ type DisputeSearchResult struct {
 }
 
 
-// DocumentSearchResult represents search result structure returned by Omise's Search API
-// that contains Document struct as result elements.
-type DocumentSearchResult struct {
-	SearchResult
-	Data []*Document `json:"data"`
-}
-
-
-// EventSearchResult represents search result structure returned by Omise's Search API
-// that contains Event struct as result elements.
-type EventSearchResult struct {
-	SearchResult
-	Data []*Event `json:"data"`
-}
-
-
-// LinkSearchResult represents search result structure returned by Omise's Search API
-// that contains Link struct as result elements.
-type LinkSearchResult struct {
-	SearchResult
-	Data []*Link `json:"data"`
-}
-
-
 // RecipientSearchResult represents search result structure returned by Omise's Search API
 // that contains Recipient struct as result elements.
 type RecipientSearchResult struct {
 	SearchResult
 	Data []*Recipient `json:"data"`
+}
+
+
+// CustomerSearchResult represents search result structure returned by Omise's Search API
+// that contains Customer struct as result elements.
+type CustomerSearchResult struct {
+	SearchResult
+	Data []*Customer `json:"data"`
 }
 
 
@@ -123,27 +59,19 @@ type RefundSearchResult struct {
 }
 
 
-// TokenSearchResult represents search result structure returned by Omise's Search API
-// that contains Token struct as result elements.
-type TokenSearchResult struct {
-	SearchResult
-	Data []*Token `json:"data"`
-}
-
-
-// TransactionSearchResult represents search result structure returned by Omise's Search API
-// that contains Transaction struct as result elements.
-type TransactionSearchResult struct {
-	SearchResult
-	Data []*Transaction `json:"data"`
-}
-
-
 // TransferSearchResult represents search result structure returned by Omise's Search API
 // that contains Transfer struct as result elements.
 type TransferSearchResult struct {
 	SearchResult
 	Data []*Transfer `json:"data"`
+}
+
+
+// LinkSearchResult represents search result structure returned by Omise's Search API
+// that contains Link struct as result elements.
+type LinkSearchResult struct {
+	SearchResult
+	Data []*Link `json:"data"`
 }
 
 

@@ -12,7 +12,7 @@ const (
   {{.}}Scope SearchScope = "{{toLower .}}"{{end}}
 )
 
-{{range .Models}}
+{{range .SearchableModels}}
 // {{.}}SearchResult represents search result structure returned by Omise's Search API
 // that contains {{.}} struct as result elements.
 type {{.}}SearchResult struct {
