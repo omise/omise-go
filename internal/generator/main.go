@@ -7,27 +7,37 @@ import (
 	"text/template"
 )
 
-type Context struct {
-	Models []string
-}
-
-var AllModels = []string{
-	"Account",
-	"Balance",
-	"BankAccount",
-	"Card",
-	"Charge",
-	"Customer",
-	"Deletion",
-	"Dispute",
-	"Document",
-	"Event",
-	"Link",
-	"Recipient",
-	"Refund",
-	"Token",
-	"Transaction",
-	"Transfer",
+var Context = &struct {
+	Models           []string
+	SearchableModels []string
+}{
+	Models: []string{
+		"Account",
+		"Balance",
+		"BankAccount",
+		"Card",
+		"Charge",
+		"Customer",
+		"Deletion",
+		"Dispute",
+		"Document",
+		"Event",
+		"Link",
+		"Recipient",
+		"Refund",
+		"Token",
+		"Transaction",
+		"Transfer",
+	},
+	SearchableModels: []string{
+		"Charge",
+		"Dispute",
+		"Recipient",
+		"Customer",
+		"Refund",
+		"Transfer",
+		"Link",
+	},
 }
 
 func main() {
@@ -50,7 +60,7 @@ func main() {
 		log.Fatalln(e)
 	}
 
-	if e := tmpl.ExecuteTemplate(outfile, templateFile, &Context{Models: AllModels}); e != nil {
+	if e := tmpl.ExecuteTemplate(outfile, templateFile, Context); e != nil {
 		log.Fatalln(e)
 	}
 }
