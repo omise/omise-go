@@ -9,4 +9,5 @@ const (
 	InternetBankingBBL OffsiteTypes = "internet_banking_bbl"
 	InternetBankingKTB OffsiteTypes = "internet_banking_ktb"
 	InternetBankingBAY OffsiteTypes = "internet_banking_bay"
+	Alipay             OffsiteTypes = "alipay"
 )
