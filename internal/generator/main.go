@@ -23,6 +23,7 @@ var Context = &struct {
 		"Document",
 		"Event",
 		"Link",
+		"Occurrence",
 		"Recipient",
 		"Refund",
 		"Token",
