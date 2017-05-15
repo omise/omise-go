@@ -1,6 +1,7 @@
 package omise
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"go/build"
@@ -63,33 +64,20 @@ func NewClient(pkey, skey string) (*Client, error) {
 // Request creates a new *http.Request that should performs the supplied Operation. Most
 // people should use the Do method instead.
 func (c *Client) Request(operation internal.Operation) (*http.Request, error) {
-	op := operation.Op()
+	var req *http.Request
+	var e error
+	if _, ok := operation.(json.Marshaler); ok {
+		req, e = c.buildJSONRequest(operation)
+	} else {
+		req, e = c.buildFormRequest(operation)
+	}
 
-	query, e := c.buildQuery(operation)
 	if e != nil {
 		return nil, e
 	}
 
-	body := io.Reader(nil)
-	if op.Method != "GET" && op.Method != "HEAD" {
-		body = strings.NewReader(query.Encode())
-	}
-
-	endpoint := string(op.Endpoint)
-	if ep, ok := c.Endpoints[op.Endpoint]; ok {
-		endpoint = ep
-	}
-
-	req, e := http.NewRequest(op.Method, endpoint+op.Path, body)
+	e = c.setRequestHeaders(req, operation.Op())
 	if e != nil {
-		return nil, e
-	}
-
-	if op.Method == "GET" || op.Method == "HEAD" {
-		req.URL.RawQuery = query.Encode()
-	}
-
-	if e := c.setRequestHeaders(req, op); e != nil {
 		return nil, e
 	}
 
@@ -115,13 +103,67 @@ func (c *Client) buildQuery(operation internal.Operation) (url.Values, error) {
 	return query, nil
 }
 
+func (c *Client) buildJSONRequest(operation internal.Operation) (*http.Request, error) {
+	op := operation.Op()
+
+	b, e := json.Marshal(operation)
+	if e != nil {
+		return nil, e
+	}
+
+	body := bytes.NewReader(b)
+
+	endpoint := string(op.Endpoint)
+	if ep, ok := c.Endpoints[op.Endpoint]; ok {
+		endpoint = ep
+	}
+
+	return http.NewRequest(op.Method, endpoint+op.Path, body)
+}
+
+func (c *Client) buildFormRequest(operation internal.Operation) (*http.Request, error) {
+	op := operation.Op()
+
+	query, e := c.buildQuery(operation)
+	if e != nil {
+		return nil, e
+	}
+
+	var body io.Reader
+	if op.Method != "GET" && op.Method != "HEAD" {
+		body = strings.NewReader(query.Encode())
+	}
+
+	endpoint := string(op.Endpoint)
+	if ep, ok := c.Endpoints[op.Endpoint]; ok {
+		endpoint = ep
+	}
+
+	req, e := http.NewRequest(op.Method, endpoint+op.Path, body)
+	if e != nil {
+		return nil, e
+	}
+
+	if op.Method == "GET" || op.Method == "HEAD" {
+		req.URL.RawQuery = query.Encode()
+	}
+
+	return req, nil
+}
+
 func (c *Client) setRequestHeaders(req *http.Request, op *internal.Op) error {
 	ua := "OmiseGo/2015-11-06"
 	if c.GoVersion != "" {
 		ua += " Go/" + c.GoVersion
 	}
 
-	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+	// Fallback between migrate to application/json
+	if op.ContentType == "" {
+		req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+	} else {
+		req.Header.Add("Content-Type", op.ContentType)
+	}
+
 	req.Header.Add("User-Agent", ua)
 	if c.APIVersion != "" {
 		req.Header.Add("Omise-Version", c.APIVersion)

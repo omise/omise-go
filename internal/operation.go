@@ -9,8 +9,9 @@ type Op struct {
 	Method   string   `query:"-"`
 	Path     string   `query:"-"`
 
-	Values    url.Values `query:"-"`
-	Multipart bool       `query:"-"`
+	Values      url.Values `query:"-"`
+	Multipart   bool       `query:"-"`
+	ContentType string     `query:"-"`
 }
 
 // Op implements Operation.Op and allows the struct itself be passed as an Operation
