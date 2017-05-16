@@ -1,7 +1,7 @@
-package omise
+package schedule
 
-// ChargeScheduleDetail represents charge detail for schedule object.
-type ChargeScheduleDetail struct {
+// ChargeDetail represents charge detail for schedule object.
+type ChargeDetail struct {
 	Amount   int    `json:"amount"`
 	Currency string `json:"currency"`
 	Customer string `json:"customer"`
