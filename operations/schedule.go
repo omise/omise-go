@@ -156,3 +156,26 @@ func (req *ListSchedules) Op() *internal.Op {
 		ContentType: "application/json",
 	}
 }
+
+// RetrieveSchedule
+//
+// Example:
+//
+//	schd := &omise.Schedule{ID: "schd_57z9hj228pusa652nk1"}
+//	if e := client.Do(schd, &RetrieveSchedule{schd.ID}); e != nil {
+//		panic(e)
+//	}
+//
+//	fmt.Printf("schedule #schd_57z9hj228pusa652nk1: %#v\n", schd)
+//
+type RetrieveSchedule struct {
+	ScheduleID string `query:"-"`
+}
+
+func (req *RetrieveSchedule) Op() *internal.Op {
+	return &internal.Op{
+		Endpoint: internal.API,
+		Method:   "GET",
+		Path:     "/schedules/" + req.ScheduleID,
+	}
+}

@@ -91,6 +91,13 @@ func TestSchedule(t *testing.T) {
 	client.MustDo(schds, &ListSchedules{})
 	r.Len(t, schds.Data, 1)
 	r.Equal(t, "schd_57zhl296uxc7yiun6xa", schds.Data[0].ID)
+
+	schd = &omise.Schedule{}
+	client.MustDo(schd, &RetrieveSchedule{ScheduleID})
+	r.Equal(t, ScheduleID, schd.ID)
+	r.Equal(t, 100000, schd.Charge.Amount)
+	r.Equal(t, schedule.Active, schd.Status)
+	r.Len(t, schd.NextOccurrences, 30)
 }
 
 func TestCreateSchedule_Network(t *testing.T) {
