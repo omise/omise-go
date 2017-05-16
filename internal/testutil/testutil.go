@@ -45,6 +45,11 @@ func AssertJSONEquals(t *testing.T, m1 map[string]interface{}, m2 map[string]int
 	assertJSONEquals(t, "", m1, m2)
 }
 
+func isMap(v interface{}) bool {
+	_, ok := v.(map[string]interface{})
+	return ok
+}
+
 func assertJSONEquals(t *testing.T, prefix string, m1 map[string]interface{}, m2 map[string]interface{}) {
 	for k, v := range m1 {
 		v2, ok := m2[k]
@@ -58,6 +63,11 @@ func assertJSONEquals(t *testing.T, prefix string, m1 map[string]interface{}, m2
 			r.Equal(t, rv1.Len(), rv2.Len(), "key `"+prefix+k+"` has different length")
 
 			for i := 0; i < rv1.Len(); i++ {
+				if !isMap(rv1.Index(i).Interface()) && !isMap(rv2.Index(i).Interface()) {
+					r.Equal(t, rv1.Index(i).Interface(), rv2.Index(i).Interface())
+					continue
+				}
+
 				assertJSONEquals(t, prefix+"["+strconv.Itoa(i)+"]",
 					rv1.Index(i).Interface().(map[string]interface{}),
 					rv2.Index(i).Interface().(map[string]interface{}))

@@ -23,6 +23,7 @@ var JSONRoundtripTests = []JSONRoundtripTest{
 	{"event_object.json", &Event{}},
 	{"recipient_object.json", &Recipient{}},
 	{"refund_object.json", &Refund{}},
+	{"schedule_object.json", &Schedule{}},
 	{"token_object.json", &Token{}},
 	{"transaction_object.json", &Transaction{}},
 	{"transfer_object.json", &Transfer{}},
