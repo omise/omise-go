@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"testing"
 
+	omise "github.com/omise/omise-go"
+	"github.com/omise/omise-go/internal/testutil"
 	. "github.com/omise/omise-go/operations"
 	"github.com/omise/omise-go/schedule"
 	r "github.com/stretchr/testify/require"
@@ -71,4 +73,16 @@ func TestCreateScheduleMarshal(t *testing.T) {
 		r.Nil(t, err, "err should be nothing")
 		r.Equal(t, td.expected, string(b))
 	}
+}
+
+func TestSchedule(t *testing.T) {
+	const (
+		ScheduleID = "schd_57z9hj228pusa652nk1"
+	)
+
+	client := testutil.NewFixedClient(t)
+
+	schd := &omise.Schedule{}
+	client.MustDo(schd, &CreateSchedule{})
+	r.Equal(t, ScheduleID, schd.ID)
 }
