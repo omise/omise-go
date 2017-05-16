@@ -26,6 +26,7 @@ var Context = &struct {
 		"Occurrence",
 		"Recipient",
 		"Refund",
+		"Schedule",
 		"Token",
 		"Transaction",
 		"Transfer",

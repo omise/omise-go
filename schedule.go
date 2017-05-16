@@ -6,6 +6,7 @@ import "github.com/omise/omise-go/schedule"
 // See https://www.omise.co/schedule-api for more information.
 type Schedule struct {
 	Base
+	Deleted         bool                   `json:"deleted"`
 	Status          schedule.Status        `json:"status"`
 	Every           int                    `json:"every"`
 	Period          schedule.Period        `json:"period"`

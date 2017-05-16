@@ -14,7 +14,7 @@ import (
 //
 // Example:
 //
-//	resp, create := &omise.Schedule{}, &operations.CreateSchedule{
+//	schd, create := &omise.Schedule{}, &operations.CreateSchedule{
 //              Every:  3,
 //              Period: schedule.PeriodWeek,
 //              Weekdays: []schedule.Weekday{
@@ -26,11 +26,11 @@ import (
 //              Customer:  "customer_id",
 //              Amount:    100000,
 //	}
-//	if e := client.Do(resp, create); e != nil {
+//	if e := client.Do(schd, create); e != nil {
 //		panic(e)
 //	}
 //
-//	fmt.Println("created schedule:", resp.ID)
+//	fmt.Println("created schedule:", schd.ID)
 //
 type CreateSchedule struct {
 	Every          int
@@ -120,6 +120,39 @@ func (req *CreateSchedule) Op() *internal.Op {
 		Method:      "POST",
 		Path:        "/schedules",
 		Values:      url.Values{},
+		ContentType: "application/json",
+	}
+}
+
+// ListSchedules represent list schedule API payload
+//
+// Example:
+//
+//	schds, list := &omise.ScheduleList{}, &ListSchedules{
+//		List{
+//			Limit: 100,
+//			From: time.Now().Add(-1 * time.Hour),
+//		},
+//	}
+//	if e := client.Do(schds, list); e != nil {
+//		panic(e)
+//	}
+//
+//	fmt.Println("# of schedules made in the last hour:", len(schds.Data))
+//
+type ListSchedules struct {
+	List
+}
+
+func (req *ListSchedules) MarshalJSON() ([]byte, error) {
+	return json.Marshal(req.List)
+}
+
+func (req *ListSchedules) Op() *internal.Op {
+	return &internal.Op{
+		Endpoint:    internal.API,
+		Method:      "GET",
+		Path:        "/schedules",
 		ContentType: "application/json",
 	}
 }

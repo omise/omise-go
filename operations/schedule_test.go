@@ -3,6 +3,7 @@ package operations_test
 import (
 	"encoding/json"
 	"testing"
+	"time"
 
 	omise "github.com/omise/omise-go"
 	"github.com/omise/omise-go/internal/testutil"
@@ -85,4 +86,44 @@ func TestSchedule(t *testing.T) {
 	schd := &omise.Schedule{}
 	client.MustDo(schd, &CreateSchedule{})
 	r.Equal(t, ScheduleID, schd.ID)
+
+	schds := &omise.ScheduleList{}
+	client.MustDo(schds, &ListSchedules{})
+	r.Len(t, schds.Data, 1)
+	r.Equal(t, "schd_57zhl296uxc7yiun6xa", schds.Data[0].ID)
+}
+
+func TestCreateSchedule_Network(t *testing.T) {
+	// CustomerID must have this customer in test server
+	const CustomerID = `cust_57z9e1nce0wvbbkvef1`
+
+	testutil.Require(t, "network")
+	client := testutil.NewTestClient(t)
+	schd, create := &omise.Schedule{}, &CreateSchedule{
+		Every:  3,
+		Period: schedule.PeriodWeek,
+		Weekdays: []schedule.Weekday{
+			schedule.Monday,
+			schedule.Saturday,
+		},
+		EndDate:  "2018-05-15",
+		Customer: CustomerID,
+		Amount:   100000,
+	}
+	client.MustDo(schd, create)
+}
+
+func TestListSchedules_Network(t *testing.T) {
+	testutil.Require(t, "network")
+	client := testutil.NewTestClient(t)
+	schds, list := &omise.ScheduleList{}, &ListSchedules{
+		List{
+			Limit: 100,
+			From:  time.Date(2017, 5, 16, 0, 0, 0, 0, time.Local),
+		},
+	}
+	client.MustDo(schds, list)
+
+	t.Logf("Schedules Len: %d\n", len(schds.Data))
+	t.Logf("%#v\n", schds)
 }
