@@ -10,11 +10,11 @@ import (
 	"github.com/omise/omise-go/schedule"
 )
 
-// CreateSchedule represent create schedule API payload
+// CreateChargeSchedule represent create schedule API payload
 //
 // Example:
 //
-//	schd, create := &omise.Schedule{}, &operations.CreateSchedule{
+//	schd, create := &omise.Schedule{}, &operations.CreateChargeSchedule{
 //              Every:  3,
 //              Period: schedule.PeriodWeek,
 //              Weekdays: []schedule.Weekday{
@@ -32,7 +32,7 @@ import (
 //
 //	fmt.Println("created schedule:", schd.ID)
 //
-type CreateSchedule struct {
+type CreateChargeSchedule struct {
 	Every          int
 	Period         schedule.Period
 	StartDate      string
@@ -41,17 +41,18 @@ type CreateSchedule struct {
 	Amount         int
 	Currency       string
 	Card           string
-	Weekdays       []schedule.Weekday
-	DaysOfMonth    []int
+	Weekdays       schedule.Weekdays
+	DaysOfMonth    schedule.DaysOfMonth
 	WeekdayOfMonth string
 }
 
-func (req *CreateSchedule) MarshalJSON() ([]byte, error) {
+func (req *CreateChargeSchedule) MarshalJSON() ([]byte, error) {
 	type charge struct {
-		Customer string `json:"customer"`
-		Amount   int    `json:"amount"`
-		Currency string `json:"currency,omitempty"`
-		Card     string `json:"card,omitempty"`
+		Customer    string `json:"customer"`
+		Amount      int    `json:"amount"`
+		Currency    string `json:"currency,omitempty"`
+		Card        string `json:"card,omitempty"`
+		Description string `json:"description,omitempty"`
 	}
 
 	type on struct {
@@ -114,7 +115,7 @@ func (req *CreateSchedule) MarshalJSON() ([]byte, error) {
 	return json.Marshal(p)
 }
 
-func (req *CreateSchedule) Op() *internal.Op {
+func (req *CreateChargeSchedule) Op() *internal.Op {
 	return &internal.Op{
 		Endpoint:    internal.API,
 		Method:      "POST",

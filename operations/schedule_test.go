@@ -12,13 +12,13 @@ import (
 	r "github.com/stretchr/testify/require"
 )
 
-func TestCreateScheduleMarshal(t *testing.T) {
+func TestCreateChargeScheduleMarshal(t *testing.T) {
 	testdata := []struct {
-		req      *CreateSchedule
+		req      *CreateChargeSchedule
 		expected string
 	}{
 		{
-			req: &CreateSchedule{
+			req: &CreateChargeSchedule{
 				Every:     3,
 				Period:    schedule.PeriodDay,
 				StartDate: "2017-05-15",
@@ -29,10 +29,10 @@ func TestCreateScheduleMarshal(t *testing.T) {
 			expected: `{"every":3,"period":"day","start_date":"2017-05-15","end_date":"2018-05-15","charge":{"customer":"customer_id","amount":100000}}`,
 		},
 		{
-			req: &CreateSchedule{
+			req: &CreateChargeSchedule{
 				Every:  3,
 				Period: schedule.PeriodWeek,
-				Weekdays: []schedule.Weekday{
+				Weekdays: schedule.Weekdays{
 					schedule.Monday,
 					schedule.Saturday,
 				},
@@ -44,10 +44,10 @@ func TestCreateScheduleMarshal(t *testing.T) {
 			expected: `{"every":3,"period":"week","start_date":"2017-05-15","end_date":"2018-05-15","charge":{"customer":"customer_id","amount":100000},"on":{"weekdays":["monday","saturday"]}}`,
 		},
 		{
-			req: &CreateSchedule{
+			req: &CreateChargeSchedule{
 				Every:       3,
 				Period:      schedule.PeriodMonth,
-				DaysOfMonth: []int{1, 15},
+				DaysOfMonth: schedule.DaysOfMonth{1, 15},
 				StartDate:   "2017-05-15",
 				EndDate:     "2018-05-15",
 				Customer:    "customer_id",
@@ -56,7 +56,7 @@ func TestCreateScheduleMarshal(t *testing.T) {
 			expected: `{"every":3,"period":"month","start_date":"2017-05-15","end_date":"2018-05-15","charge":{"customer":"customer_id","amount":100000},"on":{"days_of_month":[1,15]}}`,
 		},
 		{
-			req: &CreateSchedule{
+			req: &CreateChargeSchedule{
 				Every:          3,
 				Period:         schedule.PeriodMonth,
 				WeekdayOfMonth: "last_thursday",
@@ -76,7 +76,7 @@ func TestCreateScheduleMarshal(t *testing.T) {
 	}
 }
 
-func TestSchedule(t *testing.T) {
+func TestChareSchedule(t *testing.T) {
 	const (
 		ScheduleID = "schd_57z9hj228pusa652nk1"
 	)
@@ -84,7 +84,7 @@ func TestSchedule(t *testing.T) {
 	client := testutil.NewFixedClient(t)
 
 	schd := &omise.Schedule{}
-	client.MustDo(schd, &CreateSchedule{})
+	client.MustDo(schd, &CreateChargeSchedule{})
 	r.Equal(t, ScheduleID, schd.ID)
 
 	schds := &omise.ScheduleList{}
@@ -106,10 +106,10 @@ func TestCreateSchedule_Network(t *testing.T) {
 
 	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
-	schd, create := &omise.Schedule{}, &CreateSchedule{
+	schd, create := &omise.Schedule{}, &CreateChargeSchedule{
 		Every:  3,
 		Period: schedule.PeriodWeek,
-		Weekdays: []schedule.Weekday{
+		Weekdays: schedule.Weekdays{
 			schedule.Monday,
 			schedule.Saturday,
 		},
