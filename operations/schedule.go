@@ -41,10 +41,11 @@ type CreateChargeSchedule struct {
 	DaysOfMonth    schedule.DaysOfMonth
 	WeekdayOfMonth string
 
-	Customer string
-	Amount   int
-	Currency string
-	Card     string
+	Customer    string
+	Amount      int
+	Currency    string
+	Card        string
+	Description string
 }
 
 func (req *CreateChargeSchedule) MarshalJSON() ([]byte, error) {
@@ -76,10 +77,11 @@ func (req *CreateChargeSchedule) MarshalJSON() ([]byte, error) {
 		Every:  req.Every,
 		Period: req.Period,
 		Charge: charge{
-			Customer: req.Customer,
-			Amount:   req.Amount,
-			Currency: req.Currency,
-			Card:     req.Card,
+			Customer:    req.Customer,
+			Amount:      req.Amount,
+			Currency:    req.Currency,
+			Card:        req.Card,
+			Description: req.Description,
 		},
 	}
 
