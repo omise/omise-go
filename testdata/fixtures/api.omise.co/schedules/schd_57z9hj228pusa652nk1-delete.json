@@ -3,7 +3,7 @@
   "id": "schd_57z9hj228pusa652nk1",
   "livemode": true,
   "location": "/schedules/schd_57z9hj228pusa652nk1",
-  "status": "active",
+  "status": "deleted",
   "every": 3,
   "period": "day",
   "on": {

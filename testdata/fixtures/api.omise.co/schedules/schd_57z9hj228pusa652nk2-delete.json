@@ -1,9 +1,9 @@
 {
   "object": "schedule",
-  "id": "schd_57z9hj228pusa652nk1",
+  "id": "schd_57z9hj228pusa652nk2",
   "livemode": true,
-  "location": "/schedules/schd_57z9hj228pusa652nk1",
-  "status": "active",
+  "location": "/schedules/schd_57z9hj228pusa652nk2",
+  "status": "deleted",
   "every": 3,
   "period": "day",
   "on": {
@@ -11,10 +11,10 @@
   "in_words": "Every 3 day(s)",
   "start_date": "2017-05-15",
   "end_date": "2018-05-15",
-  "charge": {
+  "transfer": {
     "amount": 100000,
     "currency": "thb",
-    "customer": "cust_57z9e1nce0wvbbkvef1"
+    "recipient": "recp_57z9e1nce0wvbbkvef1"
   },
   "occurrences": {
     "object": "list",
