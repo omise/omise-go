@@ -15,7 +15,7 @@ const (
 
 // On represents on field of Schedule object.
 type On struct {
-	Weekdays       []Weekday
-	DaysOfMonth    []int
-	WeekdayOfMonth *string
+	Weekdays       []Weekday `json:"weekdays"`
+	DaysOfMonth    []int     `json:"days_of_month"`
+	WeekdayOfMonth *string   `json:"weekday_of_month"`
 }
