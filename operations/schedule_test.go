@@ -198,8 +198,8 @@ func TestCreateSchedule(t *testing.T) {
 
 func TestListSchedule(t *testing.T) {
 	client := testutil.NewFixedClient(t)
-	schds := &omise.ScheduleList{}
-	client.MustDo(schds, &ListSchedules{})
+	var schds omise.ScheduleList
+	client.MustDo(&schds, &ListSchedules{})
 
 	r.Len(t, schds.Data, 2)
 
@@ -215,13 +215,44 @@ func TestListSchedule(t *testing.T) {
 func TestListSchedules_Network(t *testing.T) {
 	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
-	schds, list := &omise.ScheduleList{}, &ListSchedules{
-		List{
+	var schds omise.ScheduleList
+	list := ListSchedules{
+		List: List{
 			Limit: 100,
 			From:  time.Date(2017, 5, 16, 0, 0, 0, 0, time.Local),
 		},
 	}
-	client.MustDo(schds, list)
+
+	client.MustDo(&schds, &list)
+
+	t.Logf("Schedules Len: %d\n", len(schds.Data))
+	t.Logf("%#v\n", schds)
+}
+
+func TestListChargeSchedules(t *testing.T) {
+	var schds omise.ScheduleList
+	client := testutil.NewFixedClient(t)
+	client.MustDo(&schds, &ListChargeSchedules{})
+
+	r.Len(t, schds.Data, 1)
+
+	r.Equal(t, "schd_57zhl296uxc7yiun6xa", schds.Data[0].ID)
+	r.NotNil(t, schds.Data[0].Charge)
+	r.Nil(t, schds.Data[0].Transfer)
+}
+
+func TestListChargeSchedules_Network(t *testing.T) {
+	testutil.Require(t, "network")
+	client := testutil.NewTestClient(t)
+	var schds omise.ScheduleList
+	list := ListChargeSchedules{
+		List: List{
+			Limit: 100,
+			From:  time.Date(2017, 5, 16, 0, 0, 0, 0, time.Local),
+		},
+	}
+
+	client.MustDo(&schds, &list)
 
 	t.Logf("Schedules Len: %d\n", len(schds.Data))
 	t.Logf("%#v\n", schds)
@@ -232,7 +263,7 @@ func TestRetrieveSchedule(t *testing.T) {
 
 	client := testutil.NewFixedClient(t)
 	schd := &omise.Schedule{}
-	client.MustDo(schd, &RetrieveSchedule{ScheduleID})
+	client.MustDo(schd, &RetrieveSchedule{ScheduleID: ScheduleID})
 	r.Equal(t, ScheduleID, schd.ID)
 	r.Nil(t, schd.Transfer)
 	r.Equal(t, 100000, schd.Charge.Amount)
@@ -242,7 +273,7 @@ func TestRetrieveSchedule(t *testing.T) {
 	ScheduleID = "schd_57z9hj228pusa652nk2"
 
 	schd = &omise.Schedule{}
-	client.MustDo(schd, &RetrieveSchedule{ScheduleID})
+	client.MustDo(schd, &RetrieveSchedule{ScheduleID: ScheduleID})
 	r.Equal(t, ScheduleID, schd.ID)
 	r.Nil(t, schd.Charge)
 	r.Equal(t, 100000, *schd.Transfer.Amount)
@@ -257,7 +288,7 @@ func TestRetrieveSchedule_Network(t *testing.T) {
 	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
 	schd := &omise.Schedule{}
-	client.MustDo(schd, &RetrieveSchedule{ScheduleID})
+	client.MustDo(schd, &RetrieveSchedule{ScheduleID: ScheduleID})
 
 	t.Logf("%#v\n", schd)
 }
@@ -267,7 +298,7 @@ func TestDestroySchedule(t *testing.T) {
 
 	client := testutil.NewFixedClient(t)
 	schd := &omise.Schedule{}
-	client.MustDo(schd, &DestroySchedule{ScheduleID})
+	client.MustDo(schd, &DestroySchedule{ScheduleID: ScheduleID})
 	r.Equal(t, ScheduleID, schd.ID)
 	r.Nil(t, schd.Transfer)
 	r.Equal(t, 100000, schd.Charge.Amount)
@@ -277,7 +308,7 @@ func TestDestroySchedule(t *testing.T) {
 	ScheduleID = "schd_57z9hj228pusa652nk2"
 
 	schd = &omise.Schedule{}
-	client.MustDo(schd, &DestroySchedule{ScheduleID})
+	client.MustDo(schd, &DestroySchedule{ScheduleID: ScheduleID})
 	r.Equal(t, ScheduleID, schd.ID)
 	r.Nil(t, schd.Charge)
 	r.Equal(t, 100000, *schd.Transfer.Amount)
@@ -292,7 +323,7 @@ func TestDestroySchedule_Network(t *testing.T) {
 	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
 	schd := &omise.Schedule{}
-	client.MustDo(schd, &DestroySchedule{ScheduleID})
+	client.MustDo(schd, &DestroySchedule{ScheduleID: ScheduleID})
 
 	t.Logf("%#v\n", schd)
 }
