@@ -258,6 +258,35 @@ func TestListChargeSchedules_Network(t *testing.T) {
 	t.Logf("%#v\n", schds)
 }
 
+func TestListTransferSchedules(t *testing.T) {
+	var schds omise.ScheduleList
+	client := testutil.NewFixedClient(t)
+	client.MustDo(&schds, &ListTransferSchedules{})
+
+	r.Len(t, schds.Data, 1)
+
+	r.Equal(t, "schd_57zhl296uxc7yiun6xx", schds.Data[0].ID)
+	r.NotNil(t, schds.Data[0].Transfer)
+	r.Nil(t, schds.Data[0].Charge)
+}
+
+func TestListTransferSchedules_Network(t *testing.T) {
+	testutil.Require(t, "network")
+	client := testutil.NewTestClient(t)
+	var schds omise.ScheduleList
+	list := ListTransferSchedules{
+		List: List{
+			Limit: 100,
+			From:  time.Date(2017, 5, 16, 0, 0, 0, 0, time.Local),
+		},
+	}
+
+	client.MustDo(&schds, &list)
+
+	t.Logf("Schedules Len: %d\n", len(schds.Data))
+	t.Logf("%#v\n", schds)
+}
+
 func TestRetrieveSchedule(t *testing.T) {
 	ScheduleID := "schd_57z9hj228pusa652nk1"
 

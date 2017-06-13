@@ -312,6 +312,40 @@ func (req *ListChargeSchedules) Op() *internal.Op {
 	}
 }
 
+// ListTransferSchedules represent list transfer schedules API payload
+//
+// Example:
+//
+//      var schds omise.ScheduleList
+//	list = ListTransferSchedules{
+//		List: List{
+//			Limit: 100,
+//			From: time.Now().Add(-1 * time.Hour),
+//		},
+//	}
+//	if e := client.Do(&schds, &list); e != nil {
+//		panic(e)
+//	}
+//
+//	fmt.Println("# of transfer schedules made in the last hour:", len(schds.Data))
+//
+type ListTransferSchedules struct {
+	List
+}
+
+func (req *ListTransferSchedules) MarshalJSON() ([]byte, error) {
+	return json.Marshal(req.List)
+}
+
+func (req *ListTransferSchedules) Op() *internal.Op {
+	return &internal.Op{
+		Endpoint:    internal.API,
+		Method:      "GET",
+		Path:        "/transfers/schedules",
+		ContentType: "application/json",
+	}
+}
+
 // RetrieveSchedule represent retrieve schedule API payload
 //
 // Example:
