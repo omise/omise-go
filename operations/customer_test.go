@@ -114,7 +114,7 @@ func TestCustomer_Network(t *testing.T) {
 	r.True(t, del.Deleted)
 }
 
-func TestListCustomerChargeSchedule(t *testing.T) {
+func TestListCustomerChargeSchedules(t *testing.T) {
 	client := testutil.NewFixedClient(t)
 	var schds omise.ScheduleList
 	client.MustDo(&schds, &ListCustomerChargeSchedules{
@@ -128,7 +128,7 @@ func TestListCustomerChargeSchedule(t *testing.T) {
 	r.Nil(t, schds.Data[0].Transfer)
 }
 
-func TestListCustomerChargeSchedule_Network(t *testing.T) {
+func TestListCustomerChargeSchedules_Network(t *testing.T) {
 	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
 	var schds omise.ScheduleList

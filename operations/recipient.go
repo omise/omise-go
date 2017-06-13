@@ -1,6 +1,8 @@
 package operations
 
 import (
+	"encoding/json"
+
 	"github.com/omise/omise-go"
 	"github.com/omise/omise-go/internal"
 )
@@ -135,5 +137,41 @@ func (req *DestroyRecipient) Op() *internal.Op {
 		Endpoint: internal.API,
 		Method:   "DELETE",
 		Path:     "/recipients/" + req.RecipientID,
+	}
+}
+
+// ListRecipientTransferSchedules represent list recipient transfer schedules API payload
+//
+// Example:
+//
+//      var schds omise.ScheduleList
+//	list := ListRecipientTransferSchedules{
+//		RecipientID: "reci_123"
+//		List: List{
+//			Limit: 100,
+//			From: time.Now().Add(-1 * time.Hour),
+//		},
+//	}
+//	if e := client.Do(&schds, &list); e != nil {
+//		panic(e)
+//	}
+//
+//	fmt.Println("# of schedules made in the last hour:", len(schds.Data))
+//
+type ListRecipientTransferSchedules struct {
+	RecipientID string
+	List
+}
+
+func (req *ListRecipientTransferSchedules) MarshalJSON() ([]byte, error) {
+	return json.Marshal(req.List)
+}
+
+func (req *ListRecipientTransferSchedules) Op() *internal.Op {
+	return &internal.Op{
+		Endpoint:    internal.API,
+		Method:      "GET",
+		Path:        "/recipients/" + req.RecipientID + "/schedules",
+		ContentType: "application/json",
 	}
 }
