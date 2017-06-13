@@ -278,6 +278,42 @@ func (req *ListSchedules) Op() *internal.Op {
 	}
 }
 
+// ListScheduleOccurrences represent list schedule occurrences API payload
+//
+// Example:
+//
+//      var occurrences omise.OccurrenceList
+//	list := ListOccurrenceSchedules{
+//		ScheduleID: "schd_57z9hj228pusa652nk1",
+//		List: List{
+//			Limit: 100,
+//			From: time.Now().Add(-1 * time.Hour),
+//		},
+//	}
+//	if e := client.Do(&occurrences, &list); e != nil {
+//		panic(e)
+//	}
+//
+//	fmt.Println("occurrences made in the last hour:", len(occurrences.Data))
+//
+type ListScheduleOccurrences struct {
+	ScheduleID string `query:"-"`
+	List
+}
+
+func (req *ListScheduleOccurrences) MarshalJSON() ([]byte, error) {
+	return json.Marshal(req.List)
+}
+
+func (req *ListScheduleOccurrences) Op() *internal.Op {
+	return &internal.Op{
+		Endpoint:    internal.API,
+		Method:      "GET",
+		Path:        "/schedules/" + req.ScheduleID + "/occurrences",
+		ContentType: "application/json",
+	}
+}
+
 // ListChargeSchedules represent list charge schedules API payload
 //
 // Example:

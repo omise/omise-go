@@ -287,6 +287,35 @@ func TestListTransferSchedules_Network(t *testing.T) {
 	t.Logf("%#v\n", schds)
 }
 
+func TestListScheduleOccurrences(t *testing.T) {
+	var occurrences omise.OccurrenceList
+	client := testutil.NewFixedClient(t)
+	client.MustDo(&occurrences, &ListScheduleOccurrences{ScheduleID: "schd_57z9hj228pusa652nk1"})
+
+	r.Len(t, occurrences.Data, 2)
+
+	r.Equal(t, "occu_588fwvt863w1w24et5u", occurrences.Data[0].ID)
+	r.Equal(t, "occu_588fwvt863w1w24et7u", occurrences.Data[1].ID)
+}
+
+func TestListScheduleOccurrences_Network(t *testing.T) {
+	testutil.Require(t, "network")
+	client := testutil.NewTestClient(t)
+	var occurrences omise.OccurrenceList
+	list := ListScheduleOccurrences{
+		ScheduleID: "schd_57z9hj228pusa652nk1",
+		List: List{
+			Limit: 100,
+			From:  time.Date(2017, 5, 16, 0, 0, 0, 0, time.Local),
+		},
+	}
+
+	client.MustDo(&occurrences, &list)
+
+	t.Logf("Occurrences Len: %d\n", len(occurrences.Data))
+	t.Logf("%#v\n", occurrences)
+}
+
 func TestRetrieveSchedule(t *testing.T) {
 	ScheduleID := "schd_57z9hj228pusa652nk1"
 
