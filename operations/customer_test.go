@@ -113,3 +113,35 @@ func TestCustomer_Network(t *testing.T) {
 	r.Equal(t, jill.Live, del.Live)
 	r.True(t, del.Deleted)
 }
+
+func TestListCustomerChargeSchedules(t *testing.T) {
+	client := testutil.NewFixedClient(t)
+	var schds omise.ScheduleList
+	client.MustDo(&schds, &ListCustomerChargeSchedules{
+		CustomerID: "cust_test_4yq6txdpfadhbaqnwp3",
+	})
+
+	r.Len(t, schds.Data, 1)
+
+	r.Equal(t, "schd_57zhl296uxc7yiun6xa", schds.Data[0].ID)
+	r.NotNil(t, schds.Data[0].Charge)
+	r.Nil(t, schds.Data[0].Transfer)
+}
+
+func TestListCustomerChargeSchedules_Network(t *testing.T) {
+	testutil.Require(t, "network")
+	client := testutil.NewTestClient(t)
+	var schds omise.ScheduleList
+	list := ListCustomerChargeSchedules{
+		CustomerID: "cust_1234",
+		List: List{
+			Limit: 100,
+			From:  time.Date(2017, 5, 16, 0, 0, 0, 0, time.Local),
+		},
+	}
+
+	client.MustDo(&schds, &list)
+
+	t.Logf("Schedules Len: %d\n", len(schds.Data))
+	t.Logf("%#v\n", schds)
+}

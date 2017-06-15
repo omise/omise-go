@@ -1,0 +1,39 @@
+{
+    "object": "list",
+    "from": "1970-01-01T07:00:00+07:00",
+    "to": "2017-05-16T00:35:01+07:00",
+    "offset": 0,
+    "limit": 20,
+    "total": 0,
+    "location": "/schedules/schd_57z9hj228pusa652nk1/occurrences",
+    "data": [
+      {
+        "object": "occurrence",
+        "id": "occu_588fwvt863w1w24et5u",
+        "livemode": false,
+        "location": "/occurrences/occu_588fwvt863w1w24et5u",
+        "schedule": "schd_test_588fwvto33q351wms2c",
+        "schedule_date": "2017-02-20",
+        "retry_date": "2017-02-22",
+        "processed_at": "2017-02-08T00:00:00Z",
+        "status": "failed",
+        "message": null,
+        "result": null,
+        "created": "2017-06-08T04:46:50Z"
+      },
+      {
+        "object": "occurrence",
+        "id": "occu_588fwvt863w1w24et7u",
+        "livemode": false,
+        "location": "/occurrences/occu_588fwvt863w1w24et7u",
+        "schedule": "schd_test_588fwvto33q351wms2c",
+        "schedule_date": "2017-02-20",
+        "retry_date": "2017-02-22",
+        "processed_at": "2017-02-08T00:00:00Z",
+        "status": "failed",
+        "message": null,
+        "result": null,
+        "created": "2017-06-08T04:46:50Z"
+      }
+    ]
+}

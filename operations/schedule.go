@@ -14,7 +14,8 @@ import (
 //
 // Example:
 //
-//	schd, create := &omise.Schedule{}, &operations.CreateChargeSchedule{
+//	var schd omise.Schedule
+//	create := operations.CreateChargeSchedule{
 //              Every:  3,
 //              Period: schedule.PeriodWeek,
 //              Weekdays: []schedule.Weekday{
@@ -26,7 +27,7 @@ import (
 //              Customer:  "customer_id",
 //              Amount:    100000,
 //	}
-//	if e := client.Do(schd, create); e != nil {
+//	if e := client.Do(&schd, &create); e != nil {
 //		panic(e)
 //	}
 //
@@ -133,7 +134,8 @@ func (req *CreateChargeSchedule) Op() *internal.Op {
 //
 // Example:
 //
-//	schd, create := &omise.Schedule{}, &operations.CreateTransferSchedule{
+//	var schd omise.Schedule
+//	create = operations.CreateTransferSchedule{
 //              Every:  3,
 //              Period: schedule.PeriodWeek,
 //              Weekdays: []schedule.Weekday{
@@ -145,7 +147,7 @@ func (req *CreateChargeSchedule) Op() *internal.Op {
 //              Recipient:  "recipient_id",
 //              Amount:    100000,
 //	}
-//	if e := client.Do(schd, create); e != nil {
+//	if e := client.Do(&schd, &create); e != nil {
 //		panic(e)
 //	}
 //
@@ -246,13 +248,14 @@ func (req *CreateTransferSchedule) Op() *internal.Op {
 //
 // Example:
 //
-//	schds, list := &omise.ScheduleList{}, &ListSchedules{
-//		List{
+//      var schds omise.ScheduleList
+//	list := ListSchedules{
+//		List: List{
 //			Limit: 100,
 //			From: time.Now().Add(-1 * time.Hour),
 //		},
 //	}
-//	if e := client.Do(schds, list); e != nil {
+//	if e := client.Do(&schds, &list); e != nil {
 //		panic(e)
 //	}
 //
@@ -275,12 +278,116 @@ func (req *ListSchedules) Op() *internal.Op {
 	}
 }
 
-// RetrieveSchedule
+// ListScheduleOccurrences represent list schedule occurrences API payload
 //
 // Example:
 //
-//	schd := &omise.Schedule{ID: "schd_57z9hj228pusa652nk1"}
-//	if e := client.Do(schd, &RetrieveSchedule{schd.ID}); e != nil {
+//      var occurrences omise.OccurrenceList
+//	list := ListOccurrenceSchedules{
+//		ScheduleID: "schd_57z9hj228pusa652nk1",
+//		List: List{
+//			Limit: 100,
+//			From: time.Now().Add(-1 * time.Hour),
+//		},
+//	}
+//	if e := client.Do(&occurrences, &list); e != nil {
+//		panic(e)
+//	}
+//
+//	fmt.Println("occurrences made in the last hour:", len(occurrences.Data))
+//
+type ListScheduleOccurrences struct {
+	ScheduleID string `query:"-"`
+	List
+}
+
+func (req *ListScheduleOccurrences) MarshalJSON() ([]byte, error) {
+	return json.Marshal(req.List)
+}
+
+func (req *ListScheduleOccurrences) Op() *internal.Op {
+	return &internal.Op{
+		Endpoint:    internal.API,
+		Method:      "GET",
+		Path:        "/schedules/" + req.ScheduleID + "/occurrences",
+		ContentType: "application/json",
+	}
+}
+
+// ListChargeSchedules represent list charge schedules API payload
+//
+// Example:
+//
+//      var schds omise.ScheduleList
+//	list = ListChargeSchedules{
+//		List: List{
+//			Limit: 100,
+//			From: time.Now().Add(-1 * time.Hour),
+//		},
+//	}
+//	if e := client.Do(&schds, &list); e != nil {
+//		panic(e)
+//	}
+//
+//	fmt.Println("# of charge schedules made in the last hour:", len(schds.Data))
+//
+type ListChargeSchedules struct {
+	List
+}
+
+func (req *ListChargeSchedules) MarshalJSON() ([]byte, error) {
+	return json.Marshal(req.List)
+}
+
+func (req *ListChargeSchedules) Op() *internal.Op {
+	return &internal.Op{
+		Endpoint:    internal.API,
+		Method:      "GET",
+		Path:        "/charges/schedules",
+		ContentType: "application/json",
+	}
+}
+
+// ListTransferSchedules represent list transfer schedules API payload
+//
+// Example:
+//
+//      var schds omise.ScheduleList
+//	list = ListTransferSchedules{
+//		List: List{
+//			Limit: 100,
+//			From: time.Now().Add(-1 * time.Hour),
+//		},
+//	}
+//	if e := client.Do(&schds, &list); e != nil {
+//		panic(e)
+//	}
+//
+//	fmt.Println("# of transfer schedules made in the last hour:", len(schds.Data))
+//
+type ListTransferSchedules struct {
+	List
+}
+
+func (req *ListTransferSchedules) MarshalJSON() ([]byte, error) {
+	return json.Marshal(req.List)
+}
+
+func (req *ListTransferSchedules) Op() *internal.Op {
+	return &internal.Op{
+		Endpoint:    internal.API,
+		Method:      "GET",
+		Path:        "/transfers/schedules",
+		ContentType: "application/json",
+	}
+}
+
+// RetrieveSchedule represent retrieve schedule API payload
+//
+// Example:
+//
+//	var schd omise.Schedule
+//	if e := client.Do(&schd, &RetrieveSchedule{ScheduleID: "schd_57z9hj228pusa652nk1"}); e != nil {
 //		panic(e)
 //	}
 //
@@ -298,14 +405,15 @@ func (req *RetrieveSchedule) Op() *internal.Op {
 	}
 }
 
-// Example:
+// DestroySchedule represent destroy schedule API payload
 //
-//	del, destroy := &omise.Schedule{}, &DestroySchedule{"recp-123"}
-//	if e := client.Do(del, destroy); e != nil {
+// Example:
+//      var deletedSchd omise.Schedule
+//	if e := client.Do(&deletedSchd, &DestroySchedule{ScheduleID: "schd_57z9hj228pusa652nk1"}); e != nil {
 //		panic(e)
 //	}
 //
-//	fmt.Println("destroyed recipient:", del.ID)
+//	fmt.Println("destroyed schedule:", deletedSchd.ID)
 //
 type DestroySchedule struct {
 	ScheduleID string `query:"-"`

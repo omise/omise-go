@@ -108,3 +108,35 @@ func TestRecipient_Network(t *testing.T) {
 	r.Equal(t, jones.Live, del.Live)
 	r.True(t, del.Deleted)
 }
+
+func TestListRecipientTransferSchedules(t *testing.T) {
+	client := testutil.NewFixedClient(t)
+	var schds omise.ScheduleList
+	client.MustDo(&schds, &ListRecipientTransferSchedules{
+		RecipientID: "recp_test_50894vc13y8z4v51iuc",
+	})
+
+	r.Len(t, schds.Data, 1)
+
+	r.Equal(t, "schd_57zhl296uxc7yiun6xx", schds.Data[0].ID)
+	r.NotNil(t, schds.Data[0].Transfer)
+	r.Nil(t, schds.Data[0].Charge)
+}
+
+func TestListRecipientTransferSchedules_Network(t *testing.T) {
+	testutil.Require(t, "network")
+	client := testutil.NewTestClient(t)
+	var schds omise.ScheduleList
+	list := ListRecipientTransferSchedules{
+		RecipientID: "reci_1234",
+		List: List{
+			Limit: 100,
+			From:  time.Date(2017, 5, 16, 0, 0, 0, 0, time.Local),
+		},
+	}
+
+	client.MustDo(&schds, &list)
+
+	t.Logf("Schedules Len: %d\n", len(schds.Data))
+	t.Logf("%#v\n", schds)
+}
