@@ -12,6 +12,8 @@ import (
 	"strings"
 
 	"github.com/omise/omise-go/internal"
+	"golang.org/x/net/context"
+	"google.golang.org/appengine/urlfetch"
 )
 
 var _ = fmt.Println
@@ -229,4 +231,13 @@ func (c *Client) Do(result interface{}, operation internal.Operation) error {
 	}
 
 	return nil
+}
+
+func (c *Client) SetClient(client *http.Client) {
+	c.Client = client
+}
+
+func (c *Client) SetClientWithContext(ctx context.Context) {
+	client := urlfetch.Client(ctx)
+	c.SetClient(client)
 }
