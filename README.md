@@ -1,3 +1,6 @@
+**⚠️ If you are looking for OMG, the blockchain, please visit
+https://omg.omise.co/ instead. ⚠️**
+
 # OMISE-GO
 
 [![GoDoc](https://godoc.org/github.com/omise/omise-go?status.svg)][0] 
