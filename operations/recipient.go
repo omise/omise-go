@@ -189,10 +189,10 @@ func (req *UpdateRecipient) MarshalJSON() ([]byte, error) {
 	}
 
 	type param struct {
-		Name        string              `json:"name"`
+		Name        string              `json:"name,omitempty"`
 		Email       string              `json:"email,omitempty"`
 		Description string              `json:"description,omitempty"`
-		Type        omise.RecipientType `json:"type"`
+		Type        omise.RecipientType `json:"type,omitempty"`
 		TaxID       string              `json:"tax_id,omitempty"`
 		BankAccount *bankAccount        `json:"bank_account,omitempty"`
 	}
