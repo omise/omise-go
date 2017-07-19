@@ -124,9 +124,10 @@ func (req *CreateRecipient) MarshalJSON() ([]byte, error) {
 
 func (req *CreateRecipient) Op() *internal.Op {
 	return &internal.Op{
-		Endpoint: internal.API,
-		Method:   "POST",
-		Path:     "/recipients",
+		Endpoint:    internal.API,
+		Method:      "POST",
+		Path:        "/recipients",
+		ContentType: "application/json",
 	}
 }
 
