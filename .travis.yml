@@ -1,8 +1,6 @@
 language: go
 env:
-  - PATH=$GOPATH/bin:$PATH
-  - OMISE_PKEY=pkey_test_xxx
-  - OMISE_SKEY=skey_test_xxx
+  - PATH=$GOPATH/bin:$PATH OMISE_PKEY=pkey_test_xxx OMISE_SKEY=skey_test_xxx
 script:
   - go get github.com/alecthomas/gometalinter
   - go get github.com/jteeuwen/go-bindata/go-bindata
