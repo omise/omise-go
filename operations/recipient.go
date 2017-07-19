@@ -133,6 +133,46 @@ func (req *CreateRecipient) Op() *internal.Op {
 
 // Example:
 //
+//	bankAccount := &omise.BankAccountJP{
+//		BankCode:    "0001",
+//		BranchCode:  "001",
+//  	AccountType: omise.Normal,
+//  	Number:      "0000001",
+//		Name:        "Joe Example",
+//	}
+//
+//	jun, create := &omise.Recipient{}, &CreateRecipientJP{
+//		Name:        "Jun Hasegawa",
+//		Email:       "jun@omise.co",
+//		Description: "Owns Omise",
+//		Type:        omise.Individual,
+//		BankAccount: bankAccount,
+//	}
+//	if e := client.Do(jun, create); e != nil {
+//		panic(e)
+//	}
+//
+//	fmt.Println("created recipient:", jun.ID)
+//
+type CreateRecipientJP struct {
+	Name        string
+	Email       string
+	Description string
+	Type        omise.RecipientType
+	TaxID       string               `query:"tax_id"`
+	BankAccount *omise.BankAccountJP `query:"bank_account"`
+}
+
+func (req *CreateRecipientJP) Op() *internal.Op {
+	return &internal.Op{
+		Endpoint: internal.API,
+		Method:   "POST",
+		Path:     "/recipients",
+	}
+}
+
+// Example:
+//
 //	recp, retrieve := &omise.Recipient{}, &RetrieveRecipient{"recp_123"}
 //	if e := client.Do(recp, retrieve); e != nil {
 //		panic(e)

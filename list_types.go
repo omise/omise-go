@@ -62,6 +62,25 @@ func (list *BankAccountList) Find(id string) *BankAccount {
 	return nil
 }
 
+// BankAccountJPList represents the list structure returned by Omise's REST API that contains
+// BankAccountJP struct as member elements. See the pagination and lists documentation at
+// https://www.omise.co/api-pagination for more information.
+type BankAccountJPList struct {
+	List
+	Data []*BankAccountJP `json:"data"`
+}
+
+// Find finds and returns BankAccountJP with the given id. Returns nil if not found.
+func (list *BankAccountJPList) Find(id string) *BankAccountJP {
+	for _, item := range list.Data {
+		if item.ID == id {
+			return item
+		}
+	}
+
+	return nil
+}
+
 // CardList represents the list structure returned by Omise's REST API that contains
 // Card struct as member elements. See the pagination and lists documentation at
 // https://www.omise.co/api-pagination for more information.

@@ -15,6 +15,7 @@ var Context = &struct {
 		"Account",
 		"Balance",
 		"BankAccount",
+		"BankAccountJP",
 		"Card",
 		"Charge",
 		"Customer",
