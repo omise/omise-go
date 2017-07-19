@@ -51,6 +51,28 @@ func (req *ListRecipients) Op() *internal.Op {
 //
 //	fmt.Println("created recipient:", jun.ID)
 //
+//      # For Japan Bank Account
+//	bankAccount := &omise.BankAccount{
+//		BankCode:    "0001",
+//		BranchCode:  "001",
+//  	        AccountType: omise.Normal,
+//  	        Number:      "0000001",
+//		Name:        "Joe Example",
+//	}
+//
+//	jun, create := &omise.Recipient{}, &CreateRecipient{
+//		Name:        "Jun Hasegawa",
+//		Email:       "jun@omise.co",
+//		Description: "Owns Omise",
+//		Type:        omise.Individual,
+//		BankAccount: bankAccount,
+//	}
+//	if e := client.Do(jun, create); e != nil {
+//		panic(e)
+//	}
+//
+//	fmt.Println("created recipient:", jun.ID)
+//
 type CreateRecipient struct {
 	Name        string
 	Email       string
@@ -60,11 +82,52 @@ type CreateRecipient struct {
 	BankAccount *omise.BankAccount `query:"bank_account"`
 }
 
+func (req *CreateRecipient) MarshalJSON() ([]byte, error) {
+	type bankAccount struct {
+		Brand  string `json:"brand,omitempty"`
+		Number string `json:"number"`
+		Name   string `json:"name"`
+
+		// for Omise Japan
+		BankCode    string                `json:"bank_code,omitempty"`
+		BranchCode  string                `json:"branch_code,omitempty"`
+		AccountType omise.BankAccountType `json:"account_type,omitempty"`
+	}
+
+	type param struct {
+		Name        string              `json:"name"`
+		Email       string              `json:"email,omitempty"`
+		Description string              `json:"description,omitempty"`
+		Type        omise.RecipientType `json:"type"`
+		TaxID       string              `json:"tax_id,omitempty"`
+		BankAccount bankAccount         `json:"bank_account"`
+	}
+
+	p := param{
+		Name:        req.Name,
+		Email:       req.Email,
+		Description: req.Description,
+		Type:        req.Type,
+		TaxID:       req.TaxID,
+		BankAccount: bankAccount{
+			Brand:       req.BankAccount.Brand,
+			Number:      req.BankAccount.Number,
+			Name:        req.BankAccount.Name,
+			BankCode:    req.BankAccount.BankCode,
+			BranchCode:  req.BankAccount.BranchCode,
+			AccountType: req.BankAccount.AccountType,
+		},
+	}
+
+	return json.Marshal(p)
+}
+
 func (req *CreateRecipient) Op() *internal.Op {
 	return &internal.Op{
-		Endpoint: internal.API,
-		Method:   "POST",
-		Path:     "/recipients",
+		Endpoint:    internal.API,
+		Method:      "POST",
+		Path:        "/recipients",
+		ContentType: "application/json",
 	}
 }
 
