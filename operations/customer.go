@@ -97,6 +97,7 @@ type UpdateCustomer struct {
 	Email       string
 	Description string
 	Card        string
+	DefaultCard string `json:"default_card"`
 }
 
 func (req *UpdateCustomer) Op() *internal.Op {
