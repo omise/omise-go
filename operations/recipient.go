@@ -100,7 +100,7 @@ func (req *CreateRecipient) MarshalJSON() ([]byte, error) {
 		Description string              `json:"description,omitempty"`
 		Type        omise.RecipientType `json:"type"`
 		TaxID       string              `json:"tax_id,omitempty"`
-		BankAccount bankAccount         `json:"bank_account"`
+		BankAccount *bankAccount        `json:"bank_account,omitempty"`
 	}
 
 	p := param{
@@ -109,14 +109,16 @@ func (req *CreateRecipient) MarshalJSON() ([]byte, error) {
 		Description: req.Description,
 		Type:        req.Type,
 		TaxID:       req.TaxID,
-		BankAccount: bankAccount{
+	}
+	if req.BankAccount != nil {
+		p.BankAccount = &bankAccount{
 			Brand:       req.BankAccount.Brand,
 			Number:      req.BankAccount.Number,
 			Name:        req.BankAccount.Name,
 			BankCode:    req.BankAccount.BankCode,
 			BranchCode:  req.BankAccount.BranchCode,
 			AccountType: req.BankAccount.AccountType,
-		},
+		}
 	}
 
 	return json.Marshal(p)
@@ -174,11 +176,54 @@ type UpdateRecipient struct {
 	BankAccount *omise.BankAccount `query:"bank_account"`
 }
 
+func (req *UpdateRecipient) MarshalJSON() ([]byte, error) {
+	type bankAccount struct {
+		Brand  string `json:"brand,omitempty"`
+		Number string `json:"number"`
+		Name   string `json:"name"`
+
+		// for Omise Japan
+		BankCode    string                `json:"bank_code,omitempty"`
+		BranchCode  string                `json:"branch_code,omitempty"`
+		AccountType omise.BankAccountType `json:"account_type,omitempty"`
+	}
+
+	type param struct {
+		Name        string              `json:"name"`
+		Email       string              `json:"email,omitempty"`
+		Description string              `json:"description,omitempty"`
+		Type        omise.RecipientType `json:"type"`
+		TaxID       string              `json:"tax_id,omitempty"`
+		BankAccount *bankAccount        `json:"bank_account,omitempty"`
+	}
+
+	p := param{
+		Name:        req.Name,
+		Email:       req.Email,
+		Description: req.Description,
+		Type:        req.Type,
+		TaxID:       req.TaxID,
+	}
+	if req.BankAccount != nil {
+		p.BankAccount = &bankAccount{
+			Brand:       req.BankAccount.Brand,
+			Number:      req.BankAccount.Number,
+			Name:        req.BankAccount.Name,
+			BankCode:    req.BankAccount.BankCode,
+			BranchCode:  req.BankAccount.BranchCode,
+			AccountType: req.BankAccount.AccountType,
+		}
+	}
+
+	return json.Marshal(p)
+}
+
 func (req *UpdateRecipient) Op() *internal.Op {
 	return &internal.Op{
-		Endpoint: internal.API,
-		Method:   "PATCH",
-		Path:     "/recipients/" + req.RecipientID,
+		Endpoint:    internal.API,
+		Method:      "PATCH",
+		Path:        "/recipients/" + req.RecipientID,
+		ContentType: "application/json",
 	}
 }
 
