@@ -24,6 +24,7 @@ var Context = &struct {
 		"Event",
 		"Link",
 		"Occurrence",
+		"Receipt",
 		"Recipient",
 		"Refund",
 		"Schedule",
