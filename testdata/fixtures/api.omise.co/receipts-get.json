@@ -4,7 +4,7 @@
     "to": "2017-07-31T23:59:59Z",
     "offset": 0,
     "limit": 20,
-    "total": 3,
+    "total": 1,
     "order": "chronological",
     "location": "/receipts",
     "data": [
