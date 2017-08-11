@@ -21,9 +21,10 @@ type ListReceipts struct {
 
 func (req *ListReceipts) Op() *internal.Op {
 	return &internal.Op{
-		Endpoint: internal.API,
-		Method:   "GET",
-		Path:     "/receipts",
+		Endpoint:    internal.API,
+		Method:      "GET",
+		Path:        "/receipts",
+		ContentType: "application/json",
 	}
 }
 
