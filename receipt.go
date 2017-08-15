@@ -3,7 +3,7 @@ package omise
 import "time"
 
 // Receipt represents Omise's receipt object.
-// See https://www.omise.co/receipts-api for more information.
+// See https://www.omise.co/receipt-api for more information.
 type Receipt struct {
 	Base
 	Number                string    `json:"number"`
