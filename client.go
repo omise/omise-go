@@ -171,7 +171,12 @@ func (c *Client) setRequestHeaders(req *http.Request, op *internal.Op) error {
 
 	switch op.Endpoint {
 	case internal.API:
-		req.SetBasicAuth(c.skey, "")
+		// Override to use public key for some api endpoint e.g. /sources
+		if op.ForceUsePublicKey {
+			req.SetBasicAuth(c.pkey, "")
+		} else {
+			req.SetBasicAuth(c.skey, "")
+		}
 	case internal.Vault:
 		req.SetBasicAuth(c.pkey, "")
 	default:

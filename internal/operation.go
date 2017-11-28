@@ -9,6 +9,8 @@ type Op struct {
 	Method   string   `query:"-"`
 	Path     string   `query:"-"`
 
+	ForceUsePublicKey bool `query:"-"`
+
 	Values      url.Values `query:"-"`
 	Multipart   bool       `query:"-"`
 	ContentType string     `query:"-"`
