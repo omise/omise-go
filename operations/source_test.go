@@ -20,10 +20,6 @@ func TestSource(t *testing.T) {
 	r.Equal(t, SourceID, source.ID)
 
 	source = &omise.Source{}
-	client.MustDo(source, &CreateSourceWithPublicKey{})
-	r.Equal(t, SourceID, source.ID)
-
-	source = &omise.Source{}
-	client.MustDo(source, &CreateSourceWithSecretKey{})
+	client.MustDo(source, &CreateSource{})
 	r.Equal(t, SourceID, source.ID)
 }

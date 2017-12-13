@@ -6,9 +6,9 @@ import (
 	"github.com/omise/omise-go/internal"
 )
 
-// Example: Create source with public key
+// Example: Create source
 //
-//	source, createSource := &omise.Source{}, &CreateSourceWithPublicKey{
+//	source, createSource := &omise.Source{}, &CreateSource{
 //		Amount:   100000,
 //		Currency: "thb",
 //		Type:     "bill_payment_tesco_lotus",
@@ -19,13 +19,13 @@ import (
 //
 //	fmt.Println("created source:", source.ID)
 //
-type CreateSourceWithPublicKey struct {
+type CreateSource struct {
 	Type     string
 	Amount   int64
 	Currency string
 }
 
-func (req *CreateSourceWithPublicKey) MarshalJSON() ([]byte, error) {
+func (req *CreateSource) MarshalJSON() ([]byte, error) {
 	param := struct {
 		Type     string `json:"type"`
 		Amount   int64  `json:"amount"`
@@ -39,54 +39,13 @@ func (req *CreateSourceWithPublicKey) MarshalJSON() ([]byte, error) {
 	return json.Marshal(param)
 }
 
-func (req *CreateSourceWithPublicKey) Op() *internal.Op {
-	return &internal.Op{
-		Endpoint:          internal.API,
-		Method:            "POST",
-		Path:              "/sources",
-		ContentType:       "application/json",
-		ForceUsePublicKey: true,
-	}
-}
-
-// Example: Create source with secret key
-//
-//	source, createSource := &omise.Source{}, &CreateSourceWithSecretKey{
-//		Amount:   100000,
-//		Currency: "thb",
-//		Type:     "bill_payment_tesco_lotus",
-//	}
-//	if e := client.Do(source, createSource); e != nil {
-//		panic(e)
-//	}
-//
-//	fmt.Println("created source:", source.ID)
-type CreateSourceWithSecretKey struct {
-	Type     string `json:"type"`
-	Amount   int64  `json:"amount"`
-	Currency string `json:"currency"`
-}
-
-func (req *CreateSourceWithSecretKey) MarshalJSON() ([]byte, error) {
-	param := struct {
-		Type     string `json:"type"`
-		Amount   int64  `json:"amount"`
-		Currency string `json:"currency"`
-	}{
-		Type:     req.Type,
-		Amount:   req.Amount,
-		Currency: req.Currency,
-	}
-
-	return json.Marshal(param)
-}
-
-func (req *CreateSourceWithSecretKey) Op() *internal.Op {
+func (req *CreateSource) Op() *internal.Op {
 	return &internal.Op{
 		Endpoint:    internal.API,
 		Method:      "POST",
 		Path:        "/sources",
 		ContentType: "application/json",
+		APIKey:      "public",
 	}
 }
 

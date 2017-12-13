@@ -169,16 +169,11 @@ func (c *Client) setRequestHeaders(req *http.Request, op *internal.Op) error {
 		req.Header.Add("Omise-Version", c.APIVersion)
 	}
 
-	switch op.Endpoint {
-	case internal.API:
-		// Override to use public key for some api endpoint e.g. /sources
-		if op.ForceUsePublicKey {
-			req.SetBasicAuth(c.pkey, "")
-		} else {
-			req.SetBasicAuth(c.skey, "")
-		}
-	case internal.Vault:
+	switch op.KeyKind() {
+	case "public":
 		req.SetBasicAuth(c.pkey, "")
+	case "secret":
+		req.SetBasicAuth(c.skey, "")
 	default:
 		return ErrInternal("unrecognized endpoint:" + op.Endpoint)
 	}

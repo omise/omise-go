@@ -9,7 +9,7 @@ type Op struct {
 	Method   string   `query:"-"`
 	Path     string   `query:"-"`
 
-	ForceUsePublicKey bool `query:"-"`
+	APIKey string `query:"-"`
 
 	Values      url.Values `query:"-"`
 	Multipart   bool       `query:"-"`
@@ -20,6 +20,18 @@ type Op struct {
 // argument directly.
 func (op *Op) Op() *Op {
 	return op
+}
+
+func (op *Op) KeyKind() (kind string) {
+	switch {
+	case op.APIKey != "":
+		kind = op.APIKey
+	case op.Endpoint == API:
+		kind = "secret"
+	case op.Endpoint == Vault:
+		kind = "public"
+	}
+	return
 }
 
 type Operation interface {
