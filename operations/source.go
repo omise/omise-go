@@ -30,11 +30,7 @@ func (req *CreateSource) MarshalJSON() ([]byte, error) {
 		Type     string `json:"type"`
 		Amount   int64  `json:"amount"`
 		Currency string `json:"currency"`
-	}{
-		Type:     req.Type,
-		Amount:   req.Amount,
-		Currency: req.Currency,
-	}
+	}(*req)
 
 	return json.Marshal(param)
 }
