@@ -63,7 +63,10 @@ type CreateCharge struct {
 }
 
 func (req *CreateCharge) MarshalJSON() ([]byte, error) {
-	param := map[string]interface{}{}
+	param := map[string]interface{}{
+		"amount":   req.Amount,
+		"currency": req.Currency,
+	}
 
 	if req.Customer != "" {
 		param["customer"] = req.Customer
@@ -85,12 +88,9 @@ func (req *CreateCharge) MarshalJSON() ([]byte, error) {
 		param["return_uri"] = req.ReturnURI
 	}
 
-	if !req.DontCapture {
+	if req.DontCapture {
 		param["capture"] = false
 	}
-
-	param["amount"] = req.Amount
-	param["currency"] = req.Currency
 
 	return json.Marshal(param)
 }
