@@ -1,7 +1,7 @@
-**⚠️ If you are looking for OMG, the blockchain, please visit
+**⚠️ This is not related to OMG, the blockchain. Please visit
 https://omg.omise.co/ instead. ⚠️**
 
-# OMISE-GO
+# Omise Go Client
 
 [![GoDoc](https://godoc.org/github.com/omise/omise-go?status.svg)][0]
 [![Build Status](https://travis-ci.org/omise/omise-go.svg)](https://travis-ci.org/omise/omise-go)
@@ -18,7 +18,7 @@ Install with:
 go get github.com/omise/omise-go
 ```
 
-# COMPLIANCE WARNING
+# Compliance warning
 
 Card data should never transit through your server. This library provides means to create
 tokens on the server side but should only be used for testing or **only if you currently
@@ -28,7 +28,7 @@ Auditor.**
 Instead we recommend that you follow our guide on how to safely
 [collect credit information](https://www.omise.co/collecting-card-information).
 
-# USAGE
+# Usage
 
 See [godoc.org][0] in tandem with the [Omise API Documentation][1] for usage instruction.
 
@@ -81,7 +81,7 @@ func main() {
 }
 ```
 
-# API VERSION
+# API version
 
 You can choose which API version to use with Omise. Each new API version has new features
 and might not be compatible with previous versions. You can change the default version by
@@ -99,7 +99,7 @@ It is highly recommended to set this version to the current version you're using
 learn more about this feature in our [versioning
 guide](https://www.omise.co/api-versioning).
 
-# LICENSE
+# License
 
 See [LICENSE][2] file.
 
