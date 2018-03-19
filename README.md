@@ -1,7 +1,9 @@
-**⚠️ If you are looking for OMG, the blockchain, please visit
-https://omg.omise.co/ instead. ⚠️**
+**⚠️ This is not OMG, the blockchain. Visit
+https://omg.omise.co/ for that. ⚠️**
 
-# OMISE-GO
+---
+
+# OMISE GO CLIENT
 
 [![GoDoc](https://godoc.org/github.com/omise/omise-go?status.svg)][0]
 [![Build Status](https://travis-ci.org/omise/omise-go.svg)](https://travis-ci.org/omise/omise-go)
