@@ -1,7 +1,7 @@
 package operations
 
 import (
-	"net/url"
+	"encoding/json"
 
 	"github.com/omise/omise-go"
 	"github.com/omise/omise-go/internal"
@@ -53,6 +53,7 @@ func (req *ListCharges) Op() *internal.Op {
 type CreateCharge struct {
 	Customer    string
 	Card        string
+	Source      string
 	Amount      int64
 	Currency    string
 	Offsite     omise.OffsiteTypes
@@ -61,18 +62,46 @@ type CreateCharge struct {
 	ReturnURI   string `query:"return_uri"`
 }
 
-func (req *CreateCharge) Op() *internal.Op {
-	op := &internal.Op{
-		Endpoint: internal.API,
-		Method:   "POST",
-		Path:     "/charges",
-		Values:   url.Values{},
+func (req *CreateCharge) MarshalJSON() ([]byte, error) {
+	param := map[string]interface{}{
+		"amount":   req.Amount,
+		"currency": req.Currency,
+	}
+
+	if req.Customer != "" {
+		param["customer"] = req.Customer
+	}
+
+	if req.Card != "" {
+		param["card"] = req.Card
+	}
+
+	if req.Source != "" {
+		param["source"] = req.Source
+	}
+
+	if req.Offsite != "" {
+		param["offsite"] = req.Offsite
+	}
+
+	if req.ReturnURI != "" {
+		param["return_uri"] = req.ReturnURI
 	}
 
 	if req.DontCapture {
-		op.Values.Set("capture", "false")
+		param["capture"] = false
 	}
-	return op
+
+	return json.Marshal(param)
+}
+
+func (req *CreateCharge) Op() *internal.Op {
+	return &internal.Op{
+		Endpoint:    internal.API,
+		Method:      "POST",
+		Path:        "/charges",
+		ContentType: "application/json",
+	}
 }
 
 // Example:

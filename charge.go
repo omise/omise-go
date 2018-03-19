@@ -31,4 +31,6 @@ type Charge struct {
 
 	SourceOfFund SourceOfFunds `json:"source_of_fund"`
 	Offsite      OffsiteTypes  `json:"offsite"`
+
+	Source *Source `json:"source"`
 }
