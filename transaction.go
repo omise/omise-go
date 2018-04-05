@@ -6,10 +6,10 @@ import "time"
 // See https://www.omise.co/transactions-api for more information.
 type Transaction struct {
 	Base
-	Source string          `json:"source" pretty:""`
-	Type   TransactionType `json:"type" pretty:""`
+	Source string          `json:"source"`
+	Type   TransactionType `json:"type"`
 
-	Amount       int64     `json:"amount" pretty:""`
-	Currency     string    `json:"currency" pretty:""`
-	Transferable time.Time `json:"transferable" pretty:""`
+	Amount       int64     `json:"amount"`
+	Currency     string    `json:"currency"`
+	Transferable time.Time `json:"transferable"`
 }

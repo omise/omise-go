@@ -6,8 +6,8 @@ import "time"
 // API.
 type Base struct {
 	Object   string    `json:"object"`
-	ID       string    `json:"id" pretty:""`
-	Live     bool      `json:"livemode" pretty:""`
+	ID       string    `json:"id"`
+	Live     bool      `json:"livemode"`
 	Location *string   `json:"location"`
 	Created  time.Time `json:"created"`
 }
@@ -15,5 +15,5 @@ type Base struct {
 // Deletion struct is used to receive deletion responses from delete operations.
 type Deletion struct {
 	Base
-	Deleted bool `json:"deleted" pretty:""`
+	Deleted bool `json:"deleted"`
 }

@@ -10,6 +10,6 @@ package omise
 // https://www.omise.co/security-best-practices
 type Token struct {
 	Base
-	Used bool  `json:"used" pretty:""`
-	Card *Card `json:"card" pretty:""`
+	Used bool  `json:"used"`
+	Card *Card `json:"card"`
 }

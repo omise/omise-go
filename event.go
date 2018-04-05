@@ -7,8 +7,8 @@ import (
 // Event represents Omise's event object.
 type Event struct {
 	Base
-	Key  string      `json:"key" pretty:""`
-	Data interface{} `json:"data" pretty:""`
+	Key  string      `json:"key"`
+	Data interface{} `json:"data"`
 }
 
 type eventShim struct {
