@@ -44,9 +44,9 @@ func TestCharge(t *testing.T) {
 	r.NotNil(t, charge.Description)
 	r.Equal(t, "Charge for order 3947 (XXL)", *charge.Description)
 
-	e := client.Do(nil, &RetrieveCharge{"not_exist"})
-	r.Error(t, e)
-	r.EqualError(t, e, "(404/not_found) customer missing was not found")
+	err := client.Do(nil, &RetrieveCharge{"not_exist"})
+	r.Error(t, err)
+	r.EqualError(t, err, "(404/not_found) customer missing was not found")
 }
 
 func TestCharge_Network(t *testing.T) {
@@ -129,17 +129,17 @@ func TestCharge_Network_Invalid(t *testing.T) {
 	client := testutil.NewTestClient(t)
 	token := createTestToken(client)
 
-	e := client.Do(nil, &CreateCharge{
+	err := client.Do(nil, &CreateCharge{
 		Amount:   12345,
 		Currency: "omd", // OMISE DOLLAR, why not?
 		Card:     token.ID,
 	})
-	r.EqualError(t, e, "(400/invalid_charge) currency is currently not supported")
+	r.EqualError(t, err, "(400/invalid_charge) currency is currently not supported")
 
-	e = client.Do(nil, &CreateCharge{
+	err = client.Do(nil, &CreateCharge{
 		Amount:   12345,
 		Currency: "thb",
 		Card:     "tok_asdf",
 	})
-	r.EqualError(t, e, "(404/not_found) token tok_asdf was not found")
+	r.EqualError(t, err, "(404/not_found) token tok_asdf was not found")
 }

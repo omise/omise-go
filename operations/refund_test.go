@@ -30,9 +30,9 @@ func TestRefund(t *testing.T) {
 	r.Equal(t, RefundID, refund.ID)
 	r.Equal(t, int64(10000), refund.Amount)
 
-	e := client.Do(nil, &RetrieveRefund{ChargeID, "not_exist"})
-	r.Error(t, e)
-	r.EqualError(t, e, "(404/not_found) refund 404 was not found")
+	err := client.Do(nil, &RetrieveRefund{ChargeID, "not_exist"})
+	r.Error(t, err)
+	r.EqualError(t, err, "(404/not_found) refund 404 was not found")
 }
 
 func TestRefund_Network(t *testing.T) {

@@ -21,9 +21,9 @@ func TestCard(t *testing.T) {
 	r.Equal(t, CardID, card.ID)
 
 	card = &omise.Card{}
-	e := client.Do(card, &RetrieveCard{CustomerID, "not_exist"})
-	r.Error(t, e)
-	r.EqualError(t, e, "(404/not_found) customer missing was not found")
+	err := client.Do(card, &RetrieveCard{CustomerID, "not_exist"})
+	r.Error(t, err)
+	r.EqualError(t, err, "(404/not_found) customer missing was not found")
 
 	client.MustDo(card, &UpdateCard{
 		CustomerID: CustomerID,

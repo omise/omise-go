@@ -28,18 +28,18 @@ func NewFixedClient(t *testing.T) *TestClient {
 }
 
 func newTestClient(t *testing.T, record, fixed bool) *TestClient {
-	client, e := omise.NewClient(Keys())
-	r.NoError(t, e)
+	client, err := omise.NewClient(Keys())
+	r.NoError(t, err)
 
 	switch {
 	case fixed:
-		fixtures, e := NewFixturesTransport()
-		r.NoError(t, e)
+		fixtures, err := NewFixturesTransport()
+		r.NoError(t, err)
 		client.Transport = fixtures // override std TLS transport
 	case record:
 		// WARN: Handle with care!
-		recorder, e := NewRecorderTransport()
-		r.NoError(t, e)
+		recorder, err := NewRecorderTransport()
+		r.NoError(t, err)
 		client.Transport = recorder
 	}
 

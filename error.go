@@ -13,8 +13,8 @@ var ErrInvalidKey = errors.New("invalid public or secret key")
 // GitHub issue or contacting support.
 type ErrInternal string
 
-func (e ErrInternal) Error() string {
-	return "internal inconsistency: " + string(e)
+func (err ErrInternal) Error() string {
+	return "internal inconsistency: " + string(err)
 }
 
 // ErrTransport wraps error returned by omise-go internal HTTP transport implementation.
@@ -23,9 +23,9 @@ type ErrTransport struct {
 	Buffer []byte
 }
 
-func (e ErrTransport) Error() string {
-	return "transport error: " + e.Err.Error() +
-		"\n with response body: " + string(e.Buffer)
+func (err ErrTransport) Error() string {
+	return "transport error: " + err.Err.Error() +
+		"\n with response body: " + string(err.Buffer)
 }
 
 // Error struct represents errors that may be returned from Omise's REST API. You can use
@@ -38,14 +38,14 @@ type Error struct {
 	Message    string `json:"message"`
 }
 
-func (e *Error) String() string {
-	if e.StatusCode == 0 {
-		return "(" + e.Code + ") " + e.Message
+func (err *Error) String() string {
+	if err.StatusCode == 0 {
+		return "(" + err.Code + ") " + err.Message
 	}
 
-	return "(" + strconv.Itoa(e.StatusCode) + "/" + e.Code + ") " + e.Message
+	return "(" + strconv.Itoa(err.StatusCode) + "/" + err.Code + ") " + err.Message
 }
 
-func (e *Error) Error() string {
-	return e.String()
+func (err *Error) Error() string {
+	return err.String()
 }

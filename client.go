@@ -65,20 +65,20 @@ func NewClient(pkey, skey string) (*Client, error) {
 // people should use the Do method instead.
 func (c *Client) Request(operation internal.Operation) (*http.Request, error) {
 	var req *http.Request
-	var e error
+	var err error
 	if _, ok := operation.(json.Marshaler); ok {
-		req, e = c.buildJSONRequest(operation)
+		req, err = c.buildJSONRequest(operation)
 	} else {
-		req, e = c.buildFormRequest(operation)
+		req, err = c.buildFormRequest(operation)
 	}
 
-	if e != nil {
-		return nil, e
+	if err != nil {
+		return nil, err
 	}
 
-	e = c.setRequestHeaders(req, operation.Describe())
-	if e != nil {
-		return nil, e
+	err = c.setRequestHeaders(req, operation.Describe())
+	if err != nil {
+		return nil, err
 	}
 
 	return req, nil
@@ -87,9 +87,9 @@ func (c *Client) Request(operation internal.Operation) (*http.Request, error) {
 func (c *Client) buildQuery(operation internal.Operation) (url.Values, error) {
 	desc := operation.Describe()
 
-	query, e := internal.MapURLValues(operation)
-	if e != nil {
-		return nil, e
+	query, err := internal.MapURLValues(operation)
+	if err != nil {
+		return nil, err
 	}
 
 	if len(desc.Values) > 0 {
@@ -106,9 +106,9 @@ func (c *Client) buildQuery(operation internal.Operation) (url.Values, error) {
 func (c *Client) buildJSONRequest(operation internal.Operation) (*http.Request, error) {
 	desc := operation.Describe()
 
-	b, e := json.Marshal(operation)
-	if e != nil {
-		return nil, e
+	b, err := json.Marshal(operation)
+	if err != nil {
+		return nil, err
 	}
 
 	body := bytes.NewReader(b)
@@ -124,9 +124,9 @@ func (c *Client) buildJSONRequest(operation internal.Operation) (*http.Request, 
 func (c *Client) buildFormRequest(operation internal.Operation) (*http.Request, error) {
 	desc := operation.Describe()
 
-	query, e := c.buildQuery(operation)
-	if e != nil {
-		return nil, e
+	query, err := c.buildQuery(operation)
+	if err != nil {
+		return nil, err
 	}
 
 	var body io.Reader
@@ -139,9 +139,9 @@ func (c *Client) buildFormRequest(operation internal.Operation) (*http.Request, 
 		endpoint = ep
 	}
 
-	req, e := http.NewRequest(desc.Method, endpoint+desc.Path, body)
-	if e != nil {
-		return nil, e
+	req, err := http.NewRequest(desc.Method, endpoint+desc.Path, body)
+	if err != nil {
+		return nil, err
 	}
 
 	if desc.Method == "GET" || desc.Method == "HEAD" {
@@ -189,30 +189,30 @@ func (c *Client) setRequestHeaders(req *http.Request, desc *internal.Description
 // non-nil error should be returned. Error maybe of the omise-go.Error struct type, in
 // which case you can further inspect the Code and Message field for more information.
 func (c *Client) Do(result interface{}, operation internal.Operation) error {
-	req, e := c.Request(operation)
-	if e != nil {
-		return e
+	req, err := c.Request(operation)
+	if err != nil {
+		return err
 	}
 
 	// response
-	resp, e := c.Client.Do(req)
+	resp, err := c.Client.Do(req)
 	if resp != nil {
 		defer resp.Body.Close()
 	}
-	if e != nil {
-		return e
+	if err != nil {
+		return err
 	}
 
-	buffer, e := ioutil.ReadAll(resp.Body)
-	if e != nil {
-		return &ErrTransport{e, buffer}
+	buffer, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return &ErrTransport{err, buffer}
 	}
 
 	switch {
 	case resp.StatusCode != 200:
 		err := &Error{StatusCode: resp.StatusCode}
-		if e := json.Unmarshal(buffer, err); e != nil {
-			return &ErrTransport{e, buffer}
+		if err := json.Unmarshal(buffer, err); err != nil {
+			return &ErrTransport{err, buffer}
 		}
 
 		return err
@@ -223,8 +223,8 @@ func (c *Client) Do(result interface{}, operation internal.Operation) error {
 	}
 
 	if result != nil {
-		if e := json.Unmarshal(buffer, result); e != nil {
-			return &ErrTransport{e, buffer}
+		if err := json.Unmarshal(buffer, result); err != nil {
+			return &ErrTransport{err, buffer}
 		}
 	}
 

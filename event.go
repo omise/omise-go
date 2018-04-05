@@ -22,8 +22,8 @@ type eventShim struct {
 // structure as normal.
 func (ev *Event) UnmarshalJSON(buffer []byte) error {
 	shim := &eventShim{}
-	if e := json.Unmarshal(buffer, shim); e != nil {
-		return e
+	if err := json.Unmarshal(buffer, shim); err != nil {
+		return err
 	}
 
 	// go through a proxy type to undefine UnmarshalJSON (stack overflow, otherwise)
@@ -38,8 +38,8 @@ func (ev *Event) UnmarshalJSON(buffer []byte) error {
 		proxy.Data = ev.dataInstanceFromType(shim.Data.Object)
 	}
 
-	if e := json.Unmarshal(buffer, &proxy); e != nil {
-		return e
+	if err := json.Unmarshal(buffer, &proxy); err != nil {
+		return err
 	}
 
 	*ev = Event(proxy)

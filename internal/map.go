@@ -16,16 +16,16 @@ type ErrMap struct {
 	reason string
 }
 
-func (e *ErrMap) Error() string {
-	return "cannot map field `" + e.field.Name + "`, " + e.reason
+func (err *ErrMap) Error() string {
+	return "cannot map field `" + err.field.Name + "`, " + err.reason
 }
 
 // MapURLValues maps a user-defined struct to url.Values. Nested structs, arrays, and maps
 // are mapped to field name with "[]" suffix with the current index as map key.
 func MapURLValues(i interface{}) (url.Values, error) {
 	result := url.Values{}
-	if e := mapURLValues(i, result, ""); e != nil {
-		return nil, e
+	if err := mapURLValues(i, result, ""); err != nil {
+		return nil, err
 	}
 
 	return result, nil
@@ -126,13 +126,13 @@ func mapURLValues(i interface{}, target url.Values, parent string) error {
 				}
 
 			case field.Anonymous: // embedded structs
-				if e := mapURLValues(fieldval.Interface(), target, ""); e != nil {
-					return e
+				if err := mapURLValues(fieldval.Interface(), target, ""); err != nil {
+					return err
 				}
 
 			default: // named struct fields
-				if e := mapURLValues(fieldval.Interface(), target, tag); e != nil {
-					return e
+				if err := mapURLValues(fieldval.Interface(), target, tag); err != nil {
+					return err
 				}
 			}
 

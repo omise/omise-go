@@ -20,17 +20,17 @@ func (transport *FixturesTransport) RoundTrip(req *http.Request) (*http.Response
 	fixreq, fixurl := *req, *req.URL
 	fixreq.URL = &fixurl
 
-	status, fixpath, e := FixturePath(req)
-	if e != nil {
-		return nil, e
+	status, fixpath, err := FixturePath(req)
+	if err != nil {
+		return nil, err
 	}
 
 	// fetch the file
 	fixreq.URL.Path = fixpath
 
-	resp, e := transport.backing.RoundTrip(&fixreq)
-	if e != nil {
-		return nil, e
+	resp, err := transport.backing.RoundTrip(&fixreq)
+	if err != nil {
+		return nil, err
 	}
 
 	// modify the FS transport response to looks like it came remotely.
