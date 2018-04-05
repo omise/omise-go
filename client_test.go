@@ -102,9 +102,9 @@ func TestClient_Error(t *testing.T) {
 	})
 	r.NotNil(t, err)
 
-	err, ok := err.(*Error)
+	apiErr, ok := err.(*Error)
 	r.True(t, ok, "error returned is not *omise.Error.")
-	r.Equal(t, err.Code, "not_found")
+	r.Equal(t, apiErr.Code, "not_found")
 
 	err = client.Do(nil, &internal.Description{
 		Endpoint: internal.Endpoint("virus_endpoint"),
@@ -125,12 +125,12 @@ func TestClient_TransportError(t *testing.T) {
 	})
 	r.NotNil(t, err)
 
-	err, ok := err.(*ErrTransport)
+	apiErr, ok := err.(*ErrTransport)
 	r.True(t, ok, "error returned in not *omise.ErrTransport: ")
 
-	_, ok = err.Err.(*json.SyntaxError)
+	_, ok = apiErr.Err.(*json.SyntaxError)
 	r.True(t, ok, "error does not wrap *json.SyntaxError")
-	r.Contains(t, string(err.Buffer), "not a valid JSON")
+	r.Contains(t, string(apiErr.Buffer), "not a valid JSON")
 }
 
 func ExampleClient_Do() {

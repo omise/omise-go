@@ -7,16 +7,17 @@ package omise
 
 // SearchScope can be one of the following constants:
 const (
-	UnspecifiedScope SearchScope = ""
-
-	ChargeScope    SearchScope = "charge"
-	DisputeScope   SearchScope = "dispute"
-	RecipientScope SearchScope = "recipient"
-	CustomerScope  SearchScope = "customer"
-	RefundScope    SearchScope = "refund"
-	TransferScope  SearchScope = "transfer"
-	LinkScope      SearchScope = "link"
+  UnspecifiedScope SearchScope = ""
+  
+  ChargeScope SearchScope = "charge"
+  DisputeScope SearchScope = "dispute"
+  RecipientScope SearchScope = "recipient"
+  CustomerScope SearchScope = "customer"
+  RefundScope SearchScope = "refund"
+  TransferScope SearchScope = "transfer"
+  LinkScope SearchScope = "link"
 )
+
 
 // ChargeSearchResult represents search result structure returned by Omise's Search API
 // that contains Charge struct as result elements.
@@ -25,12 +26,14 @@ type ChargeSearchResult struct {
 	Data []*Charge `json:"data"`
 }
 
+
 // DisputeSearchResult represents search result structure returned by Omise's Search API
 // that contains Dispute struct as result elements.
 type DisputeSearchResult struct {
 	SearchResult
 	Data []*Dispute `json:"data"`
 }
+
 
 // RecipientSearchResult represents search result structure returned by Omise's Search API
 // that contains Recipient struct as result elements.
@@ -39,12 +42,14 @@ type RecipientSearchResult struct {
 	Data []*Recipient `json:"data"`
 }
 
+
 // CustomerSearchResult represents search result structure returned by Omise's Search API
 // that contains Customer struct as result elements.
 type CustomerSearchResult struct {
 	SearchResult
 	Data []*Customer `json:"data"`
 }
+
 
 // RefundSearchResult represents search result structure returned by Omise's Search API
 // that contains Refund struct as result elements.
@@ -53,6 +58,7 @@ type RefundSearchResult struct {
 	Data []*Refund `json:"data"`
 }
 
+
 // TransferSearchResult represents search result structure returned by Omise's Search API
 // that contains Transfer struct as result elements.
 type TransferSearchResult struct {
@@ -60,9 +66,12 @@ type TransferSearchResult struct {
 	Data []*Transfer `json:"data"`
 }
 
+
 // LinkSearchResult represents search result structure returned by Omise's Search API
 // that contains Link struct as result elements.
 type LinkSearchResult struct {
 	SearchResult
 	Data []*Link `json:"data"`
 }
+
+
