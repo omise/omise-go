@@ -21,7 +21,7 @@ type ListDisputes struct {
 	List
 }
 
-func (req *ListDisputes) Op() *internal.Op {
+func (req *ListDisputes) Describe() *internal.Description {
 	path := "/disputes"
 	switch req.State {
 	case omise.Open:
@@ -32,7 +32,7 @@ func (req *ListDisputes) Op() *internal.Op {
 		path += "/closed"
 	}
 
-	return &internal.Op{
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "GET",
 		Path:     path,
@@ -52,8 +52,8 @@ type RetrieveDispute struct {
 	DisputeID string `query:"-"`
 }
 
-func (req *RetrieveDispute) Op() *internal.Op {
-	return &internal.Op{
+func (req *RetrieveDispute) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "GET",
 		Path:     "/disputes/" + req.DisputeID,
@@ -77,8 +77,8 @@ type UpdateDispute struct {
 	Message   string
 }
 
-func (req *UpdateDispute) Op() *internal.Op {
-	return &internal.Op{
+func (req *UpdateDispute) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "PATCH",
 		Path:     "/disputes/" + req.DisputeID,

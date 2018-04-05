@@ -22,8 +22,8 @@ type Search struct {
 	Order   omise.Ordering
 }
 
-func (req *Search) Op() *internal.Op {
-	return &internal.Op{
+func (req *Search) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "GET",
 		Path:     "/search",

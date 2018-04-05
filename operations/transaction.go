@@ -22,8 +22,8 @@ type ListTransactions struct {
 	List
 }
 
-func (req *ListTransactions) Op() *internal.Op {
-	return &internal.Op{
+func (req *ListTransactions) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "GET",
 		Path:     "/transactions",
@@ -45,8 +45,8 @@ type RetrieveTransaction struct {
 	TransactionID string `query:"-"`
 }
 
-func (req *RetrieveTransaction) Op() *internal.Op {
-	return &internal.Op{
+func (req *RetrieveTransaction) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "GET",
 		Path:     "/transactions/" + req.TransactionID,

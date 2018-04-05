@@ -22,8 +22,8 @@ type ListCards struct {
 	List
 }
 
-func (req *ListCards) Op() *internal.Op {
-	return &internal.Op{
+func (req *ListCards) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "GET",
 		Path:     "/customers/" + req.CustomerID + "/cards",
@@ -37,8 +37,8 @@ func (req *ListCards) Op() *internal.Op {
 // 	Card       string
 // }
 //
-// func (req *CreateCard) Op() *internal.Op {
-// 	return &internal.Op{internal.API, "PATCH", "/customers/" + req.CustomerID, nil}
+// func (req *CreateCard) Description() *internal.Description {
+// 	return &internal.Description{internal.API, "PATCH", "/customers/" + req.CustomerID, nil}
 // }
 
 // Example:
@@ -58,8 +58,8 @@ type RetrieveCard struct {
 	CardID     string `query:"-"`
 }
 
-func (req *RetrieveCard) Op() *internal.Op {
-	return &internal.Op{
+func (req *RetrieveCard) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "GET",
 		Path:     "/customers/" + req.CustomerID + "/cards/" + req.CardID,
@@ -91,8 +91,8 @@ type UpdateCard struct {
 	ExpirationYear  int        `query:"expiration_year"`
 }
 
-func (req *UpdateCard) Op() *internal.Op {
-	return &internal.Op{
+func (req *UpdateCard) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "PATCH",
 		Path:     "/customers/" + req.CustomerID + "/cards/" + req.CardID,
@@ -116,8 +116,8 @@ type DestroyCard struct {
 	CardID     string `query:"-"`
 }
 
-func (req *DestroyCard) Op() *internal.Op {
-	return &internal.Op{
+func (req *DestroyCard) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "DELETE",
 		Path:     "/customers/" + req.CustomerID + "/cards/" + req.CardID,

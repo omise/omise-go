@@ -76,7 +76,7 @@ func (c *Client) Request(operation internal.Operation) (*http.Request, error) {
 		return nil, e
 	}
 
-	e = c.setRequestHeaders(req, operation.Op())
+	e = c.setRequestHeaders(req, operation.Describe())
 	if e != nil {
 		return nil, e
 	}
@@ -85,7 +85,7 @@ func (c *Client) Request(operation internal.Operation) (*http.Request, error) {
 }
 
 func (c *Client) buildQuery(operation internal.Operation) (url.Values, error) {
-	op := operation.Op()
+	op := operation.Describe()
 
 	query, e := internal.MapURLValues(operation)
 	if e != nil {
@@ -104,7 +104,7 @@ func (c *Client) buildQuery(operation internal.Operation) (url.Values, error) {
 }
 
 func (c *Client) buildJSONRequest(operation internal.Operation) (*http.Request, error) {
-	op := operation.Op()
+	op := operation.Describe()
 
 	b, e := json.Marshal(operation)
 	if e != nil {
@@ -122,7 +122,7 @@ func (c *Client) buildJSONRequest(operation internal.Operation) (*http.Request, 
 }
 
 func (c *Client) buildFormRequest(operation internal.Operation) (*http.Request, error) {
-	op := operation.Op()
+	op := operation.Describe()
 
 	query, e := c.buildQuery(operation)
 	if e != nil {
@@ -151,7 +151,7 @@ func (c *Client) buildFormRequest(operation internal.Operation) (*http.Request, 
 	return req, nil
 }
 
-func (c *Client) setRequestHeaders(req *http.Request, op *internal.Op) error {
+func (c *Client) setRequestHeaders(req *http.Request, op *internal.Description) error {
 	ua := "OmiseGo/2015-11-06"
 	if c.GoVersion != "" {
 		ua += " Go/" + c.GoVersion

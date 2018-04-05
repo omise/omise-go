@@ -19,8 +19,8 @@ type ListReceipts struct {
 	List
 }
 
-func (req *ListReceipts) Op() *internal.Op {
-	return &internal.Op{
+func (req *ListReceipts) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint:    internal.API,
 		Method:      "GET",
 		Path:        "/receipts",
@@ -41,8 +41,8 @@ type RetrieveReceipt struct {
 	ReceiptID string `query:"-"`
 }
 
-func (req *RetrieveReceipt) Op() *internal.Op {
-	return &internal.Op{
+func (req *RetrieveReceipt) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "GET",
 		Path:     "/receipts/" + req.ReceiptID,

@@ -17,8 +17,8 @@ type RetrieveOccurrence struct {
 	OccurrenceID string `query:"-"`
 }
 
-func (req *RetrieveOccurrence) Op() *internal.Op {
-	return &internal.Op{
+func (req *RetrieveOccurrence) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "GET",
 		Path:     "/occurrences/" + req.OccurrenceID,

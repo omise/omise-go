@@ -35,8 +35,8 @@ type CreateToken struct {
 	PostalCode   string `query:"card[postal_code]"`
 }
 
-func (req *CreateToken) Op() *internal.Op {
-	return &internal.Op{
+func (req *CreateToken) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.Vault,
 		Method:   "POST",
 		Path:     "/tokens",
@@ -56,8 +56,8 @@ type RetrieveToken struct {
 	ID string `query:"-"`
 }
 
-func (token *RetrieveToken) Op() *internal.Op {
-	return &internal.Op{
+func (token *RetrieveToken) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.Vault,
 		Method:   "GET",
 		Path:     "/tokens/" + token.ID,

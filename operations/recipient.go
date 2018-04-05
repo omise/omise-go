@@ -22,8 +22,8 @@ type ListRecipients struct {
 	List
 }
 
-func (req *ListRecipients) Op() *internal.Op {
-	return &internal.Op{
+func (req *ListRecipients) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "GET",
 		Path:     "/recipients",
@@ -124,8 +124,8 @@ func (req *CreateRecipient) MarshalJSON() ([]byte, error) {
 	return json.Marshal(p)
 }
 
-func (req *CreateRecipient) Op() *internal.Op {
-	return &internal.Op{
+func (req *CreateRecipient) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint:    internal.API,
 		Method:      "POST",
 		Path:        "/recipients",
@@ -146,8 +146,8 @@ type RetrieveRecipient struct {
 	RecipientID string `query:"-"`
 }
 
-func (req *RetrieveRecipient) Op() *internal.Op {
-	return &internal.Op{
+func (req *RetrieveRecipient) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "GET",
 		Path:     "/recipients/" + req.RecipientID,
@@ -218,8 +218,8 @@ func (req *UpdateRecipient) MarshalJSON() ([]byte, error) {
 	return json.Marshal(p)
 }
 
-func (req *UpdateRecipient) Op() *internal.Op {
-	return &internal.Op{
+func (req *UpdateRecipient) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint:    internal.API,
 		Method:      "PATCH",
 		Path:        "/recipients/" + req.RecipientID,
@@ -240,8 +240,8 @@ type DestroyRecipient struct {
 	RecipientID string `query:"-"`
 }
 
-func (req *DestroyRecipient) Op() *internal.Op {
-	return &internal.Op{
+func (req *DestroyRecipient) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "DELETE",
 		Path:     "/recipients/" + req.RecipientID,
@@ -275,8 +275,8 @@ func (req *ListRecipientTransferSchedules) MarshalJSON() ([]byte, error) {
 	return json.Marshal(req.List)
 }
 
-func (req *ListRecipientTransferSchedules) Op() *internal.Op {
-	return &internal.Op{
+func (req *ListRecipientTransferSchedules) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint:    internal.API,
 		Method:      "GET",
 		Path:        "/recipients/" + req.RecipientID + "/schedules",

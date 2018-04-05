@@ -17,8 +17,8 @@ type ListEvents struct {
 	List
 }
 
-func (req *ListEvents) Op() *internal.Op {
-	return &internal.Op{
+func (req *ListEvents) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "GET",
 		Path:     "/events",
@@ -38,8 +38,8 @@ type RetrieveEvent struct {
 	EventID string `query:"-"`
 }
 
-func (req *RetrieveEvent) Op() *internal.Op {
-	return &internal.Op{
+func (req *RetrieveEvent) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "GET",
 		Path:     "/events/" + req.EventID,

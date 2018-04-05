@@ -95,7 +95,7 @@ func TestClient_Error(t *testing.T) {
 	client, e := NewClient(testutil.Keys())
 	r.NoError(t, e)
 
-	e = client.Do(nil, &internal.Op{
+	e = client.Do(nil, &internal.Description{
 		Endpoint: internal.API,
 		Method:   "GET",
 		Path:     "/definitely_never_found",
@@ -106,7 +106,7 @@ func TestClient_Error(t *testing.T) {
 	r.True(t, ok, "error returned is not *omise.Error.")
 	r.Equal(t, err.Code, "not_found")
 
-	e = client.Do(nil, &internal.Op{
+	e = client.Do(nil, &internal.Description{
 		Endpoint: internal.Endpoint("virus_endpoint"),
 		Method:   "GET",
 		Path:     "/",
@@ -118,7 +118,7 @@ func TestClient_Error(t *testing.T) {
 func TestClient_TransportError(t *testing.T) {
 	client := testutil.NewFixedClient(t)
 
-	e := client.Do(&struct{}{}, &internal.Op{
+	e := client.Do(&struct{}{}, &internal.Description{
 		Endpoint: internal.API,
 		Method:   "GET",
 		Path:     "/malformed",

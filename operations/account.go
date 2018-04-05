@@ -15,8 +15,8 @@ import (
 //
 type RetrieveAccount struct{}
 
-func (req *RetrieveAccount) Op() *internal.Op {
-	return &internal.Op{
+func (req *RetrieveAccount) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "GET",
 		Path:     "/account",
