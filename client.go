@@ -85,15 +85,15 @@ func (c *Client) Request(operation internal.Operation) (*http.Request, error) {
 }
 
 func (c *Client) buildQuery(operation internal.Operation) (url.Values, error) {
-	op := operation.Describe()
+	desc := operation.Describe()
 
 	query, e := internal.MapURLValues(operation)
 	if e != nil {
 		return nil, e
 	}
 
-	if len(op.Values) > 0 {
-		for k, values := range op.Values {
+	if len(desc.Values) > 0 {
+		for k, values := range desc.Values {
 			if len(values) > 0 {
 				query.Set(k, values[0])
 			}
@@ -104,7 +104,7 @@ func (c *Client) buildQuery(operation internal.Operation) (url.Values, error) {
 }
 
 func (c *Client) buildJSONRequest(operation internal.Operation) (*http.Request, error) {
-	op := operation.Describe()
+	desc := operation.Describe()
 
 	b, e := json.Marshal(operation)
 	if e != nil {
@@ -113,16 +113,16 @@ func (c *Client) buildJSONRequest(operation internal.Operation) (*http.Request, 
 
 	body := bytes.NewReader(b)
 
-	endpoint := string(op.Endpoint)
-	if ep, ok := c.Endpoints[op.Endpoint]; ok {
+	endpoint := string(desc.Endpoint)
+	if ep, ok := c.Endpoints[desc.Endpoint]; ok {
 		endpoint = ep
 	}
 
-	return http.NewRequest(op.Method, endpoint+op.Path, body)
+	return http.NewRequest(desc.Method, endpoint+desc.Path, body)
 }
 
 func (c *Client) buildFormRequest(operation internal.Operation) (*http.Request, error) {
-	op := operation.Describe()
+	desc := operation.Describe()
 
 	query, e := c.buildQuery(operation)
 	if e != nil {
@@ -130,38 +130,38 @@ func (c *Client) buildFormRequest(operation internal.Operation) (*http.Request, 
 	}
 
 	var body io.Reader
-	if op.Method != "GET" && op.Method != "HEAD" {
+	if desc.Method != "GET" && desc.Method != "HEAD" {
 		body = strings.NewReader(query.Encode())
 	}
 
-	endpoint := string(op.Endpoint)
-	if ep, ok := c.Endpoints[op.Endpoint]; ok {
+	endpoint := string(desc.Endpoint)
+	if ep, ok := c.Endpoints[desc.Endpoint]; ok {
 		endpoint = ep
 	}
 
-	req, e := http.NewRequest(op.Method, endpoint+op.Path, body)
+	req, e := http.NewRequest(desc.Method, endpoint+desc.Path, body)
 	if e != nil {
 		return nil, e
 	}
 
-	if op.Method == "GET" || op.Method == "HEAD" {
+	if desc.Method == "GET" || desc.Method == "HEAD" {
 		req.URL.RawQuery = query.Encode()
 	}
 
 	return req, nil
 }
 
-func (c *Client) setRequestHeaders(req *http.Request, op *internal.Description) error {
+func (c *Client) setRequestHeaders(req *http.Request, desc *internal.Description) error {
 	ua := "OmiseGo/2015-11-06"
 	if c.GoVersion != "" {
 		ua += " Go/" + c.GoVersion
 	}
 
 	// Fallback between migrate to application/json
-	if op.ContentType == "" {
+	if desc.ContentType == "" {
 		req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 	} else {
-		req.Header.Add("Content-Type", op.ContentType)
+		req.Header.Add("Content-Type", desc.ContentType)
 	}
 
 	req.Header.Add("User-Agent", ua)
@@ -169,13 +169,13 @@ func (c *Client) setRequestHeaders(req *http.Request, op *internal.Description) 
 		req.Header.Add("Omise-Version", c.APIVersion)
 	}
 
-	switch op.KeyKind() {
+	switch desc.KeyKind() {
 	case "public":
 		req.SetBasicAuth(c.pkey, "")
 	case "secret":
 		req.SetBasicAuth(c.skey, "")
 	default:
-		return ErrInternal("unrecognized endpoint:" + op.Endpoint)
+		return ErrInternal("unrecognized endpoint:" + desc.Endpoint)
 	}
 
 	return nil

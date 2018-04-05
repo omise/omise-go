@@ -75,9 +75,9 @@ func TestClient_Request(t *testing.T) {
 	r.Equal(t, "http://vault.omise.dev:4500/tokens", req.URL.String())
 
 	// general request properties
-	op := &operations.RetrieveAccount{}
+	desc := &operations.RetrieveAccount{}
 
-	req, e = client.Request(op)
+	req, e = client.Request(desc)
 	r.NoError(t, e)
 	r.Contains(t, req.Header.Get("User-Agent"), "OmiseGo/")
 	r.Contains(t, req.Header.Get("User-Agent"), "Go/go")
@@ -85,7 +85,7 @@ func TestClient_Request(t *testing.T) {
 
 	client.GoVersion = "RANDOMXXXVERSION"
 	client.APIVersion = "yadda"
-	req, e = client.Request(op)
+	req, e = client.Request(desc)
 	r.NoError(t, e)
 	r.Contains(t, req.Header.Get("User-Agent"), "Go/RANDOMXXXVERSION")
 	r.Equal(t, req.Header.Get("Omise-Version"), "yadda")
