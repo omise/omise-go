@@ -41,9 +41,9 @@ check go                       "needs go from http://golang.org"
 check $GOPATH/bin/gometalinter "needs gometalinter from https://github.com/alecthomas/gometalinter"
 check $GOPATH/bin/go-bindata   "needs go-bindata from https://github.com/jteeuwen/go-bindata"
 
-perform builds     go install . ./operations
-perform linters    gometalinter --fast -e "credentials,HIGH,LOW"
 perform generators go generate . ./operations
+perform linters    gometalinter --fast --aggregate
+perform builds     go install . ./operations
 perform tests      go test ./...
 
 echo "\x1B[38;5;2msuccess.\x1B[0m"
