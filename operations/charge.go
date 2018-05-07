@@ -60,6 +60,7 @@ type CreateCharge struct {
 	Description string             `json:"description,omitempty"`
 	DontCapture bool               `json:"-"` // inverse, since `capture` defaults to true
 	ReturnURI   string             `json:"return_uri,omitempty"`
+	Metadata    map[string]interface{} `json:"metadata,omitempty"`
 }
 
 func (req *CreateCharge) MarshalJSON() ([]byte, error) {
@@ -100,6 +101,7 @@ func (req *CreateCharge) Describe() *internal.Description {
 type UpdateCharge struct {
 	ChargeID    string `json:"-"`
 	Description string `json:"description"`
+	Metadata    map[string]interface{} `json:"metadata,omitempty"`
 }
 
 func (req *UpdateCharge) Describe() *internal.Description {
