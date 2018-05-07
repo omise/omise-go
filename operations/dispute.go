@@ -1,8 +1,6 @@
 package operations
 
 import (
-	"encoding/json"
-
 	"github.com/omise/omise-go"
 	"github.com/omise/omise-go/internal"
 )
@@ -77,21 +75,9 @@ func (req *RetrieveDispute) Describe() *internal.Description {
 //	fmt.Printf("updated dispute: %#v\n", dispute)
 //
 type UpdateDispute struct {
-	DisputeID string `json:"-"`
-	Message   string
-	Metadata  map[string]interface{}
-}
-
-func (req *UpdateDispute) MarshalJSON() ([]byte, error) {
-	param := map[string]interface{}{
-		"message": req.Message,
-	}
-
-	if req.Metadata != nil {
-		param["metadata"] = req.Metadata
-	}
-
-	return json.Marshal(param)
+	DisputeID string                 `json:"-"`
+	Message   string                 `json:"message"`
+	Metadata  map[string]interface{} `json:"metadata,omitempty"`
 }
 
 func (req *UpdateDispute) Describe() *internal.Description {

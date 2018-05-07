@@ -40,9 +40,10 @@ func (req *ListRefunds) Describe() *internal.Description {
 //	fmt.Println("refunded half of charge with:", refund.ID)
 //
 type CreateRefund struct {
-	ChargeID string `json:"-"`
-	Amount   int64  `json:"amount"`
-	Void     bool   `json:"void,omitempty"`
+	ChargeID string                 `json:"-"`
+	Amount   int64                  `json:"amount"`
+	Void     bool                   `json:"void,omitempty"`
+	Metadata map[string]interface{} `json:"metadata,omitempty"`
 }
 
 func (req *CreateRefund) Describe() *internal.Description {
