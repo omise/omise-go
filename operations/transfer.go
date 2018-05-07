@@ -43,9 +43,10 @@ func (req *ListTransfers) Describe() *internal.Description {
 //	fmt.Println("transferred to default recipient with:", transfer.ID)
 //
 type CreateTransfer struct {
-	Amount    int64  `json:"amount,omitempty"`
-	Recipient string `json:"recipient,omitempty"`
-	FailFast  bool   `json:"fail_fast,omitempty"`
+	Amount    int64                  `json:"amount,omitempty"`
+	Recipient string                 `json:"recipient,omitempty"`
+	FailFast  bool                   `json:"fail_fast,omitempty"`
+	Metadata  map[string]interface{} `json:"metadata,omitempty"`
 }
 
 func (req *CreateTransfer) Describe() *internal.Description {
@@ -92,8 +93,9 @@ func (req *RetrieveTransfer) Describe() *internal.Description {
 //	fmt.Printf("updated transfer #777: %#v\n", transfer)
 //
 type UpdateTransfer struct {
-	TransferID string `json:"-"`
-	Amount     int64  `json:"amount,omitempty"`
+	TransferID string                 `json:"-"`
+	Amount     int64                  `json:"amount,omitempty"`
+	Metadata   map[string]interface{} `json:"metadata,omitempty"`
 }
 
 func (req *UpdateTransfer) Describe() *internal.Description {
