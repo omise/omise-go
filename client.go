@@ -65,35 +65,35 @@ func NewClient(pkey, skey string) (*Client, error) {
 // people should use the Do method instead.
 func (c *Client) Request(operation internal.Operation) (*http.Request, error) {
 	var req *http.Request
-	var e error
+	var err error
 	if _, ok := operation.(json.Marshaler); ok {
-		req, e = c.buildJSONRequest(operation)
+		req, err = c.buildJSONRequest(operation)
 	} else {
-		req, e = c.buildFormRequest(operation)
+		req, err = c.buildFormRequest(operation)
 	}
 
-	if e != nil {
-		return nil, e
+	if err != nil {
+		return nil, err
 	}
 
-	e = c.setRequestHeaders(req, operation.Op())
-	if e != nil {
-		return nil, e
+	err = c.setRequestHeaders(req, operation.Describe())
+	if err != nil {
+		return nil, err
 	}
 
 	return req, nil
 }
 
 func (c *Client) buildQuery(operation internal.Operation) (url.Values, error) {
-	op := operation.Op()
+	desc := operation.Describe()
 
-	query, e := internal.MapURLValues(operation)
-	if e != nil {
-		return nil, e
+	query, err := internal.MapURLValues(operation)
+	if err != nil {
+		return nil, err
 	}
 
-	if len(op.Values) > 0 {
-		for k, values := range op.Values {
+	if len(desc.Values) > 0 {
+		for k, values := range desc.Values {
 			if len(values) > 0 {
 				query.Set(k, values[0])
 			}
@@ -104,64 +104,64 @@ func (c *Client) buildQuery(operation internal.Operation) (url.Values, error) {
 }
 
 func (c *Client) buildJSONRequest(operation internal.Operation) (*http.Request, error) {
-	op := operation.Op()
+	desc := operation.Describe()
 
-	b, e := json.Marshal(operation)
-	if e != nil {
-		return nil, e
+	b, err := json.Marshal(operation)
+	if err != nil {
+		return nil, err
 	}
 
 	body := bytes.NewReader(b)
 
-	endpoint := string(op.Endpoint)
-	if ep, ok := c.Endpoints[op.Endpoint]; ok {
+	endpoint := string(desc.Endpoint)
+	if ep, ok := c.Endpoints[desc.Endpoint]; ok {
 		endpoint = ep
 	}
 
-	return http.NewRequest(op.Method, endpoint+op.Path, body)
+	return http.NewRequest(desc.Method, endpoint+desc.Path, body)
 }
 
 func (c *Client) buildFormRequest(operation internal.Operation) (*http.Request, error) {
-	op := operation.Op()
+	desc := operation.Describe()
 
-	query, e := c.buildQuery(operation)
-	if e != nil {
-		return nil, e
+	query, err := c.buildQuery(operation)
+	if err != nil {
+		return nil, err
 	}
 
 	var body io.Reader
-	if op.Method != "GET" && op.Method != "HEAD" {
+	if desc.Method != "GET" && desc.Method != "HEAD" {
 		body = strings.NewReader(query.Encode())
 	}
 
-	endpoint := string(op.Endpoint)
-	if ep, ok := c.Endpoints[op.Endpoint]; ok {
+	endpoint := string(desc.Endpoint)
+	if ep, ok := c.Endpoints[desc.Endpoint]; ok {
 		endpoint = ep
 	}
 
-	req, e := http.NewRequest(op.Method, endpoint+op.Path, body)
-	if e != nil {
-		return nil, e
+	req, err := http.NewRequest(desc.Method, endpoint+desc.Path, body)
+	if err != nil {
+		return nil, err
 	}
 
-	if op.Method == "GET" || op.Method == "HEAD" {
+	if desc.Method == "GET" || desc.Method == "HEAD" {
 		req.URL.RawQuery = query.Encode()
 	}
 
 	return req, nil
 }
 
-func (c *Client) setRequestHeaders(req *http.Request, op *internal.Op) error {
+func (c *Client) setRequestHeaders(req *http.Request, desc *internal.Description) error {
 	ua := "OmiseGo/2015-11-06"
 	if c.GoVersion != "" {
 		ua += " Go/" + c.GoVersion
 	}
 
 	// Fallback between migrate to application/json
-	if op.ContentType == "" {
+	if desc.ContentType == "" {
 		req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 	} else {
-		req.Header.Add("Content-Type", op.ContentType)
+		req.Header.Add("Content-Type", desc.ContentType)
 	}
 
 	req.Header.Add("User-Agent", ua)
@@ -169,13 +169,13 @@ func (c *Client) setRequestHeaders(req *http.Request, op *internal.Op) error {
 		req.Header.Add("Omise-Version", c.APIVersion)
 	}
 
-	switch op.KeyKind() {
+	switch desc.KeyKind() {
 	case "public":
 		req.SetBasicAuth(c.pkey, "")
 	case "secret":
 		req.SetBasicAuth(c.skey, "")
 	default:
-		return ErrInternal("unrecognized endpoint:" + op.Endpoint)
+		return ErrInternal("unrecognized endpoint:" + desc.Endpoint)
 	}
 
 	return nil
@@ -189,30 +189,30 @@ func (c *Client) setRequestHeaders(req *http.Request, op *internal.Op) error {
 // non-nil error should be returned. Error maybe of the omise-go.Error struct type, in
 // which case you can further inspect the Code and Message field for more information.
 func (c *Client) Do(result interface{}, operation internal.Operation) error {
-	req, e := c.Request(operation)
-	if e != nil {
-		return e
+	req, err := c.Request(operation)
+	if err != nil {
+		return err
 	}
 
 	// response
-	resp, e := c.Client.Do(req)
+	resp, err := c.Client.Do(req)
 	if resp != nil {
 		defer resp.Body.Close()
 	}
-	if e != nil {
-		return e
+	if err != nil {
+		return err
 	}
 
-	buffer, e := ioutil.ReadAll(resp.Body)
-	if e != nil {
-		return &ErrTransport{e, buffer}
+	buffer, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return &ErrTransport{err, buffer}
 	}
 
 	switch {
 	case resp.StatusCode != 200:
 		err := &Error{StatusCode: resp.StatusCode}
-		if e := json.Unmarshal(buffer, err); e != nil {
-			return &ErrTransport{e, buffer}
+		if err := json.Unmarshal(buffer, err); err != nil {
+			return &ErrTransport{err, buffer}
 		}
 
 		return err
@@ -223,8 +223,8 @@ func (c *Client) Do(result interface{}, operation internal.Operation) error {
 	}
 
 	if result != nil {
-		if e := json.Unmarshal(buffer, result); e != nil {
-			return &ErrTransport{e, buffer}
+		if err := json.Unmarshal(buffer, result); err != nil {
+			return &ErrTransport{err, buffer}
 		}
 	}
 

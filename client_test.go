@@ -26,37 +26,37 @@ var createTokenOp = &operations.CreateToken{
 func TestNewClient(t *testing.T) {
 	pkey, skey := testutil.Keys()
 
-	_, e := NewClient(pkey, skey)
-	r.NoError(t, e)
-	_, e = NewClient("", skey)
-	r.NoError(t, e)
-	_, e = NewClient(pkey, "")
-	r.NoError(t, e)
+	_, err := NewClient(pkey, skey)
+	r.NoError(t, err)
+	_, err = NewClient("", skey)
+	r.NoError(t, err)
+	_, err = NewClient(pkey, "")
+	r.NoError(t, err)
 
-	_, e = NewClient("", "")
-	r.Error(t, e)
-	r.Equal(t, ErrInvalidKey, e)
-	_, e = NewClient("123", "123")
-	r.Error(t, e)
-	r.Equal(t, ErrInvalidKey, e)
+	_, err = NewClient("", "")
+	r.Error(t, err)
+	r.Equal(t, ErrInvalidKey, err)
+	_, err = NewClient("123", "123")
+	r.Error(t, err)
+	r.Equal(t, ErrInvalidKey, err)
 }
 
 func TestClient_Request(t *testing.T) {
 	pkey, skey := testutil.Keys()
-	client, e := NewClient(pkey, skey)
-	r.NoError(t, e)
+	client, err := NewClient(pkey, skey)
+	r.NoError(t, err)
 
 	// use skey for api.omise.co endpoint
-	req, e := client.Request(&operations.RetrieveAccount{})
-	r.NoError(t, e)
+	req, err := client.Request(&operations.RetrieveAccount{})
+	r.NoError(t, err)
 
 	user, _, ok := req.BasicAuth()
 	r.True(t, ok)
 	r.Equal(t, user, skey)
 
 	// use pkey for vault.omise.co endopint
-	req, e = client.Request(&operations.CreateToken{})
-	r.NoError(t, e)
+	req, err = client.Request(&operations.CreateToken{})
+	r.NoError(t, err)
 
 	user, _, ok = req.BasicAuth()
 	r.True(t, ok)
@@ -66,71 +66,71 @@ func TestClient_Request(t *testing.T) {
 	client.Endpoints[internal.API] = "http://api.omise.dev:3000"
 	client.Endpoints[internal.Vault] = "http://vault.omise.dev:4500"
 
-	req, e = client.Request(&operations.RetrieveAccount{})
-	r.NoError(t, e)
+	req, err = client.Request(&operations.RetrieveAccount{})
+	r.NoError(t, err)
 	r.Equal(t, "http://api.omise.dev:3000/account", req.URL.String())
 
-	req, e = client.Request(&operations.CreateToken{})
-	r.NoError(t, e)
+	req, err = client.Request(&operations.CreateToken{})
+	r.NoError(t, err)
 	r.Equal(t, "http://vault.omise.dev:4500/tokens", req.URL.String())
 
 	// general request properties
-	op := &operations.RetrieveAccount{}
+	desc := &operations.RetrieveAccount{}
 
-	req, e = client.Request(op)
-	r.NoError(t, e)
+	req, err = client.Request(desc)
+	r.NoError(t, err)
 	r.Contains(t, req.Header.Get("User-Agent"), "OmiseGo/")
 	r.Contains(t, req.Header.Get("User-Agent"), "Go/go")
 	r.Empty(t, req.Header.Get("Omise-Version"), "Omise-Version header sent when APIVersion is not specified.")
 
 	client.GoVersion = "RANDOMXXXVERSION"
 	client.APIVersion = "yadda"
-	req, e = client.Request(op)
-	r.NoError(t, e)
+	req, err = client.Request(desc)
+	r.NoError(t, err)
 	r.Contains(t, req.Header.Get("User-Agent"), "Go/RANDOMXXXVERSION")
 	r.Equal(t, req.Header.Get("Omise-Version"), "yadda")
 }
 
 func TestClient_Error(t *testing.T) {
-	client, e := NewClient(testutil.Keys())
-	r.NoError(t, e)
+	client, err := NewClient(testutil.Keys())
+	r.NoError(t, err)
 
-	e = client.Do(nil, &internal.Op{
+	err = client.Do(nil, &internal.Description{
 		Endpoint: internal.API,
 		Method:   "GET",
 		Path:     "/definitely_never_found",
 	})
-	r.NotNil(t, e)
+	r.NotNil(t, err)
 
-	err, ok := e.(*Error)
+	apiErr, ok := err.(*Error)
 	r.True(t, ok, "error returned is not *omise.Error.")
-	r.Equal(t, err.Code, "not_found")
+	r.Equal(t, apiErr.Code, "not_found")
 
-	e = client.Do(nil, &internal.Op{
+	err = client.Do(nil, &internal.Description{
 		Endpoint: internal.Endpoint("virus_endpoint"),
 		Method:   "GET",
 		Path:     "/",
 	})
-	r.NotNil(t, e)
-	r.IsType(t, ErrInternal(""), e)
+	r.NotNil(t, err)
+	r.IsType(t, ErrInternal(""), err)
 }
 
 func TestClient_TransportError(t *testing.T) {
 	client := testutil.NewFixedClient(t)
 
-	e := client.Do(&struct{}{}, &internal.Op{
+	err := client.Do(&struct{}{}, &internal.Description{
 		Endpoint: internal.API,
 		Method:   "GET",
 		Path:     "/malformed",
 	})
-	r.NotNil(t, e)
+	r.NotNil(t, err)
 
-	err, ok := e.(*ErrTransport)
+	apiErr, ok := err.(*ErrTransport)
 	r.True(t, ok, "error returned in not *omise.ErrTransport: ")
 
-	_, ok = err.Err.(*json.SyntaxError)
+	_, ok = apiErr.Err.(*json.SyntaxError)
 	r.True(t, ok, "error does not wrap *json.SyntaxError")
-	r.Contains(t, string(err.Buffer), "not a valid JSON")
+	r.Contains(t, string(apiErr.Buffer), "not a valid JSON")
 }
 
 func ExampleClient_Do() {
@@ -138,9 +138,9 @@ func ExampleClient_Do() {
 	pkey, skey := "pkey_test_4yq6tct0llin5nyyi5l", "skey_test_4yq6tct0lblmed2yp5t"
 
 	// creates a client
-	client, e := NewClient(pkey, skey)
-	if e != nil {
-		log.Fatal(e)
+	client, err := NewClient(pkey, skey)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// creates a charge
@@ -151,11 +151,11 @@ func ExampleClient_Do() {
 	}
 
 	// checks for error
-	if e := client.Do(charge, create); e != nil {
-		if omiseErr, ok := e.(*Error); ok {
+	if err := client.Do(charge, create); err != nil {
+		if omiseErr, ok := err.(*Error); ok {
 			log.Fatal(omiseErr.Code + " " + omiseErr.Message)
 		} else {
-			log.Fatal("transport error: " + e.Error())
+			log.Fatal("transport error: " + err.Error())
 		}
 	}
 

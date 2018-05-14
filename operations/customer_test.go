@@ -47,9 +47,9 @@ func TestCustomer(t *testing.T) {
 	client.MustDo(del, &DestroyCustomer{CustomerID})
 	r.Equal(t, CustomerID, del.ID)
 
-	e := client.Do(nil, &RetrieveCustomer{"not_exist"})
-	r.Error(t, e)
-	r.EqualError(t, e, "(404/not_found) customer missing was not found")
+	err := client.Do(nil, &RetrieveCustomer{"not_exist"})
+	r.Error(t, err)
+	r.EqualError(t, err, "(404/not_found) customer missing was not found")
 }
 
 func TestCustomer_Network(t *testing.T) {

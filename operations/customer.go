@@ -24,8 +24,8 @@ type ListCustomers struct {
 	List
 }
 
-func (req *ListCustomers) Op() *internal.Op {
-	return &internal.Op{
+func (req *ListCustomers) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "GET",
 		Path:     "/customers",
@@ -51,8 +51,8 @@ type CreateCustomer struct {
 	Card        string
 }
 
-func (req *CreateCustomer) Op() *internal.Op {
-	return &internal.Op{
+func (req *CreateCustomer) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "POST",
 		Path:     "/customers",
@@ -72,8 +72,8 @@ type RetrieveCustomer struct {
 	CustomerID string `query:"-"`
 }
 
-func (req *RetrieveCustomer) Op() *internal.Op {
-	return &internal.Op{
+func (req *RetrieveCustomer) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "GET",
 		Path:     "/customers/" + req.CustomerID,
@@ -100,8 +100,8 @@ type UpdateCustomer struct {
 	DefaultCard string `json:"default_card"`
 }
 
-func (req *UpdateCustomer) Op() *internal.Op {
-	return &internal.Op{
+func (req *UpdateCustomer) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "PATCH",
 		Path:     "/customers/" + req.CustomerID,
@@ -123,8 +123,8 @@ type DestroyCustomer struct {
 	CustomerID string `query:"-"`
 }
 
-func (req *DestroyCustomer) Op() *internal.Op {
-	return &internal.Op{
+func (req *DestroyCustomer) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "DELETE",
 		Path:     "/customers/" + req.CustomerID,
@@ -158,8 +158,8 @@ func (req *ListCustomerChargeSchedules) MarshalJSON() ([]byte, error) {
 	return json.Marshal(req.List)
 }
 
-func (req *ListCustomerChargeSchedules) Op() *internal.Op {
-	return &internal.Op{
+func (req *ListCustomerChargeSchedules) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint:    internal.API,
 		Method:      "GET",
 		Path:        "/customers/" + req.CustomerID + "/schedules",

@@ -5,14 +5,14 @@ package omise
 type Charge struct {
 	Base
 	Status      ChargeStatus `json:"status"`
-	Amount      int64        `json:"amount" pretty:""`
-	Currency    string       `json:"currency" pretty:""`
+	Amount      int64        `json:"amount"`
+	Currency    string       `json:"currency"`
 	Description *string      `json:"description"`
 
-	Capture    bool `json:"capture" pretty:""`
-	Authorized bool `json:"authorized" pretty:""`
-	Reversed   bool `json:"reversed" pretty:""`
-	Paid       bool `json:"paid" pretty:""`
+	Capture    bool `json:"capture"`
+	Authorized bool `json:"authorized"`
+	Reversed   bool `json:"reversed"`
+	Paid       bool `json:"paid"`
 
 	Transaction string `json:"transaction"`
 	Card        *Card  `json:"card"`

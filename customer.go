@@ -5,7 +5,7 @@ package omise
 type Customer struct {
 	Base
 	DefaultCard string    `json:"default_card"`
-	Email       string    `json:"email" pretty:""`
-	Description string    `json:"description" pretty:""`
+	Email       string    `json:"email"`
+	Description string    `json:"description"`
 	Cards       *CardList `json:"cards"`
 }

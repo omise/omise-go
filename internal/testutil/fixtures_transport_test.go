@@ -25,25 +25,25 @@ var fixtureTests = []*fixturesHTTPTest{
 }
 
 func (test *fixturesHTTPTest) Test(t *testing.T) {
-	fixtures, e := NewFixturesTransport()
-	r.NoError(t, e)
+	fixtures, err := NewFixturesTransport()
+	r.NoError(t, err)
 
 	t.Log(test.method, test.url)
-	req, e := http.NewRequest(test.method, test.url, nil)
-	r.NoError(t, e)
+	req, err := http.NewRequest(test.method, test.url, nil)
+	r.NoError(t, err)
 
 	client := &http.Client{Transport: fixtures}
-	resp, e := client.Do(req)
-	r.NoError(t, e)
+	resp, err := client.Do(req)
+	r.NoError(t, err)
 	r.NotNil(t, resp)
 	r.Equal(t, test.statusCode, resp.StatusCode)
 
 	defer resp.Body.Close()
-	respBytes, e := ioutil.ReadAll(resp.Body)
-	r.NoError(t, e)
+	respBytes, err := ioutil.ReadAll(resp.Body)
+	r.NoError(t, err)
 
-	fixBytes, e := ioutil.ReadFile(filepath.Join(FixtureBasePath, test.filename))
-	r.NoError(t, e)
+	fixBytes, err := ioutil.ReadFile(filepath.Join(FixtureBasePath, test.filename))
+	r.NoError(t, err)
 	r.Equal(t, string(fixBytes), string(respBytes))
 }
 

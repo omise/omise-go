@@ -37,22 +37,22 @@ type JSONRoundtripTest struct {
 func (test JSONRoundtripTest) Test(t *testing.T) {
 	t.Log(reflect.ValueOf(test.value).Elem().Type().Name())
 
-	inbytes, e := ioutil.ReadFile("testdata/objects/" + test.srcFile)
-	r.NoError(t, e)
+	inbytes, err := ioutil.ReadFile("testdata/objects/" + test.srcFile)
+	r.NoError(t, err)
 
-	e = json.Unmarshal(inbytes, test.value)
-	r.NoError(t, e)
+	err = json.Unmarshal(inbytes, test.value)
+	r.NoError(t, err)
 
-	outbytes, e := json.Marshal(test.value)
-	r.NoError(t, e)
-	e = json.Unmarshal(outbytes, test.value)
-	r.NoError(t, e)
+	outbytes, err := json.Marshal(test.value)
+	r.NoError(t, err)
+	err = json.Unmarshal(outbytes, test.value)
+	r.NoError(t, err)
 
 	m1, m2 := map[string]interface{}{}, map[string]interface{}{}
-	e = json.Unmarshal(inbytes, &m1)
-	r.NoError(t, e)
-	e = json.Unmarshal(outbytes, &m2)
-	r.NoError(t, e)
+	err = json.Unmarshal(inbytes, &m1)
+	r.NoError(t, err)
+	err = json.Unmarshal(outbytes, &m2)
+	r.NoError(t, err)
 
 	testutil.AssertJSONEquals(t, m1, m2)
 }

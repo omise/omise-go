@@ -8,8 +8,8 @@ type ListLinks struct {
 	List
 }
 
-func (req *ListLinks) Op() *internal.Op {
-	return &internal.Op{
+func (req *ListLinks) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "GET",
 		Path:     "/links",
@@ -24,8 +24,8 @@ type CreateLink struct {
 	Multiple    bool
 }
 
-func (req *CreateLink) Op() *internal.Op {
-	return &internal.Op{
+func (req *CreateLink) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "POST",
 		Path:     "/links",
@@ -36,8 +36,8 @@ type RetrieveLink struct {
 	LinkID string `query:"-"`
 }
 
-func (req *RetrieveLink) Op() *internal.Op {
-	return &internal.Op{
+func (req *RetrieveLink) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "GET",
 		Path:     "/links/" + req.LinkID,

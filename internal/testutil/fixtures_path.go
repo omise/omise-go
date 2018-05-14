@@ -21,9 +21,9 @@ func FixturePath(req *http.Request) (int, string, error) {
 
 	// resolve exact fixture filename
 	filename := filepath.Join(FixtureBasePath, fixpath)
-	if _, e := os.Lstat(filename); e != nil {
-		if !os.IsNotExist(e) {
-			return 500, "", e
+	if _, err := os.Lstat(filename); err != nil {
+		if !os.IsNotExist(err) {
+			return 500, "", err
 		}
 
 		return 404, filepath.Join(

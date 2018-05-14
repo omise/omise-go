@@ -123,7 +123,7 @@ func TestMapURLValues_Structs(t *testing.T) {
 }
 
 func check(t *testing.T, values url.Values, struc interface{}) {
-	result, e := MapURLValues(struc)
-	r.NoError(t, e)
+	result, err := MapURLValues(struc)
+	r.NoError(t, err)
 	r.True(t, reflect.DeepEqual(values, result), "\nexpected: %#v\n  actual: %#v\n", values, result)
 }

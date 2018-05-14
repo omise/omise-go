@@ -22,8 +22,8 @@ type ListTransfers struct {
 	List
 }
 
-func (req *ListTransfers) Op() *internal.Op {
-	return &internal.Op{
+func (req *ListTransfers) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "GET",
 		Path:     "/transfers",
@@ -46,8 +46,8 @@ type CreateTransfer struct {
 	Recipient string
 }
 
-func (req *CreateTransfer) Op() *internal.Op {
-	return &internal.Op{
+func (req *CreateTransfer) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "POST",
 		Path:     "/transfers",
@@ -67,8 +67,8 @@ type RetrieveTransfer struct {
 	TransferID string
 }
 
-func (req *RetrieveTransfer) Op() *internal.Op {
-	return &internal.Op{
+func (req *RetrieveTransfer) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "GET",
 		Path:     "/transfers/" + req.TransferID,
@@ -92,8 +92,8 @@ type UpdateTransfer struct {
 	Amount     int64
 }
 
-func (req *UpdateTransfer) Op() *internal.Op {
-	return &internal.Op{
+func (req *UpdateTransfer) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "PATCH",
 		Path:     "/transfers/" + req.TransferID,
@@ -113,8 +113,8 @@ type DestroyTransfer struct {
 	TransferID string
 }
 
-func (req *DestroyTransfer) Op() *internal.Op {
-	return &internal.Op{
+func (req *DestroyTransfer) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "DELETE",
 		Path:     "/transfers/" + req.TransferID,

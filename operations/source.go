@@ -35,8 +35,8 @@ func (req *CreateSource) MarshalJSON() ([]byte, error) {
 	return json.Marshal(param)
 }
 
-func (req *CreateSource) Op() *internal.Op {
-	return &internal.Op{
+func (req *CreateSource) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint:    internal.API,
 		Method:      "POST",
 		Path:        "/sources",
@@ -58,8 +58,8 @@ type RetrieveSource struct {
 	SourceID string `query:"-"`
 }
 
-func (req *RetrieveSource) Op() *internal.Op {
-	return &internal.Op{
+func (req *RetrieveSource) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "GET",
 		Path:     "/sources/" + req.SourceID,

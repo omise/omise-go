@@ -19,32 +19,32 @@ func NewRecorderTransport() (*RecorderTransport, error) {
 
 func (transport *RecorderTransport) RoundTrip(req *http.Request) (*http.Response, error) {
 	// TODO: Allow recording to new non-existent file.
-	_, fixpath, e := FixturePath(req)
-	if e != nil {
-		return nil, e
+	_, fixpath, err := FixturePath(req)
+	if err != nil {
+		return nil, err
 	}
 
-	resp, e := transport.backing.RoundTrip(req)
-	if e != nil {
-		return resp, e
+	resp, err := transport.backing.RoundTrip(req)
+	if err != nil {
+		return resp, err
 	}
 
-	file, e := os.Create(filepath.Join(FixtureBasePath, fixpath))
-	if e != nil {
-		return resp, e
+	file, err := os.Create(filepath.Join(FixtureBasePath, fixpath))
+	if err != nil {
+		return resp, err
 	}
 
 	reader := resp.Body
 	defer reader.Close()
 
-	buffer, e := ioutil.ReadAll(reader)
-	if e != nil {
-		return resp, e
+	buffer, err := ioutil.ReadAll(reader)
+	if err != nil {
+		return resp, err
 	}
 
 	resp.Body = ioutil.NopCloser(bytes.NewBuffer(buffer))
-	if _, e := io.Copy(file, bytes.NewBuffer(buffer)); e != nil {
-		return resp, e
+	if _, err := io.Copy(file, bytes.NewBuffer(buffer)); err != nil {
+		return resp, err
 	}
 
 	return resp, nil

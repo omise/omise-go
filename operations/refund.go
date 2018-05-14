@@ -18,8 +18,8 @@ type ListRefunds struct {
 	List
 }
 
-func (req *ListRefunds) Op() *internal.Op {
-	return &internal.Op{
+func (req *ListRefunds) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "GET",
 		Path:     "/charges/" + req.ChargeID + "/refunds",
@@ -44,8 +44,8 @@ type CreateRefund struct {
 	Void     bool
 }
 
-func (req *CreateRefund) Op() *internal.Op {
-	return &internal.Op{
+func (req *CreateRefund) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "POST",
 		Path:     "/charges/" + req.ChargeID + "/refunds",
@@ -69,8 +69,8 @@ type RetrieveRefund struct {
 	RefundID string `query:"-"`
 }
 
-func (req *RetrieveRefund) Op() *internal.Op {
-	return &internal.Op{
+func (req *RetrieveRefund) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "GET",
 		Path:     "/charges/" + req.ChargeID + "/refunds/" + req.RefundID,

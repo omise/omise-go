@@ -120,8 +120,8 @@ func (req *CreateChargeSchedule) MarshalJSON() ([]byte, error) {
 	return json.Marshal(p)
 }
 
-func (req *CreateChargeSchedule) Op() *internal.Op {
-	return &internal.Op{
+func (req *CreateChargeSchedule) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint:    internal.API,
 		Method:      "POST",
 		Path:        "/schedules",
@@ -234,8 +234,8 @@ func (req *CreateTransferSchedule) MarshalJSON() ([]byte, error) {
 	return json.Marshal(p)
 }
 
-func (req *CreateTransferSchedule) Op() *internal.Op {
-	return &internal.Op{
+func (req *CreateTransferSchedule) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint:    internal.API,
 		Method:      "POST",
 		Path:        "/schedules",
@@ -269,8 +269,8 @@ func (req *ListSchedules) MarshalJSON() ([]byte, error) {
 	return json.Marshal(req.List)
 }
 
-func (req *ListSchedules) Op() *internal.Op {
-	return &internal.Op{
+func (req *ListSchedules) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint:    internal.API,
 		Method:      "GET",
 		Path:        "/schedules",
@@ -305,8 +305,8 @@ func (req *ListScheduleOccurrences) MarshalJSON() ([]byte, error) {
 	return json.Marshal(req.List)
 }
 
-func (req *ListScheduleOccurrences) Op() *internal.Op {
-	return &internal.Op{
+func (req *ListScheduleOccurrences) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint:    internal.API,
 		Method:      "GET",
 		Path:        "/schedules/" + req.ScheduleID + "/occurrences",
@@ -339,8 +339,8 @@ func (req *ListChargeSchedules) MarshalJSON() ([]byte, error) {
 	return json.Marshal(req.List)
 }
 
-func (req *ListChargeSchedules) Op() *internal.Op {
-	return &internal.Op{
+func (req *ListChargeSchedules) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint:    internal.API,
 		Method:      "GET",
 		Path:        "/charges/schedules",
@@ -373,8 +373,8 @@ func (req *ListTransferSchedules) MarshalJSON() ([]byte, error) {
 	return json.Marshal(req.List)
 }
 
-func (req *ListTransferSchedules) Op() *internal.Op {
-	return &internal.Op{
+func (req *ListTransferSchedules) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint:    internal.API,
 		Method:      "GET",
 		Path:        "/transfers/schedules",
@@ -397,8 +397,8 @@ type RetrieveSchedule struct {
 	ScheduleID string `query:"-"`
 }
 
-func (req *RetrieveSchedule) Op() *internal.Op {
-	return &internal.Op{
+func (req *RetrieveSchedule) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "GET",
 		Path:     "/schedules/" + req.ScheduleID,
@@ -419,8 +419,8 @@ type DestroySchedule struct {
 	ScheduleID string `query:"-"`
 }
 
-func (req *DestroySchedule) Op() *internal.Op {
-	return &internal.Op{
+func (req *DestroySchedule) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "DELETE",
 		Path:     "/schedules/" + req.ScheduleID,

@@ -58,12 +58,12 @@ func main() {
 		Funcs(map[string]interface{}{"toLower": strings.ToLower}).
 		ParseFiles(templateFile))
 
-	outfile, e := os.Create(outputFile)
-	if e != nil {
-		log.Fatalln(e)
+	outfile, err := os.Create(outputFile)
+	if err != nil {
+		log.Fatalln(err)
 	}
 
-	if e := tmpl.ExecuteTemplate(outfile, templateFile, Context); e != nil {
-		log.Fatalln(e)
+	if err := tmpl.ExecuteTemplate(outfile, templateFile, Context); err != nil {
+		log.Fatalln(err)
 	}
 }

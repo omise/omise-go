@@ -4,8 +4,8 @@ package omise
 // See https://www.omise.co/source-api for more information.
 type Source struct {
 	Object   string  `json:"object"`
-	ID       string  `json:"id" pretty:""`
-	Live     bool    `json:"livemode" pretty:""`
+	ID       string  `json:"id"`
+	Live     bool    `json:"livemode"`
 	Location *string `json:"location"`
 	Type     string  `json:"type"`
 	Flow     string  `json:"flow"`

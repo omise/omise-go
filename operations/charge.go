@@ -25,8 +25,8 @@ type ListCharges struct {
 	List
 }
 
-func (req *ListCharges) Op() *internal.Op {
-	return &internal.Op{
+func (req *ListCharges) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "GET",
 		Path:     "/charges",
@@ -95,8 +95,8 @@ func (req *CreateCharge) MarshalJSON() ([]byte, error) {
 	return json.Marshal(param)
 }
 
-func (req *CreateCharge) Op() *internal.Op {
-	return &internal.Op{
+func (req *CreateCharge) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint:    internal.API,
 		Method:      "POST",
 		Path:        "/charges",
@@ -121,8 +121,8 @@ type UpdateCharge struct {
 	Description string
 }
 
-func (req *UpdateCharge) Op() *internal.Op {
-	return &internal.Op{
+func (req *UpdateCharge) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "PATCH",
 		Path:     "/charges/" + req.ChargeID,
@@ -142,8 +142,8 @@ type RetrieveCharge struct {
 	ChargeID string `query:"-"`
 }
 
-func (req *RetrieveCharge) Op() *internal.Op {
-	return &internal.Op{
+func (req *RetrieveCharge) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "GET",
 		Path:     "/charges/" + req.ChargeID,
@@ -167,8 +167,8 @@ type CaptureCharge struct {
 	ChargeID string
 }
 
-func (req *CaptureCharge) Op() *internal.Op {
-	return &internal.Op{
+func (req *CaptureCharge) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "POST",
 		Path:     "/charges/" + req.ChargeID + "/capture",
@@ -182,8 +182,8 @@ type ReverseCharge struct {
 	ChargeID string
 }
 
-func (req *ReverseCharge) Op() *internal.Op {
-	return &internal.Op{
+func (req *ReverseCharge) Describe() *internal.Description {
+	return &internal.Description{
 		Endpoint: internal.API,
 		Method:   "POST",
 		Path:     "/charges/" + req.ChargeID + "/reverse",

@@ -11,9 +11,9 @@ import (
 var transport *http.Transport
 
 func init() {
-	certbytes, e := creds.Asset("ca_certificates.pem")
-	if e != nil {
-		panic(e)
+	certbytes, err := creds.Asset("ca_certificates.pem")
+	if err != nil {
+		panic(err)
 	}
 
 	pool := x509.NewCertPool()

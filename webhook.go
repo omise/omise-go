@@ -24,8 +24,8 @@ type webhookHTTPHandler struct {
 
 func (h *webhookHTTPHandler) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 	event := &Event{}
-	if e := json.NewDecoder(req.Body).Decode(event); e != nil {
-		http.Error(resp, e.Error(), http.StatusBadRequest)
+	if err := json.NewDecoder(req.Body).Decode(event); err != nil {
+		http.Error(resp, err.Error(), http.StatusBadRequest)
 		return
 	}
 
