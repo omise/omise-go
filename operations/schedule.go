@@ -2,7 +2,6 @@ package operations
 
 import (
 	"encoding/json"
-	"net/url"
 	"time"
 
 	omise "github.com/omise/omise-go"
@@ -125,7 +124,6 @@ func (req *CreateChargeSchedule) Describe() *internal.Description {
 		Endpoint:    internal.API,
 		Method:      "POST",
 		Path:        "/schedules",
-		Values:      url.Values{},
 		ContentType: "application/json",
 	}
 }
@@ -239,7 +237,6 @@ func (req *CreateTransferSchedule) Describe() *internal.Description {
 		Endpoint:    internal.API,
 		Method:      "POST",
 		Path:        "/schedules",
-		Values:      url.Values{},
 		ContentType: "application/json",
 	}
 }

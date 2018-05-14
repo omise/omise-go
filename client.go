@@ -85,19 +85,9 @@ func (c *Client) Request(operation internal.Operation) (*http.Request, error) {
 }
 
 func (c *Client) buildQuery(operation internal.Operation) (url.Values, error) {
-	desc := operation.Describe()
-
 	query, err := internal.MapURLValues(operation)
 	if err != nil {
 		return nil, err
-	}
-
-	if len(desc.Values) > 0 {
-		for k, values := range desc.Values {
-			if len(values) > 0 {
-				query.Set(k, values[0])
-			}
-		}
 	}
 
 	return query, nil
