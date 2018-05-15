@@ -14,15 +14,16 @@ import (
 //	fmt.Println("refunded on chrg_333:", refunds.Data[0].Amount)
 //
 type ListRefunds struct {
-	ChargeID string `query:"-"`
+	ChargeID string
 	List
 }
 
 func (req *ListRefunds) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.API,
-		Method:   "GET",
-		Path:     "/charges/" + req.ChargeID + "/refunds",
+		Endpoint:    internal.API,
+		Method:      "GET",
+		Path:        "/charges/" + req.ChargeID + "/refunds",
+		ContentType: "application/json",
 	}
 }
 
@@ -39,16 +40,17 @@ func (req *ListRefunds) Describe() *internal.Description {
 //	fmt.Println("refunded half of charge with:", refund.ID)
 //
 type CreateRefund struct {
-	ChargeID string `query:"-"`
-	Amount   int64
-	Void     bool
+	ChargeID string `json:"-"`
+	Amount   int64  `json:"amount"`
+	Void     bool   `json:"void,omitempty"`
 }
 
 func (req *CreateRefund) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.API,
-		Method:   "POST",
-		Path:     "/charges/" + req.ChargeID + "/refunds",
+		Endpoint:    internal.API,
+		Method:      "POST",
+		Path:        "/charges/" + req.ChargeID + "/refunds",
+		ContentType: "application/json",
 	}
 }
 
@@ -65,14 +67,15 @@ func (req *CreateRefund) Describe() *internal.Description {
 //	fmt.Printf("refund #777: %#v\n", refund)
 //
 type RetrieveRefund struct {
-	ChargeID string `query:"-"`
-	RefundID string `query:"-"`
+	ChargeID string `json:"-"`
+	RefundID string `json:"-"`
 }
 
 func (req *RetrieveRefund) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.API,
-		Method:   "GET",
-		Path:     "/charges/" + req.ChargeID + "/refunds/" + req.RefundID,
+		Endpoint:    internal.API,
+		Method:      "GET",
+		Path:        "/charges/" + req.ChargeID + "/refunds/" + req.RefundID,
+		ContentType: "application/json",
 	}
 }

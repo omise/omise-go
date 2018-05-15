@@ -15,33 +15,29 @@ import (
 // See the Pagination and Lists documentation at https://www.omise.co/api-pagination for
 // more information.
 type List struct {
-	Offset int
-	Limit  int
-	From   time.Time
-	To     time.Time
-	Order  omise.Ordering
+	Offset int            `json:"offset,omitempty"`
+	Limit  int            `json:"limit,omitempty"`
+	From   time.Time      `json:"-"`
+	To     time.Time      `json:"-"`
+	Order  omise.Ordering `json:"order,omitempty"`
+
+	NullableFrom *time.Time `json:"from,omitempty"`
+	NullableTo   *time.Time `json:"to,omitempty"`
 }
+
+type optionalFieldList List
 
 // MarshalJSON List type
 func (l List) MarshalJSON() ([]byte, error) {
-	ol := struct {
-		Offset int            `json:"offset,omitempty"`
-		Limit  int            `json:"limit,omitempty"`
-		From   *time.Time     `json:"from,omitempty"`
-		To     *time.Time     `json:"to,omitempty"`
-		Order  omise.Ordering `json:"order,omitempty"`
-	}{
-		Offset: l.Offset,
-		Limit:  l.Limit,
-		Order:  l.Order,
-	}
+	l.SetOptionalField()
+	return json.Marshal(optionalFieldList(l))
+}
 
+func (l *List) SetOptionalField() {
 	if !l.From.IsZero() {
-		ol.From = &l.From
+		l.NullableFrom = &l.From
 	}
 	if !l.To.IsZero() {
-		ol.To = &l.To
+		l.NullableTo = &l.To
 	}
-
-	return json.Marshal(ol)
 }

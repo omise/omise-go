@@ -1,8 +1,6 @@
 package operations
 
 import (
-	"encoding/json"
-
 	"github.com/omise/omise-go/internal"
 )
 
@@ -20,19 +18,9 @@ import (
 //	fmt.Println("created source:", source.ID)
 //
 type CreateSource struct {
-	Type     string
-	Amount   int64
-	Currency string
-}
-
-func (req *CreateSource) MarshalJSON() ([]byte, error) {
-	param := struct {
-		Type     string `json:"type"`
-		Amount   int64  `json:"amount"`
-		Currency string `json:"currency"`
-	}(*req)
-
-	return json.Marshal(param)
+	Type     string `json:"type"`
+	Amount   int64  `json:"amount"`
+	Currency string `json:"currency"`
 }
 
 func (req *CreateSource) Describe() *internal.Description {
@@ -55,13 +43,14 @@ func (req *CreateSource) Describe() *internal.Description {
 //	fmt.Printf("source #123: %#v\n", source)
 //
 type RetrieveSource struct {
-	SourceID string `query:"-"`
+	SourceID string `json:"-"`
 }
 
 func (req *RetrieveSource) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.API,
-		Method:   "GET",
-		Path:     "/sources/" + req.SourceID,
+		Endpoint:    internal.API,
+		Method:      "GET",
+		Path:        "/sources/" + req.SourceID,
+		ContentType: "application/json",
 	}
 }

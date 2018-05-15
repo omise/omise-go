@@ -18,22 +18,23 @@ import (
 //	fmt.Println("# of customer's cards:", len(cards.Data))
 //
 type ListCards struct {
-	CustomerID string `query:"-"`
+	CustomerID string
 	List
 }
 
 func (req *ListCards) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.API,
-		Method:   "GET",
-		Path:     "/customers/" + req.CustomerID + "/cards",
+		Endpoint:    internal.API,
+		Method:      "GET",
+		Path:        "/customers/" + req.CustomerID + "/cards",
+		ContentType: "application/json",
 	}
 }
 
 // TODO: Cards can be created only by updating an existing customer and the result will be
 //   a Customer instance instead of a Card. So the API's a bit confusing here.
 // type CreateCard struct {
-// 	CustomerID string `query:"-"`
+// 	CustomerID string `json:"-"`
 // 	Card       string
 // }
 //
@@ -54,15 +55,16 @@ func (req *ListCards) Describe() *internal.Description {
 //	fmt.Printf("the card: %#v\n", card)
 //
 type RetrieveCard struct {
-	CustomerID string `query:"-"`
-	CardID     string `query:"-"`
+	CustomerID string `json:"-"`
+	CardID     string `json:"-"`
 }
 
 func (req *RetrieveCard) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.API,
-		Method:   "GET",
-		Path:     "/customers/" + req.CustomerID + "/cards/" + req.CardID,
+		Endpoint:    internal.API,
+		Method:      "GET",
+		Path:        "/customers/" + req.CustomerID + "/cards/" + req.CardID,
+		ContentType: "application/json",
 	}
 }
 
@@ -80,22 +82,23 @@ func (req *RetrieveCard) Describe() *internal.Description {
 //	fmt.Printf("updated card: %#v\n", card)
 //
 type UpdateCard struct {
-	CustomerID string `query:"-"`
-	CardID     string `query:"-"`
+	CustomerID string `json:"-"`
+	CardID     string `json:"-"`
 
-	Name       string
-	City       string
-	PostalCode string `query:"postal_code"`
+	Name       string `json:"name,omitempty"`
+	City       string `json:"city,omitempty"`
+	PostalCode string `json:"postal_code,omitempty"`
 
-	ExpirationMonth time.Month `query:"expiration_month"`
-	ExpirationYear  int        `query:"expiration_year"`
+	ExpirationMonth time.Month `json:"expiration_month,omitempty"`
+	ExpirationYear  int        `json:"expiration_year,omitempty"`
 }
 
 func (req *UpdateCard) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.API,
-		Method:   "PATCH",
-		Path:     "/customers/" + req.CustomerID + "/cards/" + req.CardID,
+		Endpoint:    internal.API,
+		Method:      "PATCH",
+		Path:        "/customers/" + req.CustomerID + "/cards/" + req.CardID,
+		ContentType: "application/json",
 	}
 }
 
@@ -112,14 +115,15 @@ func (req *UpdateCard) Describe() *internal.Description {
 //	fmt.Println("deleted:", del.ID, del.Deleted)
 //
 type DestroyCard struct {
-	CustomerID string `query:"-"`
-	CardID     string `query:"-"`
+	CustomerID string `json:"-"`
+	CardID     string `json:"-"`
 }
 
 func (req *DestroyCard) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.API,
-		Method:   "DELETE",
-		Path:     "/customers/" + req.CustomerID + "/cards/" + req.CardID,
+		Endpoint:    internal.API,
+		Method:      "DELETE",
+		Path:        "/customers/" + req.CustomerID + "/cards/" + req.CardID,
+		ContentType: "application/json",
 	}
 }

@@ -46,16 +46,17 @@ func (req *ListCustomers) Describe() *internal.Description {
 //	fmt.Printf("created customer: %#v\n", customer)
 //
 type CreateCustomer struct {
-	Email       string
-	Description string
-	Card        string
+	Email       string `json:"email,omitempty"`
+	Description string `json:"description,omitempty"`
+	Card        string `json:"card,omitempty"`
 }
 
 func (req *CreateCustomer) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.API,
-		Method:   "POST",
-		Path:     "/customers",
+		Endpoint:    internal.API,
+		Method:      "POST",
+		Path:        "/customers",
+		ContentType: "application/json",
 	}
 }
 
@@ -69,14 +70,15 @@ func (req *CreateCustomer) Describe() *internal.Description {
 //	fmt.Printf("cust_123: %#v\n", cust)
 //
 type RetrieveCustomer struct {
-	CustomerID string `query:"-"`
+	CustomerID string `json:"-"`
 }
 
 func (req *RetrieveCustomer) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.API,
-		Method:   "GET",
-		Path:     "/customers/" + req.CustomerID,
+		Endpoint:    internal.API,
+		Method:      "GET",
+		Path:        "/customers/" + req.CustomerID,
+		ContentType: "application/json",
 	}
 }
 
@@ -93,18 +95,19 @@ func (req *RetrieveCustomer) Describe() *internal.Description {
 //	fmt.Printf("updated customer: %#v\n", cust)
 //
 type UpdateCustomer struct {
-	CustomerID  string `query:"-"`
-	Email       string
-	Description string
-	Card        string
-	DefaultCard string `json:"default_card"`
+	CustomerID  string `json:"-"`
+	Email       string `json:"email,omitempty"`
+	Description string `json:"description,omitempty"`
+	Card        string `json:"card,omitempty"`
+	DefaultCard string `json:"default_card,omitempty"`
 }
 
 func (req *UpdateCustomer) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.API,
-		Method:   "PATCH",
-		Path:     "/customers/" + req.CustomerID,
+		Endpoint:    internal.API,
+		Method:      "PATCH",
+		Path:        "/customers/" + req.CustomerID,
+		ContentType: "application/json",
 	}
 }
 
@@ -120,14 +123,15 @@ func (req *UpdateCustomer) Describe() *internal.Description {
 //	fmt.Println("destroyed customer:", del.ID)
 //
 type DestroyCustomer struct {
-	CustomerID string `query:"-"`
+	CustomerID string `json:"-"`
 }
 
 func (req *DestroyCustomer) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.API,
-		Method:   "DELETE",
-		Path:     "/customers/" + req.CustomerID,
+		Endpoint:    internal.API,
+		Method:      "DELETE",
+		Path:        "/customers/" + req.CustomerID,
+		ContentType: "application/json",
 	}
 }
 

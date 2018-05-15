@@ -24,9 +24,10 @@ type ListTransactions struct {
 
 func (req *ListTransactions) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.API,
-		Method:   "GET",
-		Path:     "/transactions",
+		Endpoint:    internal.API,
+		Method:      "GET",
+		Path:        "/transactions",
+		ContentType: "application/json",
 	}
 }
 
@@ -42,13 +43,14 @@ func (req *ListTransactions) Describe() *internal.Description {
 //	fmt.Printf("transaction #trxn_987: %#v\n", transaction)
 //
 type RetrieveTransaction struct {
-	TransactionID string `query:"-"`
+	TransactionID string `json:"-"`
 }
 
 func (req *RetrieveTransaction) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.API,
-		Method:   "GET",
-		Path:     "/transactions/" + req.TransactionID,
+		Endpoint:    internal.API,
+		Method:      "GET",
+		Path:        "/transactions/" + req.TransactionID,
+		ContentType: "application/json",
 	}
 }

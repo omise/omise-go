@@ -17,8 +17,9 @@ type RetrieveBalance struct{}
 
 func (req *RetrieveBalance) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.API,
-		Method:   "GET",
-		Path:     "/balance",
+		Endpoint:    internal.API,
+		Method:      "GET",
+		Path:        "/balance",
+		ContentType: "application/json",
 	}
 }
