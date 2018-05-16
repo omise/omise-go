@@ -95,7 +95,7 @@ func TestCreateRefundMarshal_WithMetadata(t *testing.T) {
 		},
 	}
 
-	expected := `{"amount":10000,"metadata":{"color":"red"},"void":false}`
+	expected := `{"amount":10000,"metadata":{"color":"red"}}`
 
 	b, err := json.Marshal(req)
 	r.Nil(t, err, "err should be nothing")
@@ -108,7 +108,7 @@ func TestCreateRefundMarshal_WithoutMetadata(t *testing.T) {
 		Amount:   10000,
 	}
 
-	expected := `{"amount":10000,"void":false}`
+	expected := `{"amount":10000}`
 
 	b, err := json.Marshal(req)
 	r.Nil(t, err, "err should be nothing")

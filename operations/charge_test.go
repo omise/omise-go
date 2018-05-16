@@ -183,7 +183,7 @@ func TestCreateChargeMarshal_WithMetadata(t *testing.T) {
 		},
 	}
 
-	expected := `{"amount":100000,"currency":"thb","customer":"customer_id","metadata":{"color":"red"}}`
+	expected := `{"customer":"customer_id","amount":100000,"currency":"thb","metadata":{"color":"red"}}`
 
 	b, err := json.Marshal(req)
 	r.Nil(t, err, "error should be nothing")
@@ -197,7 +197,7 @@ func TestCreateChargeMarshal_WithoutMetadata(t *testing.T) {
 		Currency: "thb",
 	}
 
-	expected := `{"amount":100000,"currency":"thb","customer":"customer_id"}`
+	expected := `{"customer":"customer_id","amount":100000,"currency":"thb"}`
 
 	b, err := json.Marshal(req)
 	r.Nil(t, err, "err should be nothing")
