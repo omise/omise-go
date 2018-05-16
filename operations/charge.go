@@ -60,21 +60,20 @@ type CreateCharge struct {
 	Description string             `json:"description,omitempty"`
 	DontCapture bool               `json:"-"` // inverse, since `capture` defaults to true
 	ReturnURI   string             `json:"return_uri,omitempty"`
-
-	Capture *bool `json:"capture,omitempty"`
 }
-
-type optionalFieldCreateCharge CreateCharge
 
 func (req *CreateCharge) MarshalJSON() ([]byte, error) {
-	req.SetOptionalField()
-	return json.Marshal((*optionalFieldCreateCharge)(req))
-}
-
-func (req *CreateCharge) SetOptionalField() {
-	if req.DontCapture {
-		req.Capture = new(bool)
+	type Alias CreateCharge
+	params := struct {
+		*Alias
+		Capture *bool `json:"capture,omitempty"`
+	}{
+		Alias: (*Alias)(req),
 	}
+	if params.DontCapture {
+		params.Capture = new(bool)
+	}
+	return json.Marshal(params)
 }
 
 func (req *CreateCharge) Describe() *internal.Description {
