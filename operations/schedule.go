@@ -262,10 +262,6 @@ type ListSchedules struct {
 	List
 }
 
-func (req *ListSchedules) MarshalJSON() ([]byte, error) {
-	return json.Marshal(req.List)
-}
-
 func (req *ListSchedules) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
@@ -294,12 +290,8 @@ func (req *ListSchedules) Describe() *internal.Description {
 //	fmt.Println("occurrences made in the last hour:", len(occurrences.Data))
 //
 type ListScheduleOccurrences struct {
-	ScheduleID string `json:"-"`
+	ScheduleID string
 	List
-}
-
-func (req *ListScheduleOccurrences) MarshalJSON() ([]byte, error) {
-	return json.Marshal(req.List)
 }
 
 func (req *ListScheduleOccurrences) Describe() *internal.Description {
