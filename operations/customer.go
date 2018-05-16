@@ -1,8 +1,6 @@
 package operations
 
 import (
-	"encoding/json"
-
 	"github.com/omise/omise-go/internal"
 )
 
@@ -156,10 +154,6 @@ func (req *DestroyCustomer) Describe() *internal.Description {
 type ListCustomerChargeSchedules struct {
 	CustomerID string
 	List
-}
-
-func (req *ListCustomerChargeSchedules) MarshalJSON() ([]byte, error) {
-	return json.Marshal(req.List)
 }
 
 func (req *ListCustomerChargeSchedules) Describe() *internal.Description {
