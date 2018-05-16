@@ -8,4 +8,5 @@ type Refund struct {
 	Currency    string `json:"currency"`
 	Charge      string `json:"charge"`
 	Transaction string `json:"transaction"`
+	Metadata    string `json:"metadata"`
 }

@@ -1,6 +1,7 @@
 package operations_test
 
 import (
+	"encoding/json"
 	"testing"
 	"time"
 
@@ -26,7 +27,11 @@ func TestRefund(t *testing.T) {
 	r.Equal(t, TransactionID, refund.Transaction)
 
 	refund = &omise.Refund{}
-	client.MustDo(refund, &CreateRefund{ChargeID, 10000, false})
+	client.MustDo(refund, &CreateRefund{
+		ChargeID: ChargeID,
+		Amount:   10000,
+		Void:     false,
+	})
 	r.Equal(t, RefundID, refund.ID)
 	r.Equal(t, int64(10000), refund.Amount)
 
@@ -78,4 +83,34 @@ func TestRefund_Network(t *testing.T) {
 
 	r.Equal(t, refunds.Data[0].ID, refund.ID)
 	r.Equal(t, refunds.Data[0].Amount, refund.Amount)
+}
+
+func TestCreateRefundMarshal_WithMetadata(t *testing.T) {
+	req := &CreateRefund{
+		ChargeID: "chrg_test_4yq7duw15p9hdrjp8oq",
+		Amount:   10000,
+		Void:     false,
+		Metadata: map[string]interface{}{
+			"color": "red",
+		},
+	}
+
+	expected := `{"amount":10000,"metadata":{"color":"red"}}`
+
+	b, err := json.Marshal(req)
+	r.Nil(t, err, "err should be nothing")
+	r.Equal(t, expected, string(b))
+}
+
+func TestCreateRefundMarshal_WithoutMetadata(t *testing.T) {
+	req := &CreateRefund{
+		ChargeID: "chrg_test_4yq7duw15p9hdrjp8oq",
+		Amount:   10000,
+	}
+
+	expected := `{"amount":10000}`
+
+	b, err := json.Marshal(req)
+	r.Nil(t, err, "err should be nothing")
+	r.Equal(t, expected, string(b))
 }

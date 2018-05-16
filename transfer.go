@@ -16,4 +16,6 @@ type Transfer struct {
 	FailureCode    *string `json:"failure_code"`
 	FailureMessage *string `json:"failure_message"`
 	Transaction    *string `json:"transaction"`
+
+	Metadata map[string]interface{} `json:"metadata"`
 }

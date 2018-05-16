@@ -172,3 +172,50 @@ func TestCharge_Network_Invalid(t *testing.T) {
 	})
 	r.EqualError(t, err, "(404/not_found) token tok_asdf was not found")
 }
+
+func TestCreateChargeMarshal_WithMetadata(t *testing.T) {
+	req := &CreateCharge{
+		Customer: "customer_id",
+		Amount:   100000,
+		Currency: "thb",
+		Metadata: map[string]interface{}{
+			"color": "red",
+		},
+	}
+
+	expected := `{"customer":"customer_id","amount":100000,"currency":"thb","metadata":{"color":"red"}}`
+
+	b, err := json.Marshal(req)
+	r.Nil(t, err, "error should be nothing")
+	r.Equal(t, expected, string(b))
+}
+
+func TestCreateChargeMarshal_WithoutMetadata(t *testing.T) {
+	req := &CreateCharge{
+		Customer: "customer_id",
+		Amount:   100000,
+		Currency: "thb",
+	}
+
+	expected := `{"customer":"customer_id","amount":100000,"currency":"thb"}`
+
+	b, err := json.Marshal(req)
+	r.Nil(t, err, "err should be nothing")
+	r.Equal(t, expected, string(b))
+}
+
+func TestUpdateChargeMarshal_WithMetadata(t *testing.T) {
+	req := &UpdateCharge{
+		ChargeID:    "chrg_test_4yq7duw15p9hdrjp8oq",
+		Description: "Charge for order 3947 (XXL)",
+		Metadata: map[string]interface{}{
+			"color": "red",
+		},
+	}
+
+	expected := `{"description":"Charge for order 3947 (XXL)","metadata":{"color":"red"}}`
+
+	b, err := json.Marshal(req)
+	r.Nil(t, err, "err should be nothing")
+	r.Equal(t, expected, string(b))
+}

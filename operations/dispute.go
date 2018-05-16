@@ -75,8 +75,9 @@ func (req *RetrieveDispute) Describe() *internal.Description {
 //	fmt.Printf("updated dispute: %#v\n", dispute)
 //
 type UpdateDispute struct {
-	DisputeID string `json:"-"`
-	Message   string
+	DisputeID string                 `json:"-"`
+	Message   string                 `json:"message"`
+	Metadata  map[string]interface{} `json:"metadata,omitempty"`
 }
 
 func (req *UpdateDispute) Describe() *internal.Description {

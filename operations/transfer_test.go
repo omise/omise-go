@@ -1,6 +1,7 @@
 package operations_test
 
 import (
+	"encoding/json"
 	"testing"
 	"time"
 
@@ -91,4 +92,60 @@ func TestTransfer_Network(t *testing.T) {
 	r.Equal(t, transfer.ID, del.ID)
 	r.Equal(t, transfer.Live, del.Live)
 	r.True(t, del.Deleted)
+}
+
+func TestCreateTransferMarshal_WithMetadata(t *testing.T) {
+	req := &CreateTransfer{
+		Amount: 192188,
+		Metadata: map[string]interface{}{
+			"color": "red",
+		},
+	}
+
+	expected := `{"amount":192188,"metadata":{"color":"red"}}`
+
+	b, err := json.Marshal(req)
+	r.Nil(t, err, "err should be nothing")
+	r.Equal(t, expected, string(b))
+}
+
+func TestCreateTransferMarshal_WithoutMetadata(t *testing.T) {
+	req := &CreateTransfer{
+		Amount: 192188,
+	}
+
+	expected := `{"amount":192188}`
+
+	b, err := json.Marshal(req)
+	r.Nil(t, err, "err should be nothing")
+	r.Equal(t, expected, string(b))
+}
+
+func TestUpdateTransferMarshal_WithMetadata(t *testing.T) {
+	req := &UpdateTransfer{
+		TransferID: "trsf_test_4yqacz8t3cbipcj766u",
+		Amount:     192188,
+		Metadata: map[string]interface{}{
+			"color": "red",
+		},
+	}
+
+	expected := `{"amount":192188,"metadata":{"color":"red"}}`
+
+	b, err := json.Marshal(req)
+	r.Nil(t, err, "err should be nothing")
+	r.Equal(t, expected, string(b))
+}
+
+func TestUpdateTransferMarshal_WithoutMetadata(t *testing.T) {
+	req := &UpdateTransfer{
+		TransferID: "trsf_test_4yqacz8t3cbipcj766u",
+		Amount:     192188,
+	}
+
+	expected := `{"amount":192188}`
+
+	b, err := json.Marshal(req)
+	r.Nil(t, err, "err should be nothing")
+	r.Equal(t, expected, string(b))
 }
