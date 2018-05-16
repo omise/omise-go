@@ -1,6 +1,7 @@
 package operations_test
 
 import (
+	"encoding/json"
 	"testing"
 	"time"
 
@@ -9,6 +10,34 @@ import (
 	. "github.com/omise/omise-go/operations"
 	r "github.com/stretchr/testify/require"
 )
+
+func TestCreateChargeMarshal(t *testing.T) {
+	testdata := []struct {
+		req      *CreateCharge
+		expected string
+	}{
+		{
+			&CreateCharge{
+				Amount:   10000,
+				Currency: "thb",
+			},
+			`{"amount":10000,"currency":"thb"}`,
+		},
+		{
+			&CreateCharge{
+				Amount:      10000,
+				Currency:    "thb",
+				DontCapture: true,
+			},
+			`{"amount":10000,"currency":"thb","capture":false}`,
+		},
+	}
+	for _, td := range testdata {
+		b, err := json.Marshal(td.req)
+		r.Nil(t, err, "err should be nothing")
+		r.Equal(t, td.expected, string(b))
+	}
+}
 
 func TestCharge(t *testing.T) {
 	const (

@@ -38,13 +38,14 @@ func (req *ListReceipts) Describe() *internal.Description {
 //	fmt.Printf("receipt #123: %#v\n", rcpt)
 //
 type RetrieveReceipt struct {
-	ReceiptID string `query:"-"`
+	ReceiptID string `json:"-"`
 }
 
 func (req *RetrieveReceipt) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.API,
-		Method:   "GET",
-		Path:     "/receipts/" + req.ReceiptID,
+		Endpoint:    internal.API,
+		Method:      "GET",
+		Path:        "/receipts/" + req.ReceiptID,
+		ContentType: "application/json",
 	}
 }

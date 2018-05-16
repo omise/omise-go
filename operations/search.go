@@ -16,16 +16,19 @@ import (
 //	}
 //
 type Search struct {
-	Scope   omise.SearchScope
-	Query   string
-	Filters map[string]string
-	Order   omise.Ordering
+	Scope   omise.SearchScope `json:"scope"`
+	Query   string            `json:"query,omitempty"`
+	Filters map[string]string `json:"filters,omitempty"`
+	Order   omise.Ordering    `json:"order,omitempty"`
+	Page    int               `json:"page,omitempty"`
+	PerPage int               `json:"per_page,omitempty"`
 }
 
 func (req *Search) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.API,
-		Method:   "GET",
-		Path:     "/search",
+		Endpoint:    internal.API,
+		Method:      "GET",
+		Path:        "/search",
+		ContentType: "application/json",
 	}
 }

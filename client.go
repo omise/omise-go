@@ -5,10 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"go/build"
-	"io"
 	"io/ioutil"
 	"net/http"
-	"net/url"
 	"strings"
 
 	"github.com/omise/omise-go/internal"
@@ -66,12 +64,7 @@ func NewClient(pkey, skey string) (*Client, error) {
 func (c *Client) Request(operation internal.Operation) (*http.Request, error) {
 	var req *http.Request
 	var err error
-	if _, ok := operation.(json.Marshaler); ok {
-		req, err = c.buildJSONRequest(operation)
-	} else {
-		req, err = c.buildFormRequest(operation)
-	}
-
+	req, err = c.buildJSONRequest(operation)
 	if err != nil {
 		return nil, err
 	}
@@ -82,25 +75,6 @@ func (c *Client) Request(operation internal.Operation) (*http.Request, error) {
 	}
 
 	return req, nil
-}
-
-func (c *Client) buildQuery(operation internal.Operation) (url.Values, error) {
-	desc := operation.Describe()
-
-	query, err := internal.MapURLValues(operation)
-	if err != nil {
-		return nil, err
-	}
-
-	if len(desc.Values) > 0 {
-		for k, values := range desc.Values {
-			if len(values) > 0 {
-				query.Set(k, values[0])
-			}
-		}
-	}
-
-	return query, nil
 }
 
 func (c *Client) buildJSONRequest(operation internal.Operation) (*http.Request, error) {
@@ -121,46 +95,13 @@ func (c *Client) buildJSONRequest(operation internal.Operation) (*http.Request, 
 	return http.NewRequest(desc.Method, endpoint+desc.Path, body)
 }
 
-func (c *Client) buildFormRequest(operation internal.Operation) (*http.Request, error) {
-	desc := operation.Describe()
-
-	query, err := c.buildQuery(operation)
-	if err != nil {
-		return nil, err
-	}
-
-	var body io.Reader
-	if desc.Method != "GET" && desc.Method != "HEAD" {
-		body = strings.NewReader(query.Encode())
-	}
-
-	endpoint := string(desc.Endpoint)
-	if ep, ok := c.Endpoints[desc.Endpoint]; ok {
-		endpoint = ep
-	}
-
-	req, err := http.NewRequest(desc.Method, endpoint+desc.Path, body)
-	if err != nil {
-		return nil, err
-	}
-
-	if desc.Method == "GET" || desc.Method == "HEAD" {
-		req.URL.RawQuery = query.Encode()
-	}
-
-	return req, nil
-}
-
 func (c *Client) setRequestHeaders(req *http.Request, desc *internal.Description) error {
 	ua := "OmiseGo/2015-11-06"
 	if c.GoVersion != "" {
 		ua += " Go/" + c.GoVersion
 	}
 
-	// Fallback between migrate to application/json
-	if desc.ContentType == "" {
-		req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
-	} else {
+	if desc.ContentType != "" {
 		req.Header.Add("Content-Type", desc.ContentType)
 	}
 

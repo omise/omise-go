@@ -24,9 +24,10 @@ type ListRecipients struct {
 
 func (req *ListRecipients) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.API,
-		Method:   "GET",
-		Path:     "/recipients",
+		Endpoint:    internal.API,
+		Method:      "GET",
+		Path:        "/recipients",
+		ContentType: "application/json",
 	}
 }
 
@@ -74,54 +75,44 @@ func (req *ListRecipients) Describe() *internal.Description {
 //	fmt.Println("created recipient:", jun.ID)
 //
 type CreateRecipient struct {
-	Name        string
-	Email       string
-	Description string
-	Type        omise.RecipientType
-	TaxID       string             `query:"tax_id"`
-	BankAccount *omise.BankAccount `query:"bank_account"`
+	Name        string              `json:"name"`
+	Email       string              `json:"email,omitempty"`
+	Description string              `json:"description,omitempty"`
+	Type        omise.RecipientType `json:"type"`
+	TaxID       string              `json:"tax_id,omitempty"`
+	BankAccount *omise.BankAccount  `json:"-"`
+}
+
+type bankAccountParams struct {
+	Brand  string `json:"brand,omitempty"`
+	Number string `json:"number"`
+	Name   string `json:"name"`
+
+	// for Omise Japan
+	BankCode    string                `json:"bank_code,omitempty"`
+	BranchCode  string                `json:"branch_code,omitempty"`
+	AccountType omise.BankAccountType `json:"account_type,omitempty"`
 }
 
 func (req *CreateRecipient) MarshalJSON() ([]byte, error) {
-	type bankAccount struct {
-		Brand  string `json:"brand,omitempty"`
-		Number string `json:"number"`
-		Name   string `json:"name"`
-
-		// for Omise Japan
-		BankCode    string                `json:"bank_code,omitempty"`
-		BranchCode  string                `json:"branch_code,omitempty"`
-		AccountType omise.BankAccountType `json:"account_type,omitempty"`
+	type Alias CreateRecipient
+	params := struct {
+		*Alias
+		BankAccountParams bankAccountParams `json:"bank_account"`
+	}{
+		Alias: (*Alias)(req),
 	}
-
-	type param struct {
-		Name        string              `json:"name"`
-		Email       string              `json:"email,omitempty"`
-		Description string              `json:"description,omitempty"`
-		Type        omise.RecipientType `json:"type"`
-		TaxID       string              `json:"tax_id,omitempty"`
-		BankAccount *bankAccount        `json:"bank_account,omitempty"`
-	}
-
-	p := param{
-		Name:        req.Name,
-		Email:       req.Email,
-		Description: req.Description,
-		Type:        req.Type,
-		TaxID:       req.TaxID,
-	}
-	if req.BankAccount != nil {
-		p.BankAccount = &bankAccount{
-			Brand:       req.BankAccount.Brand,
-			Number:      req.BankAccount.Number,
-			Name:        req.BankAccount.Name,
-			BankCode:    req.BankAccount.BankCode,
-			BranchCode:  req.BankAccount.BranchCode,
-			AccountType: req.BankAccount.AccountType,
+	if ba := params.BankAccount; ba != nil {
+		params.BankAccountParams = bankAccountParams{
+			Brand:       ba.Brand,
+			Number:      ba.Number,
+			Name:        ba.Name,
+			BankCode:    ba.BankCode,
+			BranchCode:  ba.BranchCode,
+			AccountType: ba.AccountType,
 		}
 	}
-
-	return json.Marshal(p)
+	return json.Marshal(params)
 }
 
 func (req *CreateRecipient) Describe() *internal.Description {
@@ -143,14 +134,15 @@ func (req *CreateRecipient) Describe() *internal.Description {
 //	fmt.Printf("recipient #123: %#v\n", recp)
 //
 type RetrieveRecipient struct {
-	RecipientID string `query:"-"`
+	RecipientID string `json:"-"`
 }
 
 func (req *RetrieveRecipient) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.API,
-		Method:   "GET",
-		Path:     "/recipients/" + req.RecipientID,
+		Endpoint:    internal.API,
+		Method:      "GET",
+		Path:        "/recipients/" + req.RecipientID,
+		ContentType: "application/json",
 	}
 }
 
@@ -167,55 +159,34 @@ func (req *RetrieveRecipient) Describe() *internal.Description {
 //	fmt.Printf("jones: %#v\n", jones)
 //
 type UpdateRecipient struct {
-	RecipientID string `query:"-"`
-	Name        string
-	Email       string
-	Description string
-	Type        omise.RecipientType
-	TaxID       string             `query:"tax_id"`
-	BankAccount *omise.BankAccount `query:"bank_account"`
+	RecipientID string              `json:"-"`
+	Name        string              `json:"name"`
+	Email       string              `json:"email,omitempty"`
+	Description string              `json:"description,omitempty"`
+	Type        omise.RecipientType `json:"type"`
+	TaxID       string              `json:"tax_id,omitempty"`
+	BankAccount *omise.BankAccount  `json:"-"`
 }
 
 func (req *UpdateRecipient) MarshalJSON() ([]byte, error) {
-	type bankAccount struct {
-		Brand  string `json:"brand,omitempty"`
-		Number string `json:"number"`
-		Name   string `json:"name"`
-
-		// for Omise Japan
-		BankCode    string                `json:"bank_code,omitempty"`
-		BranchCode  string                `json:"branch_code,omitempty"`
-		AccountType omise.BankAccountType `json:"account_type,omitempty"`
+	type Alias UpdateRecipient
+	params := struct {
+		*Alias
+		BankAccountParams bankAccountParams `json:"bank_account"`
+	}{
+		Alias: (*Alias)(req),
 	}
-
-	type param struct {
-		Name        string              `json:"name,omitempty"`
-		Email       string              `json:"email,omitempty"`
-		Description string              `json:"description,omitempty"`
-		Type        omise.RecipientType `json:"type,omitempty"`
-		TaxID       string              `json:"tax_id,omitempty"`
-		BankAccount *bankAccount        `json:"bank_account,omitempty"`
-	}
-
-	p := param{
-		Name:        req.Name,
-		Email:       req.Email,
-		Description: req.Description,
-		Type:        req.Type,
-		TaxID:       req.TaxID,
-	}
-	if req.BankAccount != nil {
-		p.BankAccount = &bankAccount{
-			Brand:       req.BankAccount.Brand,
-			Number:      req.BankAccount.Number,
-			Name:        req.BankAccount.Name,
-			BankCode:    req.BankAccount.BankCode,
-			BranchCode:  req.BankAccount.BranchCode,
-			AccountType: req.BankAccount.AccountType,
+	if ba := params.BankAccount; ba != nil {
+		params.BankAccountParams = bankAccountParams{
+			Brand:       ba.Brand,
+			Number:      ba.Number,
+			Name:        ba.Name,
+			BankCode:    ba.BankCode,
+			BranchCode:  ba.BranchCode,
+			AccountType: ba.AccountType,
 		}
 	}
-
-	return json.Marshal(p)
+	return json.Marshal(params)
 }
 
 func (req *UpdateRecipient) Describe() *internal.Description {
@@ -237,14 +208,15 @@ func (req *UpdateRecipient) Describe() *internal.Description {
 //	fmt.Println("destroyed recipient:", del.ID)
 //
 type DestroyRecipient struct {
-	RecipientID string `query:"-"`
+	RecipientID string `json:"-"`
 }
 
 func (req *DestroyRecipient) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.API,
-		Method:   "DELETE",
-		Path:     "/recipients/" + req.RecipientID,
+		Endpoint:    internal.API,
+		Method:      "DELETE",
+		Path:        "/recipients/" + req.RecipientID,
+		ContentType: "application/json",
 	}
 }
 
@@ -269,10 +241,6 @@ func (req *DestroyRecipient) Describe() *internal.Description {
 type ListRecipientTransferSchedules struct {
 	RecipientID string
 	List
-}
-
-func (req *ListRecipientTransferSchedules) MarshalJSON() ([]byte, error) {
-	return json.Marshal(req.List)
 }
 
 func (req *ListRecipientTransferSchedules) Describe() *internal.Description {

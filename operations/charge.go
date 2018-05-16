@@ -51,48 +51,29 @@ func (req *ListCharges) Describe() *internal.Description {
 //	fmt.Println("created charge:", charge.ID)
 //
 type CreateCharge struct {
-	Customer    string
-	Card        string
-	Source      string
-	Amount      int64
-	Currency    string
-	Offsite     omise.OffsiteTypes
-	Description string
-	DontCapture bool   `query:"-"` // inverse, since `capture` defaults to true
-	ReturnURI   string `query:"return_uri"`
+	Customer    string             `json:"customer,omitempty"`
+	Card        string             `json:"card,omitempty"`
+	Source      string             `json:"source,omitempty"`
+	Amount      int64              `json:"amount"`
+	Currency    string             `json:"currency"`
+	Offsite     omise.OffsiteTypes `json:"offsite,omitempty"`
+	Description string             `json:"description,omitempty"`
+	DontCapture bool               `json:"-"` // inverse, since `capture` defaults to true
+	ReturnURI   string             `json:"return_uri,omitempty"`
 }
 
 func (req *CreateCharge) MarshalJSON() ([]byte, error) {
-	param := map[string]interface{}{
-		"amount":   req.Amount,
-		"currency": req.Currency,
+	type Alias CreateCharge
+	params := struct {
+		*Alias
+		Capture *bool `json:"capture,omitempty"`
+	}{
+		Alias: (*Alias)(req),
 	}
-
-	if req.Customer != "" {
-		param["customer"] = req.Customer
+	if params.DontCapture {
+		params.Capture = new(bool)
 	}
-
-	if req.Card != "" {
-		param["card"] = req.Card
-	}
-
-	if req.Source != "" {
-		param["source"] = req.Source
-	}
-
-	if req.Offsite != "" {
-		param["offsite"] = req.Offsite
-	}
-
-	if req.ReturnURI != "" {
-		param["return_uri"] = req.ReturnURI
-	}
-
-	if req.DontCapture {
-		param["capture"] = false
-	}
-
-	return json.Marshal(param)
+	return json.Marshal(params)
 }
 
 func (req *CreateCharge) Describe() *internal.Description {
@@ -117,15 +98,16 @@ func (req *CreateCharge) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type UpdateCharge struct {
-	ChargeID    string `query:"-"`
-	Description string
+	ChargeID    string `json:"-"`
+	Description string `json:"description"`
 }
 
 func (req *UpdateCharge) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.API,
-		Method:   "PATCH",
-		Path:     "/charges/" + req.ChargeID,
+		Endpoint:    internal.API,
+		Method:      "PATCH",
+		Path:        "/charges/" + req.ChargeID,
+		ContentType: "application/json",
 	}
 }
 
@@ -139,14 +121,15 @@ func (req *UpdateCharge) Describe() *internal.Description {
 //	fmt.Printf("charge #chrg_323: %#v\n", charge)
 //
 type RetrieveCharge struct {
-	ChargeID string `query:"-"`
+	ChargeID string `json:"-"`
 }
 
 func (req *RetrieveCharge) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.API,
-		Method:   "GET",
-		Path:     "/charges/" + req.ChargeID,
+		Endpoint:    internal.API,
+		Method:      "GET",
+		Path:        "/charges/" + req.ChargeID,
+		ContentType: "application/json",
 	}
 }
 
@@ -164,14 +147,15 @@ func (req *RetrieveCharge) Describe() *internal.Description {
 //	fmt.Println("captured:", charge.Captured)
 //
 type CaptureCharge struct {
-	ChargeID string
+	ChargeID string `json:"-"`
 }
 
 func (req *CaptureCharge) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.API,
-		Method:   "POST",
-		Path:     "/charges/" + req.ChargeID + "/capture",
+		Endpoint:    internal.API,
+		Method:      "POST",
+		Path:        "/charges/" + req.ChargeID + "/capture",
+		ContentType: "application/json",
 	}
 }
 
@@ -179,13 +163,14 @@ func (req *CaptureCharge) Describe() *internal.Description {
 // charge that can be reversed, releasing held money, at a later time without incurring a
 // refund fee.
 type ReverseCharge struct {
-	ChargeID string
+	ChargeID string `json:"-"`
 }
 
 func (req *ReverseCharge) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.API,
-		Method:   "POST",
-		Path:     "/charges/" + req.ChargeID + "/reverse",
+		Endpoint:    internal.API,
+		Method:      "POST",
+		Path:        "/charges/" + req.ChargeID + "/reverse",
+		ContentType: "application/json",
 	}
 }

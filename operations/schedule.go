@@ -2,7 +2,6 @@ package operations
 
 import (
 	"encoding/json"
-	"net/url"
 	"time"
 
 	omise "github.com/omise/omise-go"
@@ -125,7 +124,6 @@ func (req *CreateChargeSchedule) Describe() *internal.Description {
 		Endpoint:    internal.API,
 		Method:      "POST",
 		Path:        "/schedules",
-		Values:      url.Values{},
 		ContentType: "application/json",
 	}
 }
@@ -239,7 +237,6 @@ func (req *CreateTransferSchedule) Describe() *internal.Description {
 		Endpoint:    internal.API,
 		Method:      "POST",
 		Path:        "/schedules",
-		Values:      url.Values{},
 		ContentType: "application/json",
 	}
 }
@@ -263,10 +260,6 @@ func (req *CreateTransferSchedule) Describe() *internal.Description {
 //
 type ListSchedules struct {
 	List
-}
-
-func (req *ListSchedules) MarshalJSON() ([]byte, error) {
-	return json.Marshal(req.List)
 }
 
 func (req *ListSchedules) Describe() *internal.Description {
@@ -297,12 +290,8 @@ func (req *ListSchedules) Describe() *internal.Description {
 //	fmt.Println("occurrences made in the last hour:", len(occurrences.Data))
 //
 type ListScheduleOccurrences struct {
-	ScheduleID string `query:"-"`
+	ScheduleID string
 	List
-}
-
-func (req *ListScheduleOccurrences) MarshalJSON() ([]byte, error) {
-	return json.Marshal(req.List)
 }
 
 func (req *ListScheduleOccurrences) Describe() *internal.Description {
@@ -335,10 +324,6 @@ type ListChargeSchedules struct {
 	List
 }
 
-func (req *ListChargeSchedules) MarshalJSON() ([]byte, error) {
-	return json.Marshal(req.List)
-}
-
 func (req *ListChargeSchedules) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
@@ -369,10 +354,6 @@ type ListTransferSchedules struct {
 	List
 }
 
-func (req *ListTransferSchedules) MarshalJSON() ([]byte, error) {
-	return json.Marshal(req.List)
-}
-
 func (req *ListTransferSchedules) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
@@ -394,14 +375,15 @@ func (req *ListTransferSchedules) Describe() *internal.Description {
 //	fmt.Printf("schedule #schd_57z9hj228pusa652nk1: %#v\n", schd)
 //
 type RetrieveSchedule struct {
-	ScheduleID string `query:"-"`
+	ScheduleID string `json:"-"`
 }
 
 func (req *RetrieveSchedule) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.API,
-		Method:   "GET",
-		Path:     "/schedules/" + req.ScheduleID,
+		Endpoint:    internal.API,
+		Method:      "GET",
+		Path:        "/schedules/" + req.ScheduleID,
+		ContentType: "application/json",
 	}
 }
 
@@ -416,13 +398,14 @@ func (req *RetrieveSchedule) Describe() *internal.Description {
 //	fmt.Println("destroyed schedule:", deletedSchd.ID)
 //
 type DestroySchedule struct {
-	ScheduleID string `query:"-"`
+	ScheduleID string `json:"-"`
 }
 
 func (req *DestroySchedule) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.API,
-		Method:   "DELETE",
-		Path:     "/schedules/" + req.ScheduleID,
+		Endpoint:    internal.API,
+		Method:      "DELETE",
+		Path:        "/schedules/" + req.ScheduleID,
+		ContentType: "application/json",
 	}
 }

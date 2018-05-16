@@ -1,6 +1,7 @@
 package operations
 
 import (
+	"encoding/json"
 	"time"
 
 	"github.com/omise/omise-go/internal"
@@ -25,21 +26,32 @@ import (
 //	fmt.Println("created token:", token.ID)
 //
 type CreateToken struct {
-	Name            string     `query:"card[name]"`
-	Number          string     `query:"card[number]"`
-	ExpirationMonth time.Month `query:"card[expiration_month]"`
-	ExpirationYear  int        `query:"card[expiration_year]"`
+	Name            string     `json:"name"`
+	Number          string     `json:"number"`
+	ExpirationMonth time.Month `json:"expiration_month"`
+	ExpirationYear  int        `json:"expiration_year"`
 
-	SecurityCode string `query:"card[security_code]"`
-	City         string `query:"card[city]"`
-	PostalCode   string `query:"card[postal_code]"`
+	SecurityCode string `json:"security_code"`
+	City         string `json:"city,omitempty"`
+	PostalCode   string `json:"postal_code,omitempty"`
+}
+
+func (req *CreateToken) MarshalJSON() ([]byte, error) {
+	type CardToken CreateToken
+	params := struct {
+		Card *CardToken `json:"card"`
+	}{
+		Card: (*CardToken)(req),
+	}
+	return json.Marshal(params)
 }
 
 func (req *CreateToken) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.Vault,
-		Method:   "POST",
-		Path:     "/tokens",
+		Endpoint:    internal.Vault,
+		Method:      "POST",
+		Path:        "/tokens",
+		ContentType: "application/json",
 	}
 }
 
@@ -53,13 +65,14 @@ func (req *CreateToken) Describe() *internal.Description {
 //	fmt.Printf("token: %#v\n", token)
 //
 type RetrieveToken struct {
-	ID string `query:"-"`
+	ID string `json:"-"`
 }
 
 func (token *RetrieveToken) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.Vault,
-		Method:   "GET",
-		Path:     "/tokens/" + token.ID,
+		Endpoint:    internal.Vault,
+		Method:      "GET",
+		Path:        "/tokens/" + token.ID,
+		ContentType: "application/json",
 	}
 }

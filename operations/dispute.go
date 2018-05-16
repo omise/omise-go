@@ -17,7 +17,7 @@ import (
 //	fmt.Println("# of open disputes:", len(disputes.Data))
 //
 type ListDisputes struct {
-	State omise.DisputeStatus `query:"-"`
+	State omise.DisputeStatus
 	List
 }
 
@@ -33,9 +33,10 @@ func (req *ListDisputes) Describe() *internal.Description {
 	}
 
 	return &internal.Description{
-		Endpoint: internal.API,
-		Method:   "GET",
-		Path:     path,
+		Endpoint:    internal.API,
+		Method:      "GET",
+		Path:        path,
+		ContentType: "application/json",
 	}
 }
 
@@ -49,14 +50,15 @@ func (req *ListDisputes) Describe() *internal.Description {
 //	fmt.Printf("dispute #123: %#v\n", dispute)
 //
 type RetrieveDispute struct {
-	DisputeID string `query:"-"`
+	DisputeID string `json:"-"`
 }
 
 func (req *RetrieveDispute) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.API,
-		Method:   "GET",
-		Path:     "/disputes/" + req.DisputeID,
+		Endpoint:    internal.API,
+		Method:      "GET",
+		Path:        "/disputes/" + req.DisputeID,
+		ContentType: "application/json",
 	}
 }
 
@@ -73,14 +75,15 @@ func (req *RetrieveDispute) Describe() *internal.Description {
 //	fmt.Printf("updated dispute: %#v\n", dispute)
 //
 type UpdateDispute struct {
-	DisputeID string `query:"-"`
+	DisputeID string `json:"-"`
 	Message   string
 }
 
 func (req *UpdateDispute) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.API,
-		Method:   "PATCH",
-		Path:     "/disputes/" + req.DisputeID,
+		Endpoint:    internal.API,
+		Method:      "PATCH",
+		Path:        "/disputes/" + req.DisputeID,
+		ContentType: "application/json",
 	}
 }

@@ -19,9 +19,10 @@ type ListEvents struct {
 
 func (req *ListEvents) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.API,
-		Method:   "GET",
-		Path:     "/events",
+		Endpoint:    internal.API,
+		Method:      "GET",
+		Path:        "/events",
+		ContentType: "application/json",
 	}
 }
 
@@ -35,7 +36,7 @@ func (req *ListEvents) Describe() *internal.Description {
 //	fmt.Printf("evnt_123: %#v\n", event)
 //
 type RetrieveEvent struct {
-	EventID string `query:"-"`
+	EventID string `json:"-"`
 }
 
 func (req *RetrieveEvent) Describe() *internal.Description {

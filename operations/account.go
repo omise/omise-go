@@ -17,8 +17,9 @@ type RetrieveAccount struct{}
 
 func (req *RetrieveAccount) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.API,
-		Method:   "GET",
-		Path:     "/account",
+		Endpoint:    internal.API,
+		Method:      "GET",
+		Path:        "/account",
+		ContentType: "application/json",
 	}
 }

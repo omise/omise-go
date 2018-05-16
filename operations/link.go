@@ -10,36 +10,39 @@ type ListLinks struct {
 
 func (req *ListLinks) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.API,
-		Method:   "GET",
-		Path:     "/links",
+		Endpoint:    internal.API,
+		Method:      "GET",
+		Path:        "/links",
+		ContentType: "application/json",
 	}
 }
 
 type CreateLink struct {
-	Amount      int64
-	Currency    string
-	Title       string
-	Description string
-	Multiple    bool
+	Amount      int64  `json:"amount"`
+	Currency    string `json:"currency"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	Multiple    bool   `json:"multiple"`
 }
 
 func (req *CreateLink) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.API,
-		Method:   "POST",
-		Path:     "/links",
+		Endpoint:    internal.API,
+		Method:      "POST",
+		Path:        "/links",
+		ContentType: "application/json",
 	}
 }
 
 type RetrieveLink struct {
-	LinkID string `query:"-"`
+	LinkID string `json:"-"`
 }
 
 func (req *RetrieveLink) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.API,
-		Method:   "GET",
-		Path:     "/links/" + req.LinkID,
+		Endpoint:    internal.API,
+		Method:      "GET",
+		Path:        "/links/" + req.LinkID,
+		ContentType: "application/json",
 	}
 }

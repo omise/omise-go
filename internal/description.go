@@ -1,16 +1,13 @@
 package internal
 
-import "net/url"
-
 type Description struct {
-	Endpoint Endpoint `query:"-"`
-	Method   string   `query:"-"`
-	Path     string   `query:"-"`
+	Endpoint Endpoint
+	Method   string
+	Path     string
 
-	APIKey string `query:"-"`
+	APIKey string
 
-	Values      url.Values `query:"-"`
-	ContentType string     `query:"-"`
+	ContentType string
 }
 
 // Op implements Operation.Describe and allows the struct itself be passed as an Operation

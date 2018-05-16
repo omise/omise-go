@@ -12,52 +12,52 @@ import (
 
 func TestListMarshal(t *testing.T) {
 	testdata := []struct {
-		req      *List
+		req      List
 		expected string
 	}{
 		{
-			req:      &List{},
+			req:      List{},
 			expected: `{}`,
 		},
 		{
-			req: &List{
+			req: List{
 				Offset: 1,
 			},
 			expected: `{"offset":1}`,
 		},
 		{
-			req: &List{
+			req: List{
 				Limit: 5,
 			},
 			expected: `{"limit":5}`,
 		},
 		{
-			req: &List{
+			req: List{
 				From: time.Date(2017, 5, 1, 0, 0, 0, 0, time.UTC),
 			},
 			expected: `{"from":"2017-05-01T00:00:00Z"}`,
 		},
 		{
-			req: &List{
+			req: List{
 				To: time.Date(2017, 5, 1, 0, 0, 0, 0, time.UTC),
 			},
 			expected: `{"to":"2017-05-01T00:00:00Z"}`,
 		},
 		{
-			req: &List{
+			req: List{
 				Order: omise.Chronological,
 			},
 			expected: `{"order":"chronological"}`,
 		},
 		{
-			req: &List{
+			req: List{
 				Offset: 1,
 				Limit:  5,
 				From:   time.Date(2017, 5, 1, 0, 0, 0, 0, time.UTC),
 				To:     time.Date(2017, 10, 1, 0, 0, 0, 0, time.UTC),
 				Order:  omise.Chronological,
 			},
-			expected: `{"offset":1,"limit":5,"from":"2017-05-01T00:00:00Z","to":"2017-10-01T00:00:00Z","order":"chronological"}`,
+			expected: `{"offset":1,"limit":5,"order":"chronological","from":"2017-05-01T00:00:00Z","to":"2017-10-01T00:00:00Z"}`,
 		},
 	}
 
