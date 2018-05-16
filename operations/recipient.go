@@ -81,8 +81,6 @@ type CreateRecipient struct {
 	Type        omise.RecipientType `json:"type"`
 	TaxID       string              `json:"tax_id,omitempty"`
 	BankAccount *omise.BankAccount  `json:"-"`
-
-	BankAccountParams bankAccountParams `json:"bank_account"`
 }
 
 type bankAccountParams struct {
@@ -96,16 +94,16 @@ type bankAccountParams struct {
 	AccountType omise.BankAccountType `json:"account_type,omitempty"`
 }
 
-type optionalFieldCreateRecipient CreateRecipient
-
 func (req *CreateRecipient) MarshalJSON() ([]byte, error) {
-	req.SetOptionalField()
-	return json.Marshal((*optionalFieldCreateRecipient)(req))
-}
-
-func (req *CreateRecipient) SetOptionalField() {
-	if ba := req.BankAccount; ba != nil {
-		req.BankAccountParams = bankAccountParams{
+	type Alias CreateRecipient
+	params := struct {
+		*Alias
+		BankAccountParams bankAccountParams `json:"bank_account"`
+	}{
+		Alias: (*Alias)(req),
+	}
+	if ba := params.BankAccount; ba != nil {
+		params.BankAccountParams = bankAccountParams{
 			Brand:       ba.Brand,
 			Number:      ba.Number,
 			Name:        ba.Name,
@@ -114,6 +112,7 @@ func (req *CreateRecipient) SetOptionalField() {
 			AccountType: ba.AccountType,
 		}
 	}
+	return json.Marshal(params)
 }
 
 func (req *CreateRecipient) Describe() *internal.Description {
@@ -167,20 +166,18 @@ type UpdateRecipient struct {
 	Type        omise.RecipientType `json:"type"`
 	TaxID       string              `json:"tax_id,omitempty"`
 	BankAccount *omise.BankAccount  `json:"-"`
-
-	BankAccountParams bankAccountParams `json:"bank_account"`
 }
-
-type optionalFieldUpdateRecipient UpdateRecipient
 
 func (req *UpdateRecipient) MarshalJSON() ([]byte, error) {
-	req.SetOptionalField()
-	return json.Marshal((*optionalFieldUpdateRecipient)(req))
-}
-
-func (req *UpdateRecipient) SetOptionalField() {
-	if ba := req.BankAccount; ba != nil {
-		req.BankAccountParams = bankAccountParams{
+	type Alias UpdateRecipient
+	params := struct {
+		*Alias
+		BankAccountParams bankAccountParams `json:"bank_account"`
+	}{
+		Alias: (*Alias)(req),
+	}
+	if ba := params.BankAccount; ba != nil {
+		params.BankAccountParams = bankAccountParams{
 			Brand:       ba.Brand,
 			Number:      ba.Number,
 			Name:        ba.Name,
@@ -189,6 +186,7 @@ func (req *UpdateRecipient) SetOptionalField() {
 			AccountType: ba.AccountType,
 		}
 	}
+	return json.Marshal(params)
 }
 
 func (req *UpdateRecipient) Describe() *internal.Description {
