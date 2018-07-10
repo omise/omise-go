@@ -12,8 +12,6 @@ import (
 	"github.com/omise/omise-go/internal"
 )
 
-var _ = fmt.Println
-
 // Client helps you configure and perform HTTP operations against Omise's REST API. It
 // should be used with operation structures from the operations subpackage.
 type Client struct {
