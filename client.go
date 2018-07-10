@@ -61,9 +61,7 @@ func NewClient(pkey, skey string) (*Client, error) {
 
 // Request creates a new *http.Request that should performs the supplied Operation. Most
 // people should use the Do method instead.
-func (c *Client) Request(operation internal.Operation) (*http.Request, error) {
-	var req *http.Request
-	var err error
+func (c *Client) Request(operation internal.Operation) (req *http.Request, err error) {
 	req, err = c.buildJSONRequest(operation)
 	if err != nil {
 		return nil, err
