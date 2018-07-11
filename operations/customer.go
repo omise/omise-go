@@ -24,9 +24,10 @@ type ListCustomers struct {
 
 func (req *ListCustomers) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.API,
-		Method:   "GET",
-		Path:     "/customers",
+		Endpoint:    internal.API,
+		Method:      "GET",
+		Path:        "/customers",
+		ContentType: "application/json",
 	}
 }
 

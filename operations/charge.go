@@ -27,9 +27,10 @@ type ListCharges struct {
 
 func (req *ListCharges) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.API,
-		Method:   "GET",
-		Path:     "/charges",
+		Endpoint:    internal.API,
+		Method:      "GET",
+		Path:        "/charges",
+		ContentType: "application/json",
 	}
 }
 
