@@ -22,17 +22,17 @@ go get github.com/omise/omise-go
 
 # COMPLIANCE WARNING
 
-Card data should never transit through your server. This library provides means to create
-tokens on the server side but should only be used for testing or **only if you currently
+Credit Card data should never transfer through your server. This library provides a means to create
+tokens on the server-side, but should only be used for testing or **only if you currently
 have a valid PCI-DSS Attestation of Compliance (AoC) delivered by a certified QSA
 Auditor.**
 
-Instead we recommend that you follow our guide on how to safely
+Instead, we recommend that you follow our guide on how to safely
 [collect credit information](https://www.omise.co/collecting-card-information).
 
 # USAGE
 
-See [godoc.org][0] in tandem with the [Omise API Documentation][1] for usage instruction.
+See [godoc.org][0] in tandem with the [Omise API Documentation][1] for usage instructions.
 
 Example:
 
@@ -89,7 +89,7 @@ You can choose which API version to use with Omise. Each new API version has new
 and might not be compatible with previous versions. You can change the default version by
 visiting your Omise Dashboard.
 
-The version configured here will have higher priority than the version set in your Omise
+The version configured here will have a higher priority than the version set in your Omise
 account. This is useful if you have multiple environments with different API versions for
 testing. (e.g. Development on the latest version but production is on an older version).
 
