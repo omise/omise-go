@@ -1,6 +1,7 @@
 package operations_test
 
 import (
+	"encoding/json"
 	"fmt"
 	"testing"
 	"time"
@@ -144,4 +145,54 @@ func TestListCustomerChargeSchedules_Network(t *testing.T) {
 
 	t.Logf("Schedules Len: %d\n", len(schds.Data))
 	t.Logf("%#v\n", schds)
+}
+
+
+func TestCreateCustomerMarshal_WithMetadata(t *testing.T) {
+	req := &CreateCustomer{
+		Email:       "john.doe@example.com",
+		Description: "John Doe (id: 30)",
+		Card:        "card_test_4yq6tuucl9h4erukfl0",
+		Metadata: map[string]interface{}{
+			"answer": 42,
+		},
+	}
+
+	expected := `{"email":"john.doe@example.com","description":"John Doe (id: 30)","card":"card_test_4yq6tuucl9h4erukfl0","metadata":{"answer":42}}`
+
+	b, err := json.Marshal(req)
+	r.Nil(t, err, "error should be nothing")
+	r.Equal(t, expected, string(b))
+}
+
+func TestCreateCustomerMarshal_WithoutMetadata(t *testing.T) {
+	req := &CreateCustomer{
+		Email:       "john.doe@example.com",
+		Description: "John Doe (id: 30)",
+		Card:        "card_test_4yq6tuucl9h4erukfl0",
+	}
+
+	expected := `{"email":"john.doe@example.com","description":"John Doe (id: 30)","card":"card_test_4yq6tuucl9h4erukfl0"}`
+
+	b, err := json.Marshal(req)
+	r.Nil(t, err, "err should be nothing")
+	r.Equal(t, expected, string(b))
+}
+
+func TestUpdateCustomerMarshal_WithMetadata(t *testing.T) {
+	req := &UpdateCustomer{
+		CustomerID:  "cust_test_4yq6txdpfadhbaqnwp3",
+		Email:       "john.doe@example.com",
+		Description: "John Doe (id: 30)",
+		Card:        "card_test_4yq6tuucl9h4erukfl0",
+		Metadata: map[string]interface{}{
+			"answer": 42,
+		},
+	}
+
+	expected := `{"email":"john.doe@example.com","description":"John Doe (id: 30)","card":"card_test_4yq6tuucl9h4erukfl0","metadata":{"answer":42}}`
+
+	b, err := json.Marshal(req)
+	r.Nil(t, err, "err should be nothing")
+	r.Equal(t, expected, string(b))
 }
