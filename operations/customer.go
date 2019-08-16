@@ -48,6 +48,7 @@ type CreateCustomer struct {
 	Email       string `json:"email,omitempty"`
 	Description string `json:"description,omitempty"`
 	Card        string `json:"card,omitempty"`
+	Metadata    map[string]interface{} `json:"metadata,omitempty"`
 }
 
 func (req *CreateCustomer) Describe() *internal.Description {
@@ -99,6 +100,7 @@ type UpdateCustomer struct {
 	Description string `json:"description,omitempty"`
 	Card        string `json:"card,omitempty"`
 	DefaultCard string `json:"default_card,omitempty"`
+	Metadata    map[string]interface{} `json:"metadata,omitempty"`
 }
 
 func (req *UpdateCustomer) Describe() *internal.Description {
