@@ -39,7 +39,6 @@ perform() {
 
 check go                       "needs go from http://golang.org"
 check $GOPATH/bin/gometalinter "needs gometalinter from https://github.com/alecthomas/gometalinter"
-check $GOPATH/bin/go-bindata   "needs go-bindata from https://github.com/jteeuwen/go-bindata"
 
 perform generators go generate . ./operations
 perform builds     go install . ./operations
