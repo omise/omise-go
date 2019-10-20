@@ -16,7 +16,7 @@
       "default_card": "card_test_4yq6tuucl9h4erukfl0",
       "email": "john.doe@example.com",
       "description": "John Doe (id: 30)",
-      "created": "2015-01-15T04:03:52Z",
+      "created_at": "2015-01-15T04:03:52Z",
       "cards": {
         "object": "list",
         "from": "1970-01-01T00:00:00+00:00",
@@ -44,7 +44,7 @@
             "fingerprint": "sRF/oMw2UQJJp/WbU+2/ZbVzwROjpMf1lyhOHhOqziw=",
             "name": "JOHN DOE",
             "security_code_check": true,
-            "created": "2015-01-15T04:03:40Z"
+            "created_at": "2015-01-15T04:03:40Z"
           }
         ]
       }

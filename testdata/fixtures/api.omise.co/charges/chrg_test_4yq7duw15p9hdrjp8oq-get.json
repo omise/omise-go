@@ -27,7 +27,7 @@
         "currency": "thb",
         "charge": "chrg_test_4yq7duw15p9hdrjp8oq",
         "transaction": "trxn_test_4yqmv79fzpy0gmz5mmq",
-        "created": "2015-01-16T07:23:45Z"
+        "created_at": "2015-01-16T07:23:45Z"
       }
     ],
     "location": "/charges/chrg_test_4yq7duw15p9hdrjp8oq/refunds"
@@ -50,9 +50,9 @@
     "fingerprint": "sRF/oMw2UQJJp/WbU+2/ZbVzwROjpMf1lyhOHhOqziw=",
     "name": "JOHN DOE",
     "security_code_check": true,
-    "created": "2015-01-15T04:03:40Z"
+    "created_at": "2015-01-15T04:03:40Z"
   },
   "customer": "cust_test_4yq6txdpfadhbaqnwp3",
   "ip": null,
-  "created": "2015-01-15T05:00:29Z"
+  "created_at": "2015-01-15T05:00:29Z"
 }
