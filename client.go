@@ -37,7 +37,7 @@ func NewClient(pkey, skey string) (*Client, error) {
 		return nil, ErrInvalidKey
 	case pkey != "" && !strings.HasPrefix(pkey, "pkey_"):
 		return nil, ErrInvalidKey
-	case skey != "" && !strings.HasPrefix(skey, "skey_"):
+	case skey != "" && !(strings.HasPrefix(skey, "skey_") || strings.HasPrefix(skey, "ckey_")):
 		return nil, ErrInvalidKey
 	}
 
