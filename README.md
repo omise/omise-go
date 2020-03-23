@@ -58,16 +58,14 @@ func main() {
 		log.Fatal(e)
 	}
 
-	// Creates a token from a test card.
-	token, createToken := &omise.Token{}, &operations.CreateToken{
-		Name:            "OMISE-GO Test Card",
-		Number:          "4242424242424242",
-		ExpirationMonth: 12,
-		ExpirationYear:  2018,
-	}
-	if e := client.Do(token, createToken); e != nil {
-		log.Fatal(e)
-	}
+  /** Retrieve a token from a request
+   * A token should be created from a client side by using our client-side libraries
+   * https://www.omise.co/libraries#client-side-libraries
+   * More information:
+   * - https://www.omise.co/collecting-card-information
+   * - https://www.omise.co/security-best-practices
+   **/
+	token := "tokn_xxxxxxxxxxxxx"
 
 	// Creates a charge from the token
 	charge, createCharge := &omise.Charge{}, &operations.CreateCharge{
