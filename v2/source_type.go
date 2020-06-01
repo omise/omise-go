@@ -1,7 +1,9 @@
 package omise
 
+// SourceType represents an enumeration of possible values for Source.
 type SourceType string
 
+// SourceType can be one of the following list of constants:
 const (
 	SourceAlipay SourceType = "alipay"
 	SourceBarcodeAlipay SourceType = "barcode_alipay"
@@ -22,3 +24,4 @@ const (
 	SourcePromptpay SourceType = "promptpay"
 	SourceTruemoney SourceType = "truemoney"
 )
+

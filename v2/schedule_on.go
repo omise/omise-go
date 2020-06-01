@@ -1,8 +1,10 @@
 package omise
 
+// ScheduleOn represents resource object.
 type ScheduleOn struct {
 	Base
-	DaysOfMonth []interface{} `json:"days_of_month"`
+	DaysOfMonth []int `json:"days_of_month"`
 	WeekdayOfMonth string `json:"weekday_of_month"`
-	Weekdays []*Weekdays `json:"weekdays"`
+	Weekdays []Weekdays `json:"weekdays"`
 }
+

@@ -5,7 +5,7 @@ package omise
 type Receipt struct {
 	Base
 	AdjustmentTransaction *Transaction `json:"adjustment_transaction"`
-	ChargeFee int `json:"charge_fee"`
+	ChargeFee int64 `json:"charge_fee"`
 	CompanyAddress string `json:"company_address"`
 	CompanyName string `json:"company_name"`
 	CompanyTaxID string `json:"company_tax_id"`
@@ -19,10 +19,11 @@ type Receipt struct {
 	IssuedOn Date `json:"issued_on"`
 	Location string `json:"location"`
 	Number string `json:"number"`
-	Subtotal int `json:"subtotal"`
-	Total int `json:"total"`
-	TransferFee int `json:"transfer_fee"`
-	Vat int `json:"vat"`
-	VoidedFee int `json:"voided_fee"`
-	Wht int `json:"wht"`
+	Subtotal int64 `json:"subtotal"`
+	Total int64 `json:"total"`
+	TransferFee int64 `json:"transfer_fee"`
+	Vat int64 `json:"vat"`
+	VoidedFee int64 `json:"voided_fee"`
+	Wht int64 `json:"wht"`
 }
+

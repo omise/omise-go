@@ -4,7 +4,7 @@ package omise
 // Customer struct as member elements. See the pagination and lists documentation at
 // https://www.omise.co/api-pagination for more information.
 type CustomerList struct {
-	Base
+	List
 	Data []*Customer `json:"data"`
 }
 

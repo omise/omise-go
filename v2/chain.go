@@ -9,3 +9,4 @@ type Chain struct {
 	Location string `json:"location"`
 	Revoked bool `json:"revoked"`
 }
+

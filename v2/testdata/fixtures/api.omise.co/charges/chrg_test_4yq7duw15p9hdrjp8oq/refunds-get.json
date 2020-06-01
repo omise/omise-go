@@ -1,0 +1,21 @@
+{
+  "object": "list",
+  "from": "1970-01-01T00:00:00+00:00",
+  "to": "2015-01-16T07:24:51+00:00",
+  "offset": 0,
+  "limit": 20,
+  "total": 1,
+  "data": [
+    {
+      "object": "refund",
+      "id": "rfnd_test_4yqmv79ahghsiz23y3c",
+      "location": "/charges/chrg_test_4yq7duw15p9hdrjp8oq/refunds/rfnd_test_4yqmv79ahghsiz23y3c",
+      "amount": 10000,
+      "currency": "thb",
+      "charge": "chrg_test_4yq7duw15p9hdrjp8oq",
+      "transaction": "trxn_test_4yqmv79fzpy0gmz5mmq",
+      "created": "2015-01-16T07:23:45Z"
+    }
+  ],
+  "location": "/charges/chrg_test_4yq7duw15p9hdrjp8oq/refunds"
+}

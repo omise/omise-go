@@ -4,7 +4,7 @@ package omise
 // Transaction struct as member elements. See the pagination and lists documentation at
 // https://www.omise.co/api-pagination for more information.
 type TransactionList struct {
-	Base
+	List
 	Data []*Transaction `json:"data"`
 }
 

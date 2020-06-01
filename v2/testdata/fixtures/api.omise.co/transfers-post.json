@@ -1,0 +1,22 @@
+{
+  "object": "transfer",
+  "id": "trsf_test_4yqacz8t3cbipcj766u",
+  "livemode": false,
+  "location": "/transfers/trsf_test_4yqacz8t3cbipcj766u",
+  "sent": true,
+  "paid": true,
+  "amount": 192188,
+  "currency": "thb",
+  "failure_code": null,
+  "failure_message": null,
+  "transaction": "trxn_test_4yqafnvlztbf3908vs1",
+  "recipient": "recp_test_50894vc13y8z4v51iuc",
+  "bank_account": {
+    "object": "bank_account",
+    "brand": "test",
+    "last_digits": "6789",
+    "name": "JOHN DOE",
+    "created": "2015-06-02T09:26:59Z"
+  },
+  "created": "2015-01-15T10:04:47Z"
+}

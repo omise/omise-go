@@ -8,7 +8,7 @@ type Search struct {
 	Export string `json:"export"`
 	Filters map[string]interface{} `json:"filters"`
 	Location string `json:"location"`
-	Order *Order `json:"order"`
+	Order Order `json:"order"`
 	Page int `json:"page"`
 	PerPage int `json:"per_page"`
 	Query string `json:"query"`
@@ -16,3 +16,4 @@ type Search struct {
 	Total int `json:"total"`
 	TotalPages int `json:"total_pages"`
 }
+

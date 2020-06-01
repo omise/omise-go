@@ -9,18 +9,19 @@ import (
 type Dispute struct {
 	Base
 	AdminMessage *string `json:"admin_message"`
-	Amount int `json:"amount"`
+	Amount int64 `json:"amount"`
 	Charge string `json:"charge"`
 	ClosedAt *time.Time `json:"closed_at"`
 	Currency string `json:"currency"`
 	Documents *DocumentList `json:"documents"`
-	FundingAmount int `json:"funding_amount"`
+	FundingAmount int64 `json:"funding_amount"`
 	FundingCurrency string `json:"funding_currency"`
 	Location string `json:"location"`
-	Message *string `json:"message"`
+	Message string `json:"message"`
 	Metadata map[string]interface{} `json:"metadata"`
-	ReasonCode *DisputeReasonCode `json:"reason_code"`
+	ReasonCode DisputeReasonCode `json:"reason_code"`
 	ReasonMessage string `json:"reason_message"`
-	Status *DisputeStatus `json:"status"`
+	Status DisputeStatus `json:"status"`
 	Transactions []Transaction `json:"transactions"`
 }
+

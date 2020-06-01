@@ -1,7 +1,9 @@
 package omise
 
+// WebhookDelivery represents resource object.
 type WebhookDelivery struct {
 	Base
 	Status int `json:"status"`
-	Uri string `json:"uri"`
+	URI string `json:"uri"`
 }
+

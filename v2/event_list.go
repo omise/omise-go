@@ -4,7 +4,7 @@ package omise
 // Event struct as member elements. See the pagination and lists documentation at
 // https://www.omise.co/api-pagination for more information.
 type EventList struct {
-	Base
+	List
 	Data []*Event `json:"data"`
 }
 

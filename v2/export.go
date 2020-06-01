@@ -1,5 +1,6 @@
 package omise
 
+// Export represents resource object.
 type Export struct {
 	Base
 	DownloadURI string `json:"download_uri"`
@@ -9,7 +10,8 @@ type Export struct {
 	Location string `json:"location"`
 	Name string `json:"name"`
 	ObjectType string `json:"object_type"`
-	Rows int `json:"rows"`
+	Rows int64 `json:"rows"`
 	Status string `json:"status"`
 	Team string `json:"team"`
 }
+

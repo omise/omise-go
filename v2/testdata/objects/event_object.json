@@ -1,0 +1,14 @@
+{
+  "object": "event",
+  "id": "evnt_test_526yctupnje5mbldskd",
+  "livemode": false,
+  "location": "/events/evnt_test_526yctupnje5mbldskd",
+  "key": "transfer.destroy",
+  "created": "2015-11-30T03:39:42Z",
+  "data": {
+    "object": "transfer",
+    "id": "trsf_test_526yctqob5djkckq88a",
+    "livemode": false,
+    "deleted": true
+  }
+}

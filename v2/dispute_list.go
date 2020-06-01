@@ -4,7 +4,7 @@ package omise
 // Dispute struct as member elements. See the pagination and lists documentation at
 // https://www.omise.co/api-pagination for more information.
 type DisputeList struct {
-	Base
+	List
 	Data []*Dispute `json:"data"`
 }
 

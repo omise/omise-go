@@ -40,7 +40,16 @@ perform() {
 check go                       "needs go from http://golang.org"
 check $GOPATH/bin/gometalinter "needs gometalinter from https://github.com/alecthomas/gometalinter"
 
+# v1
+echo "v1"
 perform generators go generate . ./operations
+perform builds     go install . ./operations
+perform linters    gometalinter --fast --aggregate
+perform tests      go test $(go list ./... | grep -v v2/)
+
+# v2
+echo "v2"
+cd ./v2
 perform builds     go install . ./operations
 perform linters    gometalinter --fast --aggregate
 perform tests      go test ./...

@@ -8,7 +8,7 @@ import (
 // See https://www.omise.co/charges-api for more information.
 type Charge struct {
 	Base
-	Amount int `json:"amount"`
+	Amount int64 `json:"amount"`
 	AuthorizeURI *string `json:"authorize_uri"`
 	Authorized bool `json:"authorized"`
 	Capturable bool `json:"capturable"`
@@ -24,22 +24,22 @@ type Charge struct {
 	ExpiresAt *time.Time `json:"expires_at"`
 	FailureCode *ChargeFailureCode `json:"failure_code"`
 	FailureMessage *string `json:"failure_message"`
-	Fee int `json:"fee"`
-	FeeVat int `json:"fee_vat"`
-	FundingAmount int `json:"funding_amount"`
+	Fee int64 `json:"fee"`
+	FeeVat int64 `json:"fee_vat"`
+	FundingAmount int64 `json:"funding_amount"`
 	FundingCurrency string `json:"funding_currency"`
-	Interest int `json:"interest"`
-	InterestVat int `json:"interest_vat"`
+	Interest int64 `json:"interest"`
+	InterestVat int64 `json:"interest_vat"`
 	IP *string `json:"ip"`
 	Link string `json:"link"`
 	Location string `json:"location"`
 	Metadata map[string]interface{} `json:"metadata"`
-	Net int `json:"net"`
+	Net int64 `json:"net"`
 	Paid bool `json:"paid"`
 	PaidAt time.Time `json:"paid_at"`
 	PlatformFee *PlatformFee `json:"platform_fee"`
 	Refundable bool `json:"refundable"`
-	RefundedAmount int `json:"refunded_amount"`
+	RefundedAmount int64 `json:"refunded_amount"`
 	Refunds *RefundList `json:"refunds"`
 	ReturnURI *string `json:"return_uri"`
 	Reversed bool `json:"reversed"`
@@ -47,8 +47,9 @@ type Charge struct {
 	Reversible bool `json:"reversible"`
 	Schedule string `json:"schedule"`
 	Source *Source `json:"source"`
-	Status *ChargeStatus `json:"status"`
+	Status ChargeStatus `json:"status"`
 	Transaction string `json:"transaction"`
 	Voided bool `json:"voided"`
 	ZeroInterestInstallments bool `json:"zero_interest_installments"`
 }
+

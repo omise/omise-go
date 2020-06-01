@@ -1,7 +1,9 @@
 package omise
 
+// ChargeFailureCode represents an enumeration of possible values for Charge.
 type ChargeFailureCode string
 
+// ChargeFailureCode can be one of the following list of constants:
 const (
 	ChargeFailedFraudCheck ChargeFailureCode = "failed_fraud_check"
 	ChargeFailedProcessing ChargeFailureCode = "failed_processing"
@@ -13,3 +15,4 @@ const (
 	ChargePaymentRejected ChargeFailureCode = "payment_rejected"
 	ChargeTimeout ChargeFailureCode = "timeout"
 )
+

@@ -1,0 +1,6 @@
+{
+  "object": "error",
+  "location": "https://docs.omise.co/api/errors#not-found",
+  "code": "not_found",
+  "message": "customer missing was not found"
+}

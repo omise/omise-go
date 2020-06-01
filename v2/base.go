@@ -12,6 +12,10 @@ type Base struct {
 	Created  time.Time `json:"created"`
 }
 
+// BaseModel is just an alias. We use it in the case where field names conflict with `Base` type.
+// e.g. Forex.Base
+type BaseModel = Base
+
 // Deletion struct is used to receive deletion responses from delete operations.
 type Deletion struct {
 	Base

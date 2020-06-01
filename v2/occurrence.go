@@ -15,5 +15,6 @@ type Occurrence struct {
 	RetryOn Date `json:"retry_on"`
 	Schedule string `json:"schedule"`
 	ScheduledOn Date `json:"scheduled_on"`
-	Status *OccurrenceStatus `json:"status"`
+	Status OccurrenceStatus `json:"status"`
 }
+

@@ -1,0 +1,53 @@
+{
+  "object": "list",
+  "from": "1970-01-01T00:00:00+00:00",
+  "to": "2015-01-15T04:23:47+00:00",
+  "offset": 0,
+  "limit": 20,
+  "total": 1,
+  "order": "chronological",
+  "location": "/customers",
+  "data": [
+    {
+      "object": "customer",
+      "id": "cust_test_4yq6txdpfadhbaqnwp3",
+      "livemode": false,
+      "location": "/customers/cust_test_4yq6txdpfadhbaqnwp3",
+      "default_card": "card_test_4yq6tuucl9h4erukfl0",
+      "email": "john.doe@example.com",
+      "description": "John Doe (id: 30)",
+      "created": "2015-01-15T04:03:52Z",
+      "cards": {
+        "object": "list",
+        "from": "1970-01-01T00:00:00+00:00",
+        "to": "2015-01-15T04:23:47+00:00",
+        "offset": 0,
+        "limit": 20,
+        "total": 1,
+        "order": null,
+        "location": "/customers/cust_test_52u3ik77brmdygicm8z/cards",
+        "data": [
+          {
+            "object": "card",
+            "id": "card_test_4yq6tuucl9h4erukfl0",
+            "livemode": false,
+            "location": "/customers/cust_test_4yq6txdpfadhbaqnwp3/cards/card_test_4yq6tuucl9h4erukfl0",
+            "country": "",
+            "city": "Bangkok",
+            "postal_code": "10320",
+            "financing": "",
+            "bank": "",
+            "last_digits": "4242",
+            "brand": "Visa",
+            "expiration_month": 1,
+            "expiration_year": 2017,
+            "fingerprint": "sRF/oMw2UQJJp/WbU+2/ZbVzwROjpMf1lyhOHhOqziw=",
+            "name": "JOHN DOE",
+            "security_code_check": true,
+            "created": "2015-01-15T04:03:40Z"
+          }
+        ]
+      }
+    }
+  ]
+}

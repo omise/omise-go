@@ -4,7 +4,7 @@ package omise
 // Document struct as member elements. See the pagination and lists documentation at
 // https://www.omise.co/api-pagination for more information.
 type DocumentList struct {
-	Base
+	List
 	Data []*Document `json:"data"`
 }
 

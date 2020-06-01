@@ -4,7 +4,7 @@ package omise
 // Schedule struct as member elements. See the pagination and lists documentation at
 // https://www.omise.co/api-pagination for more information.
 type ScheduleList struct {
-	Base
+	List
 	Data []*Schedule `json:"data"`
 }
 

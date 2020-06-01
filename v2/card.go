@@ -1,5 +1,9 @@
 package omise
 
+import (
+	"time"
+)
+
 // Card represents Card object.
 // See https://www.omise.co/cards-api for more information.
 type Card struct {
@@ -8,7 +12,7 @@ type Card struct {
 	Brand string `json:"brand"`
 	City *string `json:"city"`
 	Country string `json:"country"`
-	ExpirationMonth int `json:"expiration_month"`
+	ExpirationMonth time.Month `json:"expiration_month"`
 	ExpirationYear int `json:"expiration_year"`
 	Financing string `json:"financing"`
 	Fingerprint string `json:"fingerprint"`
@@ -23,3 +27,4 @@ type Card struct {
 	Street1 *string `json:"street1"`
 	Street2 *string `json:"street2"`
 }
+

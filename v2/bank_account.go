@@ -9,5 +9,6 @@ type BankAccount struct {
 	Brand string `json:"brand"`
 	LastDigits string `json:"last_digits"`
 	Name string `json:"name"`
-	Type *BankAccountType `json:"type"`
+	Type BankAccountType `json:"type"`
 }
+

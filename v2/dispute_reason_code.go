@@ -1,7 +1,9 @@
 package omise
 
+// DisputeReasonCode represents an enumeration of possible values for Dispute.
 type DisputeReasonCode string
 
+// DisputeReasonCode can be one of the following list of constants:
 const (
 	DisputeCancelledRecurringTransaction DisputeReasonCode = "cancelled_recurring_transaction"
 	DisputeCreditNotProcessed DisputeReasonCode = "credit_not_processed"
@@ -20,3 +22,4 @@ const (
 	DisputeTransactionNotRecognised DisputeReasonCode = "transaction_not_recognised"
 	DisputeUnauthorizedCharge DisputeReasonCode = "unauthorized_charge"
 )
+

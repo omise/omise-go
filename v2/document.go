@@ -8,3 +8,4 @@ type Document struct {
 	Filename string `json:"filename"`
 	Location string `json:"location"`
 }
+

@@ -8,7 +8,7 @@ import (
 // See https://www.omise.co/links-api for more information.
 type Link struct {
 	Base
-	Amount int `json:"amount"`
+	Amount int64 `json:"amount"`
 	Charges *ChargeList `json:"charges"`
 	Currency string `json:"currency"`
 	Description string `json:"description"`
@@ -19,3 +19,4 @@ type Link struct {
 	Used bool `json:"used"`
 	UsedAt time.Time `json:"used_at"`
 }
+

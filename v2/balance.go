@@ -6,7 +6,8 @@ type Balance struct {
 	Base
 	Currency string `json:"currency"`
 	Location string `json:"location"`
-	Reserve int `json:"reserve"`
-	Total int `json:"total"`
-	Transferable int `json:"transferable"`
+	Reserve int64 `json:"reserve"`
+	Total int64 `json:"total"`
+	Transferable int64 `json:"transferable"`
 }
+

@@ -4,7 +4,7 @@ package omise
 // Receipt struct as member elements. See the pagination and lists documentation at
 // https://www.omise.co/api-pagination for more information.
 type ReceiptList struct {
-	Base
+	List
 	Data []*Receipt `json:"data"`
 }
 

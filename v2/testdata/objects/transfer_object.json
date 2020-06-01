@@ -1,0 +1,22 @@
+{
+  "object": "transfer",
+  "id": "trsf_test_5086uxn23hfaxv8nl0f",
+  "livemode": false,
+  "location": "/transfers/trsf_test_5086uxn23hfaxv8nl0f",
+  "recipient": "recp_test_506zyyammqke9tmhgh2",
+  "bank_account": {
+    "object": "bank_account",
+    "brand": "test",
+    "last_digits": "6789",
+    "name": "DEFAULT BANK ACCOUNT",
+    "created": "2015-05-30T04:28:09Z"
+  },
+  "sent": false,
+  "paid": false,
+  "amount": 100000,
+  "currency": "thb",
+  "failure_code": null,
+  "failure_message": null,
+  "transaction": null,
+  "created": "2015-06-02T05:34:13Z"
+}

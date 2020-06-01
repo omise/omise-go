@@ -6,8 +6,9 @@ type Customer struct {
 	Base
 	Cards *CardList `json:"cards"`
 	DefaultCard string `json:"default_card"`
-	Description *string `json:"description"`
-	Email *string `json:"email"`
+	Description string `json:"description"`
+	Email string `json:"email"`
 	Location string `json:"location"`
 	Metadata map[string]interface{} `json:"metadata"`
 }
+

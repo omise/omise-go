@@ -18,8 +18,9 @@ type Schedule struct {
 	NextOccurrencesOn []string `json:"next_occurrences_on"`
 	Occurrences *OccurrenceList `json:"occurrences"`
 	On *ScheduleOn `json:"on"`
-	Period *SchedulePeriod `json:"period"`
+	Period SchedulePeriod `json:"period"`
 	StartOn Date `json:"start_on"`
-	Status *ScheduleStatus `json:"status"`
+	Status ScheduleStatus `json:"status"`
 	Transfer *TransferScheduling `json:"transfer"`
 }
+

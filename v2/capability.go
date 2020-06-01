@@ -10,3 +10,4 @@ type Capability struct {
 	PaymentMethods []PaymentMethod `json:"payment_methods"`
 	ZeroInterestInstallments bool `json:"zero_interest_installments"`
 }
+

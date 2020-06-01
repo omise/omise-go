@@ -4,12 +4,12 @@ package omise
 // See https://www.omise.co/sources-api for more information.
 type Source struct {
 	Base
-	Amount int `json:"amount"`
+	Amount int64 `json:"amount"`
 	Barcode string `json:"barcode"`
 	Currency string `json:"currency"`
 	Email string `json:"email"`
-	Flow *FlowType `json:"flow"`
-	InstallmentTerm int `json:"installment_term"`
+	Flow FlowType `json:"flow"`
+	InstallmentTerm int64 `json:"installment_term"`
 	Location string `json:"location"`
 	MobileNumber string `json:"mobile_number"`
 	Name string `json:"name"`
@@ -19,6 +19,7 @@ type Source struct {
 	StoreID string `json:"store_id"`
 	StoreName string `json:"store_name"`
 	TerminalID string `json:"terminal_id"`
-	Type *SourceType `json:"type"`
+	Type SourceType `json:"type"`
 	ZeroInterestInstallments bool `json:"zero_interest_installments"`
 }
+

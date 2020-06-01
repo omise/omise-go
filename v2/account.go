@@ -4,7 +4,7 @@ package omise
 // See https://www.omise.co/account-api for more information.
 type Account struct {
 	Base
-	ApiVersion string `json:"api_version"`
+	APIVersion string `json:"api_version"`
 	AutoActivateRecipients bool `json:"auto_activate_recipients"`
 	ChainEnabled bool `json:"chain_enabled"`
 	ChainReturnURI string `json:"chain_return_uri"`
@@ -18,3 +18,4 @@ type Account struct {
 	WebhookURI string `json:"webhook_uri"`
 	ZeroInterestInstallments bool `json:"zero_interest_installments"`
 }
+

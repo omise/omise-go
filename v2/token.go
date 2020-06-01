@@ -8,3 +8,4 @@ type Token struct {
 	Location string `json:"location"`
 	Used bool `json:"used"`
 }
+

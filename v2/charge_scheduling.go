@@ -4,7 +4,7 @@ package omise
 // See https://www.omise.co/charge-schedules-api for more information.
 type ChargeScheduling struct {
 	Base
-	Amount int `json:"amount"`
+	Amount int64 `json:"amount"`
 	Card string `json:"card"`
 	Currency string `json:"currency"`
 	Customer string `json:"customer"`
@@ -12,3 +12,4 @@ type ChargeScheduling struct {
 	Description *string `json:"description"`
 	Metadata map[string]interface{} `json:"metadata"`
 }
+

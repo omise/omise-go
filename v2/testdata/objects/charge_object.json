@@ -1,0 +1,50 @@
+{
+  "object": "charge",
+  "id": "chrg_test_5086xlsx4lghk9bpb75",
+  "livemode": false,
+  "location": "/charges/chrg_test_5086xlsx4lghk9bpb75",
+  "amount": 100000,
+  "currency": "thb",
+  "description": null,
+  "capture": true,
+  "authorized": true,
+  "paid": true,
+  "transaction": "trxn_test_5086xltqqbv4qpmu0ri",
+  "refunded": 0,
+  "refunds": {
+    "object": "list",
+    "from": "1970-01-01T00:00:00+00:00",
+    "to": "2015-06-02T05:41:49+00:00",
+    "offset": 0,
+    "limit": 20,
+    "total": 0,
+    "data": [
+
+    ],
+    "location": "/charges/chrg_test_5086xlsx4lghk9bpb75/refunds"
+  },
+  "failure_code": null,
+  "failure_message": null,
+  "card": {
+    "object": "card",
+    "id": "card_test_5086xl7amxfysl0ac5l",
+    "livemode": false,
+    "location": "/customers/cust_test_5086xleuh9ft4bn0ac2/cards/card_test_5086xl7amxfysl0ac5l",
+    "country": "us",
+    "city": "Bangkok",
+    "postal_code": "10320",
+    "financing": "",
+    "last_digits": "4242",
+    "brand": "Visa",
+    "expiration_month": 10,
+    "expiration_year": 2018,
+    "fingerprint": "mKleiBfwp+PoJWB/ipngANuECUmRKjyxROwFW5IO7TM=",
+    "name": "Somchai Prasert",
+    "security_code_check": true,
+    "created": "2015-06-02T05:41:46Z"
+  },
+  "customer": "cust_test_5086xleuh9ft4bn0ac2",
+  "ip": null,
+  "dispute": null,
+  "created": "2015-06-02T05:41:49Z"
+}

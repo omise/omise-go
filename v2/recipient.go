@@ -20,7 +20,8 @@ type Recipient struct {
 	Name string `json:"name"`
 	Schedule string `json:"schedule"`
 	TaxID *string `json:"tax_id"`
-	Type *RecipientType `json:"type"`
+	Type RecipientType `json:"type"`
 	Verified bool `json:"verified"`
 	VerifiedAt time.Time `json:"verified_at"`
 }
+
