@@ -4,7 +4,7 @@ package omise
 // Charge struct as member elements. See the pagination and lists documentation at
 // https://www.omise.co/api-pagination for more information.
 type ChargeList struct {
-	Base
+	List
 	Data []*Charge `json:"data"`
 }
 
