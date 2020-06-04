@@ -1,48 +1,54 @@
 package operations
 
-import (
-	"github.com/omise/omise-go/v2/internal"
-)
 
 // Example:
 //
-//	events, list := &omise.EventList{}, &ListEvents{}
-//	if e := client.Do(events, list); e != nil {
+//	charge, update := &omise.Event{}, &RetrieveEvent{
+//		ChargeID:    "chrg_456",
+//		Description: "updated charge.",
+//	}
+//	if e := client.Do(charge, update); e != nil {
 //		panic(e)
 //	}
 //
-//	fmt.Println("# of events:", len(events.Data))
+//	fmt.Printf("updated charge: %#v\n", charge)
 //
-type ListEvents struct {
-	List
+type RetrieveEvent struct {
+	Base
+	EventID string `json:"-"`
 }
 
-func (req *ListEvents) Describe() *internal.Description {
+func (req *RetrieveEvent) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      "GET",
-		Path:        "/events",
+		Method:      GET,
+		Path:        "/events/" + req.EventID,
 		ContentType: "application/json",
 	}
 }
 
 // Example:
 //
-//	event, retrieve := &omise.Event{}, &RetrieveEvent{"evnt_123"}
-//	if e := client.Do(event, retrieve); e != nil {
+//	charge, update := &omise.Event{}, &ListEvents{
+//		ChargeID:    "chrg_456",
+//		Description: "updated charge.",
+//	}
+//	if e := client.Do(charge, update); e != nil {
 //		panic(e)
 //	}
 //
-//	fmt.Printf("evnt_123: %#v\n", event)
+//	fmt.Printf("updated charge: %#v\n", charge)
 //
-type RetrieveEvent struct {
-	EventID string `json:"-"`
+type ListEvents struct {
+	Base
 }
 
-func (req *RetrieveEvent) Describe() *internal.Description {
+func (req *ListEvents) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.API,
-		Method:   "GET",
-		Path:     "/events/" + req.EventID,
+		Endpoint:    internal.API,
+		Method:      GET,
+		Path:        "/events",
+		ContentType: "application/json",
 	}
 }
+

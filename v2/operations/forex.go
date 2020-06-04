@@ -3,7 +3,7 @@ package operations
 
 // Example:
 //
-//	charge, update := &omise.Balance{}, &RetrieveBalance{
+//	charge, update := &omise.Forex{}, &RetrieveForex{
 //		ChargeID:    "chrg_456",
 //		Description: "updated charge.",
 //	}
@@ -13,15 +13,16 @@ package operations
 //
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
-type RetrieveBalance struct {
+type RetrieveForex struct {
 	Base
+	Currency string `json:"-"`
 }
 
-func (req *RetrieveBalance) Describe() *internal.Description {
+func (req *RetrieveForex) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
 		Method:      GET,
-		Path:        "/balance",
+		Path:        "/forex/" + req.Currency,
 		ContentType: "application/json",
 	}
 }

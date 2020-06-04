@@ -3,7 +3,7 @@ package operations
 
 // Example:
 //
-//	charge, update := &omise.Balance{}, &RetrieveBalance{
+//	charge, update := &omise.Capability{}, &RetrieveCapability{
 //		ChargeID:    "chrg_456",
 //		Description: "updated charge.",
 //	}
@@ -13,15 +13,15 @@ package operations
 //
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
-type RetrieveBalance struct {
+type RetrieveCapability struct {
 	Base
 }
 
-func (req *RetrieveBalance) Describe() *internal.Description {
+func (req *RetrieveCapability) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
 		Method:      GET,
-		Path:        "/balance",
+		Path:        "/capability",
 		ContentType: "application/json",
 	}
 }

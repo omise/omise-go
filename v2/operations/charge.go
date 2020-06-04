@@ -1,88 +1,145 @@
 package operations
 
 import (
-	"encoding/json"
-
-	"github.com/omise/omise-go/v2"
-	"github.com/omise/omise-go/v2/internal"
+	"time"
 )
 
 // Example:
 //
-//	charges, list := &omise.ChargeList{}, &ListCharges{
-//		List{
-//			Limit: 100,
-//			From: time.Now().Add(-1 * time.Hour),
-//		},
+//	charge, update := &omise.Charge{}, &SearchCharge{
+//		ChargeID:    "chrg_456",
+//		Description: "updated charge.",
 //	}
-//	if e := client.Do(charges, list); e != nil {
+//	if e := client.Do(charge, update); e != nil {
 //		panic(e)
 //	}
 //
-//	fmt.Println("# of charges made in the last hour:", len(charges.Data))
+//	fmt.Printf("updated charge: %#v\n", charge)
+//
+type SearchCharge struct {
+	Base
+}
+
+func (req *SearchCharge) Describe() *internal.Description {
+	return &internal.Description{
+		Endpoint:    internal.API,
+		Method:      GET,
+		Path:        "/charges/search",
+		ContentType: "application/json",
+	}
+}
+
+// Example:
+//
+//	charge, update := &omise.Charge{}, &ListCharges{
+//		ChargeID:    "chrg_456",
+//		Description: "updated charge.",
+//	}
+//	if e := client.Do(charge, update); e != nil {
+//		panic(e)
+//	}
+//
+//	fmt.Printf("updated charge: %#v\n", charge)
 //
 type ListCharges struct {
-	List
+	Base
 }
 
 func (req *ListCharges) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      "GET",
+		Method:      GET,
 		Path:        "/charges",
 		ContentType: "application/json",
 	}
 }
 
-// Note that because bool defaults to false in GO, we use DontCapture instead of Capture
-// here so it matches with Omise's REST API default capture=true.
-//
 // Example:
 //
-//	charge, create := &omise.Charge{}, &CreateCharge{
-//		Amount:      204842,
-//		Currency:    "thb",
-//		Description: "initial charge.",
-//		Card:        token.ID,
+//	charge, update := &omise.Charge{}, &CreateCharge{
+//		ChargeID:    "chrg_456",
+//		Description: "updated charge.",
 //	}
-//	if e := client.Do(charge, create); e != nil {
+//	if e := client.Do(charge, update); e != nil {
 //		panic(e)
 //	}
 //
-//	fmt.Println("created charge:", charge.ID)
+//	fmt.Printf("updated charge: %#v\n", charge)
 //
 type CreateCharge struct {
-	Customer    string                 `json:"customer,omitempty"`
-	Card        string                 `json:"card,omitempty"`
-	Source      string                 `json:"source,omitempty"`
-	Amount      int64                  `json:"amount"`
-	Currency    string                 `json:"currency"`
-	Offsite     omise.OffsiteTypes     `json:"offsite,omitempty"`
-	Description string                 `json:"description,omitempty"`
-	DontCapture bool                   `json:"-"` // inverse, since `capture` defaults to true
-	ReturnURI   string                 `json:"return_uri,omitempty"`
-	Metadata    map[string]interface{} `json:"metadata,omitempty"`
-}
-
-func (req *CreateCharge) MarshalJSON() ([]byte, error) {
-	type Alias CreateCharge
-	params := struct {
-		*Alias
-		Capture *bool `json:"capture,omitempty"`
-	}{
-		Alias: (*Alias)(req),
-	}
-	if params.DontCapture {
-		params.Capture = new(bool)
-	}
-	return json.Marshal(params)
+	Base
+	Amount int `json:"amount"`
+	Capture bool `json:"capture"`
+	Card string `json:"card"`
+	Currency string `json:"currency"`
+	Customer string `json:"customer"`
+	Description string `json:"description"`
+	ExpiresAt time.Time `json:"expires_at"`
+	IP string `json:"ip"`
+	Metadata map[string]interface{} `json:"metadata"`
+	PlatformFee *PlatformFee `json:"platform_fee"`
+	Reference string `json:"reference"`
+	ReturnURI string `json:"return_uri"`
+	Source string `json:"source"`
 }
 
 func (req *CreateCharge) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      "POST",
+		Method:      POST,
 		Path:        "/charges",
+		ContentType: "application/json",
+	}
+}
+
+// Example:
+//
+//	charge, update := &omise.Event{}, &ListChargesEvents{
+//		ChargeID:    "chrg_456",
+//		Description: "updated charge.",
+//	}
+//	if e := client.Do(charge, update); e != nil {
+//		panic(e)
+//	}
+//
+//	fmt.Printf("updated charge: %#v\n", charge)
+//
+type ListChargesEvents struct {
+	Base
+	ChargeID string `json:"-"`
+}
+
+func (req *ListChargesEvents) Describe() *internal.Description {
+	return &internal.Description{
+		Endpoint:    internal.API,
+		Method:      GET,
+		Path:        "/charges/" + req.ChargeID + "/events",
+		ContentType: "application/json",
+	}
+}
+
+// Example:
+//
+//	charge, update := &omise.Charge{}, &RetrieveCharge{
+//		ChargeID:    "chrg_456",
+//		Description: "updated charge.",
+//	}
+//	if e := client.Do(charge, update); e != nil {
+//		panic(e)
+//	}
+//
+//	fmt.Printf("updated charge: %#v\n", charge)
+//
+type RetrieveCharge struct {
+	Base
+	ChargeID string `json:"-"`
+}
+
+func (req *RetrieveCharge) Describe() *internal.Description {
+	return &internal.Description{
+		Endpoint:    internal.API,
+		Method:      GET,
+		Path:        "/charges/" + req.ChargeID,
 		ContentType: "application/json",
 	}
 }
@@ -100,15 +157,16 @@ func (req *CreateCharge) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type UpdateCharge struct {
-	ChargeID    string                 `json:"-"`
-	Description string                 `json:"description"`
-	Metadata    map[string]interface{} `json:"metadata,omitempty"`
+	Base
+	ChargeID string `json:"-"`
+	Description string `json:"description"`
+	Metadata map[string]interface{} `json:"metadata"`
 }
 
 func (req *UpdateCharge) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      "PATCH",
+		Method:      PATCH,
 		Path:        "/charges/" + req.ChargeID,
 		ContentType: "application/json",
 	}
@@ -116,64 +174,264 @@ func (req *UpdateCharge) Describe() *internal.Description {
 
 // Example:
 //
-//	charge := &omise.Charge{ID: "chrg_323"}
-//	if e := client.Do(charge, &RetrieveCharge{charge.ID}); e != nil {
+//	charge, update := &omise.Charge{}, &CaptureCharge{
+//		ChargeID:    "chrg_456",
+//		Description: "updated charge.",
+//	}
+//	if e := client.Do(charge, update); e != nil {
 //		panic(e)
 //	}
 //
-//	fmt.Printf("charge #chrg_323: %#v\n", charge)
-//
-type RetrieveCharge struct {
-	ChargeID string `json:"-"`
-}
-
-func (req *RetrieveCharge) Describe() *internal.Description {
-	return &internal.Description{
-		Endpoint:    internal.API,
-		Method:      "GET",
-		Path:        "/charges/" + req.ChargeID,
-		ContentType: "application/json",
-	}
-}
-
-// If you have created a charge and passed capture=false you'll have an authorized only
-// charge that you can capture at a later time. You can hold it for as long as permitted
-// by the issuing bank. This delay may vary between cards from 1 to 30 days.
-//
-// Example:
-//
-//	charge := &omise.Charge{ID: "chrg_1234"}
-//	if e := client.Do(charge, &CaptureCharge{charge.ID}); e != nil {
-//		panic(e)
-//	}
-//
-//	fmt.Println("captured:", charge.Captured)
+//	fmt.Printf("updated charge: %#v\n", charge)
 //
 type CaptureCharge struct {
+	Base
 	ChargeID string `json:"-"`
 }
 
 func (req *CaptureCharge) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      "POST",
+		Method:      POST,
 		Path:        "/charges/" + req.ChargeID + "/capture",
 		ContentType: "application/json",
 	}
 }
 
-// If you have created a charge and passed capture=false you'll have an authorized only
-// charge that can be reversed, releasing held money, at a later time without incurring a
-// refund fee.
+// Example:
+//
+//	charge, update := &omise.Charge{}, &ExpireCharge{
+//		ChargeID:    "chrg_456",
+//		Description: "updated charge.",
+//	}
+//	if e := client.Do(charge, update); e != nil {
+//		panic(e)
+//	}
+//
+//	fmt.Printf("updated charge: %#v\n", charge)
+//
+type ExpireCharge struct {
+	Base
+	ChargeID string `json:"-"`
+}
+
+func (req *ExpireCharge) Describe() *internal.Description {
+	return &internal.Description{
+		Endpoint:    internal.API,
+		Method:      POST,
+		Path:        "/charges/" + req.ChargeID + "/expire",
+		ContentType: "application/json",
+	}
+}
+
+// Example:
+//
+//	charge, update := &omise.Charge{}, &MarkChargeAsFailed{
+//		ChargeID:    "chrg_456",
+//		Description: "updated charge.",
+//	}
+//	if e := client.Do(charge, update); e != nil {
+//		panic(e)
+//	}
+//
+//	fmt.Printf("updated charge: %#v\n", charge)
+//
+type MarkChargeAsFailed struct {
+	Base
+	ChargeID string `json:"-"`
+}
+
+func (req *MarkChargeAsFailed) Describe() *internal.Description {
+	return &internal.Description{
+		Endpoint:    internal.API,
+		Method:      POST,
+		Path:        "/charges/" + req.ChargeID + "/mark_as_failed",
+		ContentType: "application/json",
+	}
+}
+
+// Example:
+//
+//	charge, update := &omise.Charge{}, &MarkChargeAsPaid{
+//		ChargeID:    "chrg_456",
+//		Description: "updated charge.",
+//	}
+//	if e := client.Do(charge, update); e != nil {
+//		panic(e)
+//	}
+//
+//	fmt.Printf("updated charge: %#v\n", charge)
+//
+type MarkChargeAsPaid struct {
+	Base
+	ChargeID string `json:"-"`
+}
+
+func (req *MarkChargeAsPaid) Describe() *internal.Description {
+	return &internal.Description{
+		Endpoint:    internal.API,
+		Method:      POST,
+		Path:        "/charges/" + req.ChargeID + "/mark_as_paid",
+		ContentType: "application/json",
+	}
+}
+
+// Example:
+//
+//	charge, update := &omise.Charge{}, &ReverseCharge{
+//		ChargeID:    "chrg_456",
+//		Description: "updated charge.",
+//	}
+//	if e := client.Do(charge, update); e != nil {
+//		panic(e)
+//	}
+//
+//	fmt.Printf("updated charge: %#v\n", charge)
+//
 type ReverseCharge struct {
+	Base
 	ChargeID string `json:"-"`
 }
 
 func (req *ReverseCharge) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      "POST",
+		Method:      POST,
 		Path:        "/charges/" + req.ChargeID + "/reverse",
 		ContentType: "application/json",
 	}
 }
+
+// Example:
+//
+//	charge, update := &omise.ChargeSchedule{}, &SearchChargeSchedule{
+//		ChargeID:    "chrg_456",
+//		Description: "updated charge.",
+//	}
+//	if e := client.Do(charge, update); e != nil {
+//		panic(e)
+//	}
+//
+//	fmt.Printf("updated charge: %#v\n", charge)
+//
+type SearchChargeSchedule struct {
+	Base
+}
+
+func (req *SearchChargeSchedule) Describe() *internal.Description {
+	return &internal.Description{
+		Endpoint:    internal.API,
+		Method:      GET,
+		Path:        "/charges/schedules/" + "/search",
+		ContentType: "application/json",
+	}
+}
+
+// Example:
+//
+//	charge, update := &omise.Dispute{}, &CreateChargeDisputeDispute{
+//		ChargeID:    "chrg_456",
+//		Description: "updated charge.",
+//	}
+//	if e := client.Do(charge, update); e != nil {
+//		panic(e)
+//	}
+//
+//	fmt.Printf("updated charge: %#v\n", charge)
+//
+type CreateChargeDisputeDispute struct {
+	Base
+	ChargeID string `json:"-"`
+}
+
+func (req *CreateChargeDisputeDispute) Describe() *internal.Description {
+	return &internal.Description{
+		Endpoint:    internal.API,
+		Method:      POST,
+		Path:        "/charges/" + req.ChargeID + "/disputes",
+		ContentType: "application/json",
+	}
+}
+
+// Example:
+//
+//	charge, update := &omise.Refund{}, &ListChargesRefund{
+//		ChargeID:    "chrg_456",
+//		Description: "updated charge.",
+//	}
+//	if e := client.Do(charge, update); e != nil {
+//		panic(e)
+//	}
+//
+//	fmt.Printf("updated charge: %#v\n", charge)
+//
+type ListChargesRefund struct {
+	Base
+	ChargeID string `json:"-"`
+}
+
+func (req *ListChargesRefund) Describe() *internal.Description {
+	return &internal.Description{
+		Endpoint:    internal.API,
+		Method:      GET,
+		Path:        "/charges/" + req.ChargeID + "/refunds",
+		ContentType: "application/json",
+	}
+}
+
+// Example:
+//
+//	charge, update := &omise.Refund{}, &CreateChargeRefund{
+//		ChargeID:    "chrg_456",
+//		Description: "updated charge.",
+//	}
+//	if e := client.Do(charge, update); e != nil {
+//		panic(e)
+//	}
+//
+//	fmt.Printf("updated charge: %#v\n", charge)
+//
+type CreateChargeRefund struct {
+	Base
+	ChargeID string `json:"-"`
+	Amount int `json:"amount"`
+	Metadata map[string]interface{} `json:"metadata"`
+	Void bool `json:"void"`
+}
+
+func (req *CreateChargeRefund) Describe() *internal.Description {
+	return &internal.Description{
+		Endpoint:    internal.API,
+		Method:      POST,
+		Path:        "/charges/" + req.ChargeID + "/refunds",
+		ContentType: "application/json",
+	}
+}
+
+// Example:
+//
+//	charge, update := &omise.Refund{}, &RetrieveChargeRefund{
+//		ChargeID:    "chrg_456",
+//		Description: "updated charge.",
+//	}
+//	if e := client.Do(charge, update); e != nil {
+//		panic(e)
+//	}
+//
+//	fmt.Printf("updated charge: %#v\n", charge)
+//
+type RetrieveChargeRefund struct {
+	Base
+	ChargeID string `json:"-"`
+	RefundID string `json:"-"`
+}
+
+func (req *RetrieveChargeRefund) Describe() *internal.Description {
+	return &internal.Description{
+		Endpoint:    internal.API,
+		Method:      GET,
+		Path:        "/charges/" + req.ChargeID + "/refunds/" + req.RefundID,
+		ContentType: "application/json",
+	}
+}
+

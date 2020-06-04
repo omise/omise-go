@@ -1,56 +1,54 @@
 package operations
 
-import (
-	"github.com/omise/omise-go/v2/internal"
-)
 
 // Example:
 //
-//	transactions, list := &omise.TransactionList{}, &ListTransaction{
-//		List{
-//			Limit: 100,
-//			From: time.Now().Add(-1 * time.Hour),
-//		},
+//	charge, update := &omise.Transaction{}, &RetrieveTransaction{
+//		ChargeID:    "chrg_456",
+//		Description: "updated charge.",
 //	}
-//	if e := client.Do(transactions, list); !a.NoError(t, e) {
-//		return
-//	}
-//
-//	fmt.Println("# of transactions in the last hour:", len(transactions.Data))
-//
-type ListTransactions struct {
-	List
-}
-
-func (req *ListTransactions) Describe() *internal.Description {
-	return &internal.Description{
-		Endpoint:    internal.API,
-		Method:      "GET",
-		Path:        "/transactions",
-		ContentType: "application/json",
-	}
-}
-
-// Example:
-//
-//	transaction, retrieve := &omise.Transaction{}, &RetrieveTransaction{"trxn_987"}
-//		TransactionID: transactions.Data[0].ID,
-//	}
-//	if e := client.Do(transaction, retrieve); e != nil {
+//	if e := client.Do(charge, update); e != nil {
 //		panic(e)
 //	}
 //
-//	fmt.Printf("transaction #trxn_987: %#v\n", transaction)
+//	fmt.Printf("updated charge: %#v\n", charge)
 //
 type RetrieveTransaction struct {
+	Base
 	TransactionID string `json:"-"`
 }
 
 func (req *RetrieveTransaction) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      "GET",
+		Method:      GET,
 		Path:        "/transactions/" + req.TransactionID,
 		ContentType: "application/json",
 	}
 }
+
+// Example:
+//
+//	charge, update := &omise.Transaction{}, &ListTransactions{
+//		ChargeID:    "chrg_456",
+//		Description: "updated charge.",
+//	}
+//	if e := client.Do(charge, update); e != nil {
+//		panic(e)
+//	}
+//
+//	fmt.Printf("updated charge: %#v\n", charge)
+//
+type ListTransactions struct {
+	Base
+}
+
+func (req *ListTransactions) Describe() *internal.Description {
+	return &internal.Description{
+		Endpoint:    internal.API,
+		Method:      GET,
+		Path:        "/transactions",
+		ContentType: "application/json",
+	}
+}
+

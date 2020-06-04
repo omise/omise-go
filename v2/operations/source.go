@@ -1,56 +1,66 @@
 package operations
 
-import (
-	"github.com/omise/omise-go/v2/internal"
-)
 
-// Example: Create source
+// Example:
 //
-//	source, createSource := &omise.Source{}, &CreateSource{
-//		Amount:   100000,
-//		Currency: "thb",
-//		Type:     "bill_payment_tesco_lotus",
+//	charge, update := &omise.Source{}, &CreateSource{
+//		ChargeID:    "chrg_456",
+//		Description: "updated charge.",
 //	}
-//	if e := client.Do(source, createSource); e != nil {
+//	if e := client.Do(charge, update); e != nil {
 //		panic(e)
 //	}
 //
-//	fmt.Println("created source:", source.ID)
+//	fmt.Printf("updated charge: %#v\n", charge)
 //
 type CreateSource struct {
-	Type     string `json:"type"`
-	Amount   int64  `json:"amount"`
+	Base
+	Amount int `json:"amount"`
+	Barcode string `json:"barcode"`
 	Currency string `json:"currency"`
+	Email string `json:"email"`
+	InstallmentTerm int `json:"installment_term"`
+	MobileNumber *string `json:"mobile_number"`
+	Name string `json:"name"`
+	StoreID string `json:"store_id"`
+	StoreName string `json:"store_name"`
+	TerminalID string `json:"terminal_id"`
+	Type *Type `json:"type"`
+	ZeroInterestInstallments bool `json:"zero_interest_installments"`
 }
 
 func (req *CreateSource) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      "POST",
+		Method:      POST,
 		Path:        "/sources",
 		ContentType: "application/json",
-		APIKey:      "public",
 	}
 }
 
-// Example: Retrieve Source
+// Example:
 //
-//	source, retrieve := &omise.Source{}, &RetrieveSource{"src_123"}
-//	if e := client.Do(source, retrieve); e != nil {
+//	charge, update := &omise.Source{}, &RetrieveSource{
+//		ChargeID:    "chrg_456",
+//		Description: "updated charge.",
+//	}
+//	if e := client.Do(charge, update); e != nil {
 //		panic(e)
 //	}
 //
-//	fmt.Printf("source #123: %#v\n", source)
+//	fmt.Printf("updated charge: %#v\n", charge)
 //
 type RetrieveSource struct {
+	Base
 	SourceID string `json:"-"`
 }
 
 func (req *RetrieveSource) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      "GET",
+		Method:      GET,
 		Path:        "/sources/" + req.SourceID,
 		ContentType: "application/json",
 	}
 }
+

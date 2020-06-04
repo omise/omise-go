@@ -1,28 +1,26 @@
 package operations
 
-import (
-	"github.com/omise/omise-go/v2/internal"
-)
 
 // Example:
 //
-//	receipts, list := &omise.ReceiptList{}, &ListReceipts{
-//		List{Offset: 100, Limit: 20},
+//	charge, update := &omise.Receipt{}, &ListReceipts{
+//		ChargeID:    "chrg_456",
+//		Description: "updated charge.",
 //	}
-//	if e := client.Do(receipts, list); e != nil {
+//	if e := client.Do(charge, update); e != nil {
 //		panic(e)
 //	}
 //
-//	fmt.Println("receipts #100-#120:", receipts.Data)
+//	fmt.Printf("updated charge: %#v\n", charge)
 //
 type ListReceipts struct {
-	List
+	Base
 }
 
 func (req *ListReceipts) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      "GET",
+		Method:      GET,
 		Path:        "/receipts",
 		ContentType: "application/json",
 	}
@@ -30,22 +28,27 @@ func (req *ListReceipts) Describe() *internal.Description {
 
 // Example:
 //
-//	rcpt, receipt := &omise.Receipt{}, &RetrieveReceipt{"rcpt_123"}
-//	if e := client.Do(rcpt, receipt); e != nil {
+//	charge, update := &omise.Receipt{}, &RetrieveReceipt{
+//		ChargeID:    "chrg_456",
+//		Description: "updated charge.",
+//	}
+//	if e := client.Do(charge, update); e != nil {
 //		panic(e)
 //	}
 //
-//	fmt.Printf("receipt #123: %#v\n", rcpt)
+//	fmt.Printf("updated charge: %#v\n", charge)
 //
 type RetrieveReceipt struct {
+	Base
 	ReceiptID string `json:"-"`
 }
 
 func (req *RetrieveReceipt) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      "GET",
+		Method:      GET,
 		Path:        "/receipts/" + req.ReceiptID,
 		ContentType: "application/json",
 	}
 }
+
