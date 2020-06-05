@@ -1,5 +1,8 @@
 package operations
 
+import (
+	"github.com/omise/omise-go/v2/internal"
+)
 
 // Example:
 //
@@ -14,13 +17,12 @@ package operations
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type RetrieveCapability struct {
-	Base
 }
 
 func (req *RetrieveCapability) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      GET,
+		Method:      "GET",
 		Path:        "/capability",
 		ContentType: "application/json",
 	}

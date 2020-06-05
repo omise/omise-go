@@ -1,5 +1,8 @@
 package operations
 
+import (
+	"github.com/omise/omise-go/v2/internal"
+)
 
 // Example:
 //
@@ -14,14 +17,13 @@ package operations
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type DestroyTransfer struct {
-	Base
 	TransferID string `json:"-"`
 }
 
 func (req *DestroyTransfer) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      DELETE,
+		Method:      "DELETE",
 		Path:        "/transfers/" + req.TransferID,
 		ContentType: "application/json",
 	}
@@ -40,14 +42,13 @@ func (req *DestroyTransfer) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type RetrieveTransfer struct {
-	Base
 	TransferID string `json:"-"`
 }
 
 func (req *RetrieveTransfer) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      GET,
+		Method:      "GET",
 		Path:        "/transfers/" + req.TransferID,
 		ContentType: "application/json",
 	}
@@ -66,7 +67,6 @@ func (req *RetrieveTransfer) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type UpdateTransfer struct {
-	Base
 	TransferID string `json:"-"`
 	Amount int `json:"amount"`
 	Metadata map[string]interface{} `json:"metadata"`
@@ -75,7 +75,7 @@ type UpdateTransfer struct {
 func (req *UpdateTransfer) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      PATCH,
+		Method:      "PATCH",
 		Path:        "/transfers/" + req.TransferID,
 		ContentType: "application/json",
 	}
@@ -94,13 +94,12 @@ func (req *UpdateTransfer) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type SearchTransfer struct {
-	Base
 }
 
 func (req *SearchTransfer) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      GET,
+		Method:      "GET",
 		Path:        "/transfers/search",
 		ContentType: "application/json",
 	}
@@ -119,13 +118,12 @@ func (req *SearchTransfer) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type ListTransfers struct {
-	Base
 }
 
 func (req *ListTransfers) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      GET,
+		Method:      "GET",
 		Path:        "/transfers",
 		ContentType: "application/json",
 	}
@@ -144,7 +142,6 @@ func (req *ListTransfers) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type CreateTransfer struct {
-	Base
 	Amount int `json:"amount"`
 	FailFast bool `json:"fail_fast"`
 	Metadata map[string]interface{} `json:"metadata"`
@@ -154,7 +151,7 @@ type CreateTransfer struct {
 func (req *CreateTransfer) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      POST,
+		Method:      "POST",
 		Path:        "/transfers",
 		ContentType: "application/json",
 	}
@@ -173,13 +170,12 @@ func (req *CreateTransfer) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type ListTransfersSchedules struct {
-	Base
 }
 
 func (req *ListTransfersSchedules) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      GET,
+		Method:      "GET",
 		Path:        "/transfers/schedules",
 		ContentType: "application/json",
 	}
@@ -198,14 +194,13 @@ func (req *ListTransfersSchedules) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type MarkTransferAsPaid struct {
-	Base
 	TransferID string `json:"-"`
 }
 
 func (req *MarkTransferAsPaid) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      POST,
+		Method:      "POST",
 		Path:        "/transfers/" + req.TransferID + "/mark_as_paid",
 		ContentType: "application/json",
 	}
@@ -224,14 +219,13 @@ func (req *MarkTransferAsPaid) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type MarkTransferAsSent struct {
-	Base
 	TransferID string `json:"-"`
 }
 
 func (req *MarkTransferAsSent) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      POST,
+		Method:      "POST",
 		Path:        "/transfers/" + req.TransferID + "/mark_as_sent",
 		ContentType: "application/json",
 	}

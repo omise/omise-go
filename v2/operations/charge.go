@@ -1,6 +1,7 @@
 package operations
 
 import (
+	"github.com/omise/omise-go/v2/internal"
 	"time"
 )
 
@@ -17,13 +18,12 @@ import (
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type SearchCharge struct {
-	Base
 }
 
 func (req *SearchCharge) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      GET,
+		Method:      "GET",
 		Path:        "/charges/search",
 		ContentType: "application/json",
 	}
@@ -42,13 +42,12 @@ func (req *SearchCharge) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type ListCharges struct {
-	Base
 }
 
 func (req *ListCharges) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      GET,
+		Method:      "GET",
 		Path:        "/charges",
 		ContentType: "application/json",
 	}
@@ -67,7 +66,6 @@ func (req *ListCharges) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type CreateCharge struct {
-	Base
 	Amount int `json:"amount"`
 	Capture bool `json:"capture"`
 	Card string `json:"card"`
@@ -86,7 +84,7 @@ type CreateCharge struct {
 func (req *CreateCharge) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      POST,
+		Method:      "POST",
 		Path:        "/charges",
 		ContentType: "application/json",
 	}
@@ -105,14 +103,13 @@ func (req *CreateCharge) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type ListChargesEvents struct {
-	Base
 	ChargeID string `json:"-"`
 }
 
 func (req *ListChargesEvents) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      GET,
+		Method:      "GET",
 		Path:        "/charges/" + req.ChargeID + "/events",
 		ContentType: "application/json",
 	}
@@ -131,14 +128,13 @@ func (req *ListChargesEvents) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type RetrieveCharge struct {
-	Base
 	ChargeID string `json:"-"`
 }
 
 func (req *RetrieveCharge) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      GET,
+		Method:      "GET",
 		Path:        "/charges/" + req.ChargeID,
 		ContentType: "application/json",
 	}
@@ -157,7 +153,6 @@ func (req *RetrieveCharge) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type UpdateCharge struct {
-	Base
 	ChargeID string `json:"-"`
 	Description string `json:"description"`
 	Metadata map[string]interface{} `json:"metadata"`
@@ -166,7 +161,7 @@ type UpdateCharge struct {
 func (req *UpdateCharge) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      PATCH,
+		Method:      "PATCH",
 		Path:        "/charges/" + req.ChargeID,
 		ContentType: "application/json",
 	}
@@ -185,14 +180,13 @@ func (req *UpdateCharge) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type CaptureCharge struct {
-	Base
 	ChargeID string `json:"-"`
 }
 
 func (req *CaptureCharge) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      POST,
+		Method:      "POST",
 		Path:        "/charges/" + req.ChargeID + "/capture",
 		ContentType: "application/json",
 	}
@@ -211,14 +205,13 @@ func (req *CaptureCharge) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type ExpireCharge struct {
-	Base
 	ChargeID string `json:"-"`
 }
 
 func (req *ExpireCharge) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      POST,
+		Method:      "POST",
 		Path:        "/charges/" + req.ChargeID + "/expire",
 		ContentType: "application/json",
 	}
@@ -237,14 +230,13 @@ func (req *ExpireCharge) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type MarkChargeAsFailed struct {
-	Base
 	ChargeID string `json:"-"`
 }
 
 func (req *MarkChargeAsFailed) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      POST,
+		Method:      "POST",
 		Path:        "/charges/" + req.ChargeID + "/mark_as_failed",
 		ContentType: "application/json",
 	}
@@ -263,14 +255,13 @@ func (req *MarkChargeAsFailed) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type MarkChargeAsPaid struct {
-	Base
 	ChargeID string `json:"-"`
 }
 
 func (req *MarkChargeAsPaid) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      POST,
+		Method:      "POST",
 		Path:        "/charges/" + req.ChargeID + "/mark_as_paid",
 		ContentType: "application/json",
 	}
@@ -289,14 +280,13 @@ func (req *MarkChargeAsPaid) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type ReverseCharge struct {
-	Base
 	ChargeID string `json:"-"`
 }
 
 func (req *ReverseCharge) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      POST,
+		Method:      "POST",
 		Path:        "/charges/" + req.ChargeID + "/reverse",
 		ContentType: "application/json",
 	}
@@ -315,13 +305,12 @@ func (req *ReverseCharge) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type SearchChargeSchedule struct {
-	Base
 }
 
 func (req *SearchChargeSchedule) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      GET,
+		Method:      "GET",
 		Path:        "/charges/schedules/" + "/search",
 		ContentType: "application/json",
 	}
@@ -340,14 +329,13 @@ func (req *SearchChargeSchedule) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type CreateChargeDisputeDispute struct {
-	Base
 	ChargeID string `json:"-"`
 }
 
 func (req *CreateChargeDisputeDispute) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      POST,
+		Method:      "POST",
 		Path:        "/charges/" + req.ChargeID + "/disputes",
 		ContentType: "application/json",
 	}
@@ -366,14 +354,13 @@ func (req *CreateChargeDisputeDispute) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type ListChargesRefund struct {
-	Base
 	ChargeID string `json:"-"`
 }
 
 func (req *ListChargesRefund) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      GET,
+		Method:      "GET",
 		Path:        "/charges/" + req.ChargeID + "/refunds",
 		ContentType: "application/json",
 	}
@@ -392,7 +379,6 @@ func (req *ListChargesRefund) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type CreateChargeRefund struct {
-	Base
 	ChargeID string `json:"-"`
 	Amount int `json:"amount"`
 	Metadata map[string]interface{} `json:"metadata"`
@@ -402,7 +388,7 @@ type CreateChargeRefund struct {
 func (req *CreateChargeRefund) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      POST,
+		Method:      "POST",
 		Path:        "/charges/" + req.ChargeID + "/refunds",
 		ContentType: "application/json",
 	}
@@ -421,7 +407,6 @@ func (req *CreateChargeRefund) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type RetrieveChargeRefund struct {
-	Base
 	ChargeID string `json:"-"`
 	RefundID string `json:"-"`
 }
@@ -429,7 +414,7 @@ type RetrieveChargeRefund struct {
 func (req *RetrieveChargeRefund) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      GET,
+		Method:      "GET",
 		Path:        "/charges/" + req.ChargeID + "/refunds/" + req.RefundID,
 		ContentType: "application/json",
 	}

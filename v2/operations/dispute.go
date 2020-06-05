@@ -1,5 +1,8 @@
 package operations
 
+import (
+	"github.com/omise/omise-go/v2/internal"
+)
 
 // Example:
 //
@@ -14,13 +17,12 @@ package operations
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type SearchDispute struct {
-	Base
 }
 
 func (req *SearchDispute) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      GET,
+		Method:      "GET",
 		Path:        "/disputes/search",
 		ContentType: "application/json",
 	}
@@ -39,13 +41,12 @@ func (req *SearchDispute) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type ClosedDispute struct {
-	Base
 }
 
 func (req *ClosedDispute) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      GET,
+		Method:      "GET",
 		Path:        "/disputes/closed",
 		ContentType: "application/json",
 	}
@@ -64,13 +65,12 @@ func (req *ClosedDispute) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type ListDisputes struct {
-	Base
 }
 
 func (req *ListDisputes) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      GET,
+		Method:      "GET",
 		Path:        "/disputes",
 		ContentType: "application/json",
 	}
@@ -89,13 +89,12 @@ func (req *ListDisputes) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type OpenDispute struct {
-	Base
 }
 
 func (req *OpenDispute) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      GET,
+		Method:      "GET",
 		Path:        "/disputes/open",
 		ContentType: "application/json",
 	}
@@ -114,13 +113,12 @@ func (req *OpenDispute) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type PendingDispute struct {
-	Base
 }
 
 func (req *PendingDispute) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      GET,
+		Method:      "GET",
 		Path:        "/disputes/pending",
 		ContentType: "application/json",
 	}
@@ -139,14 +137,13 @@ func (req *PendingDispute) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type RetrieveDispute struct {
-	Base
 	DisputeID string `json:"-"`
 }
 
 func (req *RetrieveDispute) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      GET,
+		Method:      "GET",
 		Path:        "/disputes/" + req.DisputeID,
 		ContentType: "application/json",
 	}
@@ -165,7 +162,6 @@ func (req *RetrieveDispute) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type UpdateDispute struct {
-	Base
 	DisputeID string `json:"-"`
 	Message string `json:"message"`
 	Metadata map[string]interface{} `json:"metadata"`
@@ -174,7 +170,7 @@ type UpdateDispute struct {
 func (req *UpdateDispute) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      PATCH,
+		Method:      "PATCH",
 		Path:        "/disputes/" + req.DisputeID,
 		ContentType: "application/json",
 	}
@@ -193,15 +189,14 @@ func (req *UpdateDispute) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type CloseDispute struct {
-	Base
 	DisputeID string `json:"-"`
-	Status *Status `json:"status"`
+	Status *DisputeStatus `json:"status"`
 }
 
 func (req *CloseDispute) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      PATCH,
+		Method:      "PATCH",
 		Path:        "/disputes/" + req.DisputeID + "/close",
 		ContentType: "application/json",
 	}
@@ -220,14 +215,13 @@ func (req *CloseDispute) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type AcceptDispute struct {
-	Base
 	DisputeID string `json:"-"`
 }
 
 func (req *AcceptDispute) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      PATCH,
+		Method:      "PATCH",
 		Path:        "/disputes/" + req.DisputeID + "/accept",
 		ContentType: "application/json",
 	}
@@ -246,7 +240,6 @@ func (req *AcceptDispute) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type DestroyDisputeDocument struct {
-	Base
 	DisputeID string `json:"-"`
 	DocumentID string `json:"-"`
 }
@@ -254,7 +247,7 @@ type DestroyDisputeDocument struct {
 func (req *DestroyDisputeDocument) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      DELETE,
+		Method:      "DELETE",
 		Path:        "/disputes/" + req.DisputeID + "/documents/" + req.DocumentID,
 		ContentType: "application/json",
 	}
@@ -273,7 +266,6 @@ func (req *DestroyDisputeDocument) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type RetrieveDisputeDocument struct {
-	Base
 	DisputeID string `json:"-"`
 	DocumentID string `json:"-"`
 }
@@ -281,7 +273,7 @@ type RetrieveDisputeDocument struct {
 func (req *RetrieveDisputeDocument) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      GET,
+		Method:      "GET",
 		Path:        "/disputes/" + req.DisputeID + "/documents/" + req.DocumentID,
 		ContentType: "application/json",
 	}
@@ -300,14 +292,13 @@ func (req *RetrieveDisputeDocument) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type ListDisputesDocument struct {
-	Base
 	DisputeID string `json:"-"`
 }
 
 func (req *ListDisputesDocument) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      GET,
+		Method:      "GET",
 		Path:        "/disputes/" + req.DisputeID + "/documents",
 		ContentType: "application/json",
 	}
@@ -326,7 +317,6 @@ func (req *ListDisputesDocument) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type CreateDisputeDocument struct {
-	Base
 	DisputeID string `json:"-"`
 	File string `json:"file"`
 }
@@ -334,7 +324,7 @@ type CreateDisputeDocument struct {
 func (req *CreateDisputeDocument) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      POST,
+		Method:      "POST",
 		Path:        "/disputes/" + req.DisputeID + "/documents",
 		ContentType: "application/json",
 	}

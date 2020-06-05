@@ -1,5 +1,8 @@
 package operations
 
+import (
+	"github.com/omise/omise-go/v2/internal"
+)
 
 // Example:
 //
@@ -14,14 +17,13 @@ package operations
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type RetrieveOccurrence struct {
-	Base
 	OccurrenceID string `json:"-"`
 }
 
 func (req *RetrieveOccurrence) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      GET,
+		Method:      "GET",
 		Path:        "/occurrences/" + req.OccurrenceID,
 		ContentType: "application/json",
 	}

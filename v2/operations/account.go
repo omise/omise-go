@@ -1,5 +1,8 @@
 package operations
 
+import (
+	"github.com/omise/omise-go/v2/internal"
+)
 
 // Example:
 //
@@ -14,13 +17,12 @@ package operations
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type RetrieveAccount struct {
-	Base
 }
 
 func (req *RetrieveAccount) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      GET,
+		Method:      "GET",
 		Path:        "/account",
 		ContentType: "application/json",
 	}
@@ -39,10 +41,9 @@ func (req *RetrieveAccount) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type UpdateAccount struct {
-	Base
 	ChainEnabled bool `json:"chain_enabled"`
 	ChainReturnURI string `json:"chain_return_uri"`
-	MetadataExportKeys *MetadataExportKeys `json:"metadata_export_keys"`
+	MetadataExportKeys map[string]interface{} `json:"metadata_export_keys"`
 	WebhookURI string `json:"webhook_uri"`
 	ZeroInterestInstallments bool `json:"zero_interest_installments"`
 }
@@ -50,7 +51,7 @@ type UpdateAccount struct {
 func (req *UpdateAccount) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      PATCH,
+		Method:      "PATCH",
 		Path:        "/account",
 		ContentType: "application/json",
 	}

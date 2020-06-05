@@ -1,5 +1,8 @@
 package operations
 
+import (
+	"github.com/omise/omise-go/v2/internal"
+)
 
 // Example:
 //
@@ -14,13 +17,12 @@ package operations
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type SearchLink struct {
-	Base
 }
 
 func (req *SearchLink) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      GET,
+		Method:      "GET",
 		Path:        "/links/search",
 		ContentType: "application/json",
 	}
@@ -39,14 +41,13 @@ func (req *SearchLink) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type DestroyLink struct {
-	Base
 	LinkID string `json:"-"`
 }
 
 func (req *DestroyLink) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      DELETE,
+		Method:      "DELETE",
 		Path:        "/links/" + req.LinkID,
 		ContentType: "application/json",
 	}
@@ -65,14 +66,13 @@ func (req *DestroyLink) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type RetrieveLink struct {
-	Base
 	LinkID string `json:"-"`
 }
 
 func (req *RetrieveLink) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      GET,
+		Method:      "GET",
 		Path:        "/links/" + req.LinkID,
 		ContentType: "application/json",
 	}
@@ -91,13 +91,12 @@ func (req *RetrieveLink) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type ListLinks struct {
-	Base
 }
 
 func (req *ListLinks) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      GET,
+		Method:      "GET",
 		Path:        "/links",
 		ContentType: "application/json",
 	}
@@ -116,7 +115,6 @@ func (req *ListLinks) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type CreateLink struct {
-	Base
 	Amount int `json:"amount"`
 	Currency string `json:"currency"`
 	Description string `json:"description"`
@@ -127,7 +125,7 @@ type CreateLink struct {
 func (req *CreateLink) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      POST,
+		Method:      "POST",
 		Path:        "/links",
 		ContentType: "application/json",
 	}
@@ -146,14 +144,13 @@ func (req *CreateLink) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type ListLinksCharges struct {
-	Base
 	LinkID string `json:"-"`
 }
 
 func (req *ListLinksCharges) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      GET,
+		Method:      "GET",
 		Path:        "/links/" + req.LinkID + "/charges",
 		ContentType: "application/json",
 	}

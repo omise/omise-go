@@ -1,5 +1,8 @@
 package operations
 
+import (
+	"github.com/omise/omise-go/v2/internal"
+)
 
 // Example:
 //
@@ -14,14 +17,13 @@ package operations
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type RetrieveForex struct {
-	Base
 	Currency string `json:"-"`
 }
 
 func (req *RetrieveForex) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      GET,
+		Method:      "GET",
 		Path:        "/forex/" + req.Currency,
 		ContentType: "application/json",
 	}

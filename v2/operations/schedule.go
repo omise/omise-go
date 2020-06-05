@@ -1,5 +1,8 @@
 package operations
 
+import (
+	"github.com/omise/omise-go/v2/internal"
+)
 
 // Example:
 //
@@ -14,13 +17,12 @@ package operations
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type ListSchedules struct {
-	Base
 }
 
 func (req *ListSchedules) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      GET,
+		Method:      "GET",
 		Path:        "/schedules",
 		ContentType: "application/json",
 	}
@@ -39,14 +41,13 @@ func (req *ListSchedules) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type DestroySchedule struct {
-	Base
 	ScheduleID string `json:"-"`
 }
 
 func (req *DestroySchedule) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      DELETE,
+		Method:      "DELETE",
 		Path:        "/schedules/" + req.ScheduleID,
 		ContentType: "application/json",
 	}
@@ -65,14 +66,13 @@ func (req *DestroySchedule) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type RetrieveSchedule struct {
-	Base
 	ScheduleID string `json:"-"`
 }
 
 func (req *RetrieveSchedule) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      GET,
+		Method:      "GET",
 		Path:        "/schedules/" + req.ScheduleID,
 		ContentType: "application/json",
 	}
@@ -91,20 +91,19 @@ func (req *RetrieveSchedule) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type CreateSchedule struct {
-	Base
-	Charge *Charge `json:"charge"`
+	Charge *ChargeScheduling `json:"charge"`
 	EndDate Date `json:"end_date"`
 	Every int `json:"every"`
-	On *On `json:"on"`
-	Period *Period `json:"period"`
+	On *ScheduleOn `json:"on"`
+	Period *SchedulePeriod `json:"period"`
 	StartDate Date `json:"start_date"`
-	Transfer *Transfer `json:"transfer"`
+	Transfer *TransferScheduling `json:"transfer"`
 }
 
 func (req *CreateSchedule) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      POST,
+		Method:      "POST",
 		Path:        "/schedules",
 		ContentType: "application/json",
 	}
@@ -123,14 +122,13 @@ func (req *CreateSchedule) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type ListSchedulesOccurrences struct {
-	Base
 	ScheduleID string `json:"-"`
 }
 
 func (req *ListSchedulesOccurrences) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      GET,
+		Method:      "GET",
 		Path:        "/schedules/" + req.ScheduleID + "/occurrences",
 		ContentType: "application/json",
 	}

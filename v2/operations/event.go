@@ -1,5 +1,8 @@
 package operations
 
+import (
+	"github.com/omise/omise-go/v2/internal"
+)
 
 // Example:
 //
@@ -14,14 +17,13 @@ package operations
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type RetrieveEvent struct {
-	Base
 	EventID string `json:"-"`
 }
 
 func (req *RetrieveEvent) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      GET,
+		Method:      "GET",
 		Path:        "/events/" + req.EventID,
 		ContentType: "application/json",
 	}
@@ -40,13 +42,12 @@ func (req *RetrieveEvent) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type ListEvents struct {
-	Base
 }
 
 func (req *ListEvents) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      GET,
+		Method:      "GET",
 		Path:        "/events",
 		ContentType: "application/json",
 	}

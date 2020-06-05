@@ -1,5 +1,8 @@
 package operations
 
+import (
+	"github.com/omise/omise-go/v2/internal"
+)
 
 // Example:
 //
@@ -14,14 +17,13 @@ package operations
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type CreateToken struct {
-	Base
 	Card *Card `json:"card"`
 }
 
 func (req *CreateToken) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      POST,
+		Method:      "POST",
 		Path:        "/tokens",
 		ContentType: "application/json",
 	}
@@ -40,14 +42,13 @@ func (req *CreateToken) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type RetrieveToken struct {
-	Base
 	TokenID string `json:"-"`
 }
 
 func (req *RetrieveToken) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      GET,
+		Method:      "GET",
 		Path:        "/tokens/" + req.TokenID,
 		ContentType: "application/json",
 	}

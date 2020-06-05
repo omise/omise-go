@@ -1,5 +1,8 @@
 package operations
 
+import (
+	"github.com/omise/omise-go/v2/internal"
+)
 
 // Example:
 //
@@ -14,7 +17,6 @@ package operations
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type CreateSource struct {
-	Base
 	Amount int `json:"amount"`
 	Barcode string `json:"barcode"`
 	Currency string `json:"currency"`
@@ -25,14 +27,14 @@ type CreateSource struct {
 	StoreID string `json:"store_id"`
 	StoreName string `json:"store_name"`
 	TerminalID string `json:"terminal_id"`
-	Type *Type `json:"type"`
+	Type *SourceType `json:"type"`
 	ZeroInterestInstallments bool `json:"zero_interest_installments"`
 }
 
 func (req *CreateSource) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      POST,
+		Method:      "POST",
 		Path:        "/sources",
 		ContentType: "application/json",
 	}
@@ -51,14 +53,13 @@ func (req *CreateSource) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type RetrieveSource struct {
-	Base
 	SourceID string `json:"-"`
 }
 
 func (req *RetrieveSource) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
-		Method:      GET,
+		Method:      "GET",
 		Path:        "/sources/" + req.SourceID,
 		ContentType: "application/json",
 	}
