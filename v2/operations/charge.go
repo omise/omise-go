@@ -3,6 +3,7 @@ package operations
 import (
 	"github.com/omise/omise-go/v2/internal"
 	"time"
+	"github.com/omise/omise-go/v2"
 )
 
 // Example:
@@ -75,7 +76,7 @@ type CreateCharge struct {
 	ExpiresAt time.Time `json:"expires_at"`
 	IP string `json:"ip"`
 	Metadata map[string]interface{} `json:"metadata"`
-	PlatformFee *PlatformFee `json:"platform_fee"`
+	PlatformFee *omise.PlatformFee `json:"platform_fee"`
 	Reference string `json:"reference"`
 	ReturnURI string `json:"return_uri"`
 	Source string `json:"source"`

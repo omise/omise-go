@@ -2,6 +2,7 @@ package operations
 
 import (
 	"github.com/omise/omise-go/v2/internal"
+	"github.com/omise/omise-go/v2"
 )
 
 // Example:
@@ -27,7 +28,7 @@ type CreateSource struct {
 	StoreID string `json:"store_id"`
 	StoreName string `json:"store_name"`
 	TerminalID string `json:"terminal_id"`
-	Type *SourceType `json:"type"`
+	Type *omise.SourceType `json:"type"`
 	ZeroInterestInstallments bool `json:"zero_interest_installments"`
 }
 

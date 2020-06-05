@@ -2,6 +2,7 @@ package operations
 
 import (
 	"github.com/omise/omise-go/v2/internal"
+	"github.com/omise/omise-go/v2"
 )
 
 // Example:
@@ -17,7 +18,7 @@ import (
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type CreateToken struct {
-	Card *Card `json:"card"`
+	Card *omise.Card `json:"card"`
 }
 
 func (req *CreateToken) Describe() *internal.Description {

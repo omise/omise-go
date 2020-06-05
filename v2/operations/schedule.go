@@ -2,6 +2,7 @@ package operations
 
 import (
 	"github.com/omise/omise-go/v2/internal"
+	"github.com/omise/omise-go/v2"
 )
 
 // Example:
@@ -91,13 +92,13 @@ func (req *RetrieveSchedule) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type CreateSchedule struct {
-	Charge *ChargeScheduling `json:"charge"`
-	EndDate Date `json:"end_date"`
+	Charge *omise.ChargeScheduling `json:"charge"`
+	EndDate omise.Date `json:"end_date"`
 	Every int `json:"every"`
-	On *ScheduleOn `json:"on"`
-	Period *SchedulePeriod `json:"period"`
-	StartDate Date `json:"start_date"`
-	Transfer *TransferScheduling `json:"transfer"`
+	On *omise.ScheduleOn `json:"on"`
+	Period *omise.SchedulePeriod `json:"period"`
+	StartDate omise.Date `json:"start_date"`
+	Transfer *omise.TransferScheduling `json:"transfer"`
 }
 
 func (req *CreateSchedule) Describe() *internal.Description {

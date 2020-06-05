@@ -2,6 +2,7 @@ package operations
 
 import (
 	"github.com/omise/omise-go/v2/internal"
+	"github.com/omise/omise-go/v2"
 )
 
 // Example:
@@ -190,7 +191,7 @@ func (req *UpdateDispute) Describe() *internal.Description {
 //
 type CloseDispute struct {
 	DisputeID string `json:"-"`
-	Status *DisputeStatus `json:"status"`
+	Status *omise.DisputeStatus `json:"status"`
 }
 
 func (req *CloseDispute) Describe() *internal.Description {

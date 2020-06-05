@@ -2,6 +2,7 @@ package operations
 
 import (
 	"github.com/omise/omise-go/v2/internal"
+	"github.com/omise/omise-go/v2"
 )
 
 // Example:
@@ -68,13 +69,13 @@ func (req *RetrieveRecipient) Describe() *internal.Description {
 //
 type UpdateRecipient struct {
 	RecipientID string `json:"-"`
-	BankAccount *BankAccount `json:"bank_account"`
+	BankAccount *omise.BankAccount `json:"bank_account"`
 	Description string `json:"description"`
 	Email string `json:"email"`
 	Metadata map[string]interface{} `json:"metadata"`
 	Name string `json:"name"`
 	TaxID string `json:"tax_id"`
-	Type *RecipientType `json:"type"`
+	Type *omise.RecipientType `json:"type"`
 }
 
 func (req *UpdateRecipient) Describe() *internal.Description {
@@ -147,13 +148,13 @@ func (req *ListRecipients) Describe() *internal.Description {
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
 type CreateRecipient struct {
-	BankAccount *BankAccount `json:"bank_account"`
+	BankAccount *omise.BankAccount `json:"bank_account"`
 	Description string `json:"description"`
 	Email string `json:"email"`
 	Metadata map[string]interface{} `json:"metadata"`
 	Name string `json:"name"`
 	TaxID string `json:"tax_id"`
-	Type *RecipientType `json:"type"`
+	Type *omise.RecipientType `json:"type"`
 }
 
 func (req *CreateRecipient) Describe() *internal.Description {
