@@ -31,6 +31,30 @@ func (req *ListSchedules) Describe() *internal.Description {
 
 // Example:
 //
+//	charge, update := &omise.ChargeSchedule{}, &SearchChargeSchedule{
+//		ChargeID:    "chrg_456",
+//		Description: "updated charge.",
+//	}
+//	if e := client.Do(charge, update); e != nil {
+//		panic(e)
+//	}
+//
+//	fmt.Printf("updated charge: %#v\n", charge)
+//
+type SearchChargeSchedule struct {
+}
+
+func (req *SearchChargeSchedule) Describe() *internal.Description {
+	return &internal.Description{
+		Endpoint:    internal.API,
+		Method:      "GET",
+		Path:        "/charges/schedules/" + "/search",
+		ContentType: "application/json",
+	}
+}
+
+// Example:
+//
 //	charge, update := &omise.Schedule{}, &DestroySchedule{
 //		ChargeID:    "chrg_456",
 //		Description: "updated charge.",
@@ -106,6 +130,31 @@ func (req *CreateSchedule) Describe() *internal.Description {
 		Endpoint:    internal.API,
 		Method:      "POST",
 		Path:        "/schedules",
+		ContentType: "application/json",
+	}
+}
+
+// Example:
+//
+//	charge, update := &omise.Occurrence{}, &ListScheduleOccurrences{
+//		ChargeID:    "chrg_456",
+//		Description: "updated charge.",
+//	}
+//	if e := client.Do(charge, update); e != nil {
+//		panic(e)
+//	}
+//
+//	fmt.Printf("updated charge: %#v\n", charge)
+//
+type ListScheduleOccurrences struct {
+	ScheduleID string `json:"-"`
+}
+
+func (req *ListScheduleOccurrences) Describe() *internal.Description {
+	return &internal.Description{
+		Endpoint:    internal.API,
+		Method:      "GET",
+		Path:        "/schedules/" + req.ScheduleID + "/occurrences",
 		ContentType: "application/json",
 	}
 }

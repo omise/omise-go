@@ -93,6 +93,31 @@ func (req *CreateCharge) Describe() *internal.Description {
 
 // Example:
 //
+//	charge, update := &omise.Event{}, &ListChargeEvents{
+//		ChargeID:    "chrg_456",
+//		Description: "updated charge.",
+//	}
+//	if e := client.Do(charge, update); e != nil {
+//		panic(e)
+//	}
+//
+//	fmt.Printf("updated charge: %#v\n", charge)
+//
+type ListChargeEvents struct {
+	ChargeID string `json:"-"`
+}
+
+func (req *ListChargeEvents) Describe() *internal.Description {
+	return &internal.Description{
+		Endpoint:    internal.API,
+		Method:      "GET",
+		Path:        "/charges/" + req.ChargeID + "/events",
+		ContentType: "application/json",
+	}
+}
+
+// Example:
+//
 //	charge, update := &omise.Charge{}, &RetrieveCharge{
 //		ChargeID:    "chrg_456",
 //		Description: "updated charge.",
