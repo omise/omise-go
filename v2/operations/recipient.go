@@ -168,31 +168,6 @@ func (req *CreateRecipient) Describe() *internal.Description {
 
 // Example:
 //
-//	charge, update := &omise.Schedule{}, &ListRecipientsSchedules{
-//		ChargeID:    "chrg_456",
-//		Description: "updated charge.",
-//	}
-//	if e := client.Do(charge, update); e != nil {
-//		panic(e)
-//	}
-//
-//	fmt.Printf("updated charge: %#v\n", charge)
-//
-type ListRecipientsSchedules struct {
-	RecipientID string `json:"-"`
-}
-
-func (req *ListRecipientsSchedules) Describe() *internal.Description {
-	return &internal.Description{
-		Endpoint:    internal.API,
-		Method:      "GET",
-		Path:        "/recipients/" + req.RecipientID + "/schedules",
-		ContentType: "application/json",
-	}
-}
-
-// Example:
-//
 //	charge, update := &omise.Recipient{}, &VerifyRecipient{
 //		ChargeID:    "chrg_456",
 //		Description: "updated charge.",

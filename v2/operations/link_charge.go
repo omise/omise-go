@@ -6,7 +6,7 @@ import (
 
 // Example:
 //
-//	charge, update := &omise.SystemInfo{}, &ShowSystemInfo{
+//	charge, update := &omise.Charge{}, &ListCharges{
 //		ChargeID:    "chrg_456",
 //		Description: "updated charge.",
 //	}
@@ -16,14 +16,15 @@ import (
 //
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
-type ShowSystemInfo struct {
+type ListCharges struct {
+	LinkID string `json:"-"`
 }
 
-func (req *ShowSystemInfo) Describe() *internal.Description {
+func (req *ListCharges) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
 		Method:      "GET",
-		Path:        "/",
+		Path:        "/links/" + req.LinkID + "/charges",
 		ContentType: "application/json",
 	}
 }

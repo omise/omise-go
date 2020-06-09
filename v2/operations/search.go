@@ -6,7 +6,7 @@ import (
 
 // Example:
 //
-//	charge, update := &omise.Search{}, &SearchSearch{
+//	charge, update := &omise.Search{}, &Search{
 //		ChargeID:    "chrg_456",
 //		Description: "updated charge.",
 //	}
@@ -16,10 +16,10 @@ import (
 //
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
-type SearchSearch struct {
+type Search struct {
 }
 
-func (req *SearchSearch) Describe() *internal.Description {
+func (req *Search) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
 		Method:      "GET",

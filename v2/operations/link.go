@@ -131,28 +131,3 @@ func (req *CreateLink) Describe() *internal.Description {
 	}
 }
 
-// Example:
-//
-//	charge, update := &omise.Charge{}, &ListLinksCharges{
-//		ChargeID:    "chrg_456",
-//		Description: "updated charge.",
-//	}
-//	if e := client.Do(charge, update); e != nil {
-//		panic(e)
-//	}
-//
-//	fmt.Printf("updated charge: %#v\n", charge)
-//
-type ListLinksCharges struct {
-	LinkID string `json:"-"`
-}
-
-func (req *ListLinksCharges) Describe() *internal.Description {
-	return &internal.Description{
-		Endpoint:    internal.API,
-		Method:      "GET",
-		Path:        "/links/" + req.LinkID + "/charges",
-		ContentType: "application/json",
-	}
-}
-

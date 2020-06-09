@@ -230,7 +230,7 @@ func (req *AcceptDispute) Describe() *internal.Description {
 
 // Example:
 //
-//	charge, update := &omise.Document{}, &DestroyDisputeDocument{
+//	charge, update := &omise.Dispute{}, &CreateDispute{
 //		ChargeID:    "chrg_456",
 //		Description: "updated charge.",
 //	}
@@ -240,93 +240,15 @@ func (req *AcceptDispute) Describe() *internal.Description {
 //
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
-type DestroyDisputeDocument struct {
-	DisputeID string `json:"-"`
-	DocumentID string `json:"-"`
+type CreateDispute struct {
+	ChargeID string `json:"-"`
 }
 
-func (req *DestroyDisputeDocument) Describe() *internal.Description {
-	return &internal.Description{
-		Endpoint:    internal.API,
-		Method:      "DELETE",
-		Path:        "/disputes/" + req.DisputeID + "/documents/" + req.DocumentID,
-		ContentType: "application/json",
-	}
-}
-
-// Example:
-//
-//	charge, update := &omise.Document{}, &RetrieveDisputeDocument{
-//		ChargeID:    "chrg_456",
-//		Description: "updated charge.",
-//	}
-//	if e := client.Do(charge, update); e != nil {
-//		panic(e)
-//	}
-//
-//	fmt.Printf("updated charge: %#v\n", charge)
-//
-type RetrieveDisputeDocument struct {
-	DisputeID string `json:"-"`
-	DocumentID string `json:"-"`
-}
-
-func (req *RetrieveDisputeDocument) Describe() *internal.Description {
-	return &internal.Description{
-		Endpoint:    internal.API,
-		Method:      "GET",
-		Path:        "/disputes/" + req.DisputeID + "/documents/" + req.DocumentID,
-		ContentType: "application/json",
-	}
-}
-
-// Example:
-//
-//	charge, update := &omise.Document{}, &ListDisputesDocument{
-//		ChargeID:    "chrg_456",
-//		Description: "updated charge.",
-//	}
-//	if e := client.Do(charge, update); e != nil {
-//		panic(e)
-//	}
-//
-//	fmt.Printf("updated charge: %#v\n", charge)
-//
-type ListDisputesDocument struct {
-	DisputeID string `json:"-"`
-}
-
-func (req *ListDisputesDocument) Describe() *internal.Description {
-	return &internal.Description{
-		Endpoint:    internal.API,
-		Method:      "GET",
-		Path:        "/disputes/" + req.DisputeID + "/documents",
-		ContentType: "application/json",
-	}
-}
-
-// Example:
-//
-//	charge, update := &omise.Document{}, &CreateDisputeDocument{
-//		ChargeID:    "chrg_456",
-//		Description: "updated charge.",
-//	}
-//	if e := client.Do(charge, update); e != nil {
-//		panic(e)
-//	}
-//
-//	fmt.Printf("updated charge: %#v\n", charge)
-//
-type CreateDisputeDocument struct {
-	DisputeID string `json:"-"`
-	File string `json:"file"`
-}
-
-func (req *CreateDisputeDocument) Describe() *internal.Description {
+func (req *CreateDispute) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
 		Method:      "POST",
-		Path:        "/disputes/" + req.DisputeID + "/documents",
+		Path:        "/charges/" + req.ChargeID + "/disputes",
 		ContentType: "application/json",
 	}
 }

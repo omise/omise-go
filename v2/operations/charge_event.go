@@ -6,7 +6,7 @@ import (
 
 // Example:
 //
-//	charge, update := &omise.SystemInfo{}, &ShowSystemInfo{
+//	charge, update := &omise.Event{}, &ListEvents{
 //		ChargeID:    "chrg_456",
 //		Description: "updated charge.",
 //	}
@@ -16,14 +16,15 @@ import (
 //
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
-type ShowSystemInfo struct {
+type ListEvents struct {
+	ChargeID string `json:"-"`
 }
 
-func (req *ShowSystemInfo) Describe() *internal.Description {
+func (req *ListEvents) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
 		Method:      "GET",
-		Path:        "/",
+		Path:        "/charges/" + req.ChargeID + "/events",
 		ContentType: "application/json",
 	}
 }
