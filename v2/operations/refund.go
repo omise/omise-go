@@ -30,7 +30,7 @@ func (req *SearchRefund) Describe() *internal.Description {
 
 // Example:
 //
-//	charge, update := &omise.Refund{}, &ListRefunds{
+//	charge, update := &omise.Refund{}, &ListAllRefunds{
 //		ChargeID:    "chrg_456",
 //		Description: "updated charge.",
 //	}
@@ -40,10 +40,10 @@ func (req *SearchRefund) Describe() *internal.Description {
 //
 //	fmt.Printf("updated charge: %#v\n", charge)
 //
-type ListRefunds struct {
+type ListAllRefunds struct {
 }
 
-func (req *ListRefunds) Describe() *internal.Description {
+func (req *ListAllRefunds) Describe() *internal.Description {
 	return &internal.Description{
 		Endpoint:    internal.API,
 		Method:      "GET",
