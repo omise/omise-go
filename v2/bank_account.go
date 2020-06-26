@@ -12,3 +12,13 @@ type BankAccount struct {
 	Type BankAccountType `json:"type"`
 }
 
+// BankAccountService represents resource service.
+type BankAccountService struct {
+	*Client
+}
+
+// BankAccount defines resource service.
+func (c *Client) BankAccount() *BankAccountService {
+	return &BankAccountService{c}
+}
+

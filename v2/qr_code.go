@@ -8,3 +8,13 @@ type QrCode struct {
 	Secret string `json:"secret"`
 }
 
+// QrCodeService represents resource service.
+type QrCodeService struct {
+	*Client
+}
+
+// QrCode defines resource service.
+func (c *Client) QrCode() *QrCodeService {
+	return &QrCodeService{c}
+}
+

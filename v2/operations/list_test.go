@@ -6,51 +6,50 @@ import (
 	"time"
 
 	omise "github.com/omise/omise-go/v2"
-	. "github.com/omise/omise-go/v2/operations"
 	r "github.com/stretchr/testify/require"
 )
 
 func TestListMarshal(t *testing.T) {
 	testdata := []struct {
-		req      List
+		req      omise.ListParams
 		expected string
 	}{
 		{
-			req:      List{},
+			req:      omise.ListParams{},
 			expected: `{}`,
 		},
 		{
-			req: List{
+			req: omise.ListParams{
 				Offset: 1,
 			},
 			expected: `{"offset":1}`,
 		},
 		{
-			req: List{
+			req: omise.ListParams{
 				Limit: 5,
 			},
 			expected: `{"limit":5}`,
 		},
 		{
-			req: List{
+			req: omise.ListParams{
 				From: time.Date(2017, 5, 1, 0, 0, 0, 0, time.UTC),
 			},
 			expected: `{"from":"2017-05-01T00:00:00Z"}`,
 		},
 		{
-			req: List{
+			req: omise.ListParams{
 				To: time.Date(2017, 5, 1, 0, 0, 0, 0, time.UTC),
 			},
 			expected: `{"to":"2017-05-01T00:00:00Z"}`,
 		},
 		{
-			req: List{
+			req: omise.ListParams{
 				Order: omise.Chronological,
 			},
 			expected: `{"order":"chronological"}`,
 		},
 		{
-			req: List{
+			req: omise.ListParams{
 				Offset: 1,
 				Limit:  5,
 				From:   time.Date(2017, 5, 1, 0, 0, 0, 0, time.UTC),

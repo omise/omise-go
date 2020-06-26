@@ -1,11 +1,11 @@
 package operations_test
 
 import (
+	"context"
 	"testing"
 
 	omise "github.com/omise/omise-go/v2"
 	"github.com/omise/omise-go/v2/internal/testutil"
-	. "github.com/omise/omise-go/v2/operations"
 	r "github.com/stretchr/testify/require"
 )
 
@@ -15,12 +15,10 @@ func TestSource(t *testing.T) {
 	)
 	client := testutil.NewFixedClient(t)
 
-	source := &omise.Source{}
-	client.MustDo(source, &RetrieveSource{SourceID: SourceID})
+	source, _ := client.Source().Retrieve(context.Background(), &omise.RetrieveSourceParams{SourceID: SourceID})
 	r.Equal(t, SourceID, source.ID)
 
-	source = &omise.Source{}
-	client.MustDo(source, &CreateSource{})
+	source, _ = client.Source().Create(context.Background(), &omise.CreateSourceParams{})
 	r.Equal(t, SourceID, source.ID)
 	r.Equal(t, omise.SourceBillPaymentTescoLotus, source.Type)
 	r.Equal(t, "qr", source.ScannableCode.Type)
@@ -31,8 +29,7 @@ func TestSource_Network(t *testing.T) {
 	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
 
-	var source omise.Source
-	client.MustDo(&source, &CreateSource{
+	source, _ := client.Source().Create(context.Background(), &omise.CreateSourceParams{
 		Type:     omise.SourceAlipay,
 		Amount:   10000,
 		Currency: "thb",

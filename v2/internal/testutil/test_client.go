@@ -1,6 +1,7 @@
 package testutil
 
 import (
+	"context"
 	"os"
 	"testing"
 
@@ -47,5 +48,5 @@ func newTestClient(t *testing.T, record, fixed bool) *TestClient {
 }
 
 func (tc *TestClient) MustDo(result interface{}, op internal.Operation) {
-	r.NoError(tc, tc.Client.Do(result, op))
+	r.NoError(tc, tc.Client.Do(context.Background(), result, op))
 }

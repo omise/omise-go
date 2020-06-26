@@ -1,12 +1,12 @@
 package operations_test
 
 import (
+	"context"
 	"encoding/json"
 	"testing"
 
 	"github.com/omise/omise-go/v2"
 	"github.com/omise/omise-go/v2/internal/testutil"
-	. "github.com/omise/omise-go/v2/operations"
 	r "github.com/stretchr/testify/require"
 )
 
@@ -18,32 +18,27 @@ func TestDispute(t *testing.T) {
 	client := testutil.NewFixedClient(t)
 
 	// 4 possible states.
-	disputes := &omise.DisputeList{}
-	client.MustDo(disputes, &ListDisputes{})
+	disputes, _ := client.Dispute().List(context.Background(), &omise.ListDisputesParams{})
 	r.Len(t, disputes.Data, 1)
 	r.Equal(t, DisputeID, disputes.Data[0].ID)
 
-	disputes = &omise.DisputeList{}
-	client.MustDo(disputes, &PendingDispute{})
+	disputes, _ = client.Dispute().ListPending(context.Background(), &omise.ListPendingDisputeParams{})
 	r.Len(t, disputes.Data, 1)
 	r.Equal(t, DisputeID, disputes.Data[0].ID)
 
-	disputes = &omise.DisputeList{}
-	client.MustDo(disputes, &PendingDispute{})
+	disputes, _ = client.Dispute().ListPending(context.Background(), &omise.ListPendingDisputeParams{})
 	r.Len(t, disputes.Data, 1)
 	r.Equal(t, DisputeID, disputes.Data[0].ID)
 
-	disputes = &omise.DisputeList{}
-	client.MustDo(disputes, &PendingDispute{})
+	disputes, _ = client.Dispute().ListPending(context.Background(), &omise.ListPendingDisputeParams{})
 	r.Len(t, disputes.Data, 1)
 	r.Equal(t, DisputeID, disputes.Data[0].ID)
 
 	// single instances
-	dispute := &omise.Dispute{}
-	client.MustDo(dispute, &RetrieveDispute{DisputeID})
+	dispute, _ := client.Dispute().Retrieve(context.Background(), &omise.RetrieveDisputeParams{DisputeID})
 	r.Equal(t, DisputeID, dispute.ID)
 
-	client.MustDo(dispute, &UpdateDispute{
+	dispute, _ = client.Dispute().Update(context.Background(), &omise.UpdateDisputeParams{
 		DisputeID: DisputeID,
 		Message:   "Your dispute message",
 	})
@@ -57,15 +52,14 @@ func TestDispute_Network(t *testing.T) {
 	client := testutil.NewTestClient(t)
 
 	// only test JSON bindings for now.
-	disputes, list := &omise.DisputeList{}, &ListDisputes{}
-	client.MustDo(disputes, list)
+	disputes, _ := client.Dispute().List(context.Background(), &omise.ListDisputesParams{})
 	if len(disputes.Data) > 0 {
 		r.True(t, disputes.Data[0].Status != omise.DisputePending)
 	}
 }
 
 func TestUpdateDisputeMarshal_WithMetadata(t *testing.T) {
-	req := &UpdateDispute{
+	req := &omise.UpdateDisputeParams{
 		DisputeID: "dspt_test_5089off452g5m5te7xs",
 		Message:   "Your dispute message",
 		Metadata:  map[string]interface{}{"color": "red"},
@@ -79,7 +73,7 @@ func TestUpdateDisputeMarshal_WithMetadata(t *testing.T) {
 }
 
 func TestUpdateDisputeMarshal_WithoutMetadata(t *testing.T) {
-	req := &UpdateDispute{
+	req := &omise.UpdateDisputeParams{
 		DisputeID: "dspt_test_5089off452g5m5te7xs",
 		Message:   "Your dispute message",
 	}

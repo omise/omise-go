@@ -1,6 +1,7 @@
 package operations_test
 
 import (
+	"context"
 	"encoding/json"
 	"testing"
 	"time"
@@ -20,14 +21,12 @@ func TestRefund(t *testing.T) {
 
 	client := testutil.NewFixedClient(t)
 
-	refund := &omise.Refund{}
-	client.MustDo(refund, &RetrieveRefund{ChargeID, RefundID})
+	refund, _ := client.Refund().Retrieve(context.Background(), &omise.RetrieveRefundParams{ChargeID, RefundID})
 	r.Equal(t, RefundID, refund.ID)
 	r.Equal(t, ChargeID, refund.Charge)
 	r.Equal(t, TransactionID, refund.Transaction)
 
-	refund = &omise.Refund{}
-	client.MustDo(refund, &CreateRefund{
+	refund, _ = client.Refund().Create(context.Background(), &omise.CreateRefundParams{
 		ChargeID: ChargeID,
 		Amount:   10000,
 		Void:     false,
@@ -35,7 +34,7 @@ func TestRefund(t *testing.T) {
 	r.Equal(t, RefundID, refund.ID)
 	r.Equal(t, int64(10000), refund.Amount)
 
-	err := client.Do(nil, &RetrieveRefund{ChargeID, "not_exist"})
+	_, err := client.Refund().Retrieve(context.Background(), &omise.RetrieveRefundParams{ChargeID, "not_exist"})
 	r.Error(t, err)
 	r.EqualError(t, err, "(404/not_found) refund 404 was not found")
 }
@@ -60,8 +59,7 @@ func TestRefund_Network(t *testing.T) {
 	r.Len(t, refunds.Data, 0)
 
 	// create a half refund on the charge
-	refund := &omise.Refund{}
-	client.MustDo(refund, &CreateRefund{
+	refund, _ := client.Refund().Create(context.Background(), &omise.CreateRefundParams{
 		ChargeID: charge.ID,
 		Amount:   charge.Amount >> 1,
 	})
@@ -76,7 +74,7 @@ func TestRefund_Network(t *testing.T) {
 	r.Equal(t, refunds.Data[0].ID, refund.ID)
 
 	// retrieve refund by id, which should match what we already have.
-	client.MustDo(refund, &RetrieveRefund{
+	refund, _ = client.Refund().Retrieve(context.Background(), &omise.RetrieveRefundParams{
 		ChargeID: charge.ID,
 		RefundID: refund.ID,
 	})

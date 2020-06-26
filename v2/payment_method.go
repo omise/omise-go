@@ -9,3 +9,13 @@ type PaymentMethod struct {
 	Name string `json:"name"`
 }
 
+// PaymentMethodService represents resource service.
+type PaymentMethodService struct {
+	*Client
+}
+
+// PaymentMethod defines resource service.
+func (c *Client) PaymentMethod() *PaymentMethodService {
+	return &PaymentMethodService{c}
+}
+

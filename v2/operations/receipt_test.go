@@ -1,11 +1,11 @@
 package operations_test
 
 import (
+	"context"
 	"testing"
 
 	"github.com/omise/omise-go/v2"
 	"github.com/omise/omise-go/v2/internal/testutil"
-	. "github.com/omise/omise-go/v2/operations"
 	a "github.com/stretchr/testify/assert"
 )
 
@@ -15,15 +15,14 @@ func TestReceipt(t *testing.T) {
 	)
 
 	client := testutil.NewFixedClient(t)
-	receipt := &omise.Receipt{}
-	client.MustDo(receipt, &RetrieveReceipt{ReceiptID})
+	receipt, _ := client.Receipt().Retrieve(context.Background(), &omise.RetrieveReceiptParams{ReceiptID})
 	a.Equal(t, ReceiptID, receipt.ID)
 	if a.NotNil(t, receipt.Number) {
 		a.Equal(t, "1", receipt.Number)
 	}
 
 	receipts := &omise.ReceiptList{}
-	client.MustDo(receipts, &ListReceipts{})
+	receipts, _ = client.Receipt().List(context.Background(), &omise.ListReceiptsParams{})
 	if a.Len(t, receipts.Data, 1) {
 		a.Equal(t, ReceiptID, receipts.Data[0].ID)
 	}

@@ -1,6 +1,7 @@
 package omise_test
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -46,10 +47,11 @@ func TestNewClient(t *testing.T) {
 func TestClient_Request(t *testing.T) {
 	pkey, skey := testutil.Keys()
 	client, err := NewClient(pkey, skey)
+	ctx := context.Background()
 	r.NoError(t, err)
 
 	// use skey for api.omise.co endpoint
-	req, err := client.Request(&operations.RetrieveAccount{})
+	req, err := client.Request(ctx, &operations.RetrieveAccount{})
 	r.NoError(t, err)
 
 	user, _, ok := req.BasicAuth()
@@ -57,7 +59,7 @@ func TestClient_Request(t *testing.T) {
 	r.Equal(t, user, skey)
 
 	// use pkey for vault.omise.co endopint
-	req, err = client.Request(&operations.CreateToken{})
+	req, err = client.Request(ctx, &operations.CreateToken{})
 	r.NoError(t, err)
 
 	user, _, ok = req.BasicAuth()
@@ -68,26 +70,26 @@ func TestClient_Request(t *testing.T) {
 	client.Endpoints[internal.API] = "http://api.omise.dev:3000"
 	client.Endpoints[internal.Vault] = "http://vault.omise.dev:4500"
 
-	req, err = client.Request(&operations.RetrieveAccount{})
+	req, err = client.Request(ctx, &operations.RetrieveAccount{})
 	r.NoError(t, err)
 	r.Equal(t, "http://api.omise.dev:3000/account", req.URL.String())
 
-	req, err = client.Request(&operations.CreateToken{})
+	req, err = client.Request(ctx, &operations.CreateToken{})
 	r.NoError(t, err)
 	r.Equal(t, "http://vault.omise.dev:4500/tokens", req.URL.String())
 
 	// general request properties
 	desc := &operations.RetrieveAccount{}
 
-	req, err = client.Request(desc)
+	req, err = client.Request(ctx, desc)
 	r.NoError(t, err)
 	r.Contains(t, req.Header.Get("User-Agent"), "OmiseGo/")
 	r.Contains(t, req.Header.Get("User-Agent"), "Go/go")
-	r.Empty(t, req.Header.Get("Omise-Version"), "Omise-Version header sent when APIVersion is not specified.")
+	r.Equal(t, req.Header.Get("Omise-Version"), client.APIVersion)
 
 	client.GoVersion = "RANDOMXXXVERSION"
 	client.APIVersion = "yadda"
-	req, err = client.Request(desc)
+	req, err = client.Request(ctx, desc)
 	r.NoError(t, err)
 	r.Contains(t, req.Header.Get("User-Agent"), "Go/RANDOMXXXVERSION")
 	r.Equal(t, req.Header.Get("Omise-Version"), "yadda")
@@ -95,9 +97,10 @@ func TestClient_Request(t *testing.T) {
 
 func TestClient_Error(t *testing.T) {
 	client, err := NewClient(testutil.Keys())
+	ctx := context.Background()
 	r.NoError(t, err)
 
-	err = client.Do(nil, &internal.Description{
+	err = client.Do(ctx, nil, &internal.Description{
 		Endpoint: internal.API,
 		Method:   "GET",
 		Path:     "/definitely_never_found",
@@ -108,7 +111,7 @@ func TestClient_Error(t *testing.T) {
 	r.True(t, ok, "error returned is not *omise.Error.")
 	r.Equal(t, apiErr.Code, "not_found")
 
-	err = client.Do(nil, &internal.Description{
+	err = client.Do(ctx, nil, &internal.Description{
 		Endpoint: internal.Endpoint("virus_endpoint"),
 		Method:   "GET",
 		Path:     "/",
@@ -119,8 +122,9 @@ func TestClient_Error(t *testing.T) {
 
 func TestClient_TransportError(t *testing.T) {
 	client := testutil.NewFixedClient(t)
+	ctx := context.Background()
 
-	err := client.Do(&struct{}{}, &internal.Description{
+	err := client.Do(ctx, &struct{}{}, &internal.Description{
 		Endpoint: internal.API,
 		Method:   "GET",
 		Path:     "/malformed",
@@ -138,6 +142,7 @@ func TestClient_TransportError(t *testing.T) {
 func ExampleClient_Do() {
 	// gets your API keys
 	pkey, skey := "pkey_test_4yq6tct0llin5nyyi5l", "skey_test_4yq6tct0lblmed2yp5t"
+	ctx := context.Background()
 
 	// creates a client
 	client, err := NewClient(pkey, skey)
@@ -153,7 +158,7 @@ func ExampleClient_Do() {
 	}
 
 	// checks for error
-	if err := client.Do(charge, create); err != nil {
+	if err := client.Do(ctx, charge, create); err != nil {
 		if omiseErr, ok := err.(*Error); ok {
 			log.Fatal(omiseErr.Code + " " + omiseErr.Message)
 		} else {

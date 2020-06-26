@@ -1,5 +1,10 @@
 package omise
 
+import (
+	"github.com/omise/omise-go/v2/internal"
+	"context"
+)
+
 // Account represents Account object.
 // See https://www.omise.co/account-api for more information.
 type Account struct {
@@ -17,5 +22,94 @@ type Account struct {
 	Team string `json:"team"`
 	WebhookURI string `json:"webhook_uri"`
 	ZeroInterestInstallments bool `json:"zero_interest_installments"`
+}
+
+// AccountService represents resource service.
+type AccountService struct {
+	*Client
+}
+
+// Account defines resource service.
+func (c *Client) Account() *AccountService {
+	return &AccountService{c}
+}
+
+// Retrieve retrieves account
+//
+// Example:
+//
+//	account, retrieve := &omise.Account{}, &RetrieveAccount{
+//	}
+//	if e := client.Do(account, retrieve); e != nil {
+//		panic(e)
+//	}
+//
+//	fmt.Printf("account: %#v\n", account)
+//
+func (s *AccountService) Retrieve(ctx context.Context, params *RetrieveAccountParams) (*Account, error) {
+	result := &Account{}
+	err := s.Do(ctx, result, params)
+
+	return result, err
+}
+
+// RetrieveAccountParams params object.
+type RetrieveAccountParams struct {
+}
+
+// Describe describes structure of request
+func (req *RetrieveAccountParams) Describe() *internal.Description {
+	return &internal.Description{
+		Endpoint:    internal.API,
+		Method:      "GET",
+		Path:        "/account",
+		ContentType: "application/json",
+	}
+}
+
+// Update updates account
+//
+// Example:
+//
+//	account, update := &omise.Account{}, &UpdateAccount{
+//	}
+//	if e := client.Do(account, update); e != nil {
+//		panic(e)
+//	}
+//
+//	fmt.Printf("account: %#v\n", account)
+//
+func (s *AccountService) Update(ctx context.Context, params *UpdateAccountParams) (*Account, error) {
+	result := &Account{}
+	err := s.Do(ctx, result, params)
+
+	return result, err
+}
+
+// UpdateAccountParams params object.
+type UpdateAccountParams struct {
+	ChainEnabled bool `json:"chain_enabled,omitempty"`
+	ChainReturnURI string `json:"chain_return_uri,omitempty"`
+	MetadataExportKeys map[string]interface{} `json:"metadata_export_keys,omitempty"`
+	WebhookURI string `json:"webhook_uri,omitempty"`
+	ZeroInterestInstallments bool `json:"zero_interest_installments,omitempty"`
+}
+
+// MetadataExportKeysParams params object.
+type MetadataExportKeysParams struct {
+	Charge []interface{} `json:"charge,omitempty"`
+	Dispute []interface{} `json:"dispute,omitempty"`
+	Refund []interface{} `json:"refund,omitempty"`
+	Transfer []interface{} `json:"transfer,omitempty"`
+}
+
+// Describe describes structure of request
+func (req *UpdateAccountParams) Describe() *internal.Description {
+	return &internal.Description{
+		Endpoint:    internal.API,
+		Method:      "PATCH",
+		Path:        "/account",
+		ContentType: "application/json",
+	}
 }
 

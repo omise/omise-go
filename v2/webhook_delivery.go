@@ -7,3 +7,13 @@ type WebhookDelivery struct {
 	URI string `json:"uri"`
 }
 
+// WebhookDeliveryService represents resource service.
+type WebhookDeliveryService struct {
+	*Client
+}
+
+// WebhookDelivery defines resource service.
+func (c *Client) WebhookDelivery() *WebhookDeliveryService {
+	return &WebhookDeliveryService{c}
+}
+

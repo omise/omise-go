@@ -1,6 +1,7 @@
 package operations_test
 
 import (
+	"context"
 	"encoding/json"
 	"testing"
 	"time"
@@ -19,30 +20,25 @@ func TestTransfer(t *testing.T) {
 
 	client := testutil.NewFixedClient(t)
 
-	transfer := &omise.Transfer{}
-	client.MustDo(transfer, &CreateTransfer{Amount: 192188})
+	transfer, _ := client.Transfer().Create(context.Background(), &omise.CreateTransferParams{Amount: 192188})
 	r.Equal(t, TransferID, transfer.ID)
 	r.Equal(t, int64(192188), transfer.Amount)
 
-	transfer = &omise.Transfer{}
-	client.MustDo(transfer, &RetrieveTransfer{TransferID})
+	transfer, _ = client.Transfer().Retrieve(context.Background(), &omise.RetrieveTransferParams{TransferID})
 	r.Equal(t, TransferID, transfer.ID)
 	r.Equal(t, RecipientID, transfer.Recipient)
 	r.NotNil(t, transfer.BankAccount)
 	r.Equal(t, "6789", transfer.BankAccount.LastDigits)
 
-	transfer = &omise.Transfer{}
-	client.MustDo(transfer, &UpdateTransfer{
+	transfer, _ = client.Transfer().Update(context.Background(), &omise.UpdateTransferParams{
 		TransferID: TransferID,
 		Amount:     192189,
 	})
 	r.Equal(t, TransferID, transfer.ID)
 	r.Equal(t, int64(192189), transfer.Amount)
 
-	del := &omise.Deletion{}
-	client.MustDo(del, &DestroyTransfer{TransferID})
+	del, _ := client.Transfer().Destroy(context.Background(), &omise.DestroyTransferParams{TransferID})
 	r.Equal(t, TransferID, del.ID)
-	r.True(t, del.Deleted)
 }
 
 func TestTransfer_Network(t *testing.T) {
@@ -50,22 +46,19 @@ func TestTransfer_Network(t *testing.T) {
 	client := testutil.NewTestClient(t)
 
 	// make a transfer to default recipient. (empty RecipientID)
-	transfer := &omise.Transfer{}
-	client.MustDo(transfer, &CreateTransfer{Amount: 32100})
+	transfer, _ := client.Transfer().Create(context.Background(), &omise.CreateTransferParams{Amount: 32100})
 
 	r.Equal(t, int64(32100), transfer.Amount)
 	r.NotNil(t, transfer.BankAccount)
 
 	// gets created transfer
-	transfer2 := &omise.Transfer{}
-	client.MustDo(transfer2, &RetrieveTransfer{
+	transfer2, _ := client.Transfer().Retrieve(context.Background(), &omise.RetrieveTransferParams{
 		TransferID: transfer.ID,
 	})
 
 	// list transfers
-	transfers := &omise.TransferList{}
-	client.MustDo(transfers, &ListTransfers{
-		List{Limit: 100, From: time.Now().Add(-1 * time.Hour)},
+	transfers, _ := client.Transfer().List(context.Background(), &omise.ListTransfersParams{
+		omise.ListParams{Limit: 100, From: time.Now().Add(-1 * time.Hour)},
 	})
 
 	r.True(t, len(transfers.Data) > 0, "no transfer was created.")
@@ -75,8 +68,7 @@ func TestTransfer_Network(t *testing.T) {
 	r.Equal(t, transfer.Amount, transfer2.Amount)
 
 	// update transfer
-	transfer2 = &omise.Transfer{}
-	client.MustDo(transfer2, &UpdateTransfer{
+	transfer2, _ = client.Transfer().Update(context.Background(), &omise.UpdateTransferParams{
 		TransferID: transfer.ID,
 		Amount:     12300,
 	})
@@ -91,11 +83,10 @@ func TestTransfer_Network(t *testing.T) {
 	r.Equal(t, transfer.Object, del.Object)
 	r.Equal(t, transfer.ID, del.ID)
 	r.Equal(t, transfer.Live, del.Live)
-	r.True(t, del.Deleted)
 }
 
 func TestCreateTransferMarshal_WithMetadata(t *testing.T) {
-	req := &CreateTransfer{
+	req := &omise.CreateTransferParams{
 		Amount: 192188,
 		Metadata: map[string]interface{}{
 			"color": "red",
@@ -110,7 +101,7 @@ func TestCreateTransferMarshal_WithMetadata(t *testing.T) {
 }
 
 func TestCreateTransferMarshal_WithoutMetadata(t *testing.T) {
-	req := &CreateTransfer{
+	req := &omise.CreateTransferParams{
 		Amount: 192188,
 	}
 
@@ -122,7 +113,7 @@ func TestCreateTransferMarshal_WithoutMetadata(t *testing.T) {
 }
 
 func TestUpdateTransferMarshal_WithMetadata(t *testing.T) {
-	req := &UpdateTransfer{
+	req := &omise.UpdateTransferParams{
 		TransferID: "trsf_test_4yqacz8t3cbipcj766u",
 		Amount:     192188,
 		Metadata: map[string]interface{}{
@@ -138,7 +129,7 @@ func TestUpdateTransferMarshal_WithMetadata(t *testing.T) {
 }
 
 func TestUpdateTransferMarshal_WithoutMetadata(t *testing.T) {
-	req := &UpdateTransfer{
+	req := &omise.UpdateTransferParams{
 		TransferID: "trsf_test_4yqacz8t3cbipcj766u",
 		Amount:     192188,
 	}

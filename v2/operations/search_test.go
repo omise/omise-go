@@ -1,11 +1,11 @@
 package operations_test
 
 import (
+	"context"
 	"testing"
 
 	"github.com/omise/omise-go/v2"
 	"github.com/omise/omise-go/v2/internal/testutil"
-	. "github.com/omise/omise-go/v2/operations"
 	r "github.com/stretchr/testify/require"
 )
 
@@ -13,9 +13,7 @@ func TestSearch(t *testing.T) {
 	const Query = "amount:1000"
 	client := testutil.NewFixedClient(t)
 
-	result := &omise.ChargeSearchResult{}
-	client.MustDo(result, &Search{
-		Scope: omise.ChargeScope,
+	result, _ := client.Search().SearchCharges(context.Background(), &omise.SearchParams{
 		Query: Query,
 	})
 
@@ -34,9 +32,7 @@ func TestSearch_Network(t *testing.T) {
 	client := testutil.NewTestClient(t)
 
 	// using query
-	result := &omise.ChargeSearchResult{}
-	client.MustDo(result, &Search{
-		Scope: omise.ChargeScope,
+	result, _ := client.Search().SearchCharges(context.Background(), &omise.SearchParams{
 		Query: ChargeID,
 	})
 
@@ -48,9 +44,7 @@ func TestSearch_Network(t *testing.T) {
 	r.Equal(t, int64(100000), charge.Amount)
 
 	// using filters
-	result = &omise.ChargeSearchResult{}
-	client.MustDo(result, &Search{
-		Scope: omise.ChargeScope,
+	result, _ = client.Search().SearchCharges(context.Background(), &omise.SearchParams{
 		Query: "id:" + ChargeID,
 	})
 

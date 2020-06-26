@@ -10,5 +10,6 @@ const (
 	ChargePending ChargeStatus = "pending"
 	ChargeReversed ChargeStatus = "reversed"
 	ChargeSuccessful ChargeStatus = "successful"
+	ChargeUnknown ChargeStatus = "unknown"
 )
 

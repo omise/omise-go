@@ -1,12 +1,12 @@
 package operations_test
 
 import (
+	"context"
 	"testing"
 	"time"
 
 	"github.com/omise/omise-go/v2"
 	"github.com/omise/omise-go/v2/internal/testutil"
-	. "github.com/omise/omise-go/v2/operations"
 	r "github.com/stretchr/testify/require"
 )
 
@@ -18,12 +18,10 @@ func TestTransaction(t *testing.T) {
 
 	client := testutil.NewFixedClient(t)
 
-	tx := &omise.Transaction{}
-	client.MustDo(tx, &RetrieveTransaction{TransactionID})
+	tx, _ := client.Transaction().Retrieve(context.Background(), &omise.RetrieveTransactionParams{TransactionID})
 	r.Equal(t, TransactionID, tx.ID)
 
-	transactions := &omise.TransactionList{}
-	client.MustDo(transactions, &ListTransactions{})
+	transactions, _ := client.Transaction().List(context.Background(), &omise.ListTransactionsParams{})
 	r.Len(t, transactions.Data, 2)
 	r.Equal(t, TransactionID, transactions.Data[0].ID)
 	r.Equal(t, TransactionID2, transactions.Data[1].ID)
@@ -40,16 +38,14 @@ func TestTransaction_Network(t *testing.T) {
 	client := testutil.NewTestClient(t)
 
 	// list transactions
-	transactions := &omise.TransactionList{}
-	client.MustDo(transactions, &ListTransactions{
-		List{Limit: 100, From: time.Now().Add(-1 * time.Hour)},
+	transactions, _ := client.Transaction().List(context.Background(), &omise.ListTransactionsParams{
+		omise.ListParams{Limit: 100, From: time.Now().Add(-1 * time.Hour)},
 	})
 
 	r.True(t, len(transactions.Data) > 0, "no transactions was created!")
 
 	// retrieve a sample transaction
-	transaction := &omise.Transaction{}
-	client.MustDo(transaction, &RetrieveTransaction{
+	transaction, _ := client.Transaction().Retrieve(context.Background(), &omise.RetrieveTransactionParams{
 		TransactionID: transactions.Data[0].ID,
 	})
 

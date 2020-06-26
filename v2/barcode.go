@@ -7,3 +7,13 @@ type Barcode struct {
 	Type string `json:"type"`
 }
 
+// BarcodeService represents resource service.
+type BarcodeService struct {
+	*Client
+}
+
+// Barcode defines resource service.
+func (c *Client) Barcode() *BarcodeService {
+	return &BarcodeService{c}
+}
+

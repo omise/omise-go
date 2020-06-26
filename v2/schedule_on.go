@@ -8,3 +8,13 @@ type ScheduleOn struct {
 	Weekdays []Weekdays `json:"weekdays"`
 }
 
+// ScheduleOnService represents resource service.
+type ScheduleOnService struct {
+	*Client
+}
+
+// ScheduleOn defines resource service.
+func (c *Client) ScheduleOn() *ScheduleOnService {
+	return &ScheduleOnService{c}
+}
+

@@ -1,6 +1,7 @@
 package operations_test
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"testing"
@@ -22,33 +23,29 @@ func TestCustomer(t *testing.T) {
 
 	client := testutil.NewFixedClient(t)
 
-	customer := &omise.Customer{}
-	client.MustDo(customer, &CreateCustomer{})
+	customer, _ := client.Customer().Create(context.Background(), &omise.CreateCustomerParams{})
 	r.Equal(t, CustomerID, customer.ID)
 
-	customer = &omise.Customer{}
-	client.MustDo(customer, &RetrieveCustomer{CustomerID})
+	customer, _ = client.Customer().Retrieve(context.Background(), &omise.RetrieveCustomerParams{CustomerID})
 	r.Equal(t, CustomerID, customer.ID)
 	r.Equal(t, CardID, customer.DefaultCard)
 	r.Len(t, customer.Cards.Data, 1)
 	r.Equal(t, CardID, customer.Cards.Data[0].ID)
 
-	customers := &omise.CustomerList{}
-	client.MustDo(customers, &ListCustomers{})
+	customers, _ := client.Customer().List(context.Background(), &omise.ListCustomersParams{})
 	r.Len(t, customers.Data, 1)
 	r.Equal(t, CustomerID, customers.Data[0].ID)
 
-	client.MustDo(customer, &UpdateCustomer{
+	customer, _ = client.Customer().Update(context.Background(), &omise.UpdateCustomerParams{
 		CustomerID: customer.ID,
 		Email:      "john.doe.the.second@example.com",
 	})
 	r.Equal(t, "john.doe.the.second@example.com", customer.Email)
 
-	del := &omise.Deletion{}
-	client.MustDo(del, &DestroyCustomer{CustomerID})
+	del, _ := client.Customer().Destroy(context.Background(), &omise.DestroyCustomerParams{CustomerID})
 	r.Equal(t, CustomerID, del.ID)
 
-	err := client.Do(nil, &RetrieveCustomer{"not_exist"})
+	_, err := client.Customer().Retrieve(context.Background(), &omise.RetrieveCustomerParams{"not_exist"})
 	r.Error(t, err)
 	r.EqualError(t, err, "(404/not_found) customer missing was not found")
 }
@@ -59,8 +56,7 @@ func TestCustomer_Network(t *testing.T) {
 	token := createTestToken(client)
 
 	// create a customer
-	jack := &omise.Customer{}
-	client.MustDo(jack, &CreateCustomer{
+	jack, _ := client.Customer().Create(context.Background(), &omise.CreateCustomerParams{
 		Email:       "chakrit@omise.co",
 		Description: "I'm JACK",
 		Card:        token.ID,
@@ -73,9 +69,8 @@ func TestCustomer_Network(t *testing.T) {
 	r.Len(t, jack.Cards.Data, 1)
 
 	// list created customers
-	customers := &omise.CustomerList{}
-	client.MustDo(customers, &ListCustomers{
-		List{
+	customers, _ := client.Customer().List(context.Background(), &omise.ListCustomersParams{
+		omise.ListParams{
 			From:  time.Now().Add(-1 * time.Hour),
 			Limit: 100,
 		},
@@ -88,8 +83,7 @@ func TestCustomer_Network(t *testing.T) {
 	r.Equal(t, jack.Email, jane.Email)
 
 	// update
-	john := &omise.Customer{}
-	client.MustDo(john, &UpdateCustomer{
+	john, _ := client.Customer().Update(context.Background(), &omise.UpdateCustomerParams{
 		CustomerID:  jack.ID,
 		Description: "I'm JOHN now.",
 	})
@@ -98,27 +92,23 @@ func TestCustomer_Network(t *testing.T) {
 	r.Equal(t, "I'm JOHN now.", john.Description)
 
 	// fetch
-	jill, retrieve := &omise.Customer{}, &RetrieveCustomer{john.ID}
-	client.MustDo(jill, retrieve)
+	jill, _ := client.Customer().Retrieve(context.Background(), &omise.RetrieveCustomerParams{john.ID})
 
 	r.Equal(t, john.ID, jill.ID)
 	r.Equal(t, john.Email, jill.Email)
 	r.Equal(t, john.Description, jill.Description)
 
 	// delete
-	del, destroy := &omise.Deletion{}, &DestroyCustomer{CustomerID: jill.ID}
-	client.MustDo(del, destroy)
+	del, _ := client.Customer().Destroy(context.Background(), &omise.DestroyCustomerParams{CustomerID: jill.ID})
 
 	r.Equal(t, jill.Object, del.Object)
 	r.Equal(t, jill.ID, del.ID)
 	r.Equal(t, jill.Live, del.Live)
-	r.True(t, del.Deleted)
 }
 
 func TestListCustomerChargeSchedules(t *testing.T) {
 	client := testutil.NewFixedClient(t)
-	var schds omise.ScheduleList
-	client.MustDo(&schds, &ListCustomerSchedules{
+	schds, _ := client.Customer().ListSchedules(context.Background(), &omise.ListCustomerSchedulesParams{
 		CustomerID: "cust_test_4yq6txdpfadhbaqnwp3",
 	})
 
@@ -132,16 +122,15 @@ func TestListCustomerChargeSchedules(t *testing.T) {
 func TestListCustomerChargeSchedules_Network(t *testing.T) {
 	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
-	var schds omise.ScheduleList
-	list := ListCustomerSchedules{
+	list := &omise.ListCustomerSchedulesParams{
 		CustomerID: "cust_1234",
-		List: List{
+		ListParams: omise.ListParams{
 			Limit: 100,
 			From:  time.Date(2017, 5, 16, 0, 0, 0, 0, time.Local),
 		},
 	}
 
-	client.MustDo(&schds, &list)
+	schds, _ := client.Customer().ListSchedules(context.Background(), list)
 
 	t.Logf("Schedules Len: %d\n", len(schds.Data))
 	t.Logf("%#v\n", schds)

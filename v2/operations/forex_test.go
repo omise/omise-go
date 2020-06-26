@@ -1,18 +1,17 @@
 package operations_test
 
 import (
+	"context"
 	"testing"
 
 	"github.com/omise/omise-go/v2"
 	"github.com/omise/omise-go/v2/internal/testutil"
-	. "github.com/omise/omise-go/v2/operations"
 	r "github.com/stretchr/testify/assert"
 )
 
 func TestForex(t *testing.T) {
 	client := testutil.NewFixedClient(t)
-	forex := &omise.Forex{}
-	client.MustDo(forex, &RetrieveForex{
+	forex, _ := client.Forex().Retrieve(context.Background(), &omise.RetrieveForexParams{
 		Currency: "usd",
 	})
 
@@ -25,8 +24,7 @@ func TestForex_Network(t *testing.T) {
 	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
 
-	forex := &omise.Forex{}
-	client.MustDo(forex, &RetrieveForex{
+	forex, _ := client.Forex().Retrieve(context.Background(), &omise.RetrieveForexParams{
 		Currency: "USD",
 	})
 

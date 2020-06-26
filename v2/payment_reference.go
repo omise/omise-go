@@ -20,3 +20,13 @@ type PaymentReference struct {
 	VaCode string `json:"va_code"`
 }
 
+// PaymentReferenceService represents resource service.
+type PaymentReferenceService struct {
+	*Client
+}
+
+// PaymentReference defines resource service.
+func (c *Client) PaymentReference() *PaymentReferenceService {
+	return &PaymentReferenceService{c}
+}
+

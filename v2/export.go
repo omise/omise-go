@@ -15,3 +15,13 @@ type Export struct {
 	Team string `json:"team"`
 }
 
+// ExportService represents resource service.
+type ExportService struct {
+	*Client
+}
+
+// Export defines resource service.
+func (c *Client) Export() *ExportService {
+	return &ExportService{c}
+}
+

@@ -1,6 +1,7 @@
 package operations_test
 
 import (
+	"context"
 	"strings"
 	"testing"
 
@@ -19,14 +20,13 @@ func TestEvent(t *testing.T) {
 
 	client := testutil.NewFixedClient(t)
 
-	event := &omise.Event{}
-	client.MustDo(event, &RetrieveEvent{EventID})
+	event, _ := client.Event().Retrieve(context.Background(), &omise.RetrieveEventParams{EventID})
 	r.Equal(t, EventID, event.ID)
 	r.Equal(t, "transfer.destroy", event.Key)
 	r.Equal(t, TransferID, event.Data.(*omise.Deletion).ID)
 
 	events := &omise.EventList{}
-	client.MustDo(events, &ListEvents{})
+	events, _ = client.Event().List(context.Background(), &omise.ListEventsParams{})
 	r.Len(t, events.Data, 20)
 
 	event = events.Data[0]
@@ -39,7 +39,7 @@ func TestEvent_Network(t *testing.T) {
 	client := testutil.NewTestClient(t)
 
 	events := &omise.EventList{}
-	client.MustDo(events, &ListEvents{})
+	events, _ = client.Event().List(context.Background(), &omise.ListEventsParams{})
 	r.True(t, len(events.Data) > 1)
 
 	event, retrieve := &omise.Event{}, &RetrieveEvent{events.Data[0].ID}

@@ -2,6 +2,7 @@ package omise
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"go/build"
@@ -11,6 +12,9 @@ import (
 
 	"github.com/omise/omise-go/v2/internal"
 )
+
+// APIVersion Omise API version
+const APIVersion = "2019-05-29"
 
 // Client helps you configure and perform HTTP operations against Omise's REST API. It
 // should be used with operation structures from the operations subpackage.
@@ -42,12 +46,12 @@ func NewClient(pkey, skey string) (*Client, error) {
 	}
 
 	client := &Client{
-		Client: &http.Client{Transport: transport},
-		debug:  false,
-		pkey:   pkey,
-		skey:   skey,
-
-		Endpoints: map[internal.Endpoint]string{},
+		Client:     &http.Client{Transport: transport},
+		debug:      false,
+		pkey:       pkey,
+		skey:       skey,
+		APIVersion: APIVersion,
+		Endpoints:  map[internal.Endpoint]string{},
 	}
 
 	if len(build.Default.ReleaseTags) > 0 {
@@ -59,7 +63,7 @@ func NewClient(pkey, skey string) (*Client, error) {
 
 // Request creates a new *http.Request that should performs the supplied Operation. Most
 // people should use the Do method instead.
-func (c *Client) Request(operation internal.Operation) (req *http.Request, err error) {
+func (c *Client) Request(ctx context.Context, operation internal.Operation) (req *http.Request, err error) {
 	req, err = c.buildJSONRequest(operation)
 	if err != nil {
 		return nil, err
@@ -69,6 +73,9 @@ func (c *Client) Request(operation internal.Operation) (req *http.Request, err e
 	if err != nil {
 		return nil, err
 	}
+
+	// set context
+	req.WithContext(ctx)
 
 	return req, nil
 }
@@ -88,11 +95,16 @@ func (c *Client) buildJSONRequest(operation internal.Operation) (*http.Request, 
 		endpoint = ep
 	}
 
+	if c.debug {
+		fmt.Println("req:", desc.Method, endpoint+desc.Path, string(b))
+	}
+
+	// http.NewRequestWithContext requires Go 1.13+
 	return http.NewRequest(desc.Method, endpoint+desc.Path, body)
 }
 
 func (c *Client) setRequestHeaders(req *http.Request, desc *internal.Description) error {
-	ua := "OmiseGo/2015-11-06"
+	ua := "OmiseGo/" + APIVersion
 	if c.GoVersion != "" {
 		ua += " Go/" + c.GoVersion
 	}
@@ -125,8 +137,8 @@ func (c *Client) setRequestHeaders(req *http.Request, desc *internal.Description
 // If the operation is successful, result should contains the response data. Otherwise a
 // non-nil error should be returned. Error maybe of the omise-go.Error struct type, in
 // which case you can further inspect the Code and Message field for more information.
-func (c *Client) Do(result interface{}, operation internal.Operation) error {
-	req, err := c.Request(operation)
+func (c *Client) Do(ctx context.Context, result interface{}, operation internal.Operation) error {
+	req, err := c.Request(ctx, operation)
 	if err != nil {
 		return err
 	}
@@ -136,10 +148,21 @@ func (c *Client) Do(result interface{}, operation internal.Operation) error {
 	if resp != nil {
 		defer resp.Body.Close()
 	}
+
 	if err != nil {
-		return err
+		// handle context errors (e.g. cancellation)
+		select {
+		case <-ctx.Done():
+			return ctx.Err()
+		default:
+			return err
+		}
 	}
 
+	return c.buildResponse(resp, result)
+}
+
+func (c *Client) buildResponse(resp *http.Response, result interface{}) error {
 	buffer, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return &ErrTransport{err, buffer}

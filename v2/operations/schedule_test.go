@@ -1,13 +1,13 @@
 package operations_test
 
 import (
+	"context"
 	"encoding/json"
 	"testing"
 	"time"
 
 	"github.com/omise/omise-go/v2"
 	"github.com/omise/omise-go/v2/internal/testutil"
-	. "github.com/omise/omise-go/v2/operations"
 	r "github.com/stretchr/testify/require"
 )
 
@@ -15,16 +15,16 @@ var futureDate = omise.DateString(time.Now().AddDate(1, 0, 0).Format("2006-01-02
 
 func TestCreateChargeScheduleMarshal(t *testing.T) {
 	testdata := []struct {
-		req      *CreateSchedule
+		req      *omise.CreateScheduleParams
 		expected string
 	}{
 		{
-			req: &CreateSchedule{
+			req: &omise.CreateScheduleParams{
 				Every:     3,
 				Period:    omise.ScheduleDay,
 				StartDate: "2017-05-15",
 				EndDate:   "2018-05-15",
-				Charge: &ChargeScheduling{
+				Charge: &omise.ChargeScheduleParams{
 					Customer: "customer_id",
 					Amount:   100000,
 				},
@@ -32,10 +32,10 @@ func TestCreateChargeScheduleMarshal(t *testing.T) {
 			expected: `{"charge":{"amount":100000,"customer":"customer_id"},"end_date":"2018-05-15","every":3,"period":"day","start_date":"2017-05-15"}`,
 		},
 		{
-			req: &CreateSchedule{
+			req: &omise.CreateScheduleParams{
 				Every:  3,
 				Period: omise.ScheduleWeek,
-				On: &ScheduleOn{
+				On: &omise.ScheduleOnParams{
 					Weekdays: []omise.Weekdays{
 						omise.ScheduleOnMonday,
 						omise.ScheduleOnSaturday,
@@ -43,7 +43,7 @@ func TestCreateChargeScheduleMarshal(t *testing.T) {
 				},
 				StartDate: "2017-05-15",
 				EndDate:   "2018-05-15",
-				Charge: &ChargeScheduling{
+				Charge: &omise.ChargeScheduleParams{
 					Customer: "customer_id",
 					Amount:   100000,
 				},
@@ -51,15 +51,15 @@ func TestCreateChargeScheduleMarshal(t *testing.T) {
 			expected: `{"charge":{"amount":100000,"customer":"customer_id"},"end_date":"2018-05-15","every":3,"on":{"weekdays":["monday","saturday"]},"period":"week","start_date":"2017-05-15"}`,
 		},
 		{
-			req: &CreateSchedule{
+			req: &omise.CreateScheduleParams{
 				Every:  3,
 				Period: omise.ScheduleMonth,
-				On: &ScheduleOn{
+				On: &omise.ScheduleOnParams{
 					DaysOfMonth: []int{1, 15},
 				},
 				StartDate: "2017-05-15",
 				EndDate:   "2018-05-15",
-				Charge: &ChargeScheduling{
+				Charge: &omise.ChargeScheduleParams{
 					Customer: "customer_id",
 					Amount:   100000,
 				},
@@ -67,15 +67,15 @@ func TestCreateChargeScheduleMarshal(t *testing.T) {
 			expected: `{"charge":{"amount":100000,"customer":"customer_id"},"end_date":"2018-05-15","every":3,"on":{"days_of_month":[1,15]},"period":"month","start_date":"2017-05-15"}`,
 		},
 		{
-			req: &CreateSchedule{
+			req: &omise.CreateScheduleParams{
 				Every:  3,
 				Period: omise.ScheduleMonth,
-				On: &ScheduleOn{
+				On: &omise.ScheduleOnParams{
 					WeekdayOfMonth: "last_thursday",
 				},
 				StartDate: "2017-05-15",
 				EndDate:   "2018-05-15",
-				Charge: &ChargeScheduling{
+				Charge: &omise.ChargeScheduleParams{
 					Customer: "customer_id",
 					Amount:   100000,
 				},
@@ -97,37 +97,37 @@ func TestCreateChargeSchedule_Network(t *testing.T) {
 
 	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
-	schd, create := &omise.Schedule{}, &CreateSchedule{
+	create := &omise.CreateScheduleParams{
 		Every:  3,
 		Period: omise.ScheduleWeek,
-		On: &ScheduleOn{
+		On: &omise.ScheduleOnParams{
 			Weekdays: []omise.Weekdays{
 				omise.ScheduleOnMonday,
 				omise.ScheduleOnSaturday,
 			},
 		},
 		EndDate: futureDate,
-		Charge: &ChargeScheduling{
+		Charge: &omise.ChargeScheduleParams{
 			Customer: CustomerID,
 			Amount:   100000,
 		},
 	}
 
-	client.MustDo(schd, create)
+	client.Schedule().Create(context.Background(), create)
 }
 
 func TestCreateTransferScheduleMarshal(t *testing.T) {
 	testdata := []struct {
-		req      *CreateSchedule
+		req      *omise.CreateScheduleParams
 		expected string
 	}{
 		{
-			req: &CreateSchedule{
+			req: &omise.CreateScheduleParams{
 				Every:     3,
 				Period:    omise.ScheduleDay,
 				StartDate: "2017-05-15",
 				EndDate:   "2018-05-15",
-				Transfer: &TransferScheduling{
+				Transfer: &omise.TransferScheduleParams{
 					Recipient: "recipient_id",
 					Amount:    100000,
 				},
@@ -135,10 +135,10 @@ func TestCreateTransferScheduleMarshal(t *testing.T) {
 			expected: `{"end_date":"2018-05-15","every":3,"period":"day","start_date":"2017-05-15","transfer":{"amount":100000,"recipient":"recipient_id"}}`,
 		},
 		{
-			req: &CreateSchedule{
+			req: &omise.CreateScheduleParams{
 				Every:  3,
 				Period: omise.ScheduleWeek,
-				On: &ScheduleOn{
+				On: &omise.ScheduleOnParams{
 					Weekdays: []omise.Weekdays{
 						omise.ScheduleOnMonday,
 						omise.ScheduleOnSaturday,
@@ -146,7 +146,7 @@ func TestCreateTransferScheduleMarshal(t *testing.T) {
 				},
 				StartDate: "2017-05-15",
 				EndDate:   "2018-05-15",
-				Transfer: &TransferScheduling{
+				Transfer: &omise.TransferScheduleParams{
 					Recipient:           "recipient_id",
 					PercentageOfBalance: 20.35,
 				},
@@ -154,15 +154,15 @@ func TestCreateTransferScheduleMarshal(t *testing.T) {
 			expected: `{"end_date":"2018-05-15","every":3,"on":{"weekdays":["monday","saturday"]},"period":"week","start_date":"2017-05-15","transfer":{"percentage_of_balance":20.35,"recipient":"recipient_id"}}`,
 		},
 		{
-			req: &CreateSchedule{
+			req: &omise.CreateScheduleParams{
 				Every:  3,
 				Period: omise.ScheduleMonth,
-				On: &ScheduleOn{
+				On: &omise.ScheduleOnParams{
 					DaysOfMonth: []int{1, 15},
 				},
 				StartDate: "2017-05-15",
 				EndDate:   "2018-05-15",
-				Transfer: &TransferScheduling{
+				Transfer: &omise.TransferScheduleParams{
 					Recipient: "recipient_id",
 					Amount:    100000,
 				},
@@ -170,15 +170,15 @@ func TestCreateTransferScheduleMarshal(t *testing.T) {
 			expected: `{"end_date":"2018-05-15","every":3,"on":{"days_of_month":[1,15]},"period":"month","start_date":"2017-05-15","transfer":{"amount":100000,"recipient":"recipient_id"}}`,
 		},
 		{
-			req: &CreateSchedule{
+			req: &omise.CreateScheduleParams{
 				Every:  3,
 				Period: omise.ScheduleMonth,
-				On: &ScheduleOn{
+				On: &omise.ScheduleOnParams{
 					WeekdayOfMonth: "last_thursday",
 				},
 				StartDate: "2017-05-15",
 				EndDate:   "2018-05-15",
-				Transfer: &TransferScheduling{
+				Transfer: &omise.TransferScheduleParams{
 					Recipient:           "recipient_id",
 					PercentageOfBalance: 50.55,
 				},
@@ -200,10 +200,10 @@ func TestCreateTransferSchedule_Network(t *testing.T) {
 
 	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
-	schd, create := &omise.Schedule{}, &CreateSchedule{
+	create := &omise.CreateScheduleParams{
 		Every:  3,
 		Period: omise.ScheduleWeek,
-		On: &ScheduleOn{
+		On: &omise.ScheduleOnParams{
 			Weekdays: []omise.Weekdays{
 				omise.ScheduleOnMonday,
 				omise.ScheduleOnSaturday,
@@ -211,12 +211,12 @@ func TestCreateTransferSchedule_Network(t *testing.T) {
 		},
 		EndDate: futureDate,
 
-		Transfer: &TransferScheduling{
+		Transfer: &omise.TransferScheduleParams{
 			Recipient: RecipientID,
 			Amount:    100000,
 		},
 	}
-	client.MustDo(schd, create)
+	client.Schedule().Create(context.Background(), create)
 }
 
 func TestCreateSchedule(t *testing.T) {
@@ -226,15 +226,13 @@ func TestCreateSchedule(t *testing.T) {
 
 	client := testutil.NewFixedClient(t)
 
-	schd := &omise.Schedule{}
-	client.MustDo(schd, &CreateSchedule{})
+	schd, _ := client.Schedule().Create(context.Background(), &omise.CreateScheduleParams{})
 	r.Equal(t, ScheduleID, schd.ID)
 }
 
 func TestListSchedule(t *testing.T) {
 	client := testutil.NewFixedClient(t)
-	var schds omise.ScheduleList
-	client.MustDo(&schds, &ListSchedules{})
+	schds, _ := client.Schedule().List(context.Background(), &omise.ListSchedulesParams{})
 
 	r.Len(t, schds.Data, 2)
 
@@ -250,82 +248,72 @@ func TestListSchedule(t *testing.T) {
 func TestListSchedules_Network(t *testing.T) {
 	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
-	var schds omise.ScheduleList
-	list := ListSchedules{
-		List: List{
+	list := omise.ListSchedulesParams{
+		ListParams: omise.ListParams{
 			Limit: 100,
 			From:  time.Date(2017, 5, 16, 0, 0, 0, 0, time.Local),
 		},
 	}
 
-	client.MustDo(&schds, &list)
+	schds, _ := client.Schedule().List(context.Background(), &list)
 
 	t.Logf("Schedules Len: %d\n", len(schds.Data))
 	t.Logf("%#v\n", schds)
 }
 
 func TestListChargeSchedules(t *testing.T) {
-	var schds omise.ScheduleList
 	client := testutil.NewFixedClient(t)
-	client.MustDo(&schds, &ListChargeSchedules{})
+	schds, _ := client.Charge().ListSchedules(context.Background(), &omise.ListChargeSchedulesParams{})
 
 	r.Len(t, schds.Data, 1)
 
 	r.Equal(t, "schd_57zhl296uxc7yiun6xa", schds.Data[0].ID)
-	r.NotNil(t, schds.Data[0].Charge)
-	r.Nil(t, schds.Data[0].Transfer)
 }
 
 func TestListChargeSchedules_Network(t *testing.T) {
 	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
-	var schds omise.ScheduleList
-	list := ListChargeSchedules{
-		List: List{
+	list := omise.ListChargeSchedulesParams{
+		ListParams: omise.ListParams{
 			Limit: 100,
 			From:  time.Date(2017, 5, 16, 0, 0, 0, 0, time.Local),
 		},
 	}
 
-	client.MustDo(&schds, &list)
+	schds, _ := client.Charge().ListSchedules(context.Background(), &list)
 
 	t.Logf("Schedules Len: %d\n", len(schds.Data))
 	t.Logf("%#v\n", schds)
 }
 
 func TestListTransferSchedules(t *testing.T) {
-	var schds omise.ScheduleList
 	client := testutil.NewFixedClient(t)
-	client.MustDo(&schds, &ListTransferSchedules{})
+	schds, _ := client.Transfer().ListSchedules(context.Background(), &omise.ListTransferSchedulesParams{})
 
 	r.Len(t, schds.Data, 1)
 
 	r.Equal(t, "schd_57zhl296uxc7yiun6xx", schds.Data[0].ID)
-	r.NotNil(t, schds.Data[0].Transfer)
-	r.Nil(t, schds.Data[0].Charge)
 }
 
 func TestListTransferSchedules_Network(t *testing.T) {
 	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
-	var schds omise.ScheduleList
-	list := ListTransferSchedules{
-		List: List{
+	list := omise.ListTransferSchedulesParams{
+		ListParams: omise.ListParams{
 			Limit: 100,
 			From:  time.Date(2017, 5, 16, 0, 0, 0, 0, time.Local),
 		},
 	}
 
-	client.MustDo(&schds, &list)
+	schds, _ := client.Transfer().ListSchedules(context.Background(), &list)
 
 	t.Logf("Schedules Len: %d\n", len(schds.Data))
 	t.Logf("%#v\n", schds)
 }
 
 func TestListScheduleOccurrences(t *testing.T) {
-	var occurrences omise.OccurrenceList
 	client := testutil.NewFixedClient(t)
-	client.MustDo(&occurrences, &ListScheduleOccurrences{ScheduleID: "schd_57z9hj228pusa652nk1"})
+	occurrences, _ := client.Schedule().ListOccurrences(context.Background(), &omise.ListScheduleOccurrencesParams{ScheduleID: "schd_57z9hj228pusa652nk1"})
 
 	r.Len(t, occurrences.Data, 2)
 
@@ -336,16 +324,15 @@ func TestListScheduleOccurrences(t *testing.T) {
 func TestListScheduleOccurrences_Network(t *testing.T) {
 	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
-	var occurrences omise.OccurrenceList
-	list := ListScheduleOccurrences{
+	list := omise.ListScheduleOccurrencesParams{
 		ScheduleID: "schd_57z9hj228pusa652nk1",
-		List: List{
+		ListParams: omise.ListParams{
 			Limit: 100,
 			From:  time.Date(2017, 5, 16, 0, 0, 0, 0, time.Local),
 		},
 	}
 
-	client.MustDo(&occurrences, &list)
+	occurrences, _ := client.Schedule().ListOccurrences(context.Background(), &list)
 
 	t.Logf("Occurrences Len: %d\n", len(occurrences.Data))
 	t.Logf("%#v\n", occurrences)
@@ -355,8 +342,7 @@ func TestRetrieveSchedule(t *testing.T) {
 	ScheduleID := "schd_57z9hj228pusa652nk1"
 
 	client := testutil.NewFixedClient(t)
-	schd := &omise.Schedule{}
-	client.MustDo(schd, &RetrieveSchedule{ScheduleID: ScheduleID})
+	schd, _ := client.Schedule().Retrieve(context.Background(), &omise.RetrieveScheduleParams{ScheduleID: ScheduleID})
 	r.Equal(t, ScheduleID, schd.ID)
 	r.Nil(t, schd.Transfer)
 	r.Equal(t, int64(100000), schd.Charge.Amount)
@@ -365,8 +351,7 @@ func TestRetrieveSchedule(t *testing.T) {
 
 	ScheduleID = "schd_57z9hj228pusa652nk2"
 
-	schd = &omise.Schedule{}
-	client.MustDo(schd, &RetrieveSchedule{ScheduleID: ScheduleID})
+	schd, _ = client.Schedule().Retrieve(context.Background(), &omise.RetrieveScheduleParams{ScheduleID: ScheduleID})
 	r.Equal(t, ScheduleID, schd.ID)
 	r.Nil(t, schd.Charge)
 	r.Equal(t, int64(100000), *schd.Transfer.Amount)
@@ -380,8 +365,7 @@ func TestRetrieveSchedule_Network(t *testing.T) {
 
 	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
-	schd := &omise.Schedule{}
-	client.MustDo(schd, &RetrieveSchedule{ScheduleID: ScheduleID})
+	schd, _ := client.Schedule().Retrieve(context.Background(), &omise.RetrieveScheduleParams{ScheduleID: ScheduleID})
 
 	t.Logf("%#v\n", schd)
 }
@@ -390,8 +374,7 @@ func TestDestroySchedule(t *testing.T) {
 	ScheduleID := "schd_57z9hj228pusa652nk1"
 
 	client := testutil.NewFixedClient(t)
-	schd := &omise.Schedule{}
-	client.MustDo(schd, &DestroySchedule{ScheduleID: ScheduleID})
+	schd, _ := client.Schedule().Destroy(context.Background(), &omise.DestroyScheduleParams{ScheduleID: ScheduleID})
 	r.Equal(t, ScheduleID, schd.ID)
 	r.Nil(t, schd.Transfer)
 	r.Equal(t, int64(100000), schd.Charge.Amount)
@@ -400,8 +383,7 @@ func TestDestroySchedule(t *testing.T) {
 
 	ScheduleID = "schd_57z9hj228pusa652nk2"
 
-	schd = &omise.Schedule{}
-	client.MustDo(schd, &DestroySchedule{ScheduleID: ScheduleID})
+	schd, _ = client.Schedule().Destroy(context.Background(), &omise.DestroyScheduleParams{ScheduleID: ScheduleID})
 	r.Equal(t, ScheduleID, schd.ID)
 	r.Nil(t, schd.Charge)
 	r.Equal(t, int64(100000), *schd.Transfer.Amount)
@@ -415,8 +397,7 @@ func TestDestroySchedule_Network(t *testing.T) {
 
 	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
-	schd := &omise.Schedule{}
-	client.MustDo(schd, &DestroySchedule{ScheduleID: ScheduleID})
+	schd, _ := client.Schedule().Destroy(context.Background(), &omise.DestroyScheduleParams{ScheduleID: ScheduleID})
 
 	t.Logf("%#v\n", schd)
 }

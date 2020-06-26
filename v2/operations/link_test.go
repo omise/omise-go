@@ -1,6 +1,7 @@
 package operations_test
 
 import (
+	"context"
 	"testing"
 	"time"
 
@@ -15,8 +16,7 @@ func TestLink_Network(t *testing.T) {
 	client := testutil.NewTestClient(t)
 
 	// create
-	link := &omise.Link{}
-	client.MustDo(link, &CreateLink{
+	link, _ := client.Link().Create(context.Background(), &omise.CreateLinkParams{
 		Amount:      99900,
 		Currency:    "thb",
 		Title:       "Hot Latte",
@@ -31,8 +31,7 @@ func TestLink_Network(t *testing.T) {
 	r.True(t, link.Multiple)
 
 	// retrieve created link
-	link2 := &omise.Link{}
-	client.MustDo(link2, &RetrieveLink{LinkID: link.ID})
+	link2, _ := client.Link().Retrieve(context.Background(), &omise.RetrieveLinkParams{LinkID: link.ID})
 	r.Equal(t, link.Amount, link2.Amount)
 	r.Equal(t, link.Title, link2.Title)
 

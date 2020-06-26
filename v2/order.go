@@ -1,11 +1,11 @@
 package omise
 
-// Order represents an enumeration of possible values for Search.
+// Order represents an enumeration of possible values for List.
 type Order string
 
 // Order can be one of the following list of constants:
 const (
-	SearchChronological Order = "chronological"
-	SearchReverseChronological Order = "reverse_chronological"
+	ListChronological Order = "chronological"
+	ListReverseChronological Order = "reverse_chronological"
 )
 

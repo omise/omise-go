@@ -1,6 +1,7 @@
 package operations
 
 import (
+	"context"
 	"testing"
 
 	omise "github.com/omise/omise-go/v2"
@@ -12,8 +13,7 @@ func TestRetrieveOccurrence(t *testing.T) {
 	OccurrenceID := "occu_57z9hj228pusa652nk1"
 
 	client := testutil.NewFixedClient(t)
-	var occurrence omise.Occurrence
-	client.MustDo(&occurrence, &RetrieveOccurrence{OccurrenceID: OccurrenceID})
+	occurrence, _ := client.Occurrence().Retrieve(context.Background(), &omise.RetrieveOccurrenceParams{OccurrenceID: OccurrenceID})
 	r.Equal(t, OccurrenceID, occurrence.ID)
 }
 
@@ -23,8 +23,7 @@ func TestRetrieveOccurrence_Network(t *testing.T) {
 
 	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
-	var occurrence omise.Occurrence
-	client.MustDo(&occurrence, &RetrieveOccurrence{OccurrenceID: OccurrenceID})
+	occurrence, _ := client.Occurrence().Retrieve(context.Background(), &omise.RetrieveOccurrenceParams{OccurrenceID: OccurrenceID})
 
 	t.Logf("%#v\n", occurrence)
 }
