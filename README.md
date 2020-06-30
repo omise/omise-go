@@ -1,5 +1,5 @@
 **⚠️ This is not OMG, the blockchain. Visit
-https://omisego.network/ for that. ⚠️**
+https://omg.network/ for that. ⚠️**
 
 ---
 
