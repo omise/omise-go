@@ -33,10 +33,10 @@ func (c *Client) Transaction() *TransactionService {
 //
 // Example:
 //
-//	transaction, retrieve := &omise.Transaction{}, &RetrieveTransaction{
+//	transaction, err := client.Transaction().Retrieve(ctx, &RetrieveTransactionParams{
 //		TransactionID: "trxn_5is3gq69cm"
-//	}
-//	if e := client.Do(transaction, retrieve); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -68,9 +68,9 @@ func (req *RetrieveTransactionParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	transaction, list := &omise.TransactionList{}, &ListTransactions{
-//	}
-//	if e := client.Do(transaction, list); e != nil {
+//	transaction, err := client.Transaction().List(ctx, &ListTransactionsParams{
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //

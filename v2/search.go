@@ -36,9 +36,9 @@ func (c *Client) Search() *SearchService {
 //
 // Example:
 //
-//	search, search := &omise.Search{}, &Search{
-//	}
-//	if e := client.Do(search, search); e != nil {
+//	search, err := client.Search().Search(ctx, &SearchParams{
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //

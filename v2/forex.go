@@ -29,10 +29,10 @@ func (c *Client) Forex() *ForexService {
 //
 // Example:
 //
-//	forex, retrieve := &omise.Forex{}, &RetrieveForex{
+//	forex, err := client.Forex().Retrieve(ctx, &RetrieveForexParams{
 //		Currency: "undefined"
-//	}
-//	if e := client.Do(forex, retrieve); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //

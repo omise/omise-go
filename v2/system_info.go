@@ -26,9 +26,9 @@ func (c *Client) SystemInfo() *SystemInfoService {
 //
 // Example:
 //
-//	system_info, retrieve := &omise.SystemInfo{}, &RetrieveSystemInfo{
-//	}
-//	if e := client.Do(system_info, retrieve); e != nil {
+//	system_info, err := client.SystemInfo().Retrieve(ctx, &RetrieveSystemInfoParams{
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //

@@ -29,9 +29,9 @@ func (c *Client) Chain() *ChainService {
 //
 // Example:
 //
-//	chain, list := &omise.ChainList{}, &ListChains{
-//	}
-//	if e := client.Do(chain, list); e != nil {
+//	chain, err := client.Chain().List(ctx, &ListChainsParams{
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -63,10 +63,10 @@ func (req *ListChainsParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	chain, retrieve := &omise.Chain{}, &RetrieveChain{
+//	chain, err := client.Chain().Retrieve(ctx, &RetrieveChainParams{
 //		ChainID: "acch_8b3g64h9cm"
-//	}
-//	if e := client.Do(chain, retrieve); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -98,10 +98,10 @@ func (req *RetrieveChainParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	chain, revoke := &omise.Chain{}, &RevokeChain{
+//	chain, err := client.Chain().Revoke(ctx, &RevokeChainParams{
 //		ChainID: "acch_8b3g64h9cm"
-//	}
-//	if e := client.Do(chain, revoke); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //

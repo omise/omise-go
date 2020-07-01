@@ -28,11 +28,11 @@ func (c *Client) Document() *DocumentService {
 //
 // Example:
 //
-//	document, destroy := &omise.Document{}, &DestroyDocument{
+//	document, err := client.Document().Destroy(ctx, &DestroyDocumentParams{
 //		DisputeID: "dspt_9c4h4hr1eo"
 //		DocumentID: "docu_9cdn8b6jt8"
-//	}
-//	if e := client.Do(document, destroy); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -65,11 +65,11 @@ func (req *DestroyDocumentParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	document, retrieve := &omise.Document{}, &RetrieveDocument{
+//	document, err := client.Document().Retrieve(ctx, &RetrieveDocumentParams{
 //		DisputeID: "dspt_9c4h4hr1eo"
 //		DocumentID: "docu_9cdn8b6jt8"
-//	}
-//	if e := client.Do(document, retrieve); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -102,10 +102,10 @@ func (req *RetrieveDocumentParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	document, list := &omise.DocumentList{}, &ListDocuments{
+//	document, err := client.Document().List(ctx, &ListDocumentsParams{
 //		DisputeID: "dspt_9c4h4hr1eo"
-//	}
-//	if e := client.Do(document, list); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -138,10 +138,10 @@ func (req *ListDocumentsParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	document, create := &omise.Document{}, &CreateDocument{
+//	document, err := client.Document().Create(ctx, &CreateDocumentParams{
 //		DisputeID: "dspt_9c4h4hr1eo"
-//	}
-//	if e := client.Do(document, create); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //

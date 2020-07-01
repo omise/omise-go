@@ -40,10 +40,10 @@ func (c *Client) Schedule() *ScheduleService {
 //
 // Example:
 //
-//	schedule, destroy := &omise.Schedule{}, &DestroySchedule{
+//	schedule, err := client.Schedule().Destroy(ctx, &DestroyScheduleParams{
 //		ScheduleID: "schd_4hr8b3gd9c"
-//	}
-//	if e := client.Do(schedule, destroy); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -75,10 +75,10 @@ func (req *DestroyScheduleParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	schedule, retrieve := &omise.Schedule{}, &RetrieveSchedule{
+//	schedule, err := client.Schedule().Retrieve(ctx, &RetrieveScheduleParams{
 //		ScheduleID: "schd_4hr8b3gd9c"
-//	}
-//	if e := client.Do(schedule, retrieve); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -110,9 +110,9 @@ func (req *RetrieveScheduleParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	schedule, list := &omise.ScheduleList{}, &ListSchedules{
-//	}
-//	if e := client.Do(schedule, list); e != nil {
+//	schedule, err := client.Schedule().List(ctx, &ListSchedulesParams{
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -144,13 +144,13 @@ func (req *ListSchedulesParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	schedule, create := &omise.Schedule{}, &CreateSchedule{
+//	schedule, err := client.Schedule().Create(ctx, &CreateScheduleParams{
 //		EndDate: nil
 //		Every: nil
 //		Period: nil
 //		StartDate: nil
-//	}
-//	if e := client.Do(schedule, create); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -212,10 +212,10 @@ func (req *CreateScheduleParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	occurrence, listOccurrences := &omise.OccurrenceList{}, &ListScheduleOccurrences{
+//	occurrence, err := client.Schedule().ListOccurrences(ctx, &ListScheduleOccurrencesParams{
 //		ScheduleID: "schd_4hr8b3gd9c"
-//	}
-//	if e := client.Do(occurrence, listOccurrences); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //

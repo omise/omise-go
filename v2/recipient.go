@@ -41,10 +41,10 @@ func (c *Client) Recipient() *RecipientService {
 //
 // Example:
 //
-//	recipient, destroy := &omise.Recipient{}, &DestroyRecipient{
+//	recipient, err := client.Recipient().Destroy(ctx, &DestroyRecipientParams{
 //		RecipientID: "recip_3gqd8b4h1e"
-//	}
-//	if e := client.Do(recipient, destroy); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -76,10 +76,10 @@ func (req *DestroyRecipientParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	recipient, retrieve := &omise.Recipient{}, &RetrieveRecipient{
+//	recipient, err := client.Recipient().Retrieve(ctx, &RetrieveRecipientParams{
 //		RecipientID: "recip_3gqd8b4h1e"
-//	}
-//	if e := client.Do(recipient, retrieve); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -111,10 +111,10 @@ func (req *RetrieveRecipientParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	recipient, update := &omise.Recipient{}, &UpdateRecipient{
+//	recipient, err := client.Recipient().Update(ctx, &UpdateRecipientParams{
 //		RecipientID: "recip_3gqd8b4h1e"
-//	}
-//	if e := client.Do(recipient, update); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -163,9 +163,9 @@ func (req *UpdateRecipientParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	recipient, list := &omise.RecipientList{}, &ListRecipients{
-//	}
-//	if e := client.Do(recipient, list); e != nil {
+//	recipient, err := client.Recipient().List(ctx, &ListRecipientsParams{
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -197,9 +197,9 @@ func (req *ListRecipientsParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	recipient, create := &omise.Recipient{}, &CreateRecipient{
-//	}
-//	if e := client.Do(recipient, create); e != nil {
+//	recipient, err := client.Recipient().Create(ctx, &CreateRecipientParams{
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -237,10 +237,10 @@ func (req *CreateRecipientParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	schedule, listSchedules := &omise.ScheduleList{}, &ListRecipientSchedules{
+//	schedule, err := client.Recipient().ListSchedules(ctx, &ListRecipientSchedulesParams{
 //		RecipientID: "recip_3gqd8b4h1e"
-//	}
-//	if e := client.Do(schedule, listSchedules); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -273,10 +273,10 @@ func (req *ListRecipientSchedulesParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	recipient, verify := &omise.Recipient{}, &VerifyRecipient{
+//	recipient, err := client.Recipient().Verify(ctx, &VerifyRecipientParams{
 //		RecipientID: "recip_3gqd8b4h1e"
-//	}
-//	if e := client.Do(recipient, verify); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //

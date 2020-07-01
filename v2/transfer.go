@@ -46,10 +46,10 @@ func (c *Client) Transfer() *TransferService {
 //
 // Example:
 //
-//	transfer, destroy := &omise.Transfer{}, &DestroyTransfer{
+//	transfer, err := client.Transfer().Destroy(ctx, &DestroyTransferParams{
 //		TransferID: "trsf_5is3gq69cm"
-//	}
-//	if e := client.Do(transfer, destroy); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -81,10 +81,10 @@ func (req *DestroyTransferParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	transfer, retrieve := &omise.Transfer{}, &RetrieveTransfer{
+//	transfer, err := client.Transfer().Retrieve(ctx, &RetrieveTransferParams{
 //		TransferID: "trsf_5is3gq69cm"
-//	}
-//	if e := client.Do(transfer, retrieve); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -116,10 +116,10 @@ func (req *RetrieveTransferParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	transfer, update := &omise.Transfer{}, &UpdateTransfer{
+//	transfer, err := client.Transfer().Update(ctx, &UpdateTransferParams{
 //		TransferID: "trsf_5is3gq69cm"
-//	}
-//	if e := client.Do(transfer, update); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -153,9 +153,9 @@ func (req *UpdateTransferParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	transfer, list := &omise.TransferList{}, &ListTransfers{
-//	}
-//	if e := client.Do(transfer, list); e != nil {
+//	transfer, err := client.Transfer().List(ctx, &ListTransfersParams{
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -187,9 +187,9 @@ func (req *ListTransfersParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	transfer, create := &omise.Transfer{}, &CreateTransfer{
-//	}
-//	if e := client.Do(transfer, create); e != nil {
+//	transfer, err := client.Transfer().Create(ctx, &CreateTransferParams{
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -224,9 +224,9 @@ func (req *CreateTransferParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	transfer_schedule, listSchedules := &omise.TransferScheduleList{}, &ListTransferSchedules{
-//	}
-//	if e := client.Do(transfer_schedule, listSchedules); e != nil {
+//	transfer_schedule, err := client.Transfer().ListSchedules(ctx, &ListTransferSchedulesParams{
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -258,10 +258,10 @@ func (req *ListTransferSchedulesParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	transfer, markAsPaid := &omise.Transfer{}, &MarkTransferAsPaid{
+//	transfer, err := client.Transfer().MarkAsPaid(ctx, &MarkTransferAsPaidParams{
 //		TransferID: "trsf_5is3gq69cm"
-//	}
-//	if e := client.Do(transfer, markAsPaid); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -293,10 +293,10 @@ func (req *MarkTransferAsPaidParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	transfer, markAsSent := &omise.Transfer{}, &MarkTransferAsSent{
+//	transfer, err := client.Transfer().MarkAsSent(ctx, &MarkTransferAsSentParams{
 //		TransferID: "trsf_5is3gq69cm"
-//	}
-//	if e := client.Do(transfer, markAsSent); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //

@@ -36,10 +36,10 @@ func (c *Client) Link() *LinkService {
 //
 // Example:
 //
-//	link, destroy := &omise.Link{}, &DestroyLink{
+//	link, err := client.Link().Destroy(ctx, &DestroyLinkParams{
 //		LinkID: "link_7ak4h9cm6j"
-//	}
-//	if e := client.Do(link, destroy); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -71,10 +71,10 @@ func (req *DestroyLinkParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	link, retrieve := &omise.Link{}, &RetrieveLink{
+//	link, err := client.Link().Retrieve(ctx, &RetrieveLinkParams{
 //		LinkID: "link_7ak4h9cm6j"
-//	}
-//	if e := client.Do(link, retrieve); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -106,9 +106,9 @@ func (req *RetrieveLinkParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	link, list := &omise.LinkList{}, &ListLinks{
-//	}
-//	if e := client.Do(link, list); e != nil {
+//	link, err := client.Link().List(ctx, &ListLinksParams{
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -140,13 +140,13 @@ func (req *ListLinksParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	link, create := &omise.Link{}, &CreateLink{
+//	link, err := client.Link().Create(ctx, &CreateLinkParams{
 //		Amount: 10000
 //		Currency: "thb"
 //		Description: "undefined"
 //		Title: "undefined"
-//	}
-//	if e := client.Do(link, create); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -182,10 +182,10 @@ func (req *CreateLinkParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	charge, listCharges := &omise.ChargeList{}, &ListLinkCharges{
+//	charge, err := client.Link().ListCharges(ctx, &ListLinkChargesParams{
 //		LinkID: "link_7ak4h9cm6j"
-//	}
-//	if e := client.Do(charge, listCharges); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //

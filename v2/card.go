@@ -44,11 +44,11 @@ func (c *Client) Card() *CardService {
 //
 // Example:
 //
-//	card, destroy := &omise.Card{}, &DestroyCard{
+//	card, err := client.Card().Destroy(ctx, &DestroyCardParams{
 //		CustomerID: "cust_8b6jt4hr5i"
 //		CardID: "card_8b63gq9c"
-//	}
-//	if e := client.Do(card, destroy); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -81,11 +81,11 @@ func (req *DestroyCardParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	card, retrieve := &omise.Card{}, &RetrieveCard{
+//	card, err := client.Card().Retrieve(ctx, &RetrieveCardParams{
 //		CustomerID: "cust_8b6jt4hr5i"
 //		CardID: "card_8b63gq9c"
-//	}
-//	if e := client.Do(card, retrieve); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -118,11 +118,11 @@ func (req *RetrieveCardParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	card, update := &omise.Card{}, &UpdateCard{
+//	card, err := client.Card().Update(ctx, &UpdateCardParams{
 //		CustomerID: "cust_8b6jt4hr5i"
 //		CardID: "card_8b63gq9c"
-//	}
-//	if e := client.Do(card, update); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -160,10 +160,10 @@ func (req *UpdateCardParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	card, list := &omise.CardList{}, &ListCards{
+//	card, err := client.Card().List(ctx, &ListCardsParams{
 //		CustomerID: "cust_8b6jt4hr5i"
-//	}
-//	if e := client.Do(card, list); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //

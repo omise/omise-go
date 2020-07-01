@@ -46,9 +46,9 @@ func (c *Client) Receipt() *ReceiptService {
 //
 // Example:
 //
-//	receipt, list := &omise.ReceiptList{}, &ListReceipts{
-//	}
-//	if e := client.Do(receipt, list); e != nil {
+//	receipt, err := client.Receipt().List(ctx, &ListReceiptsParams{
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -80,10 +80,10 @@ func (req *ListReceiptsParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	receipt, retrieve := &omise.Receipt{}, &RetrieveReceipt{
+//	receipt, err := client.Receipt().Retrieve(ctx, &RetrieveReceiptParams{
 //		ReceiptID: "rcpt_3gqd8bd4h1"
-//	}
-//	if e := client.Do(receipt, retrieve); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //

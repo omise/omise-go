@@ -34,10 +34,10 @@ func (c *Client) Occurrence() *OccurrenceService {
 //
 // Example:
 //
-//	occurrence, retrieve := &omise.Occurrence{}, &RetrieveOccurrence{
+//	occurrence, err := client.Occurrence().Retrieve(ctx, &RetrieveOccurrenceParams{
 //		OccurrenceID: "occur_dn8b8b6jt3"
-//	}
-//	if e := client.Do(occurrence, retrieve); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //

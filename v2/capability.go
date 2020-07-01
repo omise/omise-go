@@ -30,9 +30,9 @@ func (c *Client) Capability() *CapabilityService {
 //
 // Example:
 //
-//	capability, retrieve := &omise.Capability{}, &RetrieveCapability{
-//	}
-//	if e := client.Do(capability, retrieve); e != nil {
+//	capability, err := client.Capability().Retrieve(ctx, &RetrieveCapabilityParams{
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //

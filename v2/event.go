@@ -29,10 +29,10 @@ func (c *Client) Event() *EventService {
 //
 // Example:
 //
-//	event, retrieve := &omise.Event{}, &RetrieveEvent{
+//	event, err := client.Event().Retrieve(ctx, &RetrieveEventParams{
 //		EventID: "evnt_d7akud9cm5"
-//	}
-//	if e := client.Do(event, retrieve); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -64,9 +64,9 @@ func (req *RetrieveEventParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	event, list := &omise.EventList{}, &ListEvents{
-//	}
-//	if e := client.Do(event, list); e != nil {
+//	event, err := client.Event().List(ctx, &ListEventsParams{
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //

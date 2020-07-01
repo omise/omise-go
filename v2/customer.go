@@ -31,10 +31,10 @@ func (c *Client) Customer() *CustomerService {
 //
 // Example:
 //
-//	customer, destroy := &omise.Customer{}, &DestroyCustomer{
+//	customer, err := client.Customer().Destroy(ctx, &DestroyCustomerParams{
 //		CustomerID: "cust_8b6jt4hr5i"
-//	}
-//	if e := client.Do(customer, destroy); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -66,10 +66,10 @@ func (req *DestroyCustomerParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	customer, retrieve := &omise.Customer{}, &RetrieveCustomer{
+//	customer, err := client.Customer().Retrieve(ctx, &RetrieveCustomerParams{
 //		CustomerID: "cust_8b6jt4hr5i"
-//	}
-//	if e := client.Do(customer, retrieve); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -101,10 +101,10 @@ func (req *RetrieveCustomerParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	customer, update := &omise.Customer{}, &UpdateCustomer{
+//	customer, err := client.Customer().Update(ctx, &UpdateCustomerParams{
 //		CustomerID: "cust_8b6jt4hr5i"
-//	}
-//	if e := client.Do(customer, update); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -141,9 +141,9 @@ func (req *UpdateCustomerParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	customer, list := &omise.CustomerList{}, &ListCustomers{
-//	}
-//	if e := client.Do(customer, list); e != nil {
+//	customer, err := client.Customer().List(ctx, &ListCustomersParams{
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -175,9 +175,9 @@ func (req *ListCustomersParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	customer, create := &omise.Customer{}, &CreateCustomer{
-//	}
-//	if e := client.Do(customer, create); e != nil {
+//	customer, err := client.Customer().Create(ctx, &CreateCustomerParams{
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -212,10 +212,10 @@ func (req *CreateCustomerParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	schedule, listSchedules := &omise.ScheduleList{}, &ListCustomerSchedules{
+//	schedule, err := client.Customer().ListSchedules(ctx, &ListCustomerSchedulesParams{
 //		CustomerID: "cust_8b6jt4hr5i"
-//	}
-//	if e := client.Do(schedule, listSchedules); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //

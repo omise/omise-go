@@ -41,9 +41,9 @@ func (c *Client) Dispute() *DisputeService {
 //
 // Example:
 //
-//	dispute, closed := &omise.DisputeList{}, &ListClosedDispute{
-//	}
-//	if e := client.Do(dispute, closed); e != nil {
+//	dispute, err := client.Dispute().ListClosed(ctx, &ListClosedDisputeParams{
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -75,9 +75,9 @@ func (req *ListClosedDisputeParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	dispute, list := &omise.DisputeList{}, &ListDisputes{
-//	}
-//	if e := client.Do(dispute, list); e != nil {
+//	dispute, err := client.Dispute().List(ctx, &ListDisputesParams{
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -109,9 +109,9 @@ func (req *ListDisputesParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	dispute, open := &omise.DisputeList{}, &ListOpenDispute{
-//	}
-//	if e := client.Do(dispute, open); e != nil {
+//	dispute, err := client.Dispute().ListOpen(ctx, &ListOpenDisputeParams{
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -143,9 +143,9 @@ func (req *ListOpenDisputeParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	dispute, pending := &omise.DisputeList{}, &ListPendingDispute{
-//	}
-//	if e := client.Do(dispute, pending); e != nil {
+//	dispute, err := client.Dispute().ListPending(ctx, &ListPendingDisputeParams{
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -177,10 +177,10 @@ func (req *ListPendingDisputeParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	dispute, retrieve := &omise.Dispute{}, &RetrieveDispute{
+//	dispute, err := client.Dispute().Retrieve(ctx, &RetrieveDisputeParams{
 //		DisputeID: "dspt_9c4h4hr1eo"
-//	}
-//	if e := client.Do(dispute, retrieve); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -212,10 +212,10 @@ func (req *RetrieveDisputeParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	dispute, update := &omise.Dispute{}, &UpdateDispute{
+//	dispute, err := client.Dispute().Update(ctx, &UpdateDisputeParams{
 //		DisputeID: "dspt_9c4h4hr1eo"
-//	}
-//	if e := client.Do(dispute, update); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -249,10 +249,10 @@ func (req *UpdateDisputeParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	dispute, close := &omise.Dispute{}, &CloseDispute{
+//	dispute, err := client.Dispute().Close(ctx, &CloseDisputeParams{
 //		DisputeID: "dspt_9c4h4hr1eo"
-//	}
-//	if e := client.Do(dispute, close); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -285,10 +285,10 @@ func (req *CloseDisputeParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	dispute, accept := &omise.Dispute{}, &AcceptDispute{
+//	dispute, err := client.Dispute().Accept(ctx, &AcceptDisputeParams{
 //		DisputeID: "dspt_9c4h4hr1eo"
-//	}
-//	if e := client.Do(dispute, accept); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -320,10 +320,10 @@ func (req *AcceptDisputeParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	dispute, createDispute := &omise.Dispute{}, &CreateDispute{
+//	dispute, err := client.Dispute().Create(ctx, &CreateDisputeParams{
 //		ChargeID: "chrg_8b3g63gq2f"
-//	}
-//	if e := client.Do(dispute, createDispute); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //

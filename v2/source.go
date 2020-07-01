@@ -43,12 +43,12 @@ func (c *Client) Source() *SourceService {
 //
 // Example:
 //
-//	source, create := &omise.Source{}, &CreateSource{
+//	source, err := client.Source().Create(ctx, &CreateSourceParams{
 //		Amount: 10000
 //		Currency: "thb"
 //		Type: nil
-//	}
-//	if e := client.Do(source, create); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -91,10 +91,10 @@ func (req *CreateSourceParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	source, retrieve := &omise.Source{}, &RetrieveSource{
+//	source, err := client.Source().Retrieve(ctx, &RetrieveSourceParams{
 //		SourceID: "sourc_4hrdn6jt3g"
-//	}
-//	if e := client.Do(source, retrieve); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //

@@ -30,9 +30,9 @@ func (c *Client) Balance() *BalanceService {
 //
 // Example:
 //
-//	balance, retrieve := &omise.Balance{}, &RetrieveBalance{
-//	}
-//	if e := client.Do(balance, retrieve); e != nil {
+//	balance, err := client.Balance().Retrieve(ctx, &RetrieveBalanceParams{
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //

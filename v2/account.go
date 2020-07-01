@@ -38,9 +38,9 @@ func (c *Client) Account() *AccountService {
 //
 // Example:
 //
-//	account, retrieve := &omise.Account{}, &RetrieveAccount{
-//	}
-//	if e := client.Do(account, retrieve); e != nil {
+//	account, err := client.Account().Retrieve(ctx, &RetrieveAccountParams{
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -71,9 +71,9 @@ func (req *RetrieveAccountParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	account, update := &omise.Account{}, &UpdateAccount{
-//	}
-//	if e := client.Do(account, update); e != nil {
+//	account, err := client.Account().Update(ctx, &UpdateAccountParams{
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //

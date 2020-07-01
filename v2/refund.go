@@ -35,9 +35,9 @@ func (c *Client) Refund() *RefundService {
 //
 // Example:
 //
-//	refund, listRefunds := &omise.RefundList{}, &ListAllRefunds{
-//	}
-//	if e := client.Do(refund, listRefunds); e != nil {
+//	refund, err := client.Refund().ListRefunds(ctx, &ListAllRefundsParams{
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -69,10 +69,10 @@ func (req *ListAllRefundsParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	refund, list := &omise.RefundList{}, &ListRefunds{
+//	refund, err := client.Refund().List(ctx, &ListRefundsParams{
 //		ChargeID: "chrg_8b3g63gq2f"
-//	}
-//	if e := client.Do(refund, list); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -105,11 +105,11 @@ func (req *ListRefundsParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	refund, create := &omise.Refund{}, &CreateRefund{
+//	refund, err := client.Refund().Create(ctx, &CreateRefundParams{
 //		ChargeID: "chrg_8b3g63gq2f"
 //		Amount: 10000
-//	}
-//	if e := client.Do(refund, create); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -144,11 +144,11 @@ func (req *CreateRefundParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	refund, retrieve := &omise.Refund{}, &RetrieveRefund{
+//	refund, err := client.Refund().Retrieve(ctx, &RetrieveRefundParams{
 //		ChargeID: "chrg_8b3g63gq2f"
 //		RefundID: "refun_3gqd1e6jt9"
-//	}
-//	if e := client.Do(refund, retrieve); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //

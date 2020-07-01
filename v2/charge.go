@@ -72,9 +72,9 @@ func (c *Client) Charge() *ChargeService {
 //
 // Example:
 //
-//	charge, list := &omise.ChargeList{}, &ListCharges{
-//	}
-//	if e := client.Do(charge, list); e != nil {
+//	charge, err := client.Charge().List(ctx, &ListChargesParams{
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -106,11 +106,11 @@ func (req *ListChargesParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	charge, create := &omise.Charge{}, &CreateCharge{
+//	charge, err := client.Charge().Create(ctx, &CreateChargeParams{
 //		Amount: 10000
 //		Currency: "thb"
-//	}
-//	if e := client.Do(charge, create); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -161,10 +161,10 @@ func (req *CreateChargeParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	event, listEvents := &omise.EventList{}, &ListChargeEvents{
+//	event, err := client.Charge().ListEvents(ctx, &ListChargeEventsParams{
 //		ChargeID: "chrg_8b3g63gq2f"
-//	}
-//	if e := client.Do(event, listEvents); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -197,9 +197,9 @@ func (req *ListChargeEventsParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	charge_schedule, listSchedules := &omise.ChargeScheduleList{}, &ListChargeSchedules{
-//	}
-//	if e := client.Do(charge_schedule, listSchedules); e != nil {
+//	charge_schedule, err := client.Charge().ListSchedules(ctx, &ListChargeSchedulesParams{
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -231,10 +231,10 @@ func (req *ListChargeSchedulesParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	charge, retrieve := &omise.Charge{}, &RetrieveCharge{
+//	charge, err := client.Charge().Retrieve(ctx, &RetrieveChargeParams{
 //		ChargeID: "chrg_8b3g63gq2f"
-//	}
-//	if e := client.Do(charge, retrieve); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -266,10 +266,10 @@ func (req *RetrieveChargeParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	charge, update := &omise.Charge{}, &UpdateCharge{
+//	charge, err := client.Charge().Update(ctx, &UpdateChargeParams{
 //		ChargeID: "chrg_8b3g63gq2f"
-//	}
-//	if e := client.Do(charge, update); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -303,10 +303,10 @@ func (req *UpdateChargeParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	charge, capture := &omise.Charge{}, &CaptureCharge{
+//	charge, err := client.Charge().Capture(ctx, &CaptureChargeParams{
 //		ChargeID: "chrg_8b3g63gq2f"
-//	}
-//	if e := client.Do(charge, capture); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -338,10 +338,10 @@ func (req *CaptureChargeParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	charge, expire := &omise.Charge{}, &ExpireCharge{
+//	charge, err := client.Charge().Expire(ctx, &ExpireChargeParams{
 //		ChargeID: "chrg_8b3g63gq2f"
-//	}
-//	if e := client.Do(charge, expire); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -373,10 +373,10 @@ func (req *ExpireChargeParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	charge, markAsFailed := &omise.Charge{}, &MarkChargeAsFailed{
+//	charge, err := client.Charge().MarkAsFailed(ctx, &MarkChargeAsFailedParams{
 //		ChargeID: "chrg_8b3g63gq2f"
-//	}
-//	if e := client.Do(charge, markAsFailed); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -408,10 +408,10 @@ func (req *MarkChargeAsFailedParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	charge, markAsPaid := &omise.Charge{}, &MarkChargeAsPaid{
+//	charge, err := client.Charge().MarkAsPaid(ctx, &MarkChargeAsPaidParams{
 //		ChargeID: "chrg_8b3g63gq2f"
-//	}
-//	if e := client.Do(charge, markAsPaid); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -443,10 +443,10 @@ func (req *MarkChargeAsPaidParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	charge, reverse := &omise.Charge{}, &ReverseCharge{
+//	charge, err := client.Charge().Reverse(ctx, &ReverseChargeParams{
 //		ChargeID: "chrg_8b3g63gq2f"
-//	}
-//	if e := client.Do(charge, reverse); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //

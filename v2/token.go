@@ -30,9 +30,9 @@ func (c *Client) Token() *TokenService {
 //
 // Example:
 //
-//	token, create := &omise.Token{}, &CreateToken{
-//	}
-//	if e := client.Do(token, create); e != nil {
+//	token, err := client.Token().Create(ctx, &CreateTokenParams{
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
@@ -80,10 +80,10 @@ func (req *CreateTokenParams) Describe() *internal.Description {
 //
 // Example:
 //
-//	token, retrieve := &omise.Token{}, &RetrieveToken{
+//	token, err := client.Token().Retrieve(ctx, &RetrieveTokenParams{
 //		TokenID: "tokn_5isdn6jd9c"
-//	}
-//	if e := client.Do(token, retrieve); e != nil {
+//	})
+//	if err != nil {
 //		panic(e)
 //	}
 //
