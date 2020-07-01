@@ -25,10 +25,13 @@ var createTokenOp = &operations.CreateToken{
 
 func TestNewClient(t *testing.T) {
 	pkey, skey := testutil.Keys()
+	ckey := testutil.GetCKey()
 
 	_, err := NewClient(pkey, skey)
 	r.NoError(t, err)
 	_, err = NewClient("", skey)
+	r.NoError(t, err)
+	_, err = NewClient("", ckey)
 	r.NoError(t, err)
 	_, err = NewClient(pkey, "")
 	r.NoError(t, err)

@@ -19,6 +19,10 @@ func Keys() (string, string) {
 		os.Getenv("OMISE_SKEY")
 }
 
+func GetCKey() string {
+	return os.Getenv("OMISE_CKEY")
+}
+
 func NewTestClient(t *testing.T) *TestClient {
 	return newTestClient(t, false, false)
 }
