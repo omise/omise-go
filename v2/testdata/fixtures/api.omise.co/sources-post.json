@@ -1,0 +1,32 @@
+{
+  "object": "source",
+  "id": "src_test_5a444nhh27tlyv81u40",
+  "livemode": false,
+  "location": "/sources/src_test_5a444nhh27tlyv81u40",
+  "amount": 12345,
+  "barcode": "1234567890",
+  "created_at": "2019-12-31T12:59:59Z",
+  "currency": "THB",
+  "email": null,
+  "flow": "offline",
+  "installment_term": null,
+  "name": null,
+  "mobile_number": null,
+  "phone_number": null,
+  "scannable_code": {
+    "object": "barcode",
+    "type": "qr",
+    "image": {
+      "object": "document",
+      "download_uri": "https://omise.co/barcode.jpg",
+      "filename": "barcode.jpg",
+      "location": "/documents/barcode.jpg"
+    }
+  },
+  "references": null,
+  "store_id": "store_1",
+  "store_name": "store 1",
+  "terminal_id": "POS-01",
+  "type": "bill_payment_tesco_lotus",
+  "zero_interest_installments": null
+}

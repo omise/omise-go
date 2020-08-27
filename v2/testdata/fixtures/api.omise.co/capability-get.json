@@ -1,0 +1,36 @@
+{
+  "object": "capability",
+  "location": "/capability",
+  "banks": [
+    "test",
+    "bbl",
+    "kbank"
+  ],
+  "payment_methods": [
+    {
+      "object": "payment_method",
+      "name": "card",
+      "currencies": [
+        "THB",
+        "JPY",
+        "USD",
+        "EUR",
+        "GBP",
+        "SGD",
+        "AUD",
+        "CHF",
+        "CNY",
+        "DKK",
+        "HKD"
+      ],
+      "card_brands": [
+        "JCB",
+        "Visa",
+        "MasterCard"
+      ],
+      "installment_terms": null
+    }
+  ],
+  "country": "TH",
+  "zero_interest_installments": true
+}

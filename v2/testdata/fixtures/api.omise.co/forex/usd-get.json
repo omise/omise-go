@@ -1,0 +1,8 @@
+{
+  "object": "forex",
+  "location": "/forex/usd",
+  "livemode": false,
+  "base": "USD",
+  "quote": "THB",
+  "rate": 30.4847017
+}

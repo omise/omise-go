@@ -1,0 +1,22 @@
+{
+  "object": "recipient",
+  "id": "recp_test_50894vc13y8z4v51iuc",
+  "livemode": false,
+  "location": "/recipients/recp_test_50894vc13y8z4v51iuc",
+  "verified": true,
+  "active": true,
+  "name": "john.doe@example.com",
+  "email": "john.doe@example.com",
+  "description": "Default recipient",
+  "type": "individual",
+  "tax_id": "",
+  "bank_account": {
+    "object": "bank_account",
+    "brand": "test",
+    "last_digits": "6789",
+    "name": "JOHN DOE",
+    "created": "2015-06-02T09:26:59Z"
+  },
+  "failure_code": null,
+  "created": "2015-06-02T09:26:59Z"
+}

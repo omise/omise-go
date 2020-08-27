@@ -1,0 +1,58 @@
+{
+  "object": "charge",
+  "id": "chrg_test_4yq7duw15p9hdrjp8oq",
+  "livemode": false,
+  "location": "/charges/chrg_test_4yq7duw15p9hdrjp8oq",
+  "amount": 100000,
+  "currency": "thb",
+  "description": "Charge for order 3947 (XXL)",
+  "capture": true,
+  "authorized": true,
+  "captured": true,
+  "transaction": "trxn_test_4yq7duwb9jts1vxgqua",
+  "refunded": 10000,
+  "refunds": {
+    "object": "list",
+    "from": "1970-01-01T00:00:00+00:00",
+    "to": "2015-01-16T07:23:49+00:00",
+    "offset": 0,
+    "limit": 20,
+    "total": 1,
+    "data": [
+      {
+        "object": "refund",
+        "id": "rfnd_test_4yqmv79ahghsiz23y3c",
+        "location": "/charges/chrg_test_4yq7duw15p9hdrjp8oq/refunds/rfnd_test_4yqmv79ahghsiz23y3c",
+        "amount": 10000,
+        "currency": "thb",
+        "charge": "chrg_test_4yq7duw15p9hdrjp8oq",
+        "transaction": "trxn_test_4yqmv79fzpy0gmz5mmq",
+        "created": "2015-01-16T07:23:45Z"
+      }
+    ],
+    "location": "/charges/chrg_test_4yq7duw15p9hdrjp8oq/refunds"
+  },
+  "failure_code": null,
+  "failure_message": null,
+  "card": {
+    "object": "card",
+    "id": "card_test_4yq6tuucl9h4erukfl0",
+    "livemode": false,
+    "location": "/customers/cust_test_4yq6txdpfadhbaqnwp3/cards/card_test_4yq6tuucl9h4erukfl0",
+    "country": "",
+    "city": "Bangkok",
+    "postal_code": "10320",
+    "financing": "",
+    "last_digits": "4242",
+    "brand": "Visa",
+    "expiration_month": 1,
+    "expiration_year": 2017,
+    "fingerprint": "sRF/oMw2UQJJp/WbU+2/ZbVzwROjpMf1lyhOHhOqziw=",
+    "name": "JOHN DOE",
+    "security_code_check": true,
+    "created": "2015-01-15T04:03:40Z"
+  },
+  "customer": "cust_test_4yq6txdpfadhbaqnwp3",
+  "ip": null,
+  "created": "2015-01-15T05:00:29Z"
+}

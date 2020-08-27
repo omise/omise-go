@@ -1,0 +1,22 @@
+{
+  "object": "recipient",
+  "id": "recp_test_5086xmr74vxs0ajpo78",
+  "livemode": false,
+  "location": "/recipients/recp_test_5086xmr74vxs0ajpo78",
+  "verified": false,
+  "active": false,
+  "name": "Somchai Prasert",
+  "email": "somchai.prasert@example.com",
+  "description": null,
+  "type": "individual",
+  "tax_id": null,
+  "bank_account": {
+    "object": "bank_account",
+    "brand": "bbl",
+    "last_digits": "7890",
+    "name": "SOMCHAI PRASERT",
+    "created": "2015-06-02T05:41:53Z"
+  },
+  "failure_code": null,
+  "created": "2015-06-02T05:41:53Z"
+}
