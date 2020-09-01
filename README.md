@@ -6,8 +6,7 @@ https://omg.network/ for that. ⚠️**
 # OMISE GO CLIENT
 
 [![GoDoc](https://godoc.org/github.com/omise/omise-go?status.svg)][0]
-[![Build Status](https://travis-ci.org/omise/omise-go.svg)](https://travis-ci.org/omise/omise-go)
-[![Omise Forum](https://img.shields.io/badge/discourse-forum-1a53f0.svg)](https://forum.omise.co)
+![omise-go v1](https://github.com/omise/omise-go/workflows/omise-go%20v1/badge.svg)
 
 Omise is a payment service provider currently operating in Thailand. Omise provides a set
 of clean APIs that helps merchants of any size accept credit cards online.

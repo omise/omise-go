@@ -36,12 +36,9 @@ perform() {
   echo "ok."
 }
 
-
 check go                       "needs go from http://golang.org"
 check $GOPATH/bin/gometalinter "needs gometalinter from https://github.com/alecthomas/gometalinter"
 
-perform generators go generate . ./operations
-perform builds     go install . ./operations
 perform linters    gometalinter --fast --aggregate
 perform tests      go test ./...
 
