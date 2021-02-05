@@ -45,9 +45,9 @@ func (req *ListCustomers) Describe() *internal.Description {
 //	fmt.Printf("created customer: %#v\n", customer)
 //
 type CreateCustomer struct {
-	Email       string `json:"email,omitempty"`
-	Description string `json:"description,omitempty"`
-	Card        string `json:"card,omitempty"`
+	Email       string                 `json:"email,omitempty"`
+	Description string                 `json:"description,omitempty"`
+	Card        string                 `json:"card,omitempty"`
 	Metadata    map[string]interface{} `json:"metadata,omitempty"`
 }
 
@@ -95,11 +95,11 @@ func (req *RetrieveCustomer) Describe() *internal.Description {
 //	fmt.Printf("updated customer: %#v\n", cust)
 //
 type UpdateCustomer struct {
-	CustomerID  string `json:"-"`
-	Email       string `json:"email,omitempty"`
-	Description string `json:"description,omitempty"`
-	Card        string `json:"card,omitempty"`
-	DefaultCard string `json:"default_card,omitempty"`
+	CustomerID  string                 `json:"-"`
+	Email       string                 `json:"email,omitempty"`
+	Description string                 `json:"description,omitempty"`
+	Card        string                 `json:"card,omitempty"`
+	DefaultCard string                 `json:"default_card,omitempty"`
 	Metadata    map[string]interface{} `json:"metadata,omitempty"`
 }
 
