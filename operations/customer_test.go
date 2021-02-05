@@ -147,7 +147,6 @@ func TestListCustomerChargeSchedules_Network(t *testing.T) {
 	t.Logf("%#v\n", schds)
 }
 
-
 func TestCreateCustomerMarshal_WithMetadata(t *testing.T) {
 	req := &CreateCustomer{
 		Email:       "john.doe@example.com",
