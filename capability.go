@@ -11,6 +11,7 @@ type Capability struct {
 	ZeroInterestInstallments bool            `json:"zero_interest_installments"`
 }
 
+// PaymentMethod represents a payment method in the Omise's capability object.
 type PaymentMethod struct {
 	Object           string   `json:"object"`
 	Name             string   `json:"name"`
@@ -20,6 +21,7 @@ type PaymentMethod struct {
 	Banks            []Bank   `json:"banks"`
 }
 
+// Bank represents a bank object in the payment method of the capability object.
 type Bank struct {
 	Code   string `json:"code"`
 	Name   string `json:"name"`
