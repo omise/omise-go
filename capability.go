@@ -4,7 +4,7 @@ package omise
 // See https://www.omise.co/capability-api for more information.
 type Capability struct {
 	Object                   string          `json:"object"`
-	Location                 *string         `json:"location"`
+	Location                 string          `json:"location"`
 	Banks                    []string        `json:"banks"`
 	Country                  string          `json:"country"`
 	PaymentMethods           []PaymentMethod `json:"payment_methods"`
