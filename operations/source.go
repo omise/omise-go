@@ -18,9 +18,19 @@ import (
 //	fmt.Println("created source:", source.ID)
 //
 type CreateSource struct {
-	Type     string `json:"type"`
-	Amount   int64  `json:"amount"`
-	Currency string `json:"currency"`
+	Type                     string `json:"type"`
+	Amount                   int64  `json:"amount"`
+	Currency                 string `json:"currency"`
+	Bank                     string `json:"bank,omitempty"`
+	Barcode                  string `json:"barcode,omitempty"`
+	Email                    string `json:"email,omitempty"`
+	InstallmentTerm          int64  `json:"installment_term,omitempty"`
+	Name                     string `json:"name,omitempty"`
+	PhoneNumber              string `json:"phone_number,omitempty"`
+	StoreID                  string `json:"store_id,omitempty"`
+	StoreName                string `json:"store_name,omitempty"`
+	TerminalID               string `json:"terminal_id,omitempty"`
+	ZeroInterestInstallments bool   `json:"zero_interest_installments,omitempty"`
 }
 
 func (req *CreateSource) Describe() *internal.Description {

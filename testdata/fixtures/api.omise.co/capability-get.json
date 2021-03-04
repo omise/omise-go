@@ -1,0 +1,109 @@
+{
+  "object": "capability",
+  "location": "/capability",
+  "banks": [
+      "bbl",
+      "kbank",
+      "rbs",
+      "ktb",
+      "jpm",
+      "mufg",
+      "tmb",
+      "scb",
+      "citi"
+  ],
+  "payment_methods": [
+      {
+          "object": "payment_method",
+          "name": "card",
+          "currencies": [
+              "THB",
+              "JPY",
+              "MYR"
+          ],
+          "card_brands": [
+              "American Express",
+              "Diners Club",
+              "JCB",
+              "MasterCard",
+              "Visa"
+          ],
+          "installment_terms": null,
+          "banks": []
+      },
+      {
+          "object": "payment_method",
+          "name": "installment_bay",
+          "currencies": [
+              "THB"
+          ],
+          "card_brands": null,
+          "installment_terms": [
+              3,
+              4,
+              6,
+              10
+          ],
+          "banks": []
+      },
+      {
+          "object": "payment_method",
+          "name": "internet_banking_bbl",
+          "currencies": [
+              "THB"
+          ],
+          "card_brands": null,
+          "installment_terms": null,
+          "banks": []
+      },
+      {
+          "object": "payment_method",
+          "name": "bill_payment_tesco_lotus",
+          "currencies": [
+              "THB"
+          ],
+          "card_brands": null,
+          "installment_terms": null,
+          "banks": []
+      },
+      {
+          "object": "payment_method",
+          "name": "fpx",
+          "currencies": [
+              "THB",
+              "MYR"
+          ],
+          "card_brands": null,
+          "installment_terms": null,
+          "banks": [
+              {
+                  "code": "ambank",
+                  "name": "AmBank",
+                  "active": true
+              },
+              {
+                  "code": "cimb",
+                  "name": "CIMB Clicks",
+                  "active": true
+              },
+              {
+                  "code": "citi",
+                  "name": "Citibank",
+                  "active": false
+              }
+          ]
+      },
+      {
+          "object": "payment_method",
+          "name": "truemoney",
+          "currencies": [
+              "THB"
+          ],
+          "card_brands": null,
+          "installment_terms": null,
+          "banks": []
+      }
+  ],
+  "country": "TH",
+  "zero_interest_installments": false
+}
