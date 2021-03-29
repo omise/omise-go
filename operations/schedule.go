@@ -42,7 +42,7 @@ type CreateChargeSchedule struct {
 	WeekdayOfMonth string
 
 	Customer    string
-	Amount      int
+	Amount      int64
 	Currency    string
 	Card        string
 	Description string
@@ -51,7 +51,7 @@ type CreateChargeSchedule struct {
 func (req *CreateChargeSchedule) MarshalJSON() ([]byte, error) {
 	type charge struct {
 		Customer    string `json:"customer"`
-		Amount      int    `json:"amount"`
+		Amount      int64  `json:"amount"`
 		Currency    string `json:"currency,omitempty"`
 		Card        string `json:"card,omitempty"`
 		Description string `json:"description,omitempty"`
