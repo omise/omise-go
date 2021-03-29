@@ -8,4 +8,6 @@ type Customer struct {
 	Email       string    `json:"email"`
 	Description string    `json:"description"`
 	Cards       *CardList `json:"cards"`
+
+	Metadata map[string]interface{} `json:"metadata"`
 }
