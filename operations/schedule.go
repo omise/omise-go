@@ -46,6 +46,7 @@ type CreateChargeSchedule struct {
 	Currency    string
 	Card        string
 	Description string
+	Metadata    map[string]interface{}
 }
 
 func (req *CreateChargeSchedule) MarshalJSON() ([]byte, error) {
@@ -55,6 +56,7 @@ func (req *CreateChargeSchedule) MarshalJSON() ([]byte, error) {
 		Currency    string `json:"currency,omitempty"`
 		Card        string `json:"card,omitempty"`
 		Description string `json:"description,omitempty"`
+		Metadata    map[string]interface{} `json:"metadata,omitempty"`
 	}
 
 	type on struct {
@@ -82,6 +84,7 @@ func (req *CreateChargeSchedule) MarshalJSON() ([]byte, error) {
 			Currency:    req.Currency,
 			Card:        req.Card,
 			Description: req.Description,
+			Metadata:    req.Metadata,
 		},
 	}
 
