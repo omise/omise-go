@@ -4,5 +4,9 @@ package omise
 // See https://www.omise.co/documents-api for more information.
 type Document struct {
 	Base
-	Filename string `json:"filename"`
+	Object      string  `json:"object"`
+	ID          string  `json:"id"`
+	Deleted     bool    `json:"deleted"`
+	Filename    string  `json:"filename"`
+	DownloadURI string  `json:"download_uri"`
 }
