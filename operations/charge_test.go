@@ -39,6 +39,19 @@ func TestCreateChargeMarshal(t *testing.T) {
 	}
 }
 
+func TestRetrieveCharge_PayNow(t *testing.T) {
+	const ChargeID = "chrg_test_5nvdpnapyle90ejudk8"
+	client := testutil.NewFixedClient(t)
+
+	charge := &omise.Charge{}
+	client.MustDo(charge, &RetrieveCharge{ChargeID})
+
+	r.Equal(t, ChargeID, charge.ID)
+	r.NotNil(t, charge.Source.ScannableCode)
+	r.Equal(t, "qrcode.png", charge.Source.ScannableCode.Image.Filename)
+	r.Equal(t, "https://api.omise.co/charges/chrg_test_5nvdpnapyle90ejudk8/documents/docu_test_5nvdpnc12jbp0hwy031/downloads/542F307C03299822", charge.Source.ScannableCode.Image.DownloadURI)
+}
+
 func TestCharge(t *testing.T) {
 	const (
 		ChargeID      = "chrg_test_4yq7duw15p9hdrjp8oq"
