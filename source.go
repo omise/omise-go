@@ -11,4 +11,5 @@ type Source struct {
 	ScannableCode            *ScannableCode `json:"scannable_code"`
 	References               *References    `json:"references"`
 	ZeroInterestInstallments bool           `json:"zero_interest_installments"`
+	PlatformType             string         `json:"platform_type"`
 }

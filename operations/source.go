@@ -31,6 +31,7 @@ type CreateSource struct {
 	StoreName                string `json:"store_name,omitempty"`
 	TerminalID               string `json:"terminal_id,omitempty"`
 	ZeroInterestInstallments bool   `json:"zero_interest_installments,omitempty"`
+	PlatformType             string `json:"platform_type,omitempty"`
 }
 
 func (req *CreateSource) Describe() *internal.Description {
