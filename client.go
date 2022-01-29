@@ -19,6 +19,7 @@ type Client struct {
 	debug bool
 	pkey  string
 	skey  string
+	ckey  string
 
 	// Overrides
 	Endpoints map[internal.Endpoint]string
@@ -28,10 +29,10 @@ type Client struct {
 	GoVersion  string
 }
 
-// NewClient creates and returns a Client with the given public key and secret key.  Signs
-// in to http://omise.co and visit https://dashboard.omise.co/test/dashboard to obtain
+// NewClient creates and returns a Client with the given public key, secret key, and chain key.
+// Signs in to http://omise.co and visit https://dashboard.omise.co/test/dashboard to obtain
 // your test (or live) keys.
-func NewClient(pkey, skey string) (*Client, error) {
+func NewClient(pkey, skey, ckey string) (*Client, error) {
 	switch {
 	case pkey == "" && skey == "":
 		return nil, ErrInvalidKey
@@ -46,6 +47,7 @@ func NewClient(pkey, skey string) (*Client, error) {
 		debug:  false,
 		pkey:   pkey,
 		skey:   skey,
+		ckey:   ckey,
 
 		Endpoints: map[internal.Endpoint]string{},
 	}
@@ -110,7 +112,14 @@ func (c *Client) setRequestHeaders(req *http.Request, desc *internal.Description
 	case "public":
 		req.SetBasicAuth(c.pkey, "")
 	case "secret":
-		req.SetBasicAuth(c.skey, "")
+		switch {
+		case c.skey != "":
+			req.SetBasicAuth(c.skey, "")
+		case c.ckey != "":
+			req.SetBasicAuth(c.ckey, "")
+		default:
+			return ErrInternal("either secret key or chain key must not be empty")
+		}
 	default:
 		return ErrInternal("unrecognized endpoint:" + desc.Endpoint)
 	}
