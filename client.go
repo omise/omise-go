@@ -19,6 +19,7 @@ type Client struct {
 	debug bool
 	pkey  string
 	skey  string
+	ckey  string
 
 	// Overrides
 	Endpoints map[internal.Endpoint]string
@@ -54,6 +55,27 @@ func NewClient(pkey, skey string) (*Client, error) {
 		client.GoVersion = build.Default.ReleaseTags[len(build.Default.ReleaseTags)-1]
 	}
 
+	return client, nil
+}
+
+func NewClientWithChainKey(ckey string) (*Client, error) {
+	switch {
+	case ckey == "":
+		return nil, ErrInvalidKey
+	case ckey != "" && !strings.HasPrefix(ckey, "ckey_"):
+		return nil, ErrInvalidKey
+	}
+
+	client := &Client{
+		Client: &http.Client{Transport: transport},
+		debug:  false,
+		ckey:   ckey,
+
+		Endpoints: map[internal.Endpoint]string{},
+	}
+	if len(build.Default.ReleaseTags) > 0 {
+		client.GoVersion = build.Default.ReleaseTags[len(build.Default.ReleaseTags)-1]
+	}
 	return client, nil
 }
 
@@ -110,7 +132,14 @@ func (c *Client) setRequestHeaders(req *http.Request, desc *internal.Description
 	case "public":
 		req.SetBasicAuth(c.pkey, "")
 	case "secret":
-		req.SetBasicAuth(c.skey, "")
+		switch {
+		case c.skey != "":
+			req.SetBasicAuth(c.skey, "")
+		case c.ckey != "":
+			req.SetBasicAuth(c.ckey, "")
+		default:
+			return ErrInternal("either secret key or chain key must not be empty")
+		}
 	default:
 		return ErrInternal("unrecognized endpoint:" + desc.Endpoint)
 	}
