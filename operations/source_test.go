@@ -38,3 +38,21 @@ func TestCreateSource(t *testing.T) {
 	client.MustDo(exampleSource, createSource)
 	r.Equal(t, SourceID, exampleSource.ID)
 }
+
+func TestCreateSourceWithPlatformType(t *testing.T) {
+	const (
+		SourceID = "src_test_5mygxph6d55vvy8nn9i"
+	)
+	client := testutil.NewFixedClient(t)
+
+	exampleSource, createSource := &omise.Source{}, &operations.CreateSource{
+		Type:         "alipay_cn",
+		Amount:       2000,
+		Currency:     "sgd",
+		Email:        "example@omise.co",
+		PlatformType: "WEB",
+	}
+
+	client.MustDo(exampleSource, createSource)
+	r.Equal(t, SourceID, exampleSource.ID)
+}
