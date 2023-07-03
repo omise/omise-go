@@ -1,7 +1,7 @@
 package internal
 
 type Description struct {
-	Endpoint Endpoint
+	Endpoint string
 	Method   string
 	Path     string
 

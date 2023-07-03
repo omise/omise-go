@@ -20,14 +20,13 @@ import (
 //	}
 //
 //	fmt.Println("# of charges made in the last hour:", len(charges.Data))
-//
 type ListCharges struct {
 	List
 }
 
 func (req *ListCharges) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "GET",
 		Path:        "/charges",
 		ContentType: "application/json",
@@ -50,7 +49,6 @@ func (req *ListCharges) Describe() *internal.Description {
 //	}
 //
 //	fmt.Println("created charge:", charge.ID)
-//
 type CreateCharge struct {
 	Customer    string                 `json:"customer,omitempty"`
 	Card        string                 `json:"card,omitempty"`
@@ -80,7 +78,7 @@ func (req *CreateCharge) MarshalJSON() ([]byte, error) {
 
 func (req *CreateCharge) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "POST",
 		Path:        "/charges",
 		ContentType: "application/json",
@@ -98,7 +96,6 @@ func (req *CreateCharge) Describe() *internal.Description {
 //	}
 //
 //	fmt.Printf("updated charge: %#v\n", charge)
-//
 type UpdateCharge struct {
 	ChargeID    string                 `json:"-"`
 	Description string                 `json:"description"`
@@ -107,7 +104,7 @@ type UpdateCharge struct {
 
 func (req *UpdateCharge) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "PATCH",
 		Path:        "/charges/" + req.ChargeID,
 		ContentType: "application/json",
@@ -122,14 +119,13 @@ func (req *UpdateCharge) Describe() *internal.Description {
 //	}
 //
 //	fmt.Printf("charge #chrg_323: %#v\n", charge)
-//
 type RetrieveCharge struct {
 	ChargeID string `json:"-"`
 }
 
 func (req *RetrieveCharge) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "GET",
 		Path:        "/charges/" + req.ChargeID,
 		ContentType: "application/json",
@@ -148,14 +144,13 @@ func (req *RetrieveCharge) Describe() *internal.Description {
 //	}
 //
 //	fmt.Println("captured:", charge.Captured)
-//
 type CaptureCharge struct {
 	ChargeID string `json:"-"`
 }
 
 func (req *CaptureCharge) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "POST",
 		Path:        "/charges/" + req.ChargeID + "/capture",
 		ContentType: "application/json",
@@ -171,7 +166,7 @@ type ReverseCharge struct {
 
 func (req *ReverseCharge) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "POST",
 		Path:        "/charges/" + req.ChargeID + "/reverse",
 		ContentType: "application/json",

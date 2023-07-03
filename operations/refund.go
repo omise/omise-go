@@ -12,7 +12,6 @@ import (
 //	}
 //
 //	fmt.Println("refunded on chrg_333:", refunds.Data[0].Amount)
-//
 type ListRefunds struct {
 	ChargeID string
 	List
@@ -20,7 +19,7 @@ type ListRefunds struct {
 
 func (req *ListRefunds) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "GET",
 		Path:        "/charges/" + req.ChargeID + "/refunds",
 		ContentType: "application/json",
@@ -38,7 +37,6 @@ func (req *ListRefunds) Describe() *internal.Description {
 //	}
 //
 //	fmt.Println("refunded half of charge with:", refund.ID)
-//
 type CreateRefund struct {
 	ChargeID string                 `json:"-"`
 	Amount   int64                  `json:"amount"`
@@ -48,7 +46,7 @@ type CreateRefund struct {
 
 func (req *CreateRefund) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "POST",
 		Path:        "/charges/" + req.ChargeID + "/refunds",
 		ContentType: "application/json",
@@ -66,7 +64,6 @@ func (req *CreateRefund) Describe() *internal.Description {
 //	}
 //
 //	fmt.Printf("refund #777: %#v\n", refund)
-//
 type RetrieveRefund struct {
 	ChargeID string `json:"-"`
 	RefundID string `json:"-"`
@@ -74,7 +71,7 @@ type RetrieveRefund struct {
 
 func (req *RetrieveRefund) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "GET",
 		Path:        "/charges/" + req.ChargeID + "/refunds/" + req.RefundID,
 		ContentType: "application/json",

@@ -16,7 +16,6 @@ import (
 //	}
 //
 //	fmt.Println("created source:", source.ID)
-//
 type CreateSource struct {
 	Type                     string `json:"type"`
 	Amount                   int64  `json:"amount"`
@@ -36,7 +35,7 @@ type CreateSource struct {
 
 func (req *CreateSource) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "POST",
 		Path:        "/sources",
 		ContentType: "application/json",
@@ -52,14 +51,13 @@ func (req *CreateSource) Describe() *internal.Description {
 //	}
 //
 //	fmt.Printf("source #123: %#v\n", source)
-//
 type RetrieveSource struct {
 	SourceID string `json:"-"`
 }
 
 func (req *RetrieveSource) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "GET",
 		Path:        "/sources/" + req.SourceID,
 		ContentType: "application/json",

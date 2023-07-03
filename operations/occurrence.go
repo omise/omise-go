@@ -12,14 +12,13 @@ import "github.com/omise/omise-go/internal"
 //	}
 //
 //	fmt.Printf("occurrence #occu_57z9hj228pusa652nk1: %#v\n", occurrence)
-//
 type RetrieveOccurrence struct {
 	OccurrenceID string `json:"-"`
 }
 
 func (req *RetrieveOccurrence) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "GET",
 		Path:        "/occurrences/" + req.OccurrenceID,
 		ContentType: "application/json",

@@ -17,14 +17,13 @@ import (
 //	}
 //
 //	fmt.Println("recipients #100-#120:", recipients.Data)
-//
 type ListRecipients struct {
 	List
 }
 
 func (req *ListRecipients) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "GET",
 		Path:        "/recipients",
 		ContentType: "application/json",
@@ -51,13 +50,12 @@ func (req *ListRecipients) Describe() *internal.Description {
 //	}
 //
 //	fmt.Println("created recipient:", jun.ID)
-//
-//      # For Japan Bank Account
+//	   # For Japan Bank Account
 //	bankAccount := &omise.BankAccount{
 //		BankCode:    "0001",
 //		BranchCode:  "001",
-//  	        AccountType: omise.Normal,
-//  	        Number:      "0000001",
+//	        AccountType: omise.Normal,
+//	        Number:      "0000001",
 //		Name:        "Joe Example",
 //	}
 //
@@ -73,7 +71,6 @@ func (req *ListRecipients) Describe() *internal.Description {
 //	}
 //
 //	fmt.Println("created recipient:", jun.ID)
-//
 type CreateRecipient struct {
 	Name        string              `json:"name"`
 	Email       string              `json:"email,omitempty"`
@@ -117,7 +114,7 @@ func (req *CreateRecipient) MarshalJSON() ([]byte, error) {
 
 func (req *CreateRecipient) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "POST",
 		Path:        "/recipients",
 		ContentType: "application/json",
@@ -132,14 +129,13 @@ func (req *CreateRecipient) Describe() *internal.Description {
 //	}
 //
 //	fmt.Printf("recipient #123: %#v\n", recp)
-//
 type RetrieveRecipient struct {
 	RecipientID string `json:"-"`
 }
 
 func (req *RetrieveRecipient) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "GET",
 		Path:        "/recipients/" + req.RecipientID,
 		ContentType: "application/json",
@@ -157,7 +153,6 @@ func (req *RetrieveRecipient) Describe() *internal.Description {
 //	}
 //
 //	fmt.Printf("jones: %#v\n", jones)
-//
 type UpdateRecipient struct {
 	RecipientID string              `json:"-"`
 	Name        string              `json:"name"`
@@ -191,7 +186,7 @@ func (req *UpdateRecipient) MarshalJSON() ([]byte, error) {
 
 func (req *UpdateRecipient) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "PATCH",
 		Path:        "/recipients/" + req.RecipientID,
 		ContentType: "application/json",
@@ -206,14 +201,13 @@ func (req *UpdateRecipient) Describe() *internal.Description {
 //	}
 //
 //	fmt.Println("destroyed recipient:", del.ID)
-//
 type DestroyRecipient struct {
 	RecipientID string `json:"-"`
 }
 
 func (req *DestroyRecipient) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "DELETE",
 		Path:        "/recipients/" + req.RecipientID,
 		ContentType: "application/json",
@@ -224,7 +218,7 @@ func (req *DestroyRecipient) Describe() *internal.Description {
 //
 // Example:
 //
-//      var schds omise.ScheduleList
+//	var schds omise.ScheduleList
 //	list := ListRecipientTransferSchedules{
 //		RecipientID: "reci_123"
 //		List: List{
@@ -235,9 +229,7 @@ func (req *DestroyRecipient) Describe() *internal.Description {
 //	if e := client.Do(&schds, &list); e != nil {
 //		panic(e)
 //	}
-//
-//	fmt.Println("# of schedules made in the last hour:", len(schds.Data))
-//
+fmt.Println("# of schedules made in the last hour:", len(schds.Data))
 type ListRecipientTransferSchedules struct {
 	RecipientID string
 	List
@@ -245,7 +237,7 @@ type ListRecipientTransferSchedules struct {
 
 func (req *ListRecipientTransferSchedules) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "GET",
 		Path:        "/recipients/" + req.RecipientID + "/schedules",
 		ContentType: "application/json",

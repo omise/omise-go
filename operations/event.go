@@ -12,14 +12,13 @@ import (
 //	}
 //
 //	fmt.Println("# of events:", len(events.Data))
-//
 type ListEvents struct {
 	List
 }
 
 func (req *ListEvents) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "GET",
 		Path:        "/events",
 		ContentType: "application/json",
@@ -34,14 +33,13 @@ func (req *ListEvents) Describe() *internal.Description {
 //	}
 //
 //	fmt.Printf("evnt_123: %#v\n", event)
-//
 type RetrieveEvent struct {
 	EventID string `json:"-"`
 }
 
 func (req *RetrieveEvent) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.API,
+		Endpoint: internal.GetEnv().APP_URL,
 		Method:   "GET",
 		Path:     "/events/" + req.EventID,
 	}

@@ -14,14 +14,13 @@ import (
 //	}
 //
 //	fmt.Println("receipts #100-#120:", receipts.Data)
-//
 type ListReceipts struct {
 	List
 }
 
 func (req *ListReceipts) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "GET",
 		Path:        "/receipts",
 		ContentType: "application/json",
@@ -36,14 +35,13 @@ func (req *ListReceipts) Describe() *internal.Description {
 //	}
 //
 //	fmt.Printf("receipt #123: %#v\n", rcpt)
-//
 type RetrieveReceipt struct {
 	ReceiptID string `json:"-"`
 }
 
 func (req *RetrieveReceipt) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "GET",
 		Path:        "/receipts/" + req.ReceiptID,
 		ContentType: "application/json",

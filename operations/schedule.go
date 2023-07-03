@@ -15,23 +15,22 @@ import (
 //
 //	var schd omise.Schedule
 //	create := operations.CreateChargeSchedule{
-//              Every:  3,
-//              Period: schedule.PeriodWeek,
-//              Weekdays: []schedule.Weekday{
-//              schedule.Monday,
-//              	schedule.Saturday,
-//              },
-//              StartDate: "2017-05-15",
-//              EndDate:   "2018-05-15",
-//              Customer:  "customer_id",
-//              Amount:    100000,
+//		Every:  3,
+//		Period: schedule.PeriodWeek,
+//		Weekdays: []schedule.Weekday{
+//		schedule.Monday,
+//			schedule.Saturday,
+//		},
+//		StartDate: "2017-05-15",
+//		EndDate:   "2018-05-15",
+//		Customer:  "customer_id",
+//		Amount:    100000,
 //	}
 //	if e := client.Do(&schd, &create); e != nil {
 //		panic(e)
 //	}
 //
 //	fmt.Println("created schedule:", schd.ID)
-//
 type CreateChargeSchedule struct {
 	Every          int
 	Period         schedule.Period
@@ -121,7 +120,7 @@ func (req *CreateChargeSchedule) MarshalJSON() ([]byte, error) {
 
 func (req *CreateChargeSchedule) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "POST",
 		Path:        "/schedules",
 		ContentType: "application/json",
@@ -134,23 +133,22 @@ func (req *CreateChargeSchedule) Describe() *internal.Description {
 //
 //	var schd omise.Schedule
 //	create = operations.CreateTransferSchedule{
-//              Every:  3,
-//              Period: schedule.PeriodWeek,
-//              Weekdays: []schedule.Weekday{
-//              schedule.Monday,
-//              	schedule.Saturday,
-//              },
-//              StartDate: "2017-05-15",
-//              EndDate:   "2018-05-15",
-//              Recipient:  "recipient_id",
-//              Amount:    100000,
+//	    Every:  3,
+//	    Period: schedule.PeriodWeek,
+//	    Weekdays: []schedule.Weekday{
+//	    schedule.Monday,
+//	    	schedule.Saturday,
+//	    },
+//	    StartDate: "2017-05-15",
+//	    EndDate:   "2018-05-15",
+//	    Recipient:  "recipient_id",
+//	    Amount:    100000,
 //	}
 //	if e := client.Do(&schd, &create); e != nil {
 //		panic(e)
 //	}
 //
 //	fmt.Println("created schedule:", schd.ID)
-//
 type CreateTransferSchedule struct {
 	Every          int
 	Period         schedule.Period
@@ -234,7 +232,7 @@ func (req *CreateTransferSchedule) MarshalJSON() ([]byte, error) {
 
 func (req *CreateTransferSchedule) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "POST",
 		Path:        "/schedules",
 		ContentType: "application/json",
@@ -245,7 +243,7 @@ func (req *CreateTransferSchedule) Describe() *internal.Description {
 //
 // Example:
 //
-//      var schds omise.ScheduleList
+//	var schds omise.ScheduleList
 //	list := ListSchedules{
 //		List: List{
 //			Limit: 100,
@@ -255,16 +253,15 @@ func (req *CreateTransferSchedule) Describe() *internal.Description {
 //	if e := client.Do(&schds, &list); e != nil {
 //		panic(e)
 //	}
-//
-//	fmt.Println("# of schedules made in the last hour:", len(schds.Data))
-//
+
+// fmt.Println("# of schedules made in the last hour:", len(schds.Data))
 type ListSchedules struct {
 	List
 }
 
 func (req *ListSchedules) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "GET",
 		Path:        "/schedules",
 		ContentType: "application/json",
@@ -275,7 +272,7 @@ func (req *ListSchedules) Describe() *internal.Description {
 //
 // Example:
 //
-//      var occurrences omise.OccurrenceList
+//	var occurrences omise.OccurrenceList
 //	list := ListOccurrenceSchedules{
 //		ScheduleID: "schd_57z9hj228pusa652nk1",
 //		List: List{
@@ -287,8 +284,7 @@ func (req *ListSchedules) Describe() *internal.Description {
 //		panic(e)
 //	}
 //
-//	fmt.Println("occurrences made in the last hour:", len(occurrences.Data))
-//
+// fmt.Println("occurrences made in the last hour:", len(occurrences.Data))
 type ListScheduleOccurrences struct {
 	ScheduleID string
 	List
@@ -296,7 +292,7 @@ type ListScheduleOccurrences struct {
 
 func (req *ListScheduleOccurrences) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "GET",
 		Path:        "/schedules/" + req.ScheduleID + "/occurrences",
 		ContentType: "application/json",
@@ -307,7 +303,7 @@ func (req *ListScheduleOccurrences) Describe() *internal.Description {
 //
 // Example:
 //
-//      var schds omise.ScheduleList
+//	var schds omise.ScheduleList
 //	list = ListChargeSchedules{
 //		List: List{
 //			Limit: 100,
@@ -319,14 +315,13 @@ func (req *ListScheduleOccurrences) Describe() *internal.Description {
 //	}
 //
 //	fmt.Println("# of charge schedules made in the last hour:", len(schds.Data))
-//
 type ListChargeSchedules struct {
 	List
 }
 
 func (req *ListChargeSchedules) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "GET",
 		Path:        "/charges/schedules",
 		ContentType: "application/json",
@@ -337,7 +332,7 @@ func (req *ListChargeSchedules) Describe() *internal.Description {
 //
 // Example:
 //
-//      var schds omise.ScheduleList
+//	var schds omise.ScheduleList
 //	list = ListTransferSchedules{
 //		List: List{
 //			Limit: 100,
@@ -349,14 +344,13 @@ func (req *ListChargeSchedules) Describe() *internal.Description {
 //	}
 //
 //	fmt.Println("# of transfer schedules made in the last hour:", len(schds.Data))
-//
 type ListTransferSchedules struct {
 	List
 }
 
 func (req *ListTransferSchedules) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "GET",
 		Path:        "/transfers/schedules",
 		ContentType: "application/json",
@@ -373,14 +367,13 @@ func (req *ListTransferSchedules) Describe() *internal.Description {
 //	}
 //
 //	fmt.Printf("schedule #schd_57z9hj228pusa652nk1: %#v\n", schd)
-//
 type RetrieveSchedule struct {
 	ScheduleID string `json:"-"`
 }
 
 func (req *RetrieveSchedule) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "GET",
 		Path:        "/schedules/" + req.ScheduleID,
 		ContentType: "application/json",
@@ -390,20 +383,20 @@ func (req *RetrieveSchedule) Describe() *internal.Description {
 // DestroySchedule represent destroy schedule API payload
 //
 // Example:
-//      var deletedSchd omise.Schedule
+//
+//	var deletedSchd omise.Schedule
 //	if e := client.Do(&deletedSchd, &DestroySchedule{ScheduleID: "schd_57z9hj228pusa652nk1"}); e != nil {
 //		panic(e)
 //	}
 //
 //	fmt.Println("destroyed schedule:", deletedSchd.ID)
-//
 type DestroySchedule struct {
 	ScheduleID string `json:"-"`
 }
 
 func (req *DestroySchedule) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "DELETE",
 		Path:        "/schedules/" + req.ScheduleID,
 		ContentType: "application/json",

@@ -62,9 +62,11 @@ func TestClient_Request(t *testing.T) {
 	r.True(t, ok)
 	r.Equal(t, user, pkey)
 
+	var env = internal.GetEnv()
+
 	// use overridden endopint, if specified
-	client.Endpoints[internal.API] = "http://api.omise.dev:3000"
-	client.Endpoints[internal.Vault] = "http://vault.omise.dev:4500"
+	client.Endpoints[env.APP_URL] = "http://api.omise.dev:3000"
+	client.Endpoints[env.Vault] = "http://vault.omise.dev:4500"
 
 	req, err = client.Request(&operations.RetrieveAccount{})
 	r.NoError(t, err)
@@ -96,7 +98,7 @@ func TestClient_Error(t *testing.T) {
 	r.NoError(t, err)
 
 	err = client.Do(nil, &internal.Description{
-		Endpoint: internal.API,
+		Endpoint: internal.GetEnv().APP_URL,
 		Method:   "GET",
 		Path:     "/definitely_never_found",
 	})
@@ -119,7 +121,7 @@ func TestClient_TransportError(t *testing.T) {
 	client := testutil.NewFixedClient(t)
 
 	err := client.Do(&struct{}{}, &internal.Description{
-		Endpoint: internal.API,
+		Endpoint: internal.GetEnv().APP_URL,
 		Method:   "GET",
 		Path:     "/malformed",
 	})

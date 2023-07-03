@@ -14,7 +14,6 @@ import (
 //	if e := client.Do(result, search); e != nil {
 //		panic(e)
 //	}
-//
 type Search struct {
 	Scope   omise.SearchScope `json:"scope"`
 	Query   string            `json:"query,omitempty"`
@@ -26,7 +25,7 @@ type Search struct {
 
 func (req *Search) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "GET",
 		Path:        "/search",
 		ContentType: "application/json",

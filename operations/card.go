@@ -16,7 +16,6 @@ import (
 //	}
 //
 //	fmt.Println("# of customer's cards:", len(cards.Data))
-//
 type ListCards struct {
 	CustomerID string
 	List
@@ -24,7 +23,7 @@ type ListCards struct {
 
 func (req *ListCards) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "GET",
 		Path:        "/customers/" + req.CustomerID + "/cards",
 		ContentType: "application/json",
@@ -39,7 +38,7 @@ func (req *ListCards) Describe() *internal.Description {
 // }
 //
 // func (req *CreateCard) Description() *internal.Description {
-// 	return &internal.Description{internal.API, "PATCH", "/customers/" + req.CustomerID, nil}
+// 	return &internal.Description{internal.GetEnv().APP_URL, "PATCH", "/customers/" + req.CustomerID, nil}
 // }
 
 // Example:
@@ -53,7 +52,6 @@ func (req *ListCards) Describe() *internal.Description {
 //	}
 //
 //	fmt.Printf("the card: %#v\n", card)
-//
 type RetrieveCard struct {
 	CustomerID string `json:"-"`
 	CardID     string `json:"-"`
@@ -61,7 +59,7 @@ type RetrieveCard struct {
 
 func (req *RetrieveCard) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "GET",
 		Path:        "/customers/" + req.CustomerID + "/cards/" + req.CardID,
 		ContentType: "application/json",
@@ -80,7 +78,6 @@ func (req *RetrieveCard) Describe() *internal.Description {
 //	}
 //
 //	fmt.Printf("updated card: %#v\n", card)
-//
 type UpdateCard struct {
 	CustomerID string `json:"-"`
 	CardID     string `json:"-"`
@@ -95,7 +92,7 @@ type UpdateCard struct {
 
 func (req *UpdateCard) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "PATCH",
 		Path:        "/customers/" + req.CustomerID + "/cards/" + req.CardID,
 		ContentType: "application/json",
@@ -113,7 +110,6 @@ func (req *UpdateCard) Describe() *internal.Description {
 //	}
 //
 //	fmt.Println("deleted:", del.ID, del.Deleted)
-//
 type DestroyCard struct {
 	CustomerID string `json:"-"`
 	CardID     string `json:"-"`
@@ -121,7 +117,7 @@ type DestroyCard struct {
 
 func (req *DestroyCard) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "DELETE",
 		Path:        "/customers/" + req.CustomerID + "/cards/" + req.CardID,
 		ContentType: "application/json",

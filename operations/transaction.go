@@ -17,14 +17,13 @@ import (
 //	}
 //
 //	fmt.Println("# of transactions in the last hour:", len(transactions.Data))
-//
 type ListTransactions struct {
 	List
 }
 
 func (req *ListTransactions) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "GET",
 		Path:        "/transactions",
 		ContentType: "application/json",
@@ -41,14 +40,13 @@ func (req *ListTransactions) Describe() *internal.Description {
 //	}
 //
 //	fmt.Printf("transaction #trxn_987: %#v\n", transaction)
-//
 type RetrieveTransaction struct {
 	TransactionID string `json:"-"`
 }
 
 func (req *RetrieveTransaction) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "GET",
 		Path:        "/transactions/" + req.TransactionID,
 		ContentType: "application/json",

@@ -17,14 +17,13 @@ import (
 //	}
 //
 //	fmt.Println("# of transfers in the last hour:", len(transfers.Data))
-//
 type ListTransfers struct {
 	List
 }
 
 func (req *ListTransfers) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "GET",
 		Path:        "/transfers",
 		ContentType: "application/json",
@@ -41,7 +40,6 @@ func (req *ListTransfers) Describe() *internal.Description {
 //	}
 //
 //	fmt.Println("transferred to default recipient with:", transfer.ID)
-//
 type CreateTransfer struct {
 	Amount    int64                  `json:"amount,omitempty"`
 	Recipient string                 `json:"recipient,omitempty"`
@@ -51,7 +49,7 @@ type CreateTransfer struct {
 
 func (req *CreateTransfer) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "POST",
 		Path:        "/transfers",
 		ContentType: "application/json",
@@ -66,14 +64,13 @@ func (req *CreateTransfer) Describe() *internal.Description {
 //	}
 //
 //	fmt.Printf("transfer #123: %#v\n", transfer)
-//
 type RetrieveTransfer struct {
 	TransferID string `json:"-"`
 }
 
 func (req *RetrieveTransfer) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "GET",
 		Path:        "/transfers/" + req.TransferID,
 		ContentType: "application/json",
@@ -91,7 +88,6 @@ func (req *RetrieveTransfer) Describe() *internal.Description {
 //	}
 //
 //	fmt.Printf("updated transfer #777: %#v\n", transfer)
-//
 type UpdateTransfer struct {
 	TransferID string                 `json:"-"`
 	Amount     int64                  `json:"amount,omitempty"`
@@ -100,7 +96,7 @@ type UpdateTransfer struct {
 
 func (req *UpdateTransfer) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "PATCH",
 		Path:        "/transfers/" + req.TransferID,
 		ContentType: "application/json",
@@ -115,14 +111,13 @@ func (req *UpdateTransfer) Describe() *internal.Description {
 //	}
 //
 //	fmt.Println("not transferring anymore:", del.ID)
-//
 type DestroyTransfer struct {
 	TransferID string `json:"-"`
 }
 
 func (req *DestroyTransfer) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "DELETE",
 		Path:        "/transfers/" + req.TransferID,
 		ContentType: "application/json",

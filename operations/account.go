@@ -12,12 +12,11 @@ import (
 //	}
 //
 //	fmt.Printf("my account!: %#v\n", account)
-//
 type RetrieveAccount struct{}
 
 func (req *RetrieveAccount) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "GET",
 		Path:        "/account",
 		ContentType: "application/json",

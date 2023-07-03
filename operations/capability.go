@@ -10,12 +10,11 @@ import "github.com/omise/omise-go/internal"
 //	}
 //
 //	fmt.Printf("list payment methods: %#v\n", capability.PaymentMethods)
-//
 type RetrieveCapability struct{}
 
 func (req *RetrieveCapability) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "GET",
 		Path:        "/capability",
 		ContentType: "application/json",

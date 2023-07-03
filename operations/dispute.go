@@ -15,7 +15,6 @@ import (
 //	}
 //
 //	fmt.Println("# of open disputes:", len(disputes.Data))
-//
 type ListDisputes struct {
 	State omise.DisputeStatus
 	List
@@ -33,7 +32,7 @@ func (req *ListDisputes) Describe() *internal.Description {
 	}
 
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "GET",
 		Path:        path,
 		ContentType: "application/json",
@@ -48,14 +47,13 @@ func (req *ListDisputes) Describe() *internal.Description {
 //	}
 //
 //	fmt.Printf("dispute #123: %#v\n", dispute)
-//
 type RetrieveDispute struct {
 	DisputeID string `json:"-"`
 }
 
 func (req *RetrieveDispute) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "GET",
 		Path:        "/disputes/" + req.DisputeID,
 		ContentType: "application/json",
@@ -73,7 +71,6 @@ func (req *RetrieveDispute) Describe() *internal.Description {
 //	}
 //
 //	fmt.Printf("updated dispute: %#v\n", dispute)
-//
 type UpdateDispute struct {
 	DisputeID string                 `json:"-"`
 	Message   string                 `json:"message"`
@@ -82,7 +79,7 @@ type UpdateDispute struct {
 
 func (req *UpdateDispute) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "PATCH",
 		Path:        "/disputes/" + req.DisputeID,
 		ContentType: "application/json",

@@ -12,12 +12,11 @@ import (
 //	}
 //
 //	fmt.Println("we have $", balance.Available)
-//
 type RetrieveBalance struct{}
 
 func (req *RetrieveBalance) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.API,
+		Endpoint:    internal.GetEnv().APP_URL,
 		Method:      "GET",
 		Path:        "/balance",
 		ContentType: "application/json",
