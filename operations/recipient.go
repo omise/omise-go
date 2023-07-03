@@ -23,7 +23,7 @@ type ListRecipients struct {
 
 func (req *ListRecipients) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "GET",
 		Path:        "/recipients",
 		ContentType: "application/json",
@@ -114,7 +114,7 @@ func (req *CreateRecipient) MarshalJSON() ([]byte, error) {
 
 func (req *CreateRecipient) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "POST",
 		Path:        "/recipients",
 		ContentType: "application/json",
@@ -135,7 +135,7 @@ type RetrieveRecipient struct {
 
 func (req *RetrieveRecipient) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "GET",
 		Path:        "/recipients/" + req.RecipientID,
 		ContentType: "application/json",
@@ -186,7 +186,7 @@ func (req *UpdateRecipient) MarshalJSON() ([]byte, error) {
 
 func (req *UpdateRecipient) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "PATCH",
 		Path:        "/recipients/" + req.RecipientID,
 		ContentType: "application/json",
@@ -207,7 +207,7 @@ type DestroyRecipient struct {
 
 func (req *DestroyRecipient) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "DELETE",
 		Path:        "/recipients/" + req.RecipientID,
 		ContentType: "application/json",
@@ -237,7 +237,7 @@ type ListRecipientTransferSchedules struct {
 
 func (req *ListRecipientTransferSchedules) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "GET",
 		Path:        "/recipients/" + req.RecipientID + "/schedules",
 		ContentType: "application/json",

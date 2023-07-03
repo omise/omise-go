@@ -120,7 +120,7 @@ func (req *CreateChargeSchedule) MarshalJSON() ([]byte, error) {
 
 func (req *CreateChargeSchedule) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "POST",
 		Path:        "/schedules",
 		ContentType: "application/json",
@@ -232,7 +232,7 @@ func (req *CreateTransferSchedule) MarshalJSON() ([]byte, error) {
 
 func (req *CreateTransferSchedule) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "POST",
 		Path:        "/schedules",
 		ContentType: "application/json",
@@ -261,7 +261,7 @@ type ListSchedules struct {
 
 func (req *ListSchedules) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "GET",
 		Path:        "/schedules",
 		ContentType: "application/json",
@@ -292,7 +292,7 @@ type ListScheduleOccurrences struct {
 
 func (req *ListScheduleOccurrences) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "GET",
 		Path:        "/schedules/" + req.ScheduleID + "/occurrences",
 		ContentType: "application/json",
@@ -321,7 +321,7 @@ type ListChargeSchedules struct {
 
 func (req *ListChargeSchedules) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "GET",
 		Path:        "/charges/schedules",
 		ContentType: "application/json",
@@ -350,7 +350,7 @@ type ListTransferSchedules struct {
 
 func (req *ListTransferSchedules) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "GET",
 		Path:        "/transfers/schedules",
 		ContentType: "application/json",
@@ -373,7 +373,7 @@ type RetrieveSchedule struct {
 
 func (req *RetrieveSchedule) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "GET",
 		Path:        "/schedules/" + req.ScheduleID,
 		ContentType: "application/json",
@@ -396,7 +396,7 @@ type DestroySchedule struct {
 
 func (req *DestroySchedule) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "DELETE",
 		Path:        "/schedules/" + req.ScheduleID,
 		ContentType: "application/json",

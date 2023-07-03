@@ -35,7 +35,7 @@ type CreateSource struct {
 
 func (req *CreateSource) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "POST",
 		Path:        "/sources",
 		ContentType: "application/json",
@@ -57,7 +57,7 @@ type RetrieveSource struct {
 
 func (req *RetrieveSource) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "GET",
 		Path:        "/sources/" + req.SourceID,
 		ContentType: "application/json",

@@ -16,7 +16,7 @@ type RetrieveAccount struct{}
 
 func (req *RetrieveAccount) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "GET",
 		Path:        "/account",
 		ContentType: "application/json",

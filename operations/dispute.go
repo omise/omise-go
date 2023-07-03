@@ -32,7 +32,7 @@ func (req *ListDisputes) Describe() *internal.Description {
 	}
 
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "GET",
 		Path:        path,
 		ContentType: "application/json",
@@ -53,7 +53,7 @@ type RetrieveDispute struct {
 
 func (req *RetrieveDispute) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "GET",
 		Path:        "/disputes/" + req.DisputeID,
 		ContentType: "application/json",
@@ -79,7 +79,7 @@ type UpdateDispute struct {
 
 func (req *UpdateDispute) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "PATCH",
 		Path:        "/disputes/" + req.DisputeID,
 		ContentType: "application/json",

@@ -23,7 +23,7 @@ type ListTransactions struct {
 
 func (req *ListTransactions) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "GET",
 		Path:        "/transactions",
 		ContentType: "application/json",
@@ -46,7 +46,7 @@ type RetrieveTransaction struct {
 
 func (req *RetrieveTransaction) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "GET",
 		Path:        "/transactions/" + req.TransactionID,
 		ContentType: "application/json",

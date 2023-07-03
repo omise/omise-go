@@ -10,7 +10,7 @@ type ListLinks struct {
 
 func (req *ListLinks) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "GET",
 		Path:        "/links",
 		ContentType: "application/json",
@@ -27,7 +27,7 @@ type CreateLink struct {
 
 func (req *CreateLink) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "POST",
 		Path:        "/links",
 		ContentType: "application/json",
@@ -40,7 +40,7 @@ type RetrieveLink struct {
 
 func (req *RetrieveLink) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "GET",
 		Path:        "/links/" + req.LinkID,
 		ContentType: "application/json",

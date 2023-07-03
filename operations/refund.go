@@ -19,7 +19,7 @@ type ListRefunds struct {
 
 func (req *ListRefunds) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "GET",
 		Path:        "/charges/" + req.ChargeID + "/refunds",
 		ContentType: "application/json",
@@ -46,7 +46,7 @@ type CreateRefund struct {
 
 func (req *CreateRefund) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "POST",
 		Path:        "/charges/" + req.ChargeID + "/refunds",
 		ContentType: "application/json",
@@ -71,7 +71,7 @@ type RetrieveRefund struct {
 
 func (req *RetrieveRefund) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "GET",
 		Path:        "/charges/" + req.ChargeID + "/refunds/" + req.RefundID,
 		ContentType: "application/json",

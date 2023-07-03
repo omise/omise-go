@@ -23,7 +23,7 @@ type ListCustomers struct {
 
 func (req *ListCustomers) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "GET",
 		Path:        "/customers",
 		ContentType: "application/json",
@@ -51,7 +51,7 @@ type CreateCustomer struct {
 
 func (req *CreateCustomer) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "POST",
 		Path:        "/customers",
 		ContentType: "application/json",
@@ -72,7 +72,7 @@ type RetrieveCustomer struct {
 
 func (req *RetrieveCustomer) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "GET",
 		Path:        "/customers/" + req.CustomerID,
 		ContentType: "application/json",
@@ -101,7 +101,7 @@ type UpdateCustomer struct {
 
 func (req *UpdateCustomer) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "PATCH",
 		Path:        "/customers/" + req.CustomerID,
 		ContentType: "application/json",
@@ -124,7 +124,7 @@ type DestroyCustomer struct {
 
 func (req *DestroyCustomer) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "DELETE",
 		Path:        "/customers/" + req.CustomerID,
 		ContentType: "application/json",
@@ -155,7 +155,7 @@ type ListCustomerChargeSchedules struct {
 
 func (req *ListCustomerChargeSchedules) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "GET",
 		Path:        "/customers/" + req.CustomerID + "/schedules",
 		ContentType: "application/json",

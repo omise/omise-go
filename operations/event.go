@@ -18,7 +18,7 @@ type ListEvents struct {
 
 func (req *ListEvents) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "GET",
 		Path:        "/events",
 		ContentType: "application/json",
@@ -39,7 +39,7 @@ type RetrieveEvent struct {
 
 func (req *RetrieveEvent) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint: internal.GetEnv().APP_URL,
+		Endpoint: internal.GetEnv().ApiUrl,
 		Method:   "GET",
 		Path:     "/events/" + req.EventID,
 	}

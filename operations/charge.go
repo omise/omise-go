@@ -26,7 +26,7 @@ type ListCharges struct {
 
 func (req *ListCharges) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "GET",
 		Path:        "/charges",
 		ContentType: "application/json",
@@ -78,7 +78,7 @@ func (req *CreateCharge) MarshalJSON() ([]byte, error) {
 
 func (req *CreateCharge) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "POST",
 		Path:        "/charges",
 		ContentType: "application/json",
@@ -104,7 +104,7 @@ type UpdateCharge struct {
 
 func (req *UpdateCharge) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "PATCH",
 		Path:        "/charges/" + req.ChargeID,
 		ContentType: "application/json",
@@ -125,7 +125,7 @@ type RetrieveCharge struct {
 
 func (req *RetrieveCharge) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "GET",
 		Path:        "/charges/" + req.ChargeID,
 		ContentType: "application/json",
@@ -150,7 +150,7 @@ type CaptureCharge struct {
 
 func (req *CaptureCharge) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "POST",
 		Path:        "/charges/" + req.ChargeID + "/capture",
 		ContentType: "application/json",
@@ -166,7 +166,7 @@ type ReverseCharge struct {
 
 func (req *ReverseCharge) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "POST",
 		Path:        "/charges/" + req.ChargeID + "/reverse",
 		ContentType: "application/json",

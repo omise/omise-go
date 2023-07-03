@@ -20,7 +20,7 @@ type ListReceipts struct {
 
 func (req *ListReceipts) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "GET",
 		Path:        "/receipts",
 		ContentType: "application/json",
@@ -41,7 +41,7 @@ type RetrieveReceipt struct {
 
 func (req *RetrieveReceipt) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "GET",
 		Path:        "/receipts/" + req.ReceiptID,
 		ContentType: "application/json",

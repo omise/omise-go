@@ -23,7 +23,7 @@ type ListTransfers struct {
 
 func (req *ListTransfers) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "GET",
 		Path:        "/transfers",
 		ContentType: "application/json",
@@ -49,7 +49,7 @@ type CreateTransfer struct {
 
 func (req *CreateTransfer) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "POST",
 		Path:        "/transfers",
 		ContentType: "application/json",
@@ -70,7 +70,7 @@ type RetrieveTransfer struct {
 
 func (req *RetrieveTransfer) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "GET",
 		Path:        "/transfers/" + req.TransferID,
 		ContentType: "application/json",
@@ -96,7 +96,7 @@ type UpdateTransfer struct {
 
 func (req *UpdateTransfer) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "PATCH",
 		Path:        "/transfers/" + req.TransferID,
 		ContentType: "application/json",
@@ -117,7 +117,7 @@ type DestroyTransfer struct {
 
 func (req *DestroyTransfer) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "DELETE",
 		Path:        "/transfers/" + req.TransferID,
 		ContentType: "application/json",

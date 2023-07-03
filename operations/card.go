@@ -23,7 +23,7 @@ type ListCards struct {
 
 func (req *ListCards) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "GET",
 		Path:        "/customers/" + req.CustomerID + "/cards",
 		ContentType: "application/json",
@@ -38,7 +38,7 @@ func (req *ListCards) Describe() *internal.Description {
 // }
 //
 // func (req *CreateCard) Description() *internal.Description {
-// 	return &internal.Description{internal.GetEnv().APP_URL, "PATCH", "/customers/" + req.CustomerID, nil}
+// 	return &internal.Description{internal.GetEnv().ApiUrl, "PATCH", "/customers/" + req.CustomerID, nil}
 // }
 
 // Example:
@@ -59,7 +59,7 @@ type RetrieveCard struct {
 
 func (req *RetrieveCard) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "GET",
 		Path:        "/customers/" + req.CustomerID + "/cards/" + req.CardID,
 		ContentType: "application/json",
@@ -92,7 +92,7 @@ type UpdateCard struct {
 
 func (req *UpdateCard) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "PATCH",
 		Path:        "/customers/" + req.CustomerID + "/cards/" + req.CardID,
 		ContentType: "application/json",
@@ -117,7 +117,7 @@ type DestroyCard struct {
 
 func (req *DestroyCard) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "DELETE",
 		Path:        "/customers/" + req.CustomerID + "/cards/" + req.CardID,
 		ContentType: "application/json",

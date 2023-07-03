@@ -3,18 +3,20 @@ package internal
 import (
 	"os"
 
-	"github.com/godotenv"
+	"github.com/joho/godotenv"
 )
 
+type Endpoint string
+
 type EnvConfig struct {
-	AppUrl   string
-	VaultUrl string
+	ApiUrl   Endpoint
+	VaultUrl Endpoint
 }
 
 func GetEnv() *EnvConfig {
 	var defaultUrls = &EnvConfig{
-		AppUrl:   "https://api.omise.co",
-		VaultUrl: "https://vault.omise.co",
+		ApiUrl:   Endpoint("https://api.omise.co"),
+		VaultUrl: Endpoint("https://vault.omise.co"),
 	}
 	var err = godotenv.Load()
 
@@ -22,23 +24,27 @@ func GetEnv() *EnvConfig {
 		return defaultUrls
 	}
 
-	// Retrieve APP_URL value from env variable
-	var appUrlEnv, exists = os.LookupEnv("APP_URL")
+	// Retrieve ApiUrl value from env variable
+	var apiUrlEnv, exists = os.LookupEnv("OMISE_GO_API_URL")
 
+	// If API URL is not present then no need to look in to Vault URL
+	// because we require both URLs to set up new URLs.
 	if !exists {
 		return defaultUrls
 	}
 
 	var vaultUrlEnv string
-	// Retrieve VAULT_URL value from env variable
-	vaultUrlEnv, exists = os.LookupEnv("VAULT_URL")
+	// Retrieve OMISE_GO_VAULT_URL value from env variable
+	vaultUrlEnv, exists = os.LookupEnv("OMISE_GO_VAULT_URL")
 
+	// If Vault URL is not present then we return default URLs
+	// because we require both URLs to set up new URLs.
 	if !exists {
 		return defaultUrls
 	}
 
 	return &EnvConfig{
-		AppUrl:   appUrlEnv,
-		VaultUrl: vaultUrlEnv,
+		ApiUrl:   Endpoint(apiUrlEnv),
+		VaultUrl: Endpoint(vaultUrlEnv),
 	}
 }

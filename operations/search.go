@@ -25,7 +25,7 @@ type Search struct {
 
 func (req *Search) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "GET",
 		Path:        "/search",
 		ContentType: "application/json",

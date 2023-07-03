@@ -1,7 +1,7 @@
 package internal
 
 type Description struct {
-	Endpoint string
+	Endpoint Endpoint
 	Method   string
 	Path     string
 
@@ -17,12 +17,13 @@ func (op *Description) Describe() *Description {
 }
 
 func (op *Description) KeyKind() (kind string) {
+	envs := GetEnv()
 	switch {
 	case op.APIKey != "":
 		kind = op.APIKey
-	case op.Endpoint == API:
+	case op.Endpoint == envs.ApiUrl:
 		kind = "secret"
-	case op.Endpoint == Vault:
+	case op.Endpoint == envs.VaultUrl:
 		kind = "public"
 	}
 	return

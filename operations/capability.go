@@ -14,7 +14,7 @@ type RetrieveCapability struct{}
 
 func (req *RetrieveCapability) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "GET",
 		Path:        "/capability",
 		ContentType: "application/json",

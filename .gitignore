@@ -1,3 +1,5 @@
 .idea
 
 .env
+
+vendor/modules.txt

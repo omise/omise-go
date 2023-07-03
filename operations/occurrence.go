@@ -18,7 +18,7 @@ type RetrieveOccurrence struct {
 
 func (req *RetrieveOccurrence) Describe() *internal.Description {
 	return &internal.Description{
-		Endpoint:    internal.GetEnv().APP_URL,
+		Endpoint:    internal.GetEnv().ApiUrl,
 		Method:      "GET",
 		Path:        "/occurrences/" + req.OccurrenceID,
 		ContentType: "application/json",
