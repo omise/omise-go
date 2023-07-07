@@ -18,7 +18,7 @@ jobs:
       - name: Set up Go ${{ matrix.go }}
         uses: actions/setup-go@v4
         with:
-          go-version: "1.15" # Old Go version needed to run existing test script
+          go-version: "1.15" # Old Go version needed to run "go test"
 
       - name: Check out code into the Go module directory
         uses: actions/checkout@v2
