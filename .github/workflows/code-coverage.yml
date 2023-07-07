@@ -38,7 +38,7 @@ jobs:
       - name: Check cover.out
         run: |
           echo ${{ env.WORKDIR }}
-          head ${{ env.WORKDIR }}/cover.out
+          cat ${{ env.WORKDIR }}/cover.out
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
