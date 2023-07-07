@@ -35,10 +35,7 @@ jobs:
           OMISE_PKEY: pkey_test_xxx
           OMISE_SKEY: skey_test_xxx
         run: .github/scripts/code-coverage.sh
-      - name: Check cover.out
-        run: |
-          echo ${{ env.WORKDIR }}
-          cat ${{ env.WORKDIR }}/cover.out
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
