@@ -1,5 +1,7 @@
 package omise
 
+import "time"
+
 // Charge represents Omise's charge object.
 // See https://www.omise.co/charges-api for more information.
 type Charge struct {
@@ -32,6 +34,7 @@ type Charge struct {
 	SourceOfFund SourceOfFunds `json:"source_of_fund"`
 	Offsite      OffsiteTypes  `json:"offsite"`
 
-	Source   *Source                `json:"source"`
-	Metadata map[string]interface{} `json:"metadata"`
+	Source    *Source                `json:"source"`
+	Metadata  map[string]interface{} `json:"metadata"`
+	ExpiresAt time.Time              `json:"expires_at"`
 }
