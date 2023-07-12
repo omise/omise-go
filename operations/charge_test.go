@@ -245,3 +245,13 @@ func TestUpdateChargeMarshal_WithMetadata(t *testing.T) {
 	r.Nil(t, err, "err should be nothing")
 	r.Equal(t, expected, string(b))
 }
+
+func TestRetrieveCharge_HasExpiredAt(t *testing.T) {
+	const ChargeID = "chrg_test_5kdpo8ie121323la8ew"
+	client := testutil.NewFixedClient(t)
+
+	charge := &omise.Charge{}
+	client.MustDo(charge, &RetrieveCharge{ChargeID})
+
+	r.Equal(t, "2020-07-01 03:53:01 +0000 UTC", charge.ExpiresAt.String())
+}
