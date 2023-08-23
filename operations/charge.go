@@ -2,6 +2,7 @@ package operations
 
 import (
 	"encoding/json"
+	"time"
 
 	"github.com/omise/omise-go"
 	"github.com/omise/omise-go/internal"
@@ -20,7 +21,6 @@ import (
 //	}
 //
 //	fmt.Println("# of charges made in the last hour:", len(charges.Data))
-//
 type ListCharges struct {
 	List
 }
@@ -50,18 +50,19 @@ func (req *ListCharges) Describe() *internal.Description {
 //	}
 //
 //	fmt.Println("created charge:", charge.ID)
-//
 type CreateCharge struct {
-	Customer    string                 `json:"customer,omitempty"`
-	Card        string                 `json:"card,omitempty"`
-	Source      string                 `json:"source,omitempty"`
-	Amount      int64                  `json:"amount"`
-	Currency    string                 `json:"currency"`
-	Offsite     omise.OffsiteTypes     `json:"offsite,omitempty"`
-	Description string                 `json:"description,omitempty"`
-	DontCapture bool                   `json:"-"` // inverse, since `capture` defaults to true
-	ReturnURI   string                 `json:"return_uri,omitempty"`
-	Metadata    map[string]interface{} `json:"metadata,omitempty"`
+	Customer                 string                 `json:"customer,omitempty"`
+	Card                     string                 `json:"card,omitempty"`
+	Source                   string                 `json:"source,omitempty"`
+	Amount                   int64                  `json:"amount"`
+	Currency                 string                 `json:"currency"`
+	Offsite                  omise.OffsiteTypes     `json:"offsite,omitempty"`
+	Description              string                 `json:"description,omitempty"`
+	DontCapture              bool                   `json:"-"` // inverse, since `capture` defaults to true
+	ReturnURI                string                 `json:"return_uri,omitempty"`
+	Metadata                 map[string]interface{} `json:"metadata,omitempty"`
+	ExpiresAt                *time.Time             `json:"expires_at,omitempty"`
+	ZeroInterestInstallments *bool                  `json:"zero_interest_installments,omitempty"`
 }
 
 func (req *CreateCharge) MarshalJSON() ([]byte, error) {
@@ -98,7 +99,6 @@ func (req *CreateCharge) Describe() *internal.Description {
 //	}
 //
 //	fmt.Printf("updated charge: %#v\n", charge)
-//
 type UpdateCharge struct {
 	ChargeID    string                 `json:"-"`
 	Description string                 `json:"description"`
@@ -122,7 +122,6 @@ func (req *UpdateCharge) Describe() *internal.Description {
 //	}
 //
 //	fmt.Printf("charge #chrg_323: %#v\n", charge)
-//
 type RetrieveCharge struct {
 	ChargeID string `json:"-"`
 }
@@ -148,7 +147,6 @@ func (req *RetrieveCharge) Describe() *internal.Description {
 //	}
 //
 //	fmt.Println("captured:", charge.Captured)
-//
 type CaptureCharge struct {
 	ChargeID string `json:"-"`
 }
