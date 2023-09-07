@@ -114,6 +114,11 @@ func (c *Client) setRequestHeaders(req *http.Request, desc *internal.Description
 		req.Header.Add("Omise-Version", c.APIVersion)
 	}
 
+	// setting custom headers passed from the caller
+	for k, v := range c.customHeaders {
+		req.Header.Set(k, v)
+	}
+
 	switch desc.KeyKind() {
 	case "public":
 		req.SetBasicAuth(c.pkey, "")
@@ -135,13 +140,9 @@ func (c *Client) setRequestHeaders(req *http.Request, desc *internal.Description
 // which case you can further inspect the Code and Message field for more information.
 func (c *Client) Do(result interface{}, operation internal.Operation) error {
 	req, err := c.Request(operation)
+
 	if err != nil {
 		return err
-	}
-
-	// setting custom headers if it is passed
-	for k, v := range c.customHeaders {
-		req.Header.Set(k, v)
 	}
 
 	// response
@@ -149,6 +150,7 @@ func (c *Client) Do(result interface{}, operation internal.Operation) error {
 	if resp != nil {
 		defer resp.Body.Close()
 	}
+
 	if err != nil {
 		return err
 	}
