@@ -1,11 +1,13 @@
 package omise_test
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"log"
 	"testing"
 
+	"github.com/omise/omise-go"
 	. "github.com/omise/omise-go"
 	"github.com/omise/omise-go/internal"
 	"github.com/omise/omise-go/internal/testutil"
@@ -44,6 +46,9 @@ func TestNewClient(t *testing.T) {
 func TestClient_Request(t *testing.T) {
 	pkey, skey := testutil.Keys()
 	client, err := NewClient(pkey, skey)
+	client.SetCustomHeaders(map[string]string{
+		"X-Header-ABC": "ABC",
+	})
 	r.NoError(t, err)
 
 	// use skey for api.omise.co endpoint
@@ -81,6 +86,7 @@ func TestClient_Request(t *testing.T) {
 	r.NoError(t, err)
 	r.Contains(t, req.Header.Get("User-Agent"), "OmiseGo/")
 	r.Contains(t, req.Header.Get("User-Agent"), "Go/go")
+	r.Contains(t, req.Header.Get("X-Header-ABC"), "ABC")
 	r.Empty(t, req.Header.Get("Omise-Version"), "Omise-Version header sent when APIVersion is not specified.")
 
 	client.GoVersion = "RANDOMXXXVERSION"
@@ -131,6 +137,14 @@ func TestClient_TransportError(t *testing.T) {
 	_, ok = apiErr.Err.(*json.SyntaxError)
 	r.True(t, ok, "error does not wrap *json.SyntaxError")
 	r.Contains(t, string(apiErr.Buffer), "not a valid JSON")
+}
+
+func TestClient_WithContext(t *testing.T) {
+	client := testutil.NewFixedClient(t)
+	client.SetContext(context.Background())
+	account := &omise.Account{}
+	client.MustDo(account, &operations.RetrieveAccount{})
+	r.Equal(t, account.ID, "acct_4yq6tcsyoged5c0ocxd")
 }
 
 func ExampleClient_Do() {
