@@ -24,8 +24,9 @@ type Client struct {
 	Endpoints map[internal.Endpoint]string
 
 	// configuration
-	APIVersion string
-	GoVersion  string
+	APIVersion    string
+	GoVersion     string
+	customHeaders map[string]string
 }
 
 // NewClient creates and returns a Client with the given public key and secret key.  Signs
@@ -55,6 +56,12 @@ func NewClient(pkey, skey string) (*Client, error) {
 	}
 
 	return client, nil
+}
+
+func (c *Client) SetCustomHeaders(headers map[string]string) {
+	if headers != nil {
+		c.customHeaders = headers
+	}
 }
 
 // Request creates a new *http.Request that should performs the supplied Operation. Most
@@ -129,6 +136,11 @@ func (c *Client) Do(result interface{}, operation internal.Operation) error {
 	req, err := c.Request(operation)
 	if err != nil {
 		return err
+	}
+
+	// setting custom headers if it is passed
+	for k, v := range c.customHeaders {
+		req.Header.Set(k, v)
 	}
 
 	// response
