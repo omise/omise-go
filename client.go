@@ -58,6 +58,7 @@ func NewClient(pkey, skey string) (*Client, error) {
 	return client, nil
 }
 
+// add custom headers to request. This should be called before calling Do() method
 func (c *Client) SetCustomHeaders(headers map[string]string) {
 	if headers != nil {
 		c.customHeaders = headers
