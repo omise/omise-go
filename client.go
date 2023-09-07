@@ -67,7 +67,7 @@ func (c *Client) SetCustomHeaders(headers map[string]string) {
 	}
 }
 
-// By setting context, http request will use `NewRequestWithContext` which support to include tracing on same trace ID.
+// SetContext By setting context, http request will use `NewRequestWithContext` which support to include tracing on same trace ID.
 func (c *Client) SetContext(ctx context.Context) {
 	if ctx != nil {
 		c.ctx = ctx
