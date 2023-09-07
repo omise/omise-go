@@ -2,6 +2,7 @@ package omise
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"go/build"
@@ -27,6 +28,7 @@ type Client struct {
 	APIVersion    string
 	GoVersion     string
 	customHeaders map[string]string
+	ctx           context.Context
 }
 
 // NewClient creates and returns a Client with the given public key and secret key.  Signs
@@ -65,6 +67,11 @@ func (c *Client) SetCustomHeaders(headers map[string]string) {
 	}
 }
 
+// By setting context, http request will use `NewRequestWithContext` which support to include tracing on same trace ID.
+func (c *Client) SetContext(ctx context.Context) {
+	c.ctx = ctx
+}
+
 // Request creates a new *http.Request that should performs the supplied Operation. Most
 // people should use the Do method instead.
 func (c *Client) Request(operation internal.Operation) (req *http.Request, err error) {
@@ -96,6 +103,9 @@ func (c *Client) buildJSONRequest(operation internal.Operation) (*http.Request, 
 		endpoint = ep
 	}
 
+	if c.ctx != nil {
+		return http.NewRequestWithContext(c.ctx, desc.Method, endpoint+desc.Path, body)
+	}
 	return http.NewRequest(desc.Method, endpoint+desc.Path, body)
 }
 
