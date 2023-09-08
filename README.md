@@ -1,8 +1,3 @@
-**⚠️ This is not OMG, the blockchain. Visit
-https://omg.network/ for that. ⚠️**
-
----
-
 # OMISE GO CLIENT
 
 [![GoDoc](https://godoc.org/github.com/omise/omise-go?status.svg)][0]

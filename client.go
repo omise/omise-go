@@ -2,6 +2,7 @@ package omise
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"go/build"
@@ -24,8 +25,10 @@ type Client struct {
 	Endpoints map[internal.Endpoint]string
 
 	// configuration
-	APIVersion string
-	GoVersion  string
+	APIVersion    string
+	GoVersion     string
+	customHeaders map[string]string
+	ctx           context.Context
 }
 
 // NewClient creates and returns a Client with the given public key and secret key.  Signs
@@ -55,6 +58,20 @@ func NewClient(pkey, skey string) (*Client, error) {
 	}
 
 	return client, nil
+}
+
+// WithCustomHeaders lets us add headers to request. This should be called before calling Do() method
+func (c *Client) WithCustomHeaders(headers map[string]string) {
+	if headers != nil {
+		c.customHeaders = headers
+	}
+}
+
+// WithContext By setting context, http request will use `NewRequestWithContext` which support to include tracing on same trace ID.
+func (c *Client) WithContext(ctx context.Context) {
+	if ctx != nil {
+		c.ctx = ctx
+	}
 }
 
 // Request creates a new *http.Request that should performs the supplied Operation. Most
@@ -88,7 +105,11 @@ func (c *Client) buildJSONRequest(operation internal.Operation) (*http.Request, 
 		endpoint = ep
 	}
 
-	return http.NewRequest(desc.Method, endpoint+desc.Path, body)
+	req, err := http.NewRequest(desc.Method, endpoint+desc.Path, body)
+	if c.ctx != nil {
+		req = req.WithContext(c.ctx)
+	}
+	return req, err
 }
 
 func (c *Client) setRequestHeaders(req *http.Request, desc *internal.Description) error {
@@ -104,6 +125,11 @@ func (c *Client) setRequestHeaders(req *http.Request, desc *internal.Description
 	req.Header.Add("User-Agent", ua)
 	if c.APIVersion != "" {
 		req.Header.Add("Omise-Version", c.APIVersion)
+	}
+
+	// setting custom headers passed from the caller
+	for k, v := range c.customHeaders {
+		req.Header.Set(k, v)
 	}
 
 	switch desc.KeyKind() {
@@ -127,6 +153,7 @@ func (c *Client) setRequestHeaders(req *http.Request, desc *internal.Description
 // which case you can further inspect the Code and Message field for more information.
 func (c *Client) Do(result interface{}, operation internal.Operation) error {
 	req, err := c.Request(operation)
+
 	if err != nil {
 		return err
 	}
@@ -136,6 +163,7 @@ func (c *Client) Do(result interface{}, operation internal.Operation) error {
 	if resp != nil {
 		defer resp.Body.Close()
 	}
+
 	if err != nil {
 		return err
 	}
