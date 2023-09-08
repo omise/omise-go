@@ -13,6 +13,9 @@ import (
 	"github.com/omise/omise-go/internal"
 )
 
+// Library version to include in user agent
+var libraryVersion = "1.0.12"
+
 // Client helps you configure and perform HTTP operations against Omise's REST API. It
 // should be used with operation structures from the operations subpackage.
 type Client struct {
@@ -113,7 +116,7 @@ func (c *Client) buildJSONRequest(operation internal.Operation) (*http.Request, 
 }
 
 func (c *Client) setRequestHeaders(req *http.Request, desc *internal.Description) error {
-	ua := "OmiseGo/2015-11-06"
+	ua := "OmiseGo/" + libraryVersion
 	if c.GoVersion != "" {
 		ua += " Go/" + c.GoVersion
 	}
