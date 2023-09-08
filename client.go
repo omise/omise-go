@@ -105,10 +105,11 @@ func (c *Client) buildJSONRequest(operation internal.Operation) (*http.Request, 
 		endpoint = ep
 	}
 
+	req, err := http.NewRequest(desc.Method, endpoint+desc.Path, body)
 	if c.ctx != nil {
-		return http.NewRequestWithContext(c.ctx, desc.Method, endpoint+desc.Path, body)
+		req = req.WithContext(c.ctx)
 	}
-	return http.NewRequest(desc.Method, endpoint+desc.Path, body)
+	return req, err
 }
 
 func (c *Client) setRequestHeaders(req *http.Request, desc *internal.Description) error {
