@@ -14,7 +14,7 @@ import (
 )
 
 // LibraryVersion to include in user agent
-var LibraryVersion = "1.0.12"
+var libraryVersion = "1.0.12"
 
 // Client helps you configure and perform HTTP operations against Omise's REST API. It
 // should be used with operation structures from the operations subpackage.
@@ -116,7 +116,7 @@ func (c *Client) buildJSONRequest(operation internal.Operation) (*http.Request, 
 }
 
 func (c *Client) setRequestHeaders(req *http.Request, desc *internal.Description) error {
-	ua := "OmiseGo/" + LibraryVersion
+	ua := "OmiseGo/" + libraryVersion
 	if c.GoVersion != "" {
 		ua += " Go/" + c.GoVersion
 	}
