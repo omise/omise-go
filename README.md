@@ -1,11 +1,5 @@
-**⚠️ This is not OMG, the blockchain. Visit
-https://omg.network/ for that. ⚠️**
-
----
-
 # OMISE GO CLIENT
 
-[![Go Version](https://img.shields.io/badge/Go-1.13%2B-blue.svg)](https://golang.org/doc/go1.13)
 [![GoDoc](https://godoc.org/github.com/omise/omise-go?status.svg)][0]
 ![omise-go v1](https://github.com/omise/omise-go/workflows/omise-go%20v1/badge.svg)
 
@@ -19,10 +13,6 @@ Install with:
 ```go
 go get github.com/omise/omise-go
 ```
-
-# GO VERSION SUPPORT
-
-Starting from version `1.0.12`, this package requires Go `1.13` or higher.
 
 # COMPLIANCE WARNING
 
