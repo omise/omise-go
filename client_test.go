@@ -7,7 +7,6 @@ import (
 	"log"
 	"testing"
 
-	"github.com/omise/omise-go"
 	. "github.com/omise/omise-go"
 	"github.com/omise/omise-go/internal"
 	"github.com/omise/omise-go/internal/testutil"
@@ -142,7 +141,7 @@ func TestClient_TransportError(t *testing.T) {
 func TestClient_WithContext(t *testing.T) {
 	client := testutil.NewFixedClient(t)
 	client.SetContext(context.Background())
-	account := &omise.Account{}
+	account := &Account{}
 	client.MustDo(account, &operations.RetrieveAccount{})
 	r.Equal(t, account.ID, "acct_4yq6tcsyoged5c0ocxd")
 }
