@@ -45,7 +45,7 @@ func TestNewClient(t *testing.T) {
 func TestClient_Request(t *testing.T) {
 	pkey, skey := testutil.Keys()
 	client, err := NewClient(pkey, skey)
-	client.SetCustomHeaders(map[string]string{
+	client.WithCustomHeaders(map[string]string{
 		"X-Header-ABC": "ABC",
 	})
 	r.NoError(t, err)
@@ -140,7 +140,7 @@ func TestClient_TransportError(t *testing.T) {
 
 func TestClient_WithContext(t *testing.T) {
 	client := testutil.NewFixedClient(t)
-	client.SetContext(context.Background())
+	client.WithContext(context.Background())
 	account := &Account{}
 	client.MustDo(account, &operations.RetrieveAccount{})
 	r.Equal(t, account.ID, "acct_4yq6tcsyoged5c0ocxd")
