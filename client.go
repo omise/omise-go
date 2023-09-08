@@ -13,7 +13,7 @@ import (
 	"github.com/omise/omise-go/internal"
 )
 
-// LibraryVersion to include in user agent
+// Library version to include in user agent
 var libraryVersion = "1.0.12"
 
 // Client helps you configure and perform HTTP operations against Omise's REST API. It
