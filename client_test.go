@@ -85,7 +85,6 @@ func TestClient_Request(t *testing.T) {
 	r.NoError(t, err)
 	r.Contains(t, req.Header.Get("User-Agent"), "OmiseGo/")
 	r.Contains(t, req.Header.Get("User-Agent"), "Go/go")
-	r.Contains(t, req.Header.Get("User-Agent"), "Go/go")
 	r.Contains(t, req.Header.Get("X-Header-ABC"), "ABC")
 	r.Empty(t, req.Header.Get("Omise-Version"), "Omise-Version header sent when APIVersion is not specified.")
 
