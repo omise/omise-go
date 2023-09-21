@@ -8,9 +8,9 @@ type Charge struct {
 	Base
 	Status      		ChargeStatus 		`json:"status"`
 	Amount      		int64        		`json:"amount"`
-	AuthorizationType	*AuthorizationType	`json:"authorization_type"`
-	AuthorizedAmount	*int64		 		`json:"authorized_amount"`
-	CapturedAmount		*int64		 		`json:"captured_amount"`
+	AuthorizationType	AuthorizationType	`json:"authorization_type"`
+	AuthorizedAmount	int64		 		`json:"authorized_amount"`
+	CapturedAmount		int64		 		`json:"captured_amount"`
 	Currency    		string       		`json:"currency"`
 	Description 		*string      		`json:"description"`
 

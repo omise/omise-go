@@ -63,7 +63,7 @@ type CreateCharge struct {
 	Metadata                 map[string]interface{} 	`json:"metadata,omitempty"`
 	ExpiresAt                *time.Time             	`json:"expires_at,omitempty"`
 	ZeroInterestInstallments *bool                  	`json:"zero_interest_installments,omitempty"`
-	AuthorizationType		 *omise.AuthorizationType	`json:"authorization_type,omitempty"`
+	AuthorizationType		 omise.AuthorizationType	`json:"authorization_type,omitempty"`
 }
 
 func (req *CreateCharge) MarshalJSON() ([]byte, error) {
