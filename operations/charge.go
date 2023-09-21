@@ -150,7 +150,7 @@ func (req *RetrieveCharge) Describe() *internal.Description {
 //	fmt.Println("captured:", charge.Captured)
 type CaptureCharge struct {
 	ChargeID      string  `json:"-"`
-	CaptureAmount *int64  `json:"capture_amount,omitempty"`
+	CaptureAmount int64  `json:"capture_amount,omitempty"`
 }
 
 func (req *CaptureCharge) Describe() *internal.Description {
