@@ -94,6 +94,11 @@ func TestClient_Request(t *testing.T) {
 	r.NoError(t, err)
 	r.Contains(t, req.Header.Get("User-Agent"), "Go/RANDOMXXXVERSION")
 	r.Equal(t, req.Header.Get("Omise-Version"), "yadda")
+
+	client.WithUserAgent("OmiseShopify/2.0.0 CheckoutPage/1.0.0")
+	req, err = client.Request(desc)
+	r.NoError(t, err)
+	r.Contains(t, req.Header.Get("User-Agent"), "OmiseShopify/2.0.0 CheckoutPage/1.0.0")
 }
 
 func TestClient_Error(t *testing.T) {

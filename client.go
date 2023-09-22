@@ -32,6 +32,7 @@ type Client struct {
 	GoVersion     string
 	customHeaders map[string]string
 	ctx           context.Context
+	userAgent     string
 }
 
 // NewClient creates and returns a Client with the given public key and secret key.  Signs
@@ -77,6 +78,11 @@ func (c *Client) WithContext(ctx context.Context) {
 	}
 }
 
+// WithUserAgent feature allows us to append additional userAgent information to the original user agent.
+func (c *Client) WithUserAgent(userAgent string) {
+	c.userAgent = userAgent
+}
+
 // Request creates a new *http.Request that should performs the supplied Operation. Most
 // people should use the Do method instead.
 func (c *Client) Request(operation internal.Operation) (req *http.Request, err error) {
@@ -116,7 +122,8 @@ func (c *Client) buildJSONRequest(operation internal.Operation) (*http.Request, 
 }
 
 func (c *Client) setRequestHeaders(req *http.Request, desc *internal.Description) error {
-	ua := "OmiseGo/" + libraryVersion
+	ua := c.userAgent
+	ua += " OmiseGo/" + libraryVersion
 	if c.GoVersion != "" {
 		ua += " Go/" + c.GoVersion
 	}
@@ -125,7 +132,7 @@ func (c *Client) setRequestHeaders(req *http.Request, desc *internal.Description
 		req.Header.Add("Content-Type", desc.ContentType)
 	}
 
-	req.Header.Add("User-Agent", ua)
+	req.Header.Add("User-Agent", strings.TrimSpace(ua))
 	if c.APIVersion != "" {
 		req.Header.Add("Omise-Version", c.APIVersion)
 	}
