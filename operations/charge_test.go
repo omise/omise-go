@@ -85,11 +85,11 @@ func TestRetrieveCharge_BillPayment(t *testing.T) {
 
 func TestCharge(t *testing.T) {
 	const (
-		ChargeID      		   = "chrg_test_4yq7duw15p9hdrjp8oq"
+		ChargeID               = "chrg_test_4yq7duw15p9hdrjp8oq"
 		ChargeIdPartialCapture = "chrg_test_5x1753iuub61dfe41q4"
-		TransactionID 		   = "trxn_test_4yq7duwb9jts1vxgqua"
-		CardID        		   = "card_test_4yq6tuucl9h4erukfl0"
-		RefundID      		   = "rfnd_test_4yqmv79ahghsiz23y3c"
+		TransactionID          = "trxn_test_4yq7duwb9jts1vxgqua"
+		CardID                 = "card_test_4yq6tuucl9h4erukfl0"
+		RefundID               = "rfnd_test_4yqmv79ahghsiz23y3c"
 	)
 
 	client := testutil.NewFixedClient(t)

@@ -51,19 +51,19 @@ func (req *ListCharges) Describe() *internal.Description {
 //
 //	fmt.Println("created charge:", charge.ID)
 type CreateCharge struct {
-	Customer                 string                 	`json:"customer,omitempty"`
-	Card                     string                 	`json:"card,omitempty"`
-	Source                   string                 	`json:"source,omitempty"`
-	Amount                   int64                  	`json:"amount"`
-	Currency                 string                 	`json:"currency"`
-	Offsite                  omise.OffsiteTypes     	`json:"offsite,omitempty"`
-	Description              string                 	`json:"description,omitempty"`
-	DontCapture              bool                   	`json:"-"` // inverse, since `capture` defaults to true
-	ReturnURI                string                 	`json:"return_uri,omitempty"`
-	Metadata                 map[string]interface{} 	`json:"metadata,omitempty"`
-	ExpiresAt                *time.Time             	`json:"expires_at,omitempty"`
-	ZeroInterestInstallments *bool                  	`json:"zero_interest_installments,omitempty"`
-	AuthorizationType		 omise.AuthorizationType	`json:"authorization_type,omitempty"`
+	Customer                 string                     `json:"customer,omitempty"`
+	Card                     string                     `json:"card,omitempty"`
+	Source                   string                     `json:"source,omitempty"`
+	Amount                   int64                      `json:"amount"`
+	Currency                 string                     `json:"currency"`
+	Offsite                  omise.OffsiteTypes         `json:"offsite,omitempty"`
+	Description              string                     `json:"description,omitempty"`
+	DontCapture              bool                       `json:"-"` // inverse, since `capture` defaults to true
+	ReturnURI                string                     `json:"return_uri,omitempty"`
+	Metadata                 map[string]interface{}     `json:"metadata,omitempty"`
+	ExpiresAt                *time.Time                 `json:"expires_at,omitempty"`
+	ZeroInterestInstallments *bool                      `json:"zero_interest_installments,omitempty"`
+	AuthorizationType        omise.AuthorizationType    `json:"authorization_type,omitempty"`
 }
 
 func (req *CreateCharge) MarshalJSON() ([]byte, error) {
@@ -150,7 +150,7 @@ func (req *RetrieveCharge) Describe() *internal.Description {
 //	fmt.Println("captured:", charge.Captured)
 type CaptureCharge struct {
 	ChargeID      string  `json:"-"`
-	CaptureAmount int64  `json:"capture_amount,omitempty"`
+	CaptureAmount int64   `json:"capture_amount,omitempty"`
 }
 
 func (req *CaptureCharge) Describe() *internal.Description {
