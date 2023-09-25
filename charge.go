@@ -6,10 +6,13 @@ import "time"
 // See https://www.omise.co/charges-api for more information.
 type Charge struct {
 	Base
-	Status      ChargeStatus `json:"status"`
-	Amount      int64        `json:"amount"`
-	Currency    string       `json:"currency"`
-	Description *string      `json:"description"`
+	Status              ChargeStatus        `json:"status"`
+	Amount              int64               `json:"amount"`
+	AuthorizationType   AuthorizationType   `json:"authorization_type"`
+	AuthorizedAmount    int64               `json:"authorized_amount"`
+	CapturedAmount      int64               `json:"captured_amount"`
+	Currency            string              `json:"currency"`
+	Description         *string             `json:"description"`
 
 	Capture    bool `json:"capture"`
 	Authorized bool `json:"authorized"`

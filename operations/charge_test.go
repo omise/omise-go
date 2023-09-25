@@ -31,6 +31,24 @@ func TestCreateChargeMarshal(t *testing.T) {
 			},
 			`{"amount":10000,"currency":"thb","capture":false}`,
 		},
+		{
+			&CreateCharge{
+				Amount:      10000,
+				Currency:    "thb",
+				DontCapture: true,
+				AuthorizationType: omise.PreAuth,
+			},
+			`{"amount":10000,"currency":"thb","authorization_type":"pre_auth","capture":false}`,
+		},
+		{
+			&CreateCharge{
+				Amount:      10000,
+				Currency:    "thb",
+				DontCapture: true,
+				AuthorizationType: omise.FinalAuth,
+			},
+			`{"amount":10000,"currency":"thb","authorization_type":"final_auth","capture":false}`,
+		},
 	}
 	for _, td := range testdata {
 		b, err := json.Marshal(td.req)
@@ -67,10 +85,11 @@ func TestRetrieveCharge_BillPayment(t *testing.T) {
 
 func TestCharge(t *testing.T) {
 	const (
-		ChargeID      = "chrg_test_4yq7duw15p9hdrjp8oq"
-		TransactionID = "trxn_test_4yq7duwb9jts1vxgqua"
-		CardID        = "card_test_4yq6tuucl9h4erukfl0"
-		RefundID      = "rfnd_test_4yqmv79ahghsiz23y3c"
+		ChargeID               = "chrg_test_4yq7duw15p9hdrjp8oq"
+		ChargeIdPartialCapture = "chrg_test_5x1753iuub61dfe41q4"
+		TransactionID          = "trxn_test_4yq7duwb9jts1vxgqua"
+		CardID                 = "card_test_4yq6tuucl9h4erukfl0"
+		RefundID               = "rfnd_test_4yqmv79ahghsiz23y3c"
 	)
 
 	client := testutil.NewFixedClient(t)
@@ -78,6 +97,21 @@ func TestCharge(t *testing.T) {
 	charge := &omise.Charge{}
 	client.MustDo(charge, &CreateCharge{})
 	r.Equal(t, ChargeID, charge.ID)
+	r.Equal(t, true, charge.Capture)
+	r.Equal(t, omise.AuthorizationType(""), charge.AuthorizationType)
+	r.Equal(t, int64(0), charge.CapturedAmount)
+	r.Equal(t, int64(0), charge.AuthorizedAmount)
+
+	//partial capture
+	charge = &omise.Charge{}
+	client.MustDo(charge, &RetrieveCharge{ChargeIdPartialCapture})
+	r.Equal(t, ChargeIdPartialCapture, charge.ID)
+	r.Equal(t, false, charge.Capture)
+	r.Equal(t, omise.PreAuth, charge.AuthorizationType)
+	r.Equal(t, int64(5000), charge.CapturedAmount)
+	r.Equal(t, int64(10000), charge.AuthorizedAmount)
+	r.Equal(t, int64(10000), charge.Amount)
+
 
 	charge = &omise.Charge{}
 	client.MustDo(charge, &RetrieveCharge{ChargeID})
