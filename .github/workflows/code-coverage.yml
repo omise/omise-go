@@ -8,7 +8,6 @@ jobs:
     name: SonarCloud
     runs-on: ubuntu-latest
     env:
-      GOPATH: '/home/runner/work/omise-go/go'
       WORKDIR: src/github.com/${{ github.repository }}
 
     strategy:
@@ -44,6 +43,7 @@ jobs:
         env:
           OMISE_PKEY: pkey_test_xxx
           OMISE_SKEY: skey_test_xxx
+          GOPATH: ${{ github.workspace }}
         run: .github/scripts/code-coverage.sh
 
       - name: SonarCloud Scan
