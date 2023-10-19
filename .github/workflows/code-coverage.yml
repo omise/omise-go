@@ -8,7 +8,7 @@ jobs:
     name: SonarCloud
     runs-on: ubuntu-latest
     env:
-      # GOPATH: ${{ github.workspace }}
+      GOPATH: '/home/runner/work/omise-go/go'
       WORKDIR: src/github.com/${{ github.repository }}
 
     strategy:
