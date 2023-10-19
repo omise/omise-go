@@ -8,26 +8,32 @@ jobs:
     name: SonarCloud
     runs-on: ubuntu-latest
     env:
-      GOPATH: ${{ github.workspace }}
+      # GOPATH: ${{ github.workspace }}
       WORKDIR: src/github.com/${{ github.repository }}
 
     strategy:
       matrix:
         go: [ '1.21', '1.20', '1.19', '1.18', '1.17' ]
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
       - name: Set up Go ${{ matrix.go }}
         uses: actions/setup-go@v4
         with:
           go-version: ${{ matrix.go }}
 
       - name: Check out code into the Go module directory
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
+          fetch-depth: 0
           path: ${{ env.WORKDIR }}
+      - name: Debug
+        run: |
+          pwd
+          echo ${HOME}
+          echo ${GITHUB_WORKSPACE}
+          echo ${GOPATH}
+          echo ${GOROOT}
+          echo ${{github.workspace}}
+          echo src/github.com/${{github.repository}}
 
       - name: Build
         working-directory: ${{ env.WORKDIR }}
