@@ -7,6 +7,9 @@ jobs:
   sonarcloud:
     name: SonarCloud
     runs-on: ubuntu-latest
+    env:
+      GOPATH: ${{ github.workspace }}
+      WORKDIR: src/github.com/${{ github.repository }}
 
     strategy:
       matrix:
@@ -21,10 +24,17 @@ jobs:
         with:
           go-version: ${{ matrix.go }}
 
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v2
+        with:
+          path: ${{ env.WORKDIR }}
+
       - name: Build
+        working-directory: ${{ env.WORKDIR }}
         run: .github/scripts/setup.sh
 
       - name: Generate coverage
+        working-directory: ${{ env.WORKDIR }}
         env:
           OMISE_PKEY: pkey_test_xxx
           OMISE_SKEY: skey_test_xxx
