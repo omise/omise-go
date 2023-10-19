@@ -6,7 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"go/build"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"strings"
 
@@ -178,7 +178,7 @@ func (c *Client) Do(result interface{}, operation internal.Operation) error {
 		return err
 	}
 
-	buffer, err := ioutil.ReadAll(resp.Body)
+	buffer, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return &ErrTransport{err, buffer}
 	}

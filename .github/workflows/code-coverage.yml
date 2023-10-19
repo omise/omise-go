@@ -10,6 +10,10 @@ jobs:
     env:
       GOPATH: ${{ github.workspace }}
       WORKDIR: src/github.com/${{ github.repository }}
+
+    strategy:
+      matrix:
+        go: [ '1.19', '1.18', '1.17', '1.16', '1.15', '1.14', '1.13', '1.12' ]
     steps:
       - uses: actions/checkout@v3
         with:
@@ -18,7 +22,7 @@ jobs:
       - name: Set up Go ${{ matrix.go }}
         uses: actions/setup-go@v4
         with:
-          go-version: "1.15" # Old Go version needed to run "go test"
+          go-version: ${{ matrix.go }}
 
       - name: Check out code into the Go module directory
         uses: actions/checkout@v2
