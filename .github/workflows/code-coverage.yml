@@ -43,6 +43,8 @@ jobs:
         env:
           OMISE_PKEY: pkey_test_xxx
           OMISE_SKEY: skey_test_xxx
+          # moving GOPATH env here because having it in the top affected  "Set up Go" step
+          #  with error: Command failed: go env GOPATH $GOPATH/go.mod exists but should not
           GOPATH: ${{ github.workspace }}
         run: .github/scripts/code-coverage.sh
 
