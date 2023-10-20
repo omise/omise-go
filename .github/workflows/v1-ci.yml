@@ -2,7 +2,6 @@ name: omise-go v1
 
 on:
   push:
-    branches: [ master ]
   pull_request:
     branches: [ master ]
 
@@ -11,12 +10,11 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     env:
-      GOPATH: ${{ github.workspace }}
       WORKDIR: src/github.com/${{ github.repository }}
 
     strategy:
       matrix:
-        go: [ '1.15', '1.14', '1.13', '1.12' ]
+        go: [ '1.21', '1.20', '1.19', '1.18', '1.17' ]
 
     steps:
 
@@ -39,4 +37,5 @@ jobs:
       env:
         OMISE_PKEY: pkey_test_xxx
         OMISE_SKEY: skey_test_xxx
+        GOPATH: ${{ github.workspace }}
       run: .github/scripts/test.sh
