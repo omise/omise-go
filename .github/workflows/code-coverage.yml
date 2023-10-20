@@ -8,24 +8,22 @@ jobs:
     name: SonarCloud
     runs-on: ubuntu-latest
     env:
+      GOPATH: ${{ github.workspace }}
       WORKDIR: src/github.com/${{ github.repository }}
 
     strategy:
       matrix:
         go: [ '1.21', '1.20', '1.19', '1.18', '1.17' ]
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          path: ${{ env.WORKDIR }}
       - name: Set up Go ${{ matrix.go }}
         uses: actions/setup-go@v4
         with:
           go-version: ${{ matrix.go }}
-          cache: false
+
       - name: Check out code into the Go module directory
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
+          fetch-depth: 0
           path: ${{ env.WORKDIR }}
 
       - name: golangci-lint
@@ -33,16 +31,6 @@ jobs:
         with:
           version: v1.54
           working-directory: ${{ env.WORKDIR }}
-          
-      - name: Debug
-        run: |
-          pwd
-          echo ${HOME}
-          echo ${GITHUB_WORKSPACE}
-          echo ${GOPATH}
-          echo ${GOROOT}
-          echo ${{github.workspace}}
-          echo src/github.com/${{github.repository}}
 
       - name: Build
         working-directory: ${{ env.WORKDIR }}
@@ -53,18 +41,12 @@ jobs:
         env:
           OMISE_PKEY: pkey_test_xxx
           OMISE_SKEY: skey_test_xxx
-          # moving GOPATH env here because having it in the top affected  "Set up Go" step
-          #  with error: Command failed: go env GOPATH $GOPATH/go.mod exists but should not
-          GOPATH: ${{ github.workspace }}
         run: .github/scripts/code-coverage.sh
 
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          path: ${{ env.WORKDIR }}
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
+        with:
+          projectBaseDir: ${{ env.WORKDIR }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          GOPATH: ${{ github.workspace }}
