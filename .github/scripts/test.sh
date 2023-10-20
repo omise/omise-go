@@ -37,9 +37,7 @@ perform() {
 }
 
 check go                       "needs go from http://golang.org"
-check $GOPATH/bin/gometalinter "needs gometalinter from https://github.com/alecthomas/gometalinter"
 
-perform linters    gometalinter --fast --aggregate
 perform tests      go test ./...
 
 echo "\x1B[38;5;2msuccess.\x1B[0m"

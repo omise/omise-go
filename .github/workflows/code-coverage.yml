@@ -14,16 +14,22 @@ jobs:
       matrix:
         go: [ '1.21', '1.20', '1.19', '1.18', '1.17' ]
     steps:
-      - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v4
-        with:
-          go-version: ${{ matrix.go }}
-
       - name: Check out code into the Go module directory
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
           path: ${{ env.WORKDIR }}
+      - name: Set up Go ${{ matrix.go }}
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ matrix.go }}
+          cache: false
+
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: v1.54
+
       - name: Debug
         run: |
           pwd
