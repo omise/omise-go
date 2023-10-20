@@ -28,7 +28,7 @@ func Main(m *testing.M) {
 }
 
 func LogObj(t *testing.T, obj interface{}) {
-	t.Log(fmt.Sprintf("%#v", obj))
+	t.Logf(fmt.Sprintf("%#v", obj))
 }
 
 func Require(t *testing.T, env string) {

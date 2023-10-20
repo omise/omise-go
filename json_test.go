@@ -2,7 +2,7 @@ package omise_test
 
 import (
 	"encoding/json"
-	"io/ioutil"
+	"os"
 	"reflect"
 	"testing"
 
@@ -37,7 +37,7 @@ type JSONRoundtripTest struct {
 func (test JSONRoundtripTest) Test(t *testing.T) {
 	t.Log(reflect.ValueOf(test.value).Elem().Type().Name())
 
-	inbytes, err := ioutil.ReadFile("testdata/objects/" + test.srcFile)
+	inbytes, err := os.ReadFile("testdata/objects/" + test.srcFile)
 	r.NoError(t, err)
 
 	err = json.Unmarshal(inbytes, test.value)

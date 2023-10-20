@@ -1,8 +1,9 @@
 package testutil
 
 import (
-	"io/ioutil"
+	"io"
 	"net/http"
+	"os"
 	"path/filepath"
 	"testing"
 
@@ -39,10 +40,10 @@ func (test *fixturesHTTPTest) Test(t *testing.T) {
 	r.Equal(t, test.statusCode, resp.StatusCode)
 
 	defer resp.Body.Close()
-	respBytes, err := ioutil.ReadAll(resp.Body)
+	respBytes, err := io.ReadAll(resp.Body)
 	r.NoError(t, err)
 
-	fixBytes, err := ioutil.ReadFile(filepath.Join(FixtureBasePath, test.filename))
+	fixBytes, err := os.ReadFile(filepath.Join(FixtureBasePath, test.filename))
 	r.NoError(t, err)
 	r.Equal(t, string(fixBytes), string(respBytes))
 }

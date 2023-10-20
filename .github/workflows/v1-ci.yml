@@ -2,6 +2,7 @@ name: omise-go v1
 
 on:
   push:
+    branches: [ master ]
   pull_request:
     branches: [ master ]
 

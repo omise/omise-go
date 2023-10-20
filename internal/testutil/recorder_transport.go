@@ -3,7 +3,6 @@ package testutil
 import (
 	"bytes"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -37,12 +36,12 @@ func (transport *RecorderTransport) RoundTrip(req *http.Request) (*http.Response
 	reader := resp.Body
 	defer reader.Close()
 
-	buffer, err := ioutil.ReadAll(reader)
+	buffer, err := io.ReadAll(reader)
 	if err != nil {
 		return resp, err
 	}
 
-	resp.Body = ioutil.NopCloser(bytes.NewBuffer(buffer))
+	resp.Body = io.NopCloser(bytes.NewBuffer(buffer))
 	if _, err := io.Copy(file, bytes.NewBuffer(buffer)); err != nil {
 		return resp, err
 	}
