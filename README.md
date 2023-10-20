@@ -1,16 +1,14 @@
 # OMISE GO CLIENT
 
 [![GoDoc](https://godoc.org/github.com/omise/omise-go?status.svg)][0]
-![omise-go v1](https://github.com/omise/omise-go/workflows/omise-go%20v1/badge.svg)
+[![omise-go v1](https://github.com/omise/omise-go/actions/workflows/v1-ci.yml/badge.svg)](https://github.com/omise/omise-go/actions/workflows/v1-ci.yml)
 
-Omise is a payment service provider currently operating in Thailand. Omise provides a set
-of clean APIs that helps merchants of any size accept credit cards online.
-
-This library offers GO integration to the Omise API.
+Opn Payments helps merchants of any size accept payments online.
+This library offers Go integration to the Opn Payments API.
 
 Install with:
 
-```go
+```sh
 go get github.com/omise/omise-go
 ```
 
@@ -22,11 +20,11 @@ have a valid PCI-DSS Attestation of Compliance (AoC) delivered by a certified QS
 Auditor.**
 
 Instead we recommend that you follow our guide on how to safely
-[collect credit information](https://www.omise.co/collecting-card-information).
+[collect credit information](https://docs.opn.ooo/collecting-card-information).
 
 # USAGE
 
-See [godoc.org][0] in tandem with the [Omise API Documentation][1] for usage instruction.
+See [godoc.org][0] in tandem with the [Opn Payments API Documentation][1] for usage instruction.
 
 Example:
 
@@ -42,8 +40,8 @@ import (
 
 const (
 	// Read these from environment variables or configuration files!
-	OmisePublicKey = "pkey_test_521w1g1t7w4x4rd22z0"
-	OmiseSecretKey = "skey_test_521w1g1t6yh7sx4pu8n"
+	OmisePublicKey = "pkey_test_no1t4tnemucod0e51mo"
+	OmiseSecretKey = "skey_test_no1t4tnemucod0e51mo"
 )
 
 func main() {
@@ -54,18 +52,18 @@ func main() {
 
   /** Retrieve a token from a request
    * A token should be created from a client side by using our client-side libraries
-   * https://www.omise.co/libraries#client-side-libraries
+   * https://docs.opn.ooo/libraries#client-side-libraries
    * More information:
-   * - https://www.omise.co/collecting-card-information
-   * - https://www.omise.co/security-best-practices
+   * - https://docs.opn.ooo/collecting-card-information
+   * - https://docs.opn.ooo/security-best-practices
    **/
-	token := "tokn_xxxxxxxxxxxxx"
+	token := "tokn_test_no1t4tnemucod0e51mo"
 
 	// Creates a charge from the token
 	charge, createCharge := &omise.Charge{}, &operations.CreateCharge{
 		Amount:   100000, // ฿ 1,000.00
 		Currency: "thb",
-		Card:     token.ID,
+		Card:     token,
 	}
 	if e := client.Do(charge, createCharge); e != nil {
 		log.Fatal(e)
@@ -79,7 +77,7 @@ func main() {
 
 You can choose which API version to use with Omise. Each new API version has new features
 and might not be compatible with previous versions. You can change the default version by
-visiting your Omise Dashboard.
+visiting your Opn Payments Dashboard.
 
 The version configured here will have higher priority than the version set in your Omise
 account. This is useful if you have multiple environments with different API versions for
@@ -90,13 +88,12 @@ client.APIVersion = "2015-11-06"
 ```
 
 It is highly recommended to set this version to the current version you're using. You can
-learn more about this feature in our [versioning
-guide](https://www.omise.co/api-versioning).
+learn more about this feature in our [versioning guide](https://docs.opn.ooo/api-versioning).
 
 # LICENSE
 
 See [LICENSE][2] file.
 
 [0]: https://godoc.org/github.com/omise/omise-go
-[1]: https://www.omise.co/docs
+[1]: https://docs.opn.ooo
 [2]: https://raw.githubusercontent.com/omise/omise-go/master/LICENSE
