@@ -29,7 +29,8 @@ jobs:
         uses: golangci/golangci-lint-action@v3
         with:
           version: v1.54
-
+          working-directory: ${{ env.WORKDIR }}
+          
       - name: Debug
         run: |
           pwd
