@@ -1,7 +1,7 @@
 # OMISE GO CLIENT
 
 [![GoDoc](https://godoc.org/github.com/omise/omise-go?status.svg)][0]
-![omise-go v1](https://github.com/omise/omise-go/workflows/omise-go%20v1/badge.svg)
+[![omise-go v1](https://github.com/omise/omise-go/actions/workflows/v1-ci.yml/badge.svg)](https://github.com/omise/omise-go/actions/workflows/v1-ci.yml)
 
 Opn Payments helps merchants of any size accept payments online.
 This library offers Go integration to the Opn Payments API.
