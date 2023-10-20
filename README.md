@@ -3,10 +3,8 @@
 [![GoDoc](https://godoc.org/github.com/omise/omise-go?status.svg)][0]
 ![omise-go v1](https://github.com/omise/omise-go/workflows/omise-go%20v1/badge.svg)
 
-Omise is a payment service provider currently operating in Thailand. Omise provides a set
-of clean APIs that helps merchants of any size accept credit cards online.
-
-This library offers GO integration to the Omise API.
+Opn Payments helps merchants of any size accept payments online.
+This library offers Go integration to the Opn Payments API.
 
 Install with:
 
@@ -26,7 +24,7 @@ Instead we recommend that you follow our guide on how to safely
 
 # USAGE
 
-See [godoc.org][0] in tandem with the [Omise API Documentation][1] for usage instruction.
+See [godoc.org][0] in tandem with the [Opn Payments API Documentation][1] for usage instruction.
 
 Example:
 
@@ -79,7 +77,7 @@ func main() {
 
 You can choose which API version to use with Omise. Each new API version has new features
 and might not be compatible with previous versions. You can change the default version by
-visiting your Omise Dashboard.
+visiting your Opn Payments Dashboard.
 
 The version configured here will have higher priority than the version set in your Omise
 account. This is useful if you have multiple environments with different API versions for
@@ -90,8 +88,7 @@ client.APIVersion = "2015-11-06"
 ```
 
 It is highly recommended to set this version to the current version you're using. You can
-learn more about this feature in our [versioning
-guide](https://docs.opn.ooo/api-versioning).
+learn more about this feature in our [versioning guide](https://docs.opn.ooo/api-versioning).
 
 # LICENSE
 
