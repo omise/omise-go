@@ -8,7 +8,7 @@ This library offers Go integration to the Opn Payments API.
 
 Install with:
 
-```go
+```sh
 go get github.com/omise/omise-go
 ```
 
