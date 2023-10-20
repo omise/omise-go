@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        go: [ '1.21', '1.20', '1.19', '1.18', '1.17', '1.16' ]
+        go: [ '1.21', '1.20', '1.19', '1.18', '1.17', '1.16', '1.15', '1.6' ]
     steps:
       - name: Set up Go ${{ matrix.go }}
         uses: actions/setup-go@v4
