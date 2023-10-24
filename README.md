@@ -28,7 +28,6 @@ OmiseGO version `v1.2.0` and up is designed to work with Go version 1.16 or high
 
 If you are using an older version of Go, please consider upgrading to a compatible version to use this project effectively.
 
-
 # USAGE
 
 See [godoc.org][0] in tandem with the [Opn Payments API Documentation][1] for usage instruction.
