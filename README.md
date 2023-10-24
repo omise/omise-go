@@ -24,7 +24,7 @@ Instead we recommend that you follow our guide on how to safely
 
 ## Compatibility
 
-OmiseGO version `v1.2.0` and up is designed to work with Go version 1.16 or higher. It is not compatible with Go versions 1.15 and below.
+The version `v1.2.0` and up of this package is designed to work with Go version 1.16 or higher. It is not compatible with Go versions 1.15 and below.
 
 If you are using an older version of Go, please consider upgrading to a compatible version to use this project effectively.
 
