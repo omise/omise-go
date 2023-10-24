@@ -22,6 +22,12 @@ Auditor.**
 Instead we recommend that you follow our guide on how to safely
 [collect credit information](https://docs.opn.ooo/collecting-card-information).
 
+## Compatibility
+
+Version `v1.2.0` and up of this package is designed to work with Go version 1.16 or higher. It is not compatible with Go versions 1.15 and below.
+
+If you are using an older version of Go, please consider upgrading to a compatible version to use this project effectively.
+
 # USAGE
 
 See [godoc.org][0] in tandem with the [Opn Payments API Documentation][1] for usage instruction.
