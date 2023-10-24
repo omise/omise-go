@@ -38,6 +38,6 @@ perform() {
 
 check go                       "needs go from http://golang.org"
 
-perform tests      go test ./...
+perform tests      go test -v ./...
 
 echo "\x1B[38;5;2msuccess.\x1B[0m"
