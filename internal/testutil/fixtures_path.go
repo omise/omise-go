@@ -1,26 +1,26 @@
 package testutil
 
 import (
-	"go/build"
 	"net/http"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 )
 
-var FixtureBasePath = filepath.Join(
-	build.Default.GOPATH,
-	"src",
-	"github.com/omise/omise-go",
-	"testdata/fixtures",
-)
+func FixtureBasePath() string {
+	_, b, _, _ := runtime.Caller(0)
+	parentDir := strings.Replace(filepath.Dir(b), "internal/testutil", "", -1)
+	return filepath.Join(parentDir, "testdata/fixtures")
+}
 
 func FixturePath(req *http.Request) (int, string, error) {
 	fixpath := req.URL.Host + "/" +
 		req.URL.Path[1:] + "-" + strings.ToLower(req.Method) + ".json"
 
 	// resolve exact fixture filename
-	filename := filepath.Join(FixtureBasePath, fixpath)
+	filename := filepath.Join(FixtureBasePath(), fixpath)
+
 	if _, err := os.Lstat(filename); err != nil {
 		if !os.IsNotExist(err) {
 			return 500, "", err

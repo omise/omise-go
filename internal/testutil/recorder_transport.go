@@ -28,7 +28,7 @@ func (transport *RecorderTransport) RoundTrip(req *http.Request) (*http.Response
 		return resp, err
 	}
 
-	file, err := os.Create(filepath.Join(FixtureBasePath, fixpath))
+	file, err := os.Create(filepath.Join(FixtureBasePath(), fixpath))
 	if err != nil {
 		return resp, err
 	}

@@ -43,7 +43,7 @@ func (test *fixturesHTTPTest) Test(t *testing.T) {
 	respBytes, err := io.ReadAll(resp.Body)
 	r.NoError(t, err)
 
-	fixBytes, err := os.ReadFile(filepath.Join(FixtureBasePath, test.filename))
+	fixBytes, err := os.ReadFile(filepath.Join(FixtureBasePath(), test.filename))
 	r.NoError(t, err)
 	r.Equal(t, string(fixBytes), string(respBytes))
 }

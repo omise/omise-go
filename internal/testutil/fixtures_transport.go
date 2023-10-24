@@ -12,7 +12,7 @@ type FixturesTransport struct {
 }
 
 func NewFixturesTransport() (*FixturesTransport, error) {
-	backing := http.NewFileTransport(http.Dir(FixtureBasePath))
+	backing := http.NewFileTransport(http.Dir(FixtureBasePath()))
 	return &FixturesTransport{backing}, nil
 }
 
