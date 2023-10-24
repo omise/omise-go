@@ -1,3 +1,3 @@
 #!/bin/sh
 GOPATH=`go env GOPATH 2>/dev/null`
-go test ./...  -coverprofile cover.out
+go test -v ./...  -coverprofile cover.out

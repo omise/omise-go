@@ -14,16 +14,6 @@ import (
 	r "github.com/stretchr/testify/require"
 )
 
-var createTokenOp = &operations.CreateToken{
-	Name:            "Chakrit Wichian",
-	Number:          "4242424242424242",
-	ExpirationMonth: 2,
-	ExpirationYear:  2018,
-	SecurityCode:    "123",
-	City:            "Bangkok",
-	PostalCode:      "10210",
-}
-
 func TestNewClient(t *testing.T) {
 	pkey, skey := testutil.Keys()
 
