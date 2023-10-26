@@ -38,6 +38,6 @@ perform() {
 
 check go                       "needs go from http://golang.org"
 
-perform tests      go test -v ./...
+perform tests      go test -v ./... -coverprofile cover.out
 
 echo "\x1B[38;5;2msuccess.\x1B[0m"
