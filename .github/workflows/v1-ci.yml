@@ -48,6 +48,9 @@ jobs:
           GOPATH: ${{ github.workspace }}
         run: .github/scripts/test.sh
 
+      - name: check
+        run: cat src/github.com/omise/omise-go/cover.out
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         if: matrix.go == '1.21'
