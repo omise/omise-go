@@ -47,3 +47,12 @@ jobs:
           OMISE_SKEY: skey_test_xxx
           GOPATH: ${{ github.workspace }}
         run: .github/scripts/test.sh
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        if: go.version == '1.21'
+        with:
+          projectBaseDir: ${{ env.WORKDIR }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
