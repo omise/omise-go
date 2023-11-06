@@ -33,21 +33,29 @@ func TestCreateChargeMarshal(t *testing.T) {
 		},
 		{
 			&CreateCharge{
-				Amount:      10000,
-				Currency:    "thb",
-				DontCapture: true,
+				Amount:            10000,
+				Currency:          "thb",
+				DontCapture:       true,
 				AuthorizationType: omise.PreAuth,
 			},
 			`{"amount":10000,"currency":"thb","authorization_type":"pre_auth","capture":false}`,
 		},
 		{
 			&CreateCharge{
-				Amount:      10000,
-				Currency:    "thb",
-				DontCapture: true,
+				Amount:            10000,
+				Currency:          "thb",
+				DontCapture:       true,
 				AuthorizationType: omise.FinalAuth,
 			},
 			`{"amount":10000,"currency":"thb","authorization_type":"final_auth","capture":false}`,
+		},
+		{
+			&CreateCharge{
+				Amount:           10000,
+				Currency:         "thb",
+				WebhookEndpoints: []string{"https://docs.opn.ooo/api-webhooks"},
+			},
+			`{"amount":10000,"currency":"thb","webhook_endpoints":["https://docs.opn.ooo/api-webhooks"]}`,
 		},
 	}
 	for _, td := range testdata {
@@ -111,7 +119,6 @@ func TestCharge(t *testing.T) {
 	r.Equal(t, int64(5000), charge.CapturedAmount)
 	r.Equal(t, int64(10000), charge.AuthorizedAmount)
 	r.Equal(t, int64(10000), charge.Amount)
-
 
 	charge = &omise.Charge{}
 	client.MustDo(charge, &RetrieveCharge{ChargeID})
