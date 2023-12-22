@@ -79,7 +79,7 @@ func main() {
 }
 ```
 
-## API Version
+## API version
 
 You can choose the API version to use with Opn Payments. Each new API version has new features
 and might not be compatible with previous versions. You can change the default version by
