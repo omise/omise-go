@@ -12,7 +12,7 @@ Install with:
 go get github.com/omise/omise-go
 ```
 
-# Compliance warning
+## Compliance warning
 
 Card data should never transit through your server. This library provides the means to create
 tokens on the server side but should only be used for testing or **only if you currently
@@ -28,7 +28,7 @@ Version `v1.2.0` and higher of this package is designed to work with Go version 
 
 If you are using an older version of Go, please consider upgrading to a compatible version to use this library effectively.
 
-# Usage
+## Usage
 
 See [godoc.org][0] in tandem with the [Opn Payments API Documentation][1] for usage instructions.
 
@@ -79,7 +79,7 @@ func main() {
 }
 ```
 
-# API Version
+## API Version
 
 You can choose the API version to use with Opn Payments. Each new API version has new features
 and might not be compatible with previous versions. You can change the default version by
@@ -96,7 +96,7 @@ client.APIVersion = "2015-11-06"
 It is highly recommended to set this version to the current version that you are using. You can
 learn more about this feature in our [versioning guide](https://docs.opn.ooo/api-versioning).
 
-# License
+## License
 
 See [LICENSE][2] file.
 
