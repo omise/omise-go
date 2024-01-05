@@ -1,4 +1,4 @@
-# Omise GO Client
+# Omise Go Client
 
 [![GoDoc](https://godoc.org/github.com/omise/omise-go?status.svg)][0]
 [![omise-go v1](https://github.com/omise/omise-go/actions/workflows/v1-ci.yml/badge.svg)](https://github.com/omise/omise-go/actions/workflows/v1-ci.yml)
