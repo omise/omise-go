@@ -12,6 +12,11 @@ Install with:
 go get github.com/omise/omise-go
 ```
 
+## Security Warning
+
+**Please do NOT use Omise Go client versions less than 1.0.5, as they are outdated and have security vulnerabilities.**
+
+
 ## Compliance warning
 
 Card data should never transit through your server. This library provides the means to create
