@@ -1,4 +1,4 @@
-# Omise Go Client
+# Omise Go Library
 
 [![GoDoc](https://godoc.org/github.com/omise/omise-go?status.svg)][0]
 [![omise-go v1](https://github.com/omise/omise-go/actions/workflows/v1-ci.yml/badge.svg)](https://github.com/omise/omise-go/actions/workflows/v1-ci.yml)
@@ -11,6 +11,11 @@ Install with:
 ```sh
 go get github.com/omise/omise-go
 ```
+
+## Security Warning
+
+**Please do NOT use Omise Go library versions less than 1.0.5, as they are outdated and have security vulnerabilities.**
+
 
 ## Compliance warning
 
