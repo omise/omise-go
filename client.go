@@ -221,7 +221,7 @@ func (c *Client) checkRequiredFields(operation internal.Operation) error {
 
 	// Unmarshal JSON data into a map
 	var newResult map[string]interface{}
-	json.Unmarshal(b, &newResult)
+	err = json.Unmarshal(b, &newResult)
 
 	if err != nil {
 		return err
