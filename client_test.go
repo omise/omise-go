@@ -7,7 +7,6 @@ import (
 	"log"
 	"testing"
 
-	"github.com/omise/omise-go"
 	. "github.com/omise/omise-go"
 	"github.com/omise/omise-go/internal"
 	"github.com/omise/omise-go/internal/testutil"
@@ -140,34 +139,6 @@ func TestClient_WithContext(t *testing.T) {
 	account := &Account{}
 	client.MustDo(account, &operations.RetrieveAccount{})
 	r.Equal(t, account.ID, "acct_4yq6tcsyoged5c0ocxd")
-}
-
-func TestClient_WeChatPayError(t *testing.T) {
-	pkey, skey := testutil.Keys()
-	client, _ := NewClient(pkey, skey)
-
-	wechatSource, createSource := &omise.Source{}, &operations.CreateSource{
-		Type:     "wechat_pay",
-		Amount:   20000,
-		Currency: "thb",
-	}
-
-	err := client.Do(wechatSource, createSource)
-	r.NotNil(t, err)
-	r.Equal(t, err.Error(), "ip is required in the source")
-}
-
-func TestClient_WeChatPay(t *testing.T) {
-	client := testutil.NewFixedClient(t)
-
-	wechatSource, createSource := &omise.Source{}, &operations.CreateSource{
-		Type:     "wechat_pay",
-		Amount:   20000,
-		Currency: "thb",
-		Ip:       "192.168.1.1",
-	}
-
-	client.MustDo(wechatSource, createSource)
 }
 
 func ExampleClient_Do() {

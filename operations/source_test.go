@@ -60,6 +60,7 @@ func TestCreateSourceWithPlatformType(t *testing.T) {
 func TestCreateSourceWithIP(t *testing.T) {
 	const (
 		SourceID = "src_test_5mygxph6d55vvy8nn9i"
+		Ip       = "192.168.1.1"
 	)
 	client := testutil.NewFixedClient(t)
 
@@ -67,9 +68,10 @@ func TestCreateSourceWithIP(t *testing.T) {
 		Type:     "wechat_pay",
 		Amount:   20000,
 		Currency: "thb",
-		Ip:       "192.168.1.1",
+		Ip:       Ip,
 	}
 
 	client.MustDo(exampleSource, createSource)
 	r.Equal(t, SourceID, exampleSource.ID)
+	r.Equal(t, Ip, exampleSource.Ip)
 }

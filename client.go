@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"go/build"
 	"io"
@@ -163,12 +162,6 @@ func (c *Client) setRequestHeaders(req *http.Request, desc *internal.Description
 // non-nil error should be returned. Error maybe of the omise-go.Error struct type, in
 // which case you can further inspect the Code and Message field for more information.
 func (c *Client) Do(result interface{}, operation internal.Operation) error {
-	err := c.checkRequiredFields(operation)
-
-	if err != nil {
-		return err
-	}
-
 	req, err := c.Request(operation)
 
 	if err != nil {
@@ -208,27 +201,6 @@ func (c *Client) Do(result interface{}, operation internal.Operation) error {
 		if err := json.Unmarshal(buffer, result); err != nil {
 			return &ErrTransport{err, buffer}
 		}
-	}
-
-	return nil
-}
-
-func (c *Client) checkRequiredFields(operation internal.Operation) error {
-	b, err := json.Marshal(operation)
-	if err != nil {
-		return err
-	}
-
-	// Unmarshal JSON data into a map
-	var newResult map[string]interface{}
-	err = json.Unmarshal(b, &newResult)
-
-	if err != nil {
-		return err
-	}
-
-	if newResult["type"] == "wechat_pay" && (newResult["ip"] == nil) {
-		return errors.New("ip is required in the source")
 	}
 
 	return nil
