@@ -10,6 +10,7 @@
   "currency": "MYR",
   "email": "example@omise.co",
   "flow": "redirect",
+  "ip": "192.168.1.1",
   "installment_term": null,
   "name": null,
   "mobile_number": null,

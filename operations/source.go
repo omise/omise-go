@@ -16,7 +16,6 @@ import (
 //	}
 //
 //	fmt.Println("created source:", source.ID)
-//
 type CreateSource struct {
 	Type                     string `json:"type"`
 	Amount                   int64  `json:"amount"`
@@ -32,6 +31,7 @@ type CreateSource struct {
 	TerminalID               string `json:"terminal_id,omitempty"`
 	ZeroInterestInstallments bool   `json:"zero_interest_installments,omitempty"`
 	PlatformType             string `json:"platform_type,omitempty"`
+	Ip                       string `json:"ip,omitempty"`
 }
 
 func (req *CreateSource) Describe() *internal.Description {
@@ -52,7 +52,6 @@ func (req *CreateSource) Describe() *internal.Description {
 //	}
 //
 //	fmt.Printf("source #123: %#v\n", source)
-//
 type RetrieveSource struct {
 	SourceID string `json:"-"`
 }
