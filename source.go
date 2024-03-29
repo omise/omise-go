@@ -12,4 +12,5 @@ type Source struct {
 	References               *References    `json:"references"`
 	ZeroInterestInstallments bool           `json:"zero_interest_installments"`
 	PlatformType             string         `json:"platform_type"`
+	Ip                       string         `json:"ip"`
 }
