@@ -10,6 +10,7 @@ type Base struct {
 	Live     bool      `json:"livemode"`
 	Location *string   `json:"location"`
 	Created  time.Time `json:"created"`
+	CreatedAt  time.Time `json:"created_at"`
 }
 
 // Deletion struct is used to receive deletion responses from delete operations.

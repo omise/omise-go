@@ -13,18 +13,30 @@ import (
 
 func TestRefund(t *testing.T) {
 	const (
-		ChargeID      = "chrg_test_4yq7duw15p9hdrjp8oq"
-		TransactionID = "trxn_test_4yqmv79fzpy0gmz5mmq"
-		RefundID      = "rfnd_test_4yqmv79ahghsiz23y3c"
+		ChargeID        = "chrg_test_4yq7duw15p9hdrjp8oq"
+		TransactionID   = "trxn_test_4yqmv79fzpy0gmz5mmq"
+		RefundID        = "rfnd_test_4yqmv79ahghsiz23y3c"
+		Status          = "closed"
+		CreatedAt       = "2019-12-31T12:59:59Z"
+		FundingCurrency = "THB"
+		FundingAmount   = int64(10000)
 	)
 
 	client := testutil.NewFixedClient(t)
-
+	// Parse the expected created at time string
+    expectedCreatedAt, timeError := time.Parse(time.RFC3339, CreatedAt)
+	if timeError != nil {
+        t.Fatal("Error parsing created at time:", timeError)
+    }
 	refund := &omise.Refund{}
 	client.MustDo(refund, &RetrieveRefund{ChargeID, RefundID})
 	r.Equal(t, RefundID, refund.ID)
 	r.Equal(t, ChargeID, refund.Charge)
 	r.Equal(t, TransactionID, refund.Transaction)
+	r.Equal(t, Status, refund.Status)
+	r.Equal(t, expectedCreatedAt, refund.CreatedAt)
+	r.Equal(t, FundingCurrency, refund.FundingCurrency)
+	r.Equal(t, FundingAmount, refund.FundingAmount)
 
 	refund = &omise.Refund{}
 	client.MustDo(refund, &CreateRefund{
