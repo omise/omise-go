@@ -101,6 +101,20 @@ client.APIVersion = "2015-11-06"
 It is highly recommended to set this version to the current version that you are using. You can
 learn more about this feature in our [versioning guide](https://docs.opn.ooo/api-versioning).
 
+## Enable debug mode
+
+You can monitor the response code and body from each API call by utilizing the debug mode provided by the library which can be turned on or off. You can activate this feature by invoking `SetDebug()` immediately after initializing your client.
+
+```
+client, e := omise.NewClient(OmisePublicKey, OmiseSecretKey)
+if e != nil {
+	log.Fatal(e)
+}
+
+// Enabling debug mode to monitor response from API call
+client.SetDebug(true)
+```
+
 ## License
 
 See [LICENSE][2] file.
