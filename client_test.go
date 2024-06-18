@@ -141,6 +141,14 @@ func TestClient_WithContext(t *testing.T) {
 	r.Equal(t, account.ID, "acct_4yq6tcsyoged5c0ocxd")
 }
 
+func TestClient_SetDebug(t *testing.T) {
+	client := testutil.NewFixedClient(t)
+	client.SetDebug(true)
+	account := &Account{}
+	client.MustDo(account, &operations.RetrieveAccount{})
+	r.Equal(t, account.ID, "acct_4yq6tcsyoged5c0ocxd")
+}
+
 func ExampleClient_Do() {
 	// gets your API keys
 	pkey, skey := "pkey_test_4yq6tct0llin5nyyi5l", "skey_test_4yq6tct0lblmed2yp5t"

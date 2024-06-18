@@ -83,6 +83,11 @@ func (c *Client) WithUserAgent(userAgent string) {
 	c.userAgent = userAgent
 }
 
+// If set to true then library will print the response of all the endpoints.
+func (c *Client) SetDebug(debug bool) {
+	c.debug = debug
+}
+
 // Request creates a new *http.Request that should performs the supplied Operation. Most
 // people should use the Do method instead.
 func (c *Client) Request(operation internal.Operation) (req *http.Request, err error) {
