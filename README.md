@@ -35,7 +35,7 @@ If you are using an older version of Go, please consider upgrading to a compatib
 
 ## Usage
 
-See [godoc.org][0] in tandem with the [Opn Payments API Documentation][1] for usage instructions.
+For usage instructions, see [godoc.org][0] in tandem with the [Opn Payments API Documentation][1].
 
 Example:
 
@@ -87,12 +87,12 @@ func main() {
 ## API version
 
 You can choose the API version to use with Opn Payments. Each new API version has new features
-and might not be compatible with previous versions. You can change the default version by
+that might be incompatible with previous versions. You can change the default version by
 visiting your Opn Payments Dashboard.
 
 The version configured here will have higher priority than the version set in your Opn Payments
 account. This is useful if you have multiple environments with different API versions for
-testing. (e.g. Development on the latest version but production is on an older version).
+testing. (e.g., Development on the latest version, but production is on an older version).
 
 ```
 client.APIVersion = "2015-11-06"
@@ -100,6 +100,20 @@ client.APIVersion = "2015-11-06"
 
 It is highly recommended to set this version to the current version that you are using. You can
 learn more about this feature in our [versioning guide](https://docs.opn.ooo/api-versioning).
+
+## Enable debug mode
+
+You can monitor the response code and body from each API call by utilizing the library's debug mode, which you can turn on or off. To activate this feature, invoke `SetDebug()` immediately after initializing your client.
+
+```
+client, e := omise.NewClient(OmisePublicKey, OmiseSecretKey)
+if e != nil {
+	log.Fatal(e)
+}
+
+// Enabling debug mode to monitor response from API call
+client.SetDebug(true)
+```
 
 ## License
 
