@@ -8,6 +8,33 @@ import (
 	"github.com/omise/omise-go/internal"
 )
 
+type TransactionIndicator string
+
+const (
+	MIT TransactionIndicator = "mit"
+	CIT TransactionIndicator = "cit"
+)
+
+type RecurringReason string
+
+const (
+	Blank           RecurringReason = "blank"
+	Unscheduled     RecurringReason = "unscheduled"
+	StandingOrder   RecurringReason = "standing_order"
+	Subscription    RecurringReason = "subscription"
+	Installment     RecurringReason = "installment"
+	PartialShipment RecurringReason = "partial_shipment"
+	DelayedCharge   RecurringReason = "delayed_charge"
+	NoShow          RecurringReason = "no_show"
+	Resubmission    RecurringReason = "resubmission"
+)
+
+type PlatformFee struct {
+	Fixed      int32   `json:"fixed,omitempty"`
+	Amount     int32   `json:"amount,omitempty"`
+	Percentage float32 `json:"percantage,omitempty"`
+}
+
 // Example:
 //
 //	charges, list := &omise.ChargeList{}, &ListCharges{
@@ -65,6 +92,11 @@ type CreateCharge struct {
 	AuthorizationType        omise.AuthorizationType `json:"authorization_type,omitempty"`
 	WebhookEndpoints         []string                `json:"webhook_endpoints,omitempty"`
 	Ip                       string                  `json:"ip,omitempty"`
+	TransactionIndicator     TransactionIndicator    `json:"transaction_indicator,omitempty"`
+	RecurringReason          RecurringReason         `json:"recurring_reason,omitempty"`
+	LinkedAccount            string                  `json:"linked_account,omitempty"`
+	FirstCharge              string                  `json:"first_charge,omitempty"`
+	PlatformFee              PlatformFee             `json:"platform_fee,dive,omitempty"`
 }
 
 func (req *CreateCharge) MarshalJSON() ([]byte, error) {

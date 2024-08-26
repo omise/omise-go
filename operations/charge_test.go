@@ -21,7 +21,7 @@ func TestCreateChargeMarshal(t *testing.T) {
 				Amount:   10000,
 				Currency: "thb",
 			},
-			`{"amount":10000,"currency":"thb"}`,
+			`{"amount":10000,"currency":"thb","platform_fee":{}}`,
 		},
 		{
 			&CreateCharge{
@@ -29,7 +29,7 @@ func TestCreateChargeMarshal(t *testing.T) {
 				Currency:    "thb",
 				DontCapture: true,
 			},
-			`{"amount":10000,"currency":"thb","capture":false}`,
+			`{"amount":10000,"currency":"thb","platform_fee":{},"capture":false}`,
 		},
 		{
 			&CreateCharge{
@@ -38,7 +38,7 @@ func TestCreateChargeMarshal(t *testing.T) {
 				DontCapture:       true,
 				AuthorizationType: omise.PreAuth,
 			},
-			`{"amount":10000,"currency":"thb","authorization_type":"pre_auth","capture":false}`,
+			`{"amount":10000,"currency":"thb","authorization_type":"pre_auth","platform_fee":{},"capture":false}`,
 		},
 		{
 			&CreateCharge{
@@ -47,7 +47,7 @@ func TestCreateChargeMarshal(t *testing.T) {
 				DontCapture:       true,
 				AuthorizationType: omise.FinalAuth,
 			},
-			`{"amount":10000,"currency":"thb","authorization_type":"final_auth","capture":false}`,
+			`{"amount":10000,"currency":"thb","authorization_type":"final_auth","platform_fee":{},"capture":false}`,
 		},
 		{
 			&CreateCharge{
@@ -55,7 +55,7 @@ func TestCreateChargeMarshal(t *testing.T) {
 				Currency:         "thb",
 				WebhookEndpoints: []string{"https://docs.opn.ooo/api-webhooks"},
 			},
-			`{"amount":10000,"currency":"thb","webhook_endpoints":["https://docs.opn.ooo/api-webhooks"]}`,
+			`{"amount":10000,"currency":"thb","webhook_endpoints":["https://docs.opn.ooo/api-webhooks"],"platform_fee":{}}`,
 		},
 	}
 	for _, td := range testdata {
@@ -250,7 +250,7 @@ func TestCreateChargeMarshal_WithMetadata(t *testing.T) {
 		},
 	}
 
-	expected := `{"customer":"customer_id","amount":100000,"currency":"thb","metadata":{"color":"red"}}`
+	expected := `{"customer":"customer_id","amount":100000,"currency":"thb","metadata":{"color":"red"},"platform_fee":{}}`
 
 	b, err := json.Marshal(req)
 	r.Nil(t, err, "error should be nothing")
@@ -264,7 +264,7 @@ func TestCreateChargeMarshal_WithoutMetadata(t *testing.T) {
 		Currency: "thb",
 	}
 
-	expected := `{"customer":"customer_id","amount":100000,"currency":"thb"}`
+	expected := `{"customer":"customer_id","amount":100000,"currency":"thb","platform_fee":{}}`
 
 	b, err := json.Marshal(req)
 	r.Nil(t, err, "err should be nothing")

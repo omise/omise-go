@@ -24,16 +24,21 @@ import (
 //	}
 //
 //	fmt.Println("created token:", token.ID)
-//
 type CreateToken struct {
 	Name            string     `json:"name"`
 	Number          string     `json:"number"`
 	ExpirationMonth time.Month `json:"expiration_month"`
 	ExpirationYear  int        `json:"expiration_year"`
 
+	Email        string `json:"email,omitempty"`
+	PhoneNumber  string `json:"phone_number,omitempty"`
 	SecurityCode string `json:"security_code"`
+	Country      string `json:"country,omitempty"`
+	State        string `json:"state,omitempty"`
 	City         string `json:"city,omitempty"`
 	PostalCode   string `json:"postal_code,omitempty"`
+	Street1      string `json:"street1,omitempty"`
+	Street2      string `json:"street2,omitempty"`
 }
 
 func (req *CreateToken) MarshalJSON() ([]byte, error) {
@@ -63,7 +68,6 @@ func (req *CreateToken) Describe() *internal.Description {
 //	}
 //
 //	fmt.Printf("token: %#v\n", token)
-//
 type RetrieveToken struct {
 	ID string `json:"-"`
 }
