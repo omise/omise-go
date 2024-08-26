@@ -56,7 +56,6 @@ type CreateCharge struct {
 	Source                   string                  `json:"source,omitempty"`
 	Amount                   int64                   `json:"amount"`
 	Currency                 string                  `json:"currency"`
-	Offsite                  omise.OffsiteTypes      `json:"offsite,omitempty"`
 	Description              string                  `json:"description,omitempty"`
 	DontCapture              bool                    `json:"-"` // inverse, since `capture` defaults to true
 	ReturnURI                string                  `json:"return_uri,omitempty"`
@@ -65,6 +64,7 @@ type CreateCharge struct {
 	ZeroInterestInstallments *bool                   `json:"zero_interest_installments,omitempty"`
 	AuthorizationType        omise.AuthorizationType `json:"authorization_type,omitempty"`
 	WebhookEndpoints         []string                `json:"webhook_endpoints,omitempty"`
+	Ip                       string                  `json:"ip,omitempty"`
 }
 
 func (req *CreateCharge) MarshalJSON() ([]byte, error) {

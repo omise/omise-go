@@ -10,9 +10,9 @@ type BankAccount struct {
 	Name       string `json:"name"`
 
 	// for Omise Japan
-	BankCode    string          `json:"bank_code"`
-	BranchCode  string          `json:"branch_code"`
-	AccountType BankAccountType `json:"account_type"`
+	BankCode   string          `json:"bank_code"`
+	BranchCode string          `json:"branch_code"`
+	Type       BankAccountType `json:"type"`
 }
 
 // BankAccountType BankAccount an enumeration of possible types of BackAccount(s) which can be

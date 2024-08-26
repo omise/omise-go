@@ -49,10 +49,11 @@ func NewClient(pkey, skey string) (*Client, error) {
 	}
 
 	client := &Client{
-		Client: &http.Client{Transport: transport},
-		debug:  false,
-		pkey:   pkey,
-		skey:   skey,
+		Client:     &http.Client{Transport: transport},
+		debug:      false,
+		pkey:       pkey,
+		skey:       skey,
+		APIVersion: internal.Version,
 
 		Endpoints: map[internal.Endpoint]string{},
 	}
@@ -138,9 +139,7 @@ func (c *Client) setRequestHeaders(req *http.Request, desc *internal.Description
 	}
 
 	req.Header.Add("User-Agent", strings.TrimSpace(ua))
-	if c.APIVersion != "" {
-		req.Header.Add("Omise-Version", c.APIVersion)
-	}
+	req.Header.Add("Omise-Version", c.APIVersion)
 
 	// setting custom headers passed from the caller
 	for k, v := range c.customHeaders {

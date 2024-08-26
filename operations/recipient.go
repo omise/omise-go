@@ -17,7 +17,6 @@ import (
 //	}
 //
 //	fmt.Println("recipients #100-#120:", recipients.Data)
-//
 type ListRecipients struct {
 	List
 }
@@ -33,47 +32,46 @@ func (req *ListRecipients) Describe() *internal.Description {
 
 // Example:
 //
-//	bankAccount := &omise.BankAccount{
-//		Brand:  "bbl",
-//		Number: "1234567890",
-//		Name:   "Joe Example",
-//	}
+//		bankAccount := &omise.BankAccount{
+//			Brand:  "bbl",
+//			Number: "1234567890",
+//			Name:   "Joe Example",
+//		}
 //
-//	jun, create := &omise.Recipient{}, &CreateRecipient{
-//		Name:        "Jun Hasegawa",
-//		Email:       "jun@omise.co",
-//		Description: "Owns Omise",
-//		Type:        omise.Individual,
-//		BankAccount: bankAccount,
-//	}
-//	if e := client.Do(jun, create); e != nil {
-//		panic(e)
-//	}
+//		jun, create := &omise.Recipient{}, &CreateRecipient{
+//			Name:        "Jun Hasegawa",
+//			Email:       "jun@omise.co",
+//			Description: "Owns Omise",
+//			Type:        omise.Individual,
+//			BankAccount: bankAccount,
+//		}
+//		if e := client.Do(jun, create); e != nil {
+//			panic(e)
+//		}
 //
-//	fmt.Println("created recipient:", jun.ID)
+//		fmt.Println("created recipient:", jun.ID)
 //
-//      # For Japan Bank Account
-//	bankAccount := &omise.BankAccount{
-//		BankCode:    "0001",
-//		BranchCode:  "001",
-//  	        AccountType: omise.Normal,
-//  	        Number:      "0000001",
-//		Name:        "Joe Example",
-//	}
+//	     # For Japan Bank Account
+//		bankAccount := &omise.BankAccount{
+//			BankCode:    "0001",
+//			BranchCode:  "001",
+//	 	        AccountType: omise.Normal,
+//	 	        Number:      "0000001",
+//			Name:        "Joe Example",
+//		}
 //
-//	jun, create := &omise.Recipient{}, &CreateRecipient{
-//		Name:        "Jun Hasegawa",
-//		Email:       "jun@omise.co",
-//		Description: "Owns Omise",
-//		Type:        omise.Individual,
-//		BankAccount: bankAccount,
-//	}
-//	if e := client.Do(jun, create); e != nil {
-//		panic(e)
-//	}
+//		jun, create := &omise.Recipient{}, &CreateRecipient{
+//			Name:        "Jun Hasegawa",
+//			Email:       "jun@omise.co",
+//			Description: "Owns Omise",
+//			Type:        omise.Individual,
+//			BankAccount: bankAccount,
+//		}
+//		if e := client.Do(jun, create); e != nil {
+//			panic(e)
+//		}
 //
-//	fmt.Println("created recipient:", jun.ID)
-//
+//		fmt.Println("created recipient:", jun.ID)
 type CreateRecipient struct {
 	Name        string              `json:"name"`
 	Email       string              `json:"email,omitempty"`
@@ -89,9 +87,9 @@ type bankAccountParams struct {
 	Name   string `json:"name"`
 
 	// for Omise Japan
-	BankCode    string                `json:"bank_code,omitempty"`
-	BranchCode  string                `json:"branch_code,omitempty"`
-	AccountType omise.BankAccountType `json:"account_type,omitempty"`
+	BankCode   string                `json:"bank_code,omitempty"`
+	BranchCode string                `json:"branch_code,omitempty"`
+	Type       omise.BankAccountType `json:"type,omitempty"`
 }
 
 func (req *CreateRecipient) MarshalJSON() ([]byte, error) {
@@ -104,12 +102,12 @@ func (req *CreateRecipient) MarshalJSON() ([]byte, error) {
 	}
 	if ba := params.BankAccount; ba != nil {
 		params.BankAccountParams = bankAccountParams{
-			Brand:       ba.Brand,
-			Number:      ba.Number,
-			Name:        ba.Name,
-			BankCode:    ba.BankCode,
-			BranchCode:  ba.BranchCode,
-			AccountType: ba.AccountType,
+			Brand:      ba.Brand,
+			Number:     ba.Number,
+			Name:       ba.Name,
+			BankCode:   ba.BankCode,
+			BranchCode: ba.BranchCode,
+			Type:       ba.Type,
 		}
 	}
 	return json.Marshal(params)
@@ -132,7 +130,6 @@ func (req *CreateRecipient) Describe() *internal.Description {
 //	}
 //
 //	fmt.Printf("recipient #123: %#v\n", recp)
-//
 type RetrieveRecipient struct {
 	RecipientID string `json:"-"`
 }
@@ -157,7 +154,6 @@ func (req *RetrieveRecipient) Describe() *internal.Description {
 //	}
 //
 //	fmt.Printf("jones: %#v\n", jones)
-//
 type UpdateRecipient struct {
 	RecipientID string              `json:"-"`
 	Name        string              `json:"name"`
@@ -178,12 +174,12 @@ func (req *UpdateRecipient) MarshalJSON() ([]byte, error) {
 	}
 	if ba := params.BankAccount; ba != nil {
 		params.BankAccountParams = bankAccountParams{
-			Brand:       ba.Brand,
-			Number:      ba.Number,
-			Name:        ba.Name,
-			BankCode:    ba.BankCode,
-			BranchCode:  ba.BranchCode,
-			AccountType: ba.AccountType,
+			Brand:      ba.Brand,
+			Number:     ba.Number,
+			Name:       ba.Name,
+			BankCode:   ba.BankCode,
+			BranchCode: ba.BranchCode,
+			Type:       ba.Type,
 		}
 	}
 	return json.Marshal(params)
@@ -206,7 +202,6 @@ func (req *UpdateRecipient) Describe() *internal.Description {
 //	}
 //
 //	fmt.Println("destroyed recipient:", del.ID)
-//
 type DestroyRecipient struct {
 	RecipientID string `json:"-"`
 }
@@ -224,20 +219,19 @@ func (req *DestroyRecipient) Describe() *internal.Description {
 //
 // Example:
 //
-//      var schds omise.ScheduleList
-//	list := ListRecipientTransferSchedules{
-//		RecipientID: "reci_123"
-//		List: List{
-//			Limit: 100,
-//			From: time.Now().Add(-1 * time.Hour),
-//		},
-//	}
-//	if e := client.Do(&schds, &list); e != nil {
-//		panic(e)
-//	}
+//	     var schds omise.ScheduleList
+//		list := ListRecipientTransferSchedules{
+//			RecipientID: "reci_123"
+//			List: List{
+//				Limit: 100,
+//				From: time.Now().Add(-1 * time.Hour),
+//			},
+//		}
+//		if e := client.Do(&schds, &list); e != nil {
+//			panic(e)
+//		}
 //
-//	fmt.Println("# of schedules made in the last hour:", len(schds.Data))
-//
+//		fmt.Println("# of schedules made in the last hour:", len(schds.Data))
 type ListRecipientTransferSchedules struct {
 	RecipientID string
 	List

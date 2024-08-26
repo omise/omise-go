@@ -52,7 +52,7 @@
     "amount": 400000,
     "barcode": null,
     "bank": null,
-    "created_at": "2021-05-17T10:53:57Z",
+    "created_at_at": "2021-05-17T10:53:57Z",
     "currency": "SGD",
     "email": null,
     "flow": "offline",
@@ -71,7 +71,7 @@
         "filename": "qrcode.png",
         "location": "/charges/chrg_test_5nvdpnapyle90ejudk8/documents/docu_test_5nvdpnc12jbp0hwy031",
         "download_uri": "https://api.omise.co/charges/chrg_test_5nvdpnapyle90ejudk8/documents/docu_test_5nvdpnc12jbp0hwy031/downloads/542F307C03299822",
-        "created_at": "2021-05-17T10:53:59Z"
+        "created_at_at": "2021-05-17T10:53:59Z"
       }
     },
     "references": null,
@@ -93,7 +93,7 @@
   "status": "pending",
   "authorize_uri": null,
   "return_uri": null,
-  "created_at": "2021-05-17T10:53:59Z",
+  "created_at_at": "2021-05-17T10:53:59Z",
   "paid_at": null,
   "expires_at": "2021-05-24T10:53:59Z",
   "expired_at": null,

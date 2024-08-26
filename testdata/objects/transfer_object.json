@@ -9,7 +9,7 @@
     "brand": "test",
     "last_digits": "6789",
     "name": "DEFAULT BANK ACCOUNT",
-    "created": "2015-05-30T04:28:09Z"
+    "created_at": "2015-05-30T04:28:09Z"
   },
   "sent": false,
   "paid": false,
@@ -18,5 +18,5 @@
   "failure_code": null,
   "failure_message": null,
   "transaction": null,
-  "created": "2015-06-02T05:34:13Z"
+  "created_at": "2015-06-02T05:34:13Z"
 }

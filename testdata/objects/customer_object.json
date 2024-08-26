@@ -6,7 +6,7 @@
   "default_card": "card_test_5086xl7amxfysl0ac5l",
   "email": "john.doe@example.com",
   "description": "John Doe (id: 30)",
-  "created": "2015-06-02T05:41:47Z",
+  "created_at": "2015-06-02T05:41:47Z",
   "cards": {
     "object": "list",
     "from": "1970-01-01T00:00:00+00:00",
@@ -31,7 +31,7 @@
         "fingerprint": "mKleiBfwp+PoJWB/ipngANuECUmRKjyxROwFW5IO7TM=",
         "name": "Somchai Prasert",
         "security_code_check": true,
-        "created": "2015-06-02T05:41:46Z"
+        "created_at": "2015-06-02T05:41:46Z"
       }
     ],
     "location": "/customers/cust_test_5086xleuh9ft4bn0ac2/cards"

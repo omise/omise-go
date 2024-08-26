@@ -6,13 +6,13 @@ import "time"
 // See https://www.omise.co/charges-api for more information.
 type Charge struct {
 	Base
-	Status              ChargeStatus        `json:"status"`
-	Amount              int64               `json:"amount"`
-	AuthorizationType   AuthorizationType   `json:"authorization_type"`
-	AuthorizedAmount    int64               `json:"authorized_amount"`
-	CapturedAmount      int64               `json:"captured_amount"`
-	Currency            string              `json:"currency"`
-	Description         *string             `json:"description"`
+	Status            ChargeStatus      `json:"status"`
+	Amount            int64             `json:"amount"`
+	AuthorizationType AuthorizationType `json:"authorization_type"`
+	AuthorizedAmount  int64             `json:"authorized_amount"`
+	CapturedAmount    int64             `json:"captured_amount"`
+	Currency          string            `json:"currency"`
+	Description       *string           `json:"description"`
 
 	Capture    bool `json:"capture"`
 	Authorized bool `json:"authorized"`
@@ -22,7 +22,7 @@ type Charge struct {
 	Transaction string `json:"transaction"`
 	Card        *Card  `json:"card"`
 
-	Refunded       int64       `json:"refunded"`
+	RefundedAmount int64       `json:"refunded_amount"`
 	Refunds        *RefundList `json:"refunds"`
 	FailureCode    *string     `json:"failure_code"`
 	FailureMessage *string     `json:"failure_message"`
@@ -35,7 +35,6 @@ type Charge struct {
 	AuthorizeURI string `json:"authorize_uri"`
 
 	SourceOfFund SourceOfFunds `json:"source_of_fund"`
-	Offsite      OffsiteTypes  `json:"offsite"`
 
 	Source    *Source                `json:"source"`
 	Metadata  map[string]interface{} `json:"metadata"`
