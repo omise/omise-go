@@ -8,33 +8,6 @@ import (
 	"github.com/omise/omise-go/internal"
 )
 
-type TransactionIndicator string
-
-const (
-	MIT TransactionIndicator = "mit"
-	CIT TransactionIndicator = "cit"
-)
-
-type RecurringReason string
-
-const (
-	Blank           RecurringReason = "blank"
-	Unscheduled     RecurringReason = "unscheduled"
-	StandingOrder   RecurringReason = "standing_order"
-	Subscription    RecurringReason = "subscription"
-	Installment     RecurringReason = "installment"
-	PartialShipment RecurringReason = "partial_shipment"
-	DelayedCharge   RecurringReason = "delayed_charge"
-	NoShow          RecurringReason = "no_show"
-	Resubmission    RecurringReason = "resubmission"
-)
-
-type PlatformFee struct {
-	Fixed      int32   `json:"fixed,omitempty"`
-	Amount     int32   `json:"amount,omitempty"`
-	Percentage float32 `json:"percantage,omitempty"`
-}
-
 // Example:
 //
 //	charges, list := &omise.ChargeList{}, &ListCharges{
@@ -78,25 +51,25 @@ func (req *ListCharges) Describe() *internal.Description {
 //
 //	fmt.Println("created charge:", charge.ID)
 type CreateCharge struct {
-	Customer                 string                  `json:"customer,omitempty"`
-	Card                     string                  `json:"card,omitempty"`
-	Source                   string                  `json:"source,omitempty"`
-	Amount                   int64                   `json:"amount"`
-	Currency                 string                  `json:"currency"`
-	Description              string                  `json:"description,omitempty"`
-	DontCapture              bool                    `json:"-"` // inverse, since `capture` defaults to true
-	ReturnURI                string                  `json:"return_uri,omitempty"`
-	Metadata                 map[string]interface{}  `json:"metadata,omitempty"`
-	ExpiresAt                *time.Time              `json:"expires_at,omitempty"`
-	ZeroInterestInstallments *bool                   `json:"zero_interest_installments,omitempty"`
-	AuthorizationType        omise.AuthorizationType `json:"authorization_type,omitempty"`
-	WebhookEndpoints         []string                `json:"webhook_endpoints,omitempty"`
-	Ip                       string                  `json:"ip,omitempty"`
-	TransactionIndicator     TransactionIndicator    `json:"transaction_indicator,omitempty"`
-	RecurringReason          RecurringReason         `json:"recurring_reason,omitempty"`
-	LinkedAccount            string                  `json:"linked_account,omitempty"`
-	FirstCharge              string                  `json:"first_charge,omitempty"`
-	PlatformFee              PlatformFee             `json:"platform_fee,dive,omitempty"`
+	Customer                 string                     `json:"customer,omitempty"`
+	Card                     string                     `json:"card,omitempty"`
+	Source                   string                     `json:"source,omitempty"`
+	Amount                   int64                      `json:"amount"`
+	Currency                 string                     `json:"currency"`
+	Description              string                     `json:"description,omitempty"`
+	DontCapture              bool                       `json:"-"` // inverse, since `capture` defaults to true
+	ReturnURI                string                     `json:"return_uri,omitempty"`
+	Metadata                 map[string]interface{}     `json:"metadata,omitempty"`
+	ExpiresAt                *time.Time                 `json:"expires_at,omitempty"`
+	ZeroInterestInstallments *bool                      `json:"zero_interest_installments,omitempty"`
+	AuthorizationType        omise.AuthorizationType    `json:"authorization_type,omitempty"`
+	WebhookEndpoints         []string                   `json:"webhook_endpoints,omitempty"`
+	Ip                       string                     `json:"ip,omitempty"`
+	TransactionIndicator     omise.TransactionIndicator `json:"transaction_indicator,omitempty"`
+	RecurringReason          omise.RecurringReason      `json:"recurring_reason,omitempty"`
+	LinkedAccount            string                     `json:"linked_account,omitempty"`
+	FirstCharge              string                     `json:"first_charge,omitempty"`
+	PlatformFee              omise.PlatformFee          `json:"platform_fee,omitempty"`
 }
 
 func (req *CreateCharge) MarshalJSON() ([]byte, error) {

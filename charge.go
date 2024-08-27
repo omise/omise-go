@@ -40,3 +40,30 @@ type Charge struct {
 	Metadata  map[string]interface{} `json:"metadata"`
 	ExpiresAt time.Time              `json:"expires_at"`
 }
+
+type TransactionIndicator string
+
+const (
+	MIT TransactionIndicator = "MIT"
+	CIT TransactionIndicator = "CIT"
+)
+
+type RecurringReason string
+
+const (
+	Blank           RecurringReason = ""
+	Unscheduled     RecurringReason = "unscheduled"
+	StandingOrder   RecurringReason = "standing_order"
+	Subscription    RecurringReason = "subscription"
+	Installment     RecurringReason = "installment"
+	PartialShipment RecurringReason = "partial_shipment"
+	DelayedCharge   RecurringReason = "delayed_charge"
+	NoShow          RecurringReason = "no_show"
+	Resubmission    RecurringReason = "resubmission"
+)
+
+type PlatformFee struct {
+	Fixed      int32   `json:"fixed,omitempty"`
+	Percentage float32 `json:"percentage,omitempty"`
+	Amount     int64   `json:"Amount,omitempty"`
+}
