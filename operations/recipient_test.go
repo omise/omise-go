@@ -49,17 +49,23 @@ func TestRecipient_Network(t *testing.T) {
 
 	// create a recipient
 	// sample from: https://www.omise.co/bank-account-api
-	jun, bankAccount := &omise.Recipient{}, &omise.BankAccount{
+	jun, bankAccount := &omise.Recipient{}, &omise.BankAccountRequest{
 		Brand:  "bbl",
 		Number: "1234567890",
 		Name:   "Somchai Prasert",
+		Type:   omise.Current,
+	}
+	metadata := map[string]interface{}{
+		"Hello": "World",
 	}
 	client.MustDo(jun, &CreateRecipient{
 		Name:        "Jun Hasegawa",
 		Email:       "jun@omise.co",
 		Description: "Owns Omise",
 		Type:        omise.Individual,
+		TaxID:       "tax_123",
 		BankAccount: bankAccount,
+		Metadata:    metadata,
 	})
 
 	t.Log("created recipient:", jun.ID)
@@ -67,6 +73,8 @@ func TestRecipient_Network(t *testing.T) {
 	r.NotNil(t, jun.Description)
 	r.Equal(t, "Owns Omise", *jun.Description)
 	r.Equal(t, jun.BankAccount.Name, bankAccount.Name)
+	r.Equal(t, metadata, jun.Metadata)
+	r.Equal(t, bankAccount.Number, jun.BankAccount.AccountNumber)
 
 	// list created customers
 	recipients := &omise.RecipientList{}

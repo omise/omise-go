@@ -32,7 +32,7 @@ func (req *ListRecipients) Describe() *internal.Description {
 
 // Example:
 //
-//		bankAccount := &omise.BankAccount{
+//		bankAccount := &omise.BankAccountRequest{
 //			Brand:  "bbl",
 //			Number: "1234567890",
 //			Name:   "Joe Example",
@@ -52,11 +52,11 @@ func (req *ListRecipients) Describe() *internal.Description {
 //		fmt.Println("created recipient:", jun.ID)
 //
 //	     # For Japan Bank Account
-//		bankAccount := &omise.BankAccount{
+//		bankAccount := &omise.BankAccountRequest{
 //			BankCode:    "0001",
 //			BranchCode:  "001",
-//	 	        AccountType: omise.Normal,
-//	 	        Number:      "0000001",
+//	 	    AccountType: omise.Normal,
+//	 	    Number:      "0000001",
 //			Name:        "Joe Example",
 //		}
 //
@@ -73,13 +73,13 @@ func (req *ListRecipients) Describe() *internal.Description {
 //
 //		fmt.Println("created recipient:", jun.ID)
 type CreateRecipient struct {
-	Name        string                 `json:"name"`
-	Email       string                 `json:"email,omitempty"`
-	Description string                 `json:"description,omitempty"`
-	Type        omise.RecipientType    `json:"type"`
-	TaxID       string                 `json:"tax_id,omitempty"`
-	BankAccount *omise.BankAccount     `json:"-"`
-	Metadata    map[string]interface{} `json:"metadata,omitempty"`
+	Name        string                    `json:"name"`
+	Email       string                    `json:"email,omitempty"`
+	Description string                    `json:"description,omitempty"`
+	Type        omise.RecipientType       `json:"type"`
+	TaxID       string                    `json:"tax_id,omitempty"`
+	BankAccount *omise.BankAccountRequest `json:"-"`
+	Metadata    map[string]interface{}    `json:"metadata,omitempty"`
 }
 
 type bankAccountParams struct {
@@ -156,14 +156,14 @@ func (req *RetrieveRecipient) Describe() *internal.Description {
 //
 //	fmt.Printf("jones: %#v\n", jones)
 type UpdateRecipient struct {
-	RecipientID string                 `json:"-"`
-	Name        string                 `json:"name"`
-	Email       string                 `json:"email,omitempty"`
-	Description string                 `json:"description,omitempty"`
-	Type        omise.RecipientType    `json:"type"`
-	TaxID       string                 `json:"tax_id,omitempty"`
-	BankAccount *omise.BankAccount     `json:"-"`
-	Metadata    map[string]interface{} `json:"metadata,omitempty"`
+	RecipientID string                    `json:"-"`
+	Name        string                    `json:"name"`
+	Email       string                    `json:"email,omitempty"`
+	Description string                    `json:"description,omitempty"`
+	Type        omise.RecipientType       `json:"type"`
+	TaxID       string                    `json:"tax_id,omitempty"`
+	BankAccount *omise.BankAccountRequest `json:"-"`
+	Metadata    map[string]interface{}    `json:"metadata,omitempty"`
 }
 
 func (req *UpdateRecipient) MarshalJSON() ([]byte, error) {

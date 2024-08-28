@@ -57,6 +57,25 @@ func TestCreateChargeMarshal(t *testing.T) {
 			},
 			`{"amount":10000,"currency":"thb","webhook_endpoints":["https://docs.opn.ooo/api-webhooks"],"platform_fee":{}}`,
 		},
+		{
+			&CreateCharge{
+				Amount:           10000,
+				Currency:         "thb",
+				WebhookEndpoints: []string{"https://docs.opn.ooo/api-webhooks"},
+				Description:      "This is a card cahrge",
+				Metadata: map[string]interface{}{
+					"Hello": "World",
+				},
+				Ip:                   "192.168.1.1",
+				TransactionIndicator: omise.MIT,
+				RecurringReason:      omise.Blank,
+				PlatformFee: omise.PlatformFee{
+					Fixed:      10,
+					Percentage: 2,
+				},
+			},
+			`{"amount":10000,"currency":"thb","description":"This is a card cahrge","metadata":{"Hello":"World"},"webhook_endpoints":["https://docs.opn.ooo/api-webhooks"],"ip":"192.168.1.1","transaction_indicator":"MIT","platform_fee":{"fixed":10,"percentage":2}}`,
+		},
 	}
 	for _, td := range testdata {
 		b, err := json.Marshal(td.req)
