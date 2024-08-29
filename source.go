@@ -17,7 +17,7 @@ type Source struct {
 
 type BillingShipping struct {
 	Country    string `json:"country"`
-	City       string `json:"City"`
+	City       string `json:"city"`
 	PostalCode string `json:"postal_code"`
 	State      string `json:"state"`
 	Street1    string `json:"street1"`
