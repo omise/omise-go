@@ -1,6 +1,7 @@
 package operations
 
 import (
+	"github.com/omise/omise-go"
 	"github.com/omise/omise-go/internal"
 )
 
@@ -17,21 +18,25 @@ import (
 //
 //	fmt.Println("created source:", source.ID)
 type CreateSource struct {
-	Type                     string `json:"type"`
-	Amount                   int64  `json:"amount"`
-	Currency                 string `json:"currency"`
-	Bank                     string `json:"bank,omitempty"`
-	Barcode                  string `json:"barcode,omitempty"`
-	Email                    string `json:"email,omitempty"`
-	InstallmentTerm          int64  `json:"installment_term,omitempty"`
-	Name                     string `json:"name,omitempty"`
-	PhoneNumber              string `json:"phone_number,omitempty"`
-	StoreID                  string `json:"store_id,omitempty"`
-	StoreName                string `json:"store_name,omitempty"`
-	TerminalID               string `json:"terminal_id,omitempty"`
-	ZeroInterestInstallments bool   `json:"zero_interest_installments,omitempty"`
-	PlatformType             string `json:"platform_type,omitempty"`
-	Ip                       string `json:"ip,omitempty"`
+	Type                     string                `json:"type"`
+	Amount                   int64                 `json:"amount"`
+	Currency                 string                `json:"currency"`
+	Bank                     string                `json:"bank,omitempty"`
+	Barcode                  string                `json:"barcode,omitempty"`
+	Email                    string                `json:"email,omitempty"`
+	InstallmentTerm          int64                 `json:"installment_term,omitempty"`
+	Name                     string                `json:"name,omitempty"`
+	MobileNumber             string                `json:"mobile_number,omitempty"`
+	StoreID                  string                `json:"store_id,omitempty"`
+	StoreName                string                `json:"store_name,omitempty"`
+	TerminalID               string                `json:"terminal_id,omitempty"`
+	ZeroInterestInstallments bool                  `json:"zero_interest_installments,omitempty"`
+	PlatformType             string                `json:"platform_type,omitempty"`
+	Ip                       string                `json:"ip,omitempty"`
+	Billing                  omise.BillingShipping `json:"billing,omitempty"`
+	Shipping                 omise.BillingShipping `json:"shipping,omitempty"`
+	PromotionCode            string                `json:"promotion_code,omitempty"`
+	Items                    []omise.Items         `json:"-"`
 }
 
 func (req *CreateSource) Describe() *internal.Description {

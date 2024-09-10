@@ -2,17 +2,30 @@ package omise
 
 // BankAccount represents Omise's bank account object.
 // See https://www.omise.co/bank-account-api for more information.
-type BankAccount struct {
+type BankAccountRequest struct {
 	Base
 	Brand      string `json:"brand"`
-	Number     string `json:"number"`
 	LastDigits string `json:"last_digits"`
 	Name       string `json:"name"`
 
 	// for Omise Japan
-	BankCode    string          `json:"bank_code"`
-	BranchCode  string          `json:"branch_code"`
-	AccountType BankAccountType `json:"account_type"`
+	BankCode   string          `json:"bank_code"`
+	BranchCode string          `json:"branch_code"`
+	Type       BankAccountType `json:"type"`
+	Number     string          `json:"number"`
+}
+
+type BankAccount struct {
+	Base
+	Brand      string `json:"brand"`
+	LastDigits string `json:"last_digits"`
+	Name       string `json:"name"`
+
+	// for Omise Japan
+	BankCode      string          `json:"bank_code"`
+	BranchCode    string          `json:"branch_code"`
+	Type          BankAccountType `json:"type"`
+	AccountNumber string          `json:"account_number"`
 }
 
 // BankAccountType BankAccount an enumeration of possible types of BackAccount(s) which can be

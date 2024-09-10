@@ -22,7 +22,7 @@ type CreateLink struct {
 	Currency    string `json:"currency"`
 	Title       string `json:"title"`
 	Description string `json:"description"`
-	Multiple    bool   `json:"multiple"`
+	Multiple    bool   `json:"multiple,omitempty"`
 }
 
 func (req *CreateLink) Describe() *internal.Description {

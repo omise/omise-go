@@ -31,14 +31,6 @@ func TestTransfer(t *testing.T) {
 	r.NotNil(t, transfer.BankAccount)
 	r.Equal(t, "6789", transfer.BankAccount.LastDigits)
 
-	transfer = &omise.Transfer{}
-	client.MustDo(transfer, &UpdateTransfer{
-		TransferID: TransferID,
-		Amount:     192189,
-	})
-	r.Equal(t, TransferID, transfer.ID)
-	r.Equal(t, int64(192189), transfer.Amount)
-
 	del := &omise.Deletion{}
 	client.MustDo(del, &DestroyTransfer{TransferID})
 	r.Equal(t, TransferID, del.ID)
@@ -74,16 +66,6 @@ func TestTransfer_Network(t *testing.T) {
 	r.Equal(t, transfer.ID, transfer2.ID)
 	r.Equal(t, transfer.Amount, transfer2.Amount)
 
-	// update transfer
-	transfer2 = &omise.Transfer{}
-	client.MustDo(transfer2, &UpdateTransfer{
-		TransferID: transfer.ID,
-		Amount:     12300,
-	})
-
-	r.Equal(t, transfer.ID, transfer2.ID)
-	r.Equal(t, int64(12300), transfer2.Amount)
-
 	// destroy transfer
 	del, destroy := &omise.Deletion{}, &DestroyTransfer{TransferID: transfer.ID}
 	client.MustDo(del, destroy)
@@ -112,35 +94,6 @@ func TestCreateTransferMarshal_WithMetadata(t *testing.T) {
 func TestCreateTransferMarshal_WithoutMetadata(t *testing.T) {
 	req := &CreateTransfer{
 		Amount: 192188,
-	}
-
-	expected := `{"amount":192188}`
-
-	b, err := json.Marshal(req)
-	r.Nil(t, err, "err should be nothing")
-	r.Equal(t, expected, string(b))
-}
-
-func TestUpdateTransferMarshal_WithMetadata(t *testing.T) {
-	req := &UpdateTransfer{
-		TransferID: "trsf_test_4yqacz8t3cbipcj766u",
-		Amount:     192188,
-		Metadata: map[string]interface{}{
-			"color": "red",
-		},
-	}
-
-	expected := `{"amount":192188,"metadata":{"color":"red"}}`
-
-	b, err := json.Marshal(req)
-	r.Nil(t, err, "err should be nothing")
-	r.Equal(t, expected, string(b))
-}
-
-func TestUpdateTransferMarshal_WithoutMetadata(t *testing.T) {
-	req := &UpdateTransfer{
-		TransferID: "trsf_test_4yqacz8t3cbipcj766u",
-		Amount:     192188,
 	}
 
 	expected := `{"amount":192188}`

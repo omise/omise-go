@@ -6,7 +6,7 @@
   "amount": 2000,
   "barcode": null,
   "bank": "ocbc",
-  "created_at": "2021-02-22T07:30:12Z",
+  "created_at_at": "2021-02-22T07:30:12Z",
   "currency": "MYR",
   "email": "example@omise.co",
   "flow": "redirect",

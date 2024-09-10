@@ -13,25 +13,24 @@ import (
 //
 // Example:
 //
-//	var schd omise.Schedule
-//	create := operations.CreateChargeSchedule{
-//              Every:  3,
-//              Period: schedule.PeriodWeek,
-//              Weekdays: []schedule.Weekday{
-//              schedule.Monday,
-//              	schedule.Saturday,
-//              },
-//              StartDate: "2017-05-15",
-//              EndDate:   "2018-05-15",
-//              Customer:  "customer_id",
-//              Amount:    100000,
-//	}
-//	if e := client.Do(&schd, &create); e != nil {
-//		panic(e)
-//	}
+//		var schd omise.Schedule
+//		create := operations.CreateChargeSchedule{
+//	             Every:  3,
+//	             Period: schedule.PeriodWeek,
+//	             Weekdays: []schedule.Weekday{
+//	             	schedule.Monday,
+//	             	schedule.Saturday,
+//	             },
+//	             StartDate: "2017-05-15",
+//	             EndDate:   "2018-05-15",
+//	             Customer:  "customer_id",
+//	             Amount:    100000,
+//		}
+//		if e := client.Do(&schd, &create); e != nil {
+//			panic(e)
+//		}
 //
-//	fmt.Println("created schedule:", schd.ID)
-//
+//		fmt.Println("created schedule:", schd.ID)
 type CreateChargeSchedule struct {
 	Every          int
 	Period         schedule.Period
@@ -132,25 +131,24 @@ func (req *CreateChargeSchedule) Describe() *internal.Description {
 //
 // Example:
 //
-//	var schd omise.Schedule
-//	create = operations.CreateTransferSchedule{
-//              Every:  3,
-//              Period: schedule.PeriodWeek,
-//              Weekdays: []schedule.Weekday{
-//              schedule.Monday,
-//              	schedule.Saturday,
-//              },
-//              StartDate: "2017-05-15",
-//              EndDate:   "2018-05-15",
-//              Recipient:  "recipient_id",
-//              Amount:    100000,
-//	}
-//	if e := client.Do(&schd, &create); e != nil {
-//		panic(e)
-//	}
+//		var schd omise.Schedule
+//		create = operations.CreateTransferSchedule{
+//	             Every:  3,
+//	             Period: schedule.PeriodWeek,
+//	             Weekdays: []schedule.Weekday{
+//	             schedule.Monday,
+//	             	schedule.Saturday,
+//	             },
+//	             StartDate: "2017-05-15",
+//	             EndDate:   "2018-05-15",
+//	             Recipient:  "recipient_id",
+//	             Amount:    100000,
+//		}
+//		if e := client.Do(&schd, &create); e != nil {
+//			panic(e)
+//		}
 //
-//	fmt.Println("created schedule:", schd.ID)
-//
+//		fmt.Println("created schedule:", schd.ID)
 type CreateTransferSchedule struct {
 	Every          int
 	Period         schedule.Period
@@ -245,19 +243,18 @@ func (req *CreateTransferSchedule) Describe() *internal.Description {
 //
 // Example:
 //
-//      var schds omise.ScheduleList
-//	list := ListSchedules{
-//		List: List{
-//			Limit: 100,
-//			From: time.Now().Add(-1 * time.Hour),
-//		},
-//	}
-//	if e := client.Do(&schds, &list); e != nil {
-//		panic(e)
-//	}
+//	     var schds omise.ScheduleList
+//		list := ListSchedules{
+//			List: List{
+//				Limit: 100,
+//				From: time.Now().Add(-1 * time.Hour),
+//			},
+//		}
+//		if e := client.Do(&schds, &list); e != nil {
+//			panic(e)
+//		}
 //
-//	fmt.Println("# of schedules made in the last hour:", len(schds.Data))
-//
+//		fmt.Println("# of schedules made in the last hour:", len(schds.Data))
 type ListSchedules struct {
 	List
 }
@@ -275,20 +272,19 @@ func (req *ListSchedules) Describe() *internal.Description {
 //
 // Example:
 //
-//      var occurrences omise.OccurrenceList
-//	list := ListOccurrenceSchedules{
-//		ScheduleID: "schd_57z9hj228pusa652nk1",
-//		List: List{
-//			Limit: 100,
-//			From: time.Now().Add(-1 * time.Hour),
-//		},
-//	}
-//	if e := client.Do(&occurrences, &list); e != nil {
-//		panic(e)
-//	}
+//	     var occurrences omise.OccurrenceList
+//		list := ListOccurrenceSchedules{
+//			ScheduleID: "schd_57z9hj228pusa652nk1",
+//			List: List{
+//				Limit: 100,
+//				From: time.Now().Add(-1 * time.Hour),
+//			},
+//		}
+//		if e := client.Do(&occurrences, &list); e != nil {
+//			panic(e)
+//		}
 //
-//	fmt.Println("occurrences made in the last hour:", len(occurrences.Data))
-//
+//		fmt.Println("occurrences made in the last hour:", len(occurrences.Data))
 type ListScheduleOccurrences struct {
 	ScheduleID string
 	List
@@ -307,19 +303,18 @@ func (req *ListScheduleOccurrences) Describe() *internal.Description {
 //
 // Example:
 //
-//      var schds omise.ScheduleList
-//	list = ListChargeSchedules{
-//		List: List{
-//			Limit: 100,
-//			From: time.Now().Add(-1 * time.Hour),
-//		},
-//	}
-//	if e := client.Do(&schds, &list); e != nil {
-//		panic(e)
-//	}
+//	     var schds omise.ScheduleList
+//		list = ListChargeSchedules{
+//			List: List{
+//				Limit: 100,
+//				From: time.Now().Add(-1 * time.Hour),
+//			},
+//		}
+//		if e := client.Do(&schds, &list); e != nil {
+//			panic(e)
+//		}
 //
-//	fmt.Println("# of charge schedules made in the last hour:", len(schds.Data))
-//
+//		fmt.Println("# of charge schedules made in the last hour:", len(schds.Data))
 type ListChargeSchedules struct {
 	List
 }
@@ -337,19 +332,18 @@ func (req *ListChargeSchedules) Describe() *internal.Description {
 //
 // Example:
 //
-//      var schds omise.ScheduleList
-//	list = ListTransferSchedules{
-//		List: List{
-//			Limit: 100,
-//			From: time.Now().Add(-1 * time.Hour),
-//		},
-//	}
-//	if e := client.Do(&schds, &list); e != nil {
-//		panic(e)
-//	}
+//	     var schds omise.ScheduleList
+//		list = ListTransferSchedules{
+//			List: List{
+//				Limit: 100,
+//				From: time.Now().Add(-1 * time.Hour),
+//			},
+//		}
+//		if e := client.Do(&schds, &list); e != nil {
+//			panic(e)
+//		}
 //
-//	fmt.Println("# of transfer schedules made in the last hour:", len(schds.Data))
-//
+//		fmt.Println("# of transfer schedules made in the last hour:", len(schds.Data))
 type ListTransferSchedules struct {
 	List
 }
@@ -373,7 +367,6 @@ func (req *ListTransferSchedules) Describe() *internal.Description {
 //	}
 //
 //	fmt.Printf("schedule #schd_57z9hj228pusa652nk1: %#v\n", schd)
-//
 type RetrieveSchedule struct {
 	ScheduleID string `json:"-"`
 }
@@ -390,13 +383,13 @@ func (req *RetrieveSchedule) Describe() *internal.Description {
 // DestroySchedule represent destroy schedule API payload
 //
 // Example:
-//      var deletedSchd omise.Schedule
-//	if e := client.Do(&deletedSchd, &DestroySchedule{ScheduleID: "schd_57z9hj228pusa652nk1"}); e != nil {
-//		panic(e)
-//	}
 //
-//	fmt.Println("destroyed schedule:", deletedSchd.ID)
+//	     var deletedSchd omise.Schedule
+//		if e := client.Do(&deletedSchd, &DestroySchedule{ScheduleID: "schd_57z9hj228pusa652nk1"}); e != nil {
+//			panic(e)
+//		}
 //
+//		fmt.Println("destroyed schedule:", deletedSchd.ID)
 type DestroySchedule struct {
 	ScheduleID string `json:"-"`
 }

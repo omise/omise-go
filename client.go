@@ -28,7 +28,6 @@ type Client struct {
 	Endpoints map[internal.Endpoint]string
 
 	// configuration
-	APIVersion    string
 	GoVersion     string
 	customHeaders map[string]string
 	ctx           context.Context
@@ -138,9 +137,7 @@ func (c *Client) setRequestHeaders(req *http.Request, desc *internal.Description
 	}
 
 	req.Header.Add("User-Agent", strings.TrimSpace(ua))
-	if c.APIVersion != "" {
-		req.Header.Add("Omise-Version", c.APIVersion)
-	}
+	req.Header.Add("Omise-Version", internal.Version)
 
 	// setting custom headers passed from the caller
 	for k, v := range c.customHeaders {
