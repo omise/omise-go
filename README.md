@@ -27,6 +27,17 @@ Auditor.**
 Instead, we recommend that you follow our guide on how to safely
 [collect credit information](https://docs.opn.ooo/collecting-card-information).
 
+## Version Guidance
+
+This library offers maintenance support for 1.x and active development for 2.x. Please refer to the table for specific version compatibility and requirements.
+
+| Version | Support                 | Omise API Version           | Go Version |
+| --------| ----------------------- | --------------------------- | -----------| 
+| 1.x     | Maintenance Mode  | <= 2017-11-02               | >= 1.16 |
+| 2.x     | Active                  | 2019-05-29                  | >= 1.16 |
+
+<sup><b>*Maintenance mode means bug fixes and security patches only</b></sup>
+
 ## Compatibility
 
 Version `v1.2.0` and higher of this package is designed to work with Go version 1.16 or higher. It is not compatible with Go versions 1.15 and lower.
