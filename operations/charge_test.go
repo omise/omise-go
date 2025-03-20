@@ -316,7 +316,7 @@ func TestRetrieveCharge_HasExpiredAt(t *testing.T) {
 	r.Equal(t, "2020-07-01 03:53:01 +0000 UTC", charge.ExpiresAt.String())
 }
 
-func TestRetrieveCharge_Has3DSFields(t *testing.T) {
+func TestRetrieveChargeHas3DSFields(t *testing.T) {
 	const ChargeID = "chrg_test_4yq7duw15p9hdrjp8oq"
 	client := testutil.NewFixedClient(t)
 
