@@ -39,6 +39,10 @@ type Charge struct {
 	Source    *Source                `json:"source"`
 	Metadata  map[string]interface{} `json:"metadata"`
 	ExpiresAt time.Time              `json:"expires_at"`
+
+	MerchantAdvice     string   `json:"merchant_advice"`
+	MerchantAdviceCode string   `json:"merchant_advice_code"`
+	Missing3DSFields   []string `json:"missing_3ds_fields"`
 }
 
 type TransactionIndicator string

@@ -54,5 +54,8 @@
   },
   "customer": "cust_test_4yq6txdpfadhbaqnwp3",
   "ip": null,
-  "created_at": "2015-01-15T05:00:29Z"
+  "created_at": "2015-01-15T05:00:29Z",
+  "merchant_advice": "additional authentication required",
+  "merchant_advice_code": "03", 
+  "missing_3ds_fields": ["phone_number", "address"]
 }
