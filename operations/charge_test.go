@@ -315,3 +315,15 @@ func TestRetrieveCharge_HasExpiredAt(t *testing.T) {
 
 	r.Equal(t, "2020-07-01 03:53:01 +0000 UTC", charge.ExpiresAt.String())
 }
+
+func TestRetrieveChargeHas3DSFields(t *testing.T) {
+	const ChargeID = "chrg_test_4yq7duw15p9hdrjp8oq"
+	client := testutil.NewFixedClient(t)
+
+	charge := &omise.Charge{}
+	client.MustDo(charge, &RetrieveCharge{ChargeID})
+
+	r.Equal(t, "additional authentication required", charge.MerchantAdvice)
+	r.Equal(t, "03", charge.MerchantAdviceCode)
+	r.Equal(t, []string{"phone_number", "address"}, charge.Missing3DSFields)
+}
