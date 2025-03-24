@@ -3,8 +3,8 @@
 [![GoDoc](https://godoc.org/github.com/omise/omise-go?status.svg)][0]
 [![omise-go v1](https://github.com/omise/omise-go/actions/workflows/v1-ci.yml/badge.svg)](https://github.com/omise/omise-go/actions/workflows/v1-ci.yml)
 
-Opn Payments helps merchants of any size accept payments online.
-This library offers Go integration to the Opn Payments API.
+Omise helps merchants of any size accept payments online.
+This library offers Go integration to the Omise API.
 
 Install with:
 
@@ -25,7 +25,7 @@ have a valid PCI-DSS Attestation of Compliance (AoC) delivered by a certified QS
 Auditor.**
 
 Instead, we recommend that you follow our guide on how to safely
-[collect credit information](https://docs.opn.ooo/collecting-card-information).
+[collect credit information](https://docs.omise.co/collecting-card-information).
 
 ## Version Guidance
 
@@ -46,7 +46,7 @@ If you are using an older version of Go, please consider upgrading to a compatib
 
 ## Usage
 
-For usage instructions, see [godoc.org][0] in tandem with the [Opn Payments API Documentation][1].
+For usage instructions, see [godoc.org][0] in tandem with the [Omise API Documentation][1].
 
 Example:
 
@@ -74,10 +74,10 @@ func main() {
 
   /** Retrieve a token from a request
    * A token should be created from a client side by using our client-side libraries
-   * https://docs.opn.ooo/libraries#client-side-libraries
+   * https://docs.omise.co/libraries#client-side-libraries
    * More information:
-   * - https://docs.opn.ooo/collecting-card-information
-   * - https://docs.opn.ooo/security-best-practices
+   * - https://docs.omise.co/collecting-card-information
+   * - https://docs.omise.co/security-best-practices
    **/
 	token := "tokn_test_no1t4tnemucod0e51mo"
 
@@ -97,11 +97,11 @@ func main() {
 
 ## API version
 
-You can choose the API version to use with Opn Payments. Each new API version has new features
+You can choose the API version to use with Omise. Each new API version has new features
 that might be incompatible with previous versions. You can change the default version by
-visiting your Opn Payments Dashboard.
+visiting your Omise Dashboard.
 
-The version configured here will have higher priority than the version set in your Opn Payments
+The version configured here will have higher priority than the version set in your Omise
 account. This is useful if you have multiple environments with different API versions for
 testing. (e.g., Development on the latest version, but production is on an older version).
 
@@ -110,7 +110,7 @@ client.APIVersion = "2015-11-06"
 ```
 
 It is highly recommended to set this version to the current version that you are using. You can
-learn more about this feature in our [versioning guide](https://docs.opn.ooo/api-versioning).
+learn more about this feature in our [versioning guide](https://docs.omise.co/api-versioning).
 
 ## Enable debug mode
 
@@ -131,5 +131,5 @@ client.SetDebug(true)
 See [LICENSE][2] file.
 
 [0]: https://godoc.org/github.com/omise/omise-go
-[1]: https://docs.opn.ooo
+[1]: https://docs.omise.co
 [2]: https://raw.githubusercontent.com/omise/omise-go/master/LICENSE

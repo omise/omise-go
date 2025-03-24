@@ -8,7 +8,7 @@ import (
 func CreateRecipient(client *omise.Client) (*omise.Recipient, error) {
 	recipient, createRecipient := &omise.Recipient{}, &operations.CreateRecipient{
 		Name:        "Omise",
-		Email:       "aashish@opn.ooo",
+		Email:       "aashish@omise.co",
 		Description: "This is a test recipient",
 		Type:        omise.Corporation,
 		TaxID:       "tax_123",
