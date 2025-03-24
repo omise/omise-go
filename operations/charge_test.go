@@ -53,15 +53,15 @@ func TestCreateChargeMarshal(t *testing.T) {
 			&CreateCharge{
 				Amount:           10000,
 				Currency:         "thb",
-				WebhookEndpoints: []string{"https://docs.opn.ooo/api-webhooks"},
+				WebhookEndpoints: []string{"https://docs.omise.co/api-webhooks"},
 			},
-			`{"amount":10000,"currency":"thb","webhook_endpoints":["https://docs.opn.ooo/api-webhooks"],"platform_fee":{}}`,
+			`{"amount":10000,"currency":"thb","webhook_endpoints":["https://docs.omise.co/api-webhooks"],"platform_fee":{}}`,
 		},
 		{
 			&CreateCharge{
 				Amount:           10000,
 				Currency:         "thb",
-				WebhookEndpoints: []string{"https://docs.opn.ooo/api-webhooks"},
+				WebhookEndpoints: []string{"https://docs.omise.co/api-webhooks"},
 				Description:      "This is a card cahrge",
 				Metadata: map[string]interface{}{
 					"Hello": "World",
@@ -74,7 +74,7 @@ func TestCreateChargeMarshal(t *testing.T) {
 					Percentage: 2,
 				},
 			},
-			`{"amount":10000,"currency":"thb","description":"This is a card cahrge","metadata":{"Hello":"World"},"webhook_endpoints":["https://docs.opn.ooo/api-webhooks"],"ip":"192.168.1.1","transaction_indicator":"MIT","platform_fee":{"fixed":10,"percentage":2}}`,
+			`{"amount":10000,"currency":"thb","description":"This is a card cahrge","metadata":{"Hello":"World"},"webhook_endpoints":["https://docs.omise.co/api-webhooks"],"ip":"192.168.1.1","transaction_indicator":"MIT","platform_fee":{"fixed":10,"percentage":2}}`,
 		},
 	}
 	for _, td := range testdata {

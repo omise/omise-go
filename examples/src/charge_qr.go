@@ -18,7 +18,7 @@ func CreateChargeQR(client *omise.Client) (*omise.Charge, error) {
 	charge, createCharge := &omise.Charge{}, &operations.CreateCharge{
 		Amount:           100000, // ฿ 1,000.00
 		Currency:         "thb",
-		ReturnURI:        "http://opn.ooo",
+		ReturnURI:        "http://omise.co",
 		WebhookEndpoints: []string{"https://webhook.site/e3e511da-f9ab-4b69-b93d-dd868459a760"},
 		Source:           source.ID,
 	}
