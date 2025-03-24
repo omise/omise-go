@@ -14,7 +14,7 @@ import (
 )
 
 // Library version to include in user agent
-var libraryVersion = "1.5.0"
+var libraryVersion = "1.6.0"
 
 // Client helps you configure and perform HTTP operations against Omise's REST API. It
 // should be used with operation structures from the operations subpackage.
