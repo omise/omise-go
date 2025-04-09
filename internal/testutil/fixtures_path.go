@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 	"runtime"
 	"strings"
+	"fmt"
 )
 
 func FixtureBasePath() string {
@@ -19,9 +20,16 @@ func FixturePath(req *http.Request) (int, string, error) {
 		req.URL.Path[1:] + "-" + strings.ToLower(req.Method) + ".json"
 
 	// resolve exact fixture filename
-	filename := filepath.Join(FixtureBasePath(), fixpath)
+	basePath := FixtureBasePath()
+	filename := filepath.Join(basePath, fixpath)
 
-	if _, err := os.Lstat(filename); err != nil {
+	// ensure the resolved path is within the base directory
+	absPath, err := filepath.Abs(filename)
+	if err != nil || !strings.HasPrefix(absPath, basePath) {
+		return 400, "", fmt.Errorf("invalid file path")
+	}
+
+	if _, err := os.Lstat(absPath); err != nil {
 		if !os.IsNotExist(err) {
 			return 500, "", err
 		}
