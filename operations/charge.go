@@ -70,6 +70,7 @@ type CreateCharge struct {
 	LinkedAccount            string                     `json:"linked_account,omitempty"`
 	FirstCharge              string                     `json:"first_charge,omitempty"`
 	PlatformFee              omise.PlatformFee          `json:"platform_fee,omitempty"`
+	Authentication           omise.AuthenticationType   `json:"authentication,omitempty"`
 }
 
 func (req *CreateCharge) MarshalJSON() ([]byte, error) {
