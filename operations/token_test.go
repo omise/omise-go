@@ -64,7 +64,7 @@ func TestTokenWithEmailPhoneNetwork(t *testing.T) {
 	r.NotEmpty(t, token.ID)
 }
 
-func TestCreateToken_EmailPhone_Marshal(t *testing.T) {
+func TestCreateTokenEmailPhoneMarshal(t *testing.T) {
 	req := &CreateToken{
 		Name:            "John Doe",
 		Number:          "4242424242424242",
