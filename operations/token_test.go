@@ -10,6 +10,11 @@ import (
 	r "github.com/stretchr/testify/require"
 )
 
+const (
+	testEmail       = "john@example.com"
+	testPhoneNumber = "+66812345678"
+)
+
 func TestToken(t *testing.T) {
 	const TokenID = "tokn_test_4yq8lbecl0q6dsjzxr5"
 	client := testutil.NewFixedClient(t)
@@ -39,7 +44,7 @@ func TestToken_Network(t *testing.T) {
 	r.Equal(t, *tok1, *tok2)
 }
 
-func TestToken_WithEmailPhone_Network(t *testing.T) {
+func TestTokenWithEmailPhoneNetwork(t *testing.T) {
 	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
 
@@ -50,8 +55,8 @@ func TestToken_WithEmailPhone_Network(t *testing.T) {
 		ExpirationMonth: 12,
 		ExpirationYear:  2025,
 		SecurityCode:    "123",
-		Email:           "john@example.com",
-		PhoneNumber:     "+66812345678",
+		Email:           testEmail,
+		PhoneNumber:     testPhoneNumber,
 		City:            "Bangkok",
 		PostalCode:      "10240",
 	})
@@ -66,8 +71,8 @@ func TestCreateToken_EmailPhone_Marshal(t *testing.T) {
 		ExpirationMonth: 12,
 		ExpirationYear:  2025,
 		SecurityCode:    "123",
-		Email:           "john@example.com",
-		PhoneNumber:     "+66812345678",
+		Email:           testEmail,
+		PhoneNumber:     testPhoneNumber,
 		City:            "Bangkok",
 		PostalCode:      "10240",
 	}
@@ -81,8 +86,8 @@ func TestCreateToken_EmailPhone_Marshal(t *testing.T) {
 
 	card, ok := result["card"].(map[string]interface{})
 	r.True(t, ok, "card field should exist")
-	r.Equal(t, "john@example.com", card["email"])
-	r.Equal(t, "+66812345678", card["phone_number"])
+	r.Equal(t, testEmail, card["email"])
+	r.Equal(t, testPhoneNumber, card["phone_number"])
 	r.Equal(t, "Bangkok", card["city"])
 	r.Equal(t, "10240", card["postal_code"])
 }

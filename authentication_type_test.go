@@ -8,13 +8,12 @@ import (
 	r "github.com/stretchr/testify/require"
 )
 
-func TestAuthenticationType_Constants(t *testing.T) {
-	// Test that constants are defined correctly
+func TestAuthenticationTypeConstants(t *testing.T) {
 	r.Equal(t, omise.AuthenticationType("3DS"), omise.ThreeDS)
 	r.Equal(t, omise.AuthenticationType("PASSKEY"), omise.Passkey)
 }
 
-func TestAuthenticationType_JSONMarshal(t *testing.T) {
+func TestAuthenticationTypeJSONMarshal(t *testing.T) {
 	testCases := []struct {
 		name     string
 		authType omise.AuthenticationType
@@ -41,7 +40,7 @@ func TestAuthenticationType_JSONMarshal(t *testing.T) {
 	}
 }
 
-func TestAuthenticationType_JSONUnmarshal(t *testing.T) {
+func TestAuthenticationTypeJSONUnmarshal(t *testing.T) {
 	testCases := []struct {
 		name     string
 		json     string
@@ -69,7 +68,7 @@ func TestAuthenticationType_JSONUnmarshal(t *testing.T) {
 	}
 }
 
-func TestAuthenticationType_Pointer(t *testing.T) {
+func TestAuthenticationTypePointer(t *testing.T) {
 	// Test pointer handling for nullable field
 	authType := omise.ThreeDS
 	ptr := &authType

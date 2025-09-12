@@ -353,7 +353,7 @@ func TestRetrieveChargeHas3DSFields(t *testing.T) {
 	r.Equal(t, []string{"phone_number", "address"}, charge.Missing3DSFields)
 }
 
-func TestCharge_Authentication_Network(t *testing.T) {
+func TestChargeAuthenticationNetwork(t *testing.T) {
 	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
 
@@ -378,7 +378,7 @@ func TestCharge_Authentication_Network(t *testing.T) {
 	// Note: authenticated_by field verification depends on API response
 }
 
-func TestCreateCharge_ZeroAmountPasskey_Network(t *testing.T) {
+func TestCreateChargeZeroAmountPasskeyNetwork(t *testing.T) {
 	testutil.Require(t, "network")
 	client := testutil.NewTestClient(t)
 
@@ -404,7 +404,7 @@ func TestCreateCharge_ZeroAmountPasskey_Network(t *testing.T) {
 	r.Equal(t, int64(0), charge.Amount)
 }
 
-func TestCreateCharge_ZeroAmountValidation_Marshal(t *testing.T) {
+func TestCreateChargeZeroAmountValidationMarshal(t *testing.T) {
 	// Test JSON marshalling of zero-amount PASSKEY charge
 	req := &CreateCharge{
 		Amount:         0,
