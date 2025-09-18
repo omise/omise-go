@@ -76,6 +76,31 @@ func TestCreateChargeMarshal(t *testing.T) {
 			},
 			`{"amount":10000,"currency":"thb","description":"This is a card cahrge","metadata":{"Hello":"World"},"webhook_endpoints":["https://docs.omise.co/api-webhooks"],"ip":"192.168.1.1","transaction_indicator":"MIT","platform_fee":{"fixed":10,"percentage":2}}`,
 		},
+		{
+			&CreateCharge{
+				Amount:         10000,
+				Currency:       "thb",
+				Authentication: omise.ThreeDS,
+			},
+			`{"amount":10000,"currency":"thb","platform_fee":{},"authentication":"3DS"}`,
+		},
+		{
+			&CreateCharge{
+				Amount:         10000,
+				Currency:       "thb",
+				Authentication: omise.Passkey,
+			},
+			`{"amount":10000,"currency":"thb","platform_fee":{},"authentication":"PASSKEY"}`,
+		},
+		{
+			&CreateCharge{
+				Amount:         0,
+				Currency:       "thb",
+				Card:           "tokn_test_xxx",
+				Authentication: omise.Passkey,
+			},
+			`{"card":"tokn_test_xxx","amount":0,"currency":"thb","platform_fee":{},"authentication":"PASSKEY"}`,
+		},
 	}
 	for _, td := range testdata {
 		b, err := json.Marshal(td.req)
@@ -326,4 +351,71 @@ func TestRetrieveChargeHas3DSFields(t *testing.T) {
 	r.Equal(t, "additional authentication required", charge.MerchantAdvice)
 	r.Equal(t, "03", charge.MerchantAdviceCode)
 	r.Equal(t, []string{"phone_number", "address"}, charge.Missing3DSFields)
+}
+
+func TestChargeAuthenticationNetwork(t *testing.T) {
+	testutil.Require(t, "network")
+	client := testutil.NewTestClient(t)
+
+	token := &omise.Token{}
+	client.MustDo(token, &CreateToken{
+		Name:            "John Doe",
+		Number:          "4242424242424242",
+		ExpirationMonth: 12,
+		ExpirationYear:  time.Now().AddDate(1, 0, 0).Year(),
+	})
+
+	// Test 3DS authentication
+	charge := &omise.Charge{}
+	client.MustDo(charge, &CreateCharge{
+		Amount:         50000,
+		Currency:       "thb",
+		Card:           token.ID,
+		Authentication: omise.ThreeDS,
+	})
+
+	r.NotEmpty(t, charge.ID)
+	// Note: authenticated_by field verification depends on API response
+}
+
+func TestCreateChargeZeroAmountPasskeyNetwork(t *testing.T) {
+	testutil.Require(t, "network")
+	client := testutil.NewTestClient(t)
+
+	token := &omise.Token{}
+	client.MustDo(token, &CreateToken{
+		Name:            "John Doe",
+		Number:          "4242424242424242",
+		ExpirationMonth: 12,
+		ExpirationYear:  time.Now().AddDate(1, 0, 0).Year(),
+	})
+
+	// Test zero-amount charge with PASSKEY authentication
+	charge := &omise.Charge{}
+	client.MustDo(charge, &CreateCharge{
+		Amount:         0, // Zero amount
+		Currency:       "thb",
+		Card:           token.ID,
+		Authentication: omise.Passkey,
+		// Customer: nil (required condition)
+	})
+
+	r.NotEmpty(t, charge.ID)
+	r.Equal(t, int64(0), charge.Amount)
+}
+
+func TestCreateChargeZeroAmountValidationMarshal(t *testing.T) {
+	// Test JSON marshalling of zero-amount PASSKEY charge
+	req := &CreateCharge{
+		Amount:         0,
+		Currency:       "thb",
+		Card:           "tokn_test_xxx",
+		Authentication: omise.Passkey,
+	}
+
+	expected := `{"card":"tokn_test_xxx","amount":0,"currency":"thb","platform_fee":{},"authentication":"PASSKEY"}`
+
+	b, err := json.Marshal(req)
+	r.Nil(t, err)
+	r.Equal(t, expected, string(b))
 }

@@ -5,6 +5,6 @@ type AuthorizationType string
 
 // AuthorizationType can be one of the following list of constants:
 const (
-	PreAuth     AuthorizationType = "pre_auth"
-	FinalAuth    AuthorizationType = "final_auth"
+	PreAuth   AuthorizationType = "pre_auth"
+	FinalAuth AuthorizationType = "final_auth"
 )

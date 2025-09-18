@@ -1,12 +1,18 @@
 package operations_test
 
 import (
+	"encoding/json"
 	"testing"
 
 	"github.com/omise/omise-go"
 	"github.com/omise/omise-go/internal/testutil"
 	. "github.com/omise/omise-go/operations"
 	r "github.com/stretchr/testify/require"
+)
+
+const (
+	testEmail       = "john@example.com"
+	testPhoneNumber = "+66812345678"
 )
 
 func TestToken(t *testing.T) {
@@ -36,4 +42,52 @@ func TestToken_Network(t *testing.T) {
 	client.MustDo(tok2, &RetrieveToken{ID: tok1.ID})
 
 	r.Equal(t, *tok1, *tok2)
+}
+
+func TestTokenWithEmailPhoneNetwork(t *testing.T) {
+	testutil.Require(t, "network")
+	client := testutil.NewTestClient(t)
+
+	token := &omise.Token{}
+	client.MustDo(token, &CreateToken{
+		Name:            "John Doe",
+		Number:          "4242424242424242",
+		ExpirationMonth: 12,
+		ExpirationYear:  2025,
+		SecurityCode:    "123",
+		Email:           testEmail,
+		PhoneNumber:     testPhoneNumber,
+		City:            "Bangkok",
+		PostalCode:      "10240",
+	})
+
+	r.NotEmpty(t, token.ID)
+}
+
+func TestCreateTokenEmailPhoneMarshal(t *testing.T) {
+	req := &CreateToken{
+		Name:            "John Doe",
+		Number:          "4242424242424242",
+		ExpirationMonth: 12,
+		ExpirationYear:  2025,
+		SecurityCode:    "123",
+		Email:           testEmail,
+		PhoneNumber:     testPhoneNumber,
+		City:            "Bangkok",
+		PostalCode:      "10240",
+	}
+
+	b, err := json.Marshal(req)
+	r.NoError(t, err)
+
+	var result map[string]interface{}
+	err = json.Unmarshal(b, &result)
+	r.NoError(t, err)
+
+	card, ok := result["card"].(map[string]interface{})
+	r.True(t, ok, "card field should exist")
+	r.Equal(t, testEmail, card["email"])
+	r.Equal(t, testPhoneNumber, card["phone_number"])
+	r.Equal(t, "Bangkok", card["city"])
+	r.Equal(t, "10240", card["postal_code"])
 }
