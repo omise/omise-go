@@ -90,7 +90,17 @@ func (c *Client) SetDebug(debug bool) {
 // Request creates a new *http.Request that should performs the supplied Operation. Most
 // people should use the Do method instead.
 func (c *Client) Request(operation internal.Operation) (req *http.Request, err error) {
-	return c.requestWithKeys(operation, c.pkey, c.skey)
+	req, err = c.buildJSONRequest(operation)
+	if err != nil {
+		return nil, err
+	}
+
+	err = c.setRequestHeaders(req, operation.Describe())
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
 }
 
 func (c *Client) buildJSONRequest(operation internal.Operation) (*http.Request, error) {
