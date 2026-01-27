@@ -90,17 +90,7 @@ func (c *Client) SetDebug(debug bool) {
 // Request creates a new *http.Request that should performs the supplied Operation. Most
 // people should use the Do method instead.
 func (c *Client) Request(operation internal.Operation) (req *http.Request, err error) {
-	req, err = c.buildJSONRequest(operation)
-	if err != nil {
-		return nil, err
-	}
-
-	err = c.setRequestHeaders(req, operation.Describe())
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
+	return c.requestWithKeys(operation, c.pkey, c.skey)
 }
 
 func (c *Client) buildJSONRequest(operation internal.Operation) (*http.Request, error) {
@@ -126,6 +116,10 @@ func (c *Client) buildJSONRequest(operation internal.Operation) (*http.Request, 
 }
 
 func (c *Client) setRequestHeaders(req *http.Request, desc *internal.Description) error {
+	return c.setRequestHeadersWithKeys(req, desc, c.pkey, c.skey)
+}
+
+func (c *Client) setRequestHeadersWithKeys(req *http.Request, desc *internal.Description, pkey, skey string) error {
 	ua := c.userAgent
 	ua += " OmiseGo/" + libraryVersion
 	if c.GoVersion != "" {
@@ -146,14 +140,28 @@ func (c *Client) setRequestHeaders(req *http.Request, desc *internal.Description
 
 	switch desc.KeyKind() {
 	case "public":
-		req.SetBasicAuth(c.pkey, "")
+		req.SetBasicAuth(pkey, "")
 	case "secret":
-		req.SetBasicAuth(c.skey, "")
+		req.SetBasicAuth(skey, "")
 	default:
 		return ErrInternal("unrecognized endpoint:" + desc.Endpoint)
 	}
 
 	return nil
+}
+
+func (c *Client) requestWithKeys(operation internal.Operation, pkey, skey string) (req *http.Request, err error) {
+	req, err = c.buildJSONRequest(operation)
+	if err != nil {
+		return nil, err
+	}
+
+	err = c.setRequestHeadersWithKeys(req, operation.Describe(), pkey, skey)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
 }
 
 // Do performs the supplied operation against Omise's REST API and unmarshal the response
@@ -170,6 +178,22 @@ func (c *Client) Do(result interface{}, operation internal.Operation) error {
 		return err
 	}
 
+	return c.doWithRequest(result, req)
+}
+
+// DoWithKeys performs the supplied operation using the provided pkey/skey pair without
+// mutating the client. It is useful for multi-tenant scenarios where different
+// credentials are needed per request while still reusing the underlying http.Client.
+func (c *Client) DoWithKeys(result interface{}, pkey, skey string, operation internal.Operation) error {
+	req, err := c.requestWithKeys(operation, pkey, skey)
+	if err != nil {
+		return err
+	}
+
+	return c.doWithRequest(result, req)
+}
+
+func (c *Client) doWithRequest(result interface{}, req *http.Request) error {
 	// response
 	resp, err := c.Client.Do(req)
 	if resp != nil {
