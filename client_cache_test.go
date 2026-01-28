@@ -6,7 +6,7 @@ import (
 	r "github.com/stretchr/testify/require"
 )
 
-func TestClientCache_ReusesClient(t *testing.T) {
+func TestClientCacheReusesClient(t *testing.T) {
 	cache := NewClientCache()
 
 	first, err := cache.Get("pkey_test_a", "skey_test_a")
@@ -18,7 +18,7 @@ func TestClientCache_ReusesClient(t *testing.T) {
 	r.Same(t, first, second)
 }
 
-func TestClientCache_SeparatesKeys(t *testing.T) {
+func TestClientCacheSeparatesKeys(t *testing.T) {
 	cache := NewClientCache()
 
 	a, err := cache.Get("pkey_test_a", "skey_test_a")
@@ -30,14 +30,14 @@ func TestClientCache_SeparatesKeys(t *testing.T) {
 	r.NotSame(t, a, b)
 }
 
-func TestClientCache_InvalidKey(t *testing.T) {
+func TestClientCacheInvalidKey(t *testing.T) {
 	cache := NewClientCache()
 
 	_, err := cache.Get("invalid", "skey_test_a")
 	r.Error(t, err)
 }
 
-func TestClientCache_Delete(t *testing.T) {
+func TestClientCacheDelete(t *testing.T) {
 	cache := NewClientCache()
 
 	first, err := cache.Get("pkey_test_del", "skey_test_del")

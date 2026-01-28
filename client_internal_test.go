@@ -26,7 +26,7 @@ func (t *captureTransport) RoundTrip(req *http.Request) (*http.Response, error) 
 	}, nil
 }
 
-func TestDoWithKeys_UsesOverrideSecret(t *testing.T) {
+func TestDoWithKeysUsesOverrideSecret(t *testing.T) {
 	client, err := NewClient("pkey_test_default", "skey_test_default")
 	r.NoError(t, err)
 
@@ -48,7 +48,7 @@ func TestDoWithKeys_UsesOverrideSecret(t *testing.T) {
 	r.Equal(t, overrideSKey, user) // secret key should be used for API endpoint
 }
 
-func TestDoWithKeys_UsesOverridePublic(t *testing.T) {
+func TestDoWithKeysUsesOverridePublic(t *testing.T) {
 	client, err := NewClient("pkey_test_default", "skey_test_default")
 	r.NoError(t, err)
 
