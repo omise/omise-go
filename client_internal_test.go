@@ -109,7 +109,9 @@ func TestRequestJSONMarshalError(t *testing.T) {
 
 	_, err = client.Request(&badMarshalOp{
 		Description: internal.Description{Endpoint: internal.API, Method: "GET", Path: "/"},
-		Bad:         func() {},
+		Bad: func() {
+			// intentionally empty: presence of a func field forces json.Marshal to error
+		},
 	})
 	r.Error(t, err)
 }
