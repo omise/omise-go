@@ -136,7 +136,7 @@ func TestDoWithKeysUnknownEndpoint(t *testing.T) {
 	r.Error(t, err)
 }
 
-func TestDoWithRequestTransportError(t *testing.T) {
+func TestDoWithKeysTransportError(t *testing.T) {
 	client, err := NewClient("pkey_test_default", "skey_test_default")
 	r.NoError(t, err)
 
@@ -148,4 +148,16 @@ func TestDoWithRequestTransportError(t *testing.T) {
 		Path:     "/",
 	})
 	r.Error(t, err)
+}
+
+func TestDoWithKeysValidatesPrefixes(t *testing.T) {
+	client, err := NewClient("pkey_test_default", "skey_test_default")
+	r.NoError(t, err)
+
+	err = client.DoWithKeys(&struct{}{}, "invalid", "skey_test_default", &internal.Description{
+		Endpoint: internal.API,
+		Method:   "GET",
+		Path:     "/",
+	})
+	r.Equal(t, ErrInvalidKey, err)
 }
