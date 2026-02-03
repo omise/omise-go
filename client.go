@@ -38,13 +38,8 @@ type Client struct {
 // in to http://omise.co and visit https://dashboard.omise.co/test/dashboard to obtain
 // your test (or live) keys.
 func NewClient(pkey, skey string) (*Client, error) {
-	switch {
-	case pkey == "" && skey == "":
-		return nil, ErrInvalidKey
-	case pkey != "" && !strings.HasPrefix(pkey, "pkey_"):
-		return nil, ErrInvalidKey
-	case skey != "" && !strings.HasPrefix(skey, "skey_"):
-		return nil, ErrInvalidKey
+	if err := validateKeys(pkey, skey); err != nil {
+		return nil, err
 	}
 
 	client := &Client{
@@ -126,6 +121,10 @@ func (c *Client) buildJSONRequest(operation internal.Operation) (*http.Request, 
 }
 
 func (c *Client) setRequestHeaders(req *http.Request, desc *internal.Description) error {
+	return c.setRequestHeadersWithKeys(req, desc, c.pkey, c.skey)
+}
+
+func (c *Client) setRequestHeadersWithKeys(req *http.Request, desc *internal.Description, pkey, skey string) error {
 	ua := c.userAgent
 	ua += " OmiseGo/" + libraryVersion
 	if c.GoVersion != "" {
@@ -146,14 +145,28 @@ func (c *Client) setRequestHeaders(req *http.Request, desc *internal.Description
 
 	switch desc.KeyKind() {
 	case "public":
-		req.SetBasicAuth(c.pkey, "")
+		req.SetBasicAuth(pkey, "")
 	case "secret":
-		req.SetBasicAuth(c.skey, "")
+		req.SetBasicAuth(skey, "")
 	default:
 		return ErrInternal("unrecognized endpoint:" + desc.Endpoint)
 	}
 
 	return nil
+}
+
+func (c *Client) requestWithKeys(operation internal.Operation, pkey, skey string) (req *http.Request, err error) {
+	req, err = c.buildJSONRequest(operation)
+	if err != nil {
+		return nil, err
+	}
+
+	err = c.setRequestHeadersWithKeys(req, operation.Describe(), pkey, skey)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
 }
 
 // Do performs the supplied operation against Omise's REST API and unmarshal the response
@@ -170,6 +183,46 @@ func (c *Client) Do(result interface{}, operation internal.Operation) error {
 		return err
 	}
 
+	return c.doWithRequest(result, req)
+}
+
+// DoWithKeys performs the supplied operation using the provided pkey/skey pair without
+// mutating the client. It is useful for multi-tenant scenarios where different
+// credentials are needed per request while still reusing the underlying http.Client.
+// Concurrency: DoWithKeys is intended to be called from multiple goroutines sharing
+// the same Client instance. The Client's configuration (such as context, custom
+// headers, user agent, and endpoint settings) must be treated as immutable once the
+// Client is used concurrently. In particular, methods like WithCustomHeaders,
+// WithContext, and other configuration-mutating helpers must not be called while the
+// Client is in concurrent use, as doing so may cause data races and undefined
+// behavior. Configure the Client fully before sharing it between goroutines or create
+// separate Client instances per tenant as needed.
+func (c *Client) DoWithKeys(result interface{}, pkey, skey string, operation internal.Operation) error {
+	if err := validateKeys(pkey, skey); err != nil {
+		return err
+	}
+
+	req, err := c.requestWithKeys(operation, pkey, skey)
+	if err != nil {
+		return err
+	}
+
+	return c.doWithRequest(result, req)
+}
+
+func validateKeys(pkey, skey string) error {
+	switch {
+	case pkey == "" && skey == "":
+		return ErrInvalidKey
+	case pkey != "" && !strings.HasPrefix(pkey, "pkey_"):
+		return ErrInvalidKey
+	case skey != "" && !strings.HasPrefix(skey, "skey_"):
+		return ErrInvalidKey
+	}
+	return nil
+}
+
+func (c *Client) doWithRequest(result interface{}, req *http.Request) error {
 	// response
 	resp, err := c.Client.Do(req)
 	if resp != nil {
