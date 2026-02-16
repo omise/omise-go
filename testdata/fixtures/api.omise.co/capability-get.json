@@ -48,16 +48,6 @@
       },
       {
           "object": "payment_method",
-          "name": "internet_banking_bbl",
-          "currencies": [
-              "THB"
-          ],
-          "card_brands": null,
-          "installment_terms": null,
-          "banks": []
-      },
-      {
-          "object": "payment_method",
           "name": "bill_payment_tesco_lotus",
           "currencies": [
               "THB"
